@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kimono Experience Booking - KKR Hotel Osaka</title>
+<meta name="description" content="Book a traditional Japanese kimono experience at KKR Hotel Osaka. Dress in a kimono and take photos in a room overlooking Osaka Castle. Available in 6 languages.">
+<meta property="og:title" content="Kimono Experience - KKR Hotel Osaka">
+<meta property="og:description" content="Dress in a traditional Japanese kimono and take photos in a room overlooking Osaka Castle.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#a6304c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%91%98%3C/text%3E%3C/svg%3E">
+<style>
+  :root {
+    --color-bg: #faf7f2;
+    --color-card: #ffffff;
+    --color-accent: #a6304c;
+    --color-accent-dark: #7c2138;
+    --color-text: #2b2320;
+    --color-muted: #8a7d74;
+    --color-border: #e6ddd3;
+    --color-error: #c0392b;
+    --color-success: #2f7d4f;
+    --radius: 10px;
+    font-family: "Hiragino Sans", "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.6;
+  }
+  header.hero {
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-dark));
+    color: #fff;
+    padding: 28px 20px 24px;
+    text-align: center;
+  }
+  header.hero h1 {
+    margin: 0 0 6px;
+    font-size: 1.5rem;
+    letter-spacing: 0.02em;
+  }
+  header.hero p {
+    margin: 0;
+    opacity: 0.9;
+    font-size: 0.9rem;
+  }
+  .lang-switch {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 16px;
+  }
+  .lang-switch button {
+    border: 1px solid rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    cursor: pointer;
+  }
+  .lang-switch button.active {
+    background: #fff;
+    color: var(--color-accent-dark);
+    font-weight: bold;
+  }
+  main {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 20px 16px 60px;
+  }
+  .card {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .card h2 {
+    margin-top: 0;
+    font-size: 1.1rem;
+    color: var(--color-accent-dark);
+  }
+  .menu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 480px) {
+    .menu-grid { grid-template-columns: 1fr; }
+  }
+  .menu-option {
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 14px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .menu-option.selected {
+    border-color: var(--color-accent);
+    background: #fdf1f3;
+  }
+  .menu-option .name {
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+  .menu-option .price {
+    color: var(--color-accent-dark);
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+  .menu-option .duration {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+  }
+  .menu-option .lead-note {
+    font-size: 0.75rem;
+    color: var(--color-accent-dark);
+    background: #f6ecef;
+    border-radius: 4px;
+    padding: 2px 6px;
+    margin-top: 6px;
+    display: inline-block;
+  }
+  label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin: 14px 0 6px;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="date"],
+  select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-size: 1rem;
+    background: #fff;
+    color: var(--color-text);
+  }
+  .slot-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+    max-height: 220px;
+    overflow-y: auto;
+    padding: 4px;
+  }
+  .slot-btn {
+    border: 1px solid var(--color-border);
+    background: #fff;
+    border-radius: 8px;
+    padding: 8px 4px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    text-align: center;
+  }
+  .slot-btn.selected {
+    background: var(--color-accent);
+    color: #fff;
+    border-color: var(--color-accent);
+  }
+  .slot-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    text-decoration: line-through;
+  }
+  .field-hint {
+    font-size: 0.78rem;
+    color: var(--color-muted);
+    margin: 4px 0 0;
+  }
+  .policy-card summary {
+    font-weight: bold;
+    font-size: 1.05rem;
+    color: var(--color-accent-dark);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .policy-card summary::-webkit-details-marker { display: none; }
+  .policy-card summary::before {
+    content: '▸';
+    transition: transform 0.15s;
+    display: inline-block;
+  }
+  .policy-card[open] summary::before { transform: rotate(90deg); }
+  .policy-card h3 {
+    font-size: 0.9rem;
+    margin: 18px 0 6px;
+    color: var(--color-text);
+  }
+  .policy-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+  .policy-table td {
+    padding: 6px 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .policy-table td:last-child {
+    text-align: right;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+  .policy-note,
+  .policy-list {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+  }
+  .policy-list { padding-left: 1.2em; margin: 6px 0 0; }
+  .policy-list li { margin-bottom: 4px; }
+  .honeypot {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    opacity: 0;
+    height: 0;
+    width: 0;
+  }
+  .submit-btn {
+    width: 100%;
+    background: var(--color-accent);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 14px;
+    font-size: 1.05rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  .submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .msg {
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin-top: 12px;
+  }
+  .msg.error {
+    background: #fdecea;
+    color: var(--color-error);
+    border: 1px solid #f5c6cb;
+  }
+  .msg.success {
+    background: #eaf6ee;
+    color: var(--color-success);
+    border: 1px solid #c3e6cb;
+  }
+  .hidden { display: none !important; }
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    padding: 4px 0;
+  }
+  .summary-row.total {
+    font-weight: bold;
+    font-size: 1.05rem;
+    border-top: 1px solid var(--color-border);
+    margin-top: 6px;
+    padding-top: 8px;
+  }
+  .complete-box {
+    text-align: center;
+    padding: 30px 20px;
+  }
+  .complete-box .big-check {
+    font-size: 3rem;
+    color: var(--color-success);
+  }
+  footer {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    padding: 20px;
+  }
+  .spinner {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 3px solid rgba(255,255,255,0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1 data-i18n="heroTitle">Kimono Experience</h1>
+  <p data-i18n="heroSubtitle">KKR Hotel Osaka</p>
+  <div class="lang-switch" id="langSwitch"></div>
+</header>
+
+<main>
+
+  <div class="card" id="introCard">
+    <h2 data-i18n="introTitle">About this experience</h2>
+    <p data-i18n="introBody">Enjoy wearing a traditional Japanese kimono and take photos by yourself in a room overlooking Osaka Castle. No outdoor movement is required, so it is not affected by weather.</p>
+  </div>
+
+  <div class="card" id="loadingCard">
+    <p data-i18n="loading">Loading availability…</p>
+  </div>
+
+  <form id="bookingForm" class="hidden" novalidate>
+
+    <div class="card">
+      <h2 data-i18n="menuTitle">1. Choose your plan</h2>
+      <div class="menu-grid" id="menuGrid"></div>
+    </div>
+
+    <div class="card">
+      <h2 data-i18n="dateTitle">2. Choose date &amp; time</h2>
+      <label for="dateInput" data-i18n="dateLabel">Date</label>
+      <input type="date" id="dateInput" required>
+      <label data-i18n="timeLabel">Available times</label>
+      <div class="slot-grid" id="slotGrid"></div>
+      <!-- 文言は showNoSlot() が理由に応じて差し替えるため data-i18n は付けない -->
+      <p class="msg error hidden" id="noSlotMsg" role="status" aria-live="polite">No available times on this date.</p>
+    </div>
+
+    <div class="card">
+      <h2 data-i18n="detailsTitle">3. Your details</h2>
+
+      <label for="nameInput" data-i18n="nameLabel">Full name</label>
+      <input type="text" id="nameInput" required maxlength="100" autocomplete="name">
+
+      <label for="emailInput" data-i18n="emailLabel">Email</label>
+      <input type="email" id="emailInput" required autocomplete="email"
+             inputmode="email" autocapitalize="off" spellcheck="false">
+
+      <label for="phoneInput" data-i18n="phoneLabel">Phone number</label>
+      <input type="tel" id="phoneInput" required autocomplete="tel" inputmode="tel"
+             placeholder="+1 555 000 0000">
+      <p class="field-hint" data-i18n="phoneHint">Please include your country code.</p>
+
+      <label for="peopleInput" data-i18n="peopleLabel">Number of guests</label>
+      <select id="peopleInput" required></select>
+      <!-- 文言は renderPeopleOptions() が上限値を埋めて差し替える -->
+      <p class="field-hint" id="groupHint"></p>
+
+      <label for="ageInput" data-i18n="ageLabel">Representative's age</label>
+      <input type="number" id="ageInput" min="1" max="120" inputmode="numeric" required>
+
+      <div class="honeypot" aria-hidden="true">
+        <label for="websiteInput">Website</label>
+        <input type="text" id="websiteInput" name="website" tabindex="-1" autocomplete="off">
+      </div>
+    </div>
+
+    <div class="card" id="summaryCard">
+      <h2 data-i18n="summaryTitle">4. Confirm</h2>
+      <div id="summaryBody"></div>
+    </div>
+
+    <!--
+      キャンセルポリシー・支払い方法・注意事項。
+      当日のトラブルを防ぐため、送信ボタンの手前に必ず表示する。
+    -->
+    <details class="card policy-card" id="policyCard">
+      <summary data-i18n="policyTitle">Before you book</summary>
+
+      <h3 data-i18n="policyCancelTitle">Cancellation policy</h3>
+      <table class="policy-table">
+        <tbody>
+          <tr><td data-i18n="cancelFree">Up to 7 days before</td><td data-i18n="cancelFreeRate">Free</td></tr>
+          <tr><td data-i18n="cancelHalf">6–2 days before</td><td>50%</td></tr>
+          <tr><td data-i18n="cancelFull">Same day / no-show</td><td>100%</td></tr>
+        </tbody>
+      </table>
+      <p class="policy-note" data-i18n="cancelContact">To cancel or change your booking, please contact us by email.</p>
+
+      <h3 data-i18n="policyPaymentTitle">Payment</h3>
+      <p data-i18n="policyPaymentBody">Payment is made at the reception on the day. Cash and credit cards (VISA, Mastercard, JCB, AMEX, Diners, Discover, UnionPay) are accepted.</p>
+
+      <h3 data-i18n="policyNotesTitle">Please note</h3>
+      <ul class="policy-list">
+        <li data-i18n="noteArrive">Please arrive 10 minutes before your start time.</li>
+        <li data-i18n="notePhoto">Photos are taken with your own smartphone (self-portrait style).</li>
+        <li data-i18n="noteStaff">Our staff speak Japanese only. We use translation apps to assist you.</li>
+        <li data-i18n="noteChildHeight">Children can join if they are 110 cm or taller.</li>
+        <li data-i18n="noteSize">Please contact us in advance if you need a larger size.</li>
+      </ul>
+    </details>
+
+    <p class="msg error hidden" id="formErrorMsg" role="alert" aria-live="assertive"></p>
+
+    <button type="submit" class="submit-btn" id="submitBtn">
+      <span data-i18n="submitBtn">Request booking</span>
+    </button>
+  </form>
+
+  <div class="card complete-box hidden" id="completeCard">
+    <div class="big-check">✓</div>
+    <h2 data-i18n="completeTitle">Booking received</h2>
+    <p data-i18n="completeBody">A confirmation email has been sent. We look forward to welcoming you.</p>
+    <p id="reservationIdRow"><strong data-i18n="reservationIdLabel">Booking No.</strong>: <span id="reservationIdOut"></span></p>
+    <p class="field-hint" data-i18n="spamHint">If you do not receive the email, please check your spam folder.</p>
+    <p class="msg error hidden" id="mailFailedMsg" data-i18n="mailFailed">We could not send the confirmation email, but your booking is confirmed. Please contact us by phone if you need confirmation.</p>
+  </div>
+
+  <div class="card hidden" id="loadErrorCard">
+    <p class="msg error" data-i18n="loadError">Unable to load booking information. Please contact us by phone.</p>
+    <p id="salonPhoneOut"></p>
+  </div>
+
+</main>
+
+<footer>
+  <span data-i18n="footerContact">Contact</span>: <span id="footerPhone"></span>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  // ==========================================================
+  // 設定
+  // ==========================================================
+
+  // GAS Web App のURL（2026-08-26 デプロイ）
+  //
+  // コードを更新するときは「デプロイを管理」から既存デプロイを編集すること。
+  // 「新しいデプロイ」を押すとURLが変わり、ここも直す必要が出る。
+  var GAS_URL = 'https://script.google.com/macros/s/AKfycbzVEvnI5_In7_s1IZyMWR92FMGs1ZKqoOmsctqKaVL6g1DAGpIvXUlCMHnusHR31fLlLA/exec';
+
+  var SUPPORTED_LANGS = ['ja', 'en', 'zh-CN', 'zh-TW', 'ko', 'fr'];
+  var LANG_LABELS = { ja: '日本語', en: 'English', 'zh-CN': '简体中文', 'zh-TW': '繁體中文', ko: '한국어', fr: 'Français' };
+
+  // ==========================================================
+  // 翻訳データ
+  // ==========================================================
+
+  var I18N = {
+    ja: {
+      heroTitle: '和装体験',
+      heroSubtitle: 'KKRホテル大阪',
+      introTitle: 'サービスについて',
+      introBody: '大阪城が見えるお部屋で、日本の伝統衣装を着用し、ご自身のスマートフォンで自撮り撮影をお楽しみいただけます。屋外への移動がないため、天候に左右されません。',
+      loading: '空き状況を読み込んでいます…',
+      menuTitle: '1. プランを選択',
+      dateTitle: '2. 日時を選択',
+      dateLabel: '日付',
+      timeLabel: '選択可能な時間',
+      noSlot: 'この日は空きがありません。',
+      noSlotClosed: 'この日は定休日です。別の日をお選びください。',
+      noSlotHoliday: 'この日は祝日のため休業です。別の日をお選びください。',
+      noSlotTooEarly: 'このプランは、もう少し先の日付からご予約いただけます。',
+      sameDayOk: '当日予約OK',
+      leadDays: '{days}日前までのご予約',
+      detailsTitle: '3. お客様情報',
+      nameLabel: 'お名前',
+      emailLabel: 'メールアドレス',
+      phoneLabel: '電話番号',
+      peopleLabel: '人数',
+      groupHint: '{max}名を超えるお申し込みは、お電話またはメールにてご相談ください。',
+      ageLabel: '代表者の年齢',
+      summaryTitle: '4. 内容確認',
+      phoneHint: '国番号からご入力ください。',
+      policyTitle: 'ご予約前にお読みください',
+      policyCancelTitle: 'キャンセルポリシー',
+      cancelFree: '7日前まで',
+      cancelFreeRate: '無料',
+      cancelHalf: '6〜2日前',
+      cancelFull: '当日・ご連絡なし',
+      cancelContact: 'キャンセル・変更はメールにてご連絡ください。',
+      policyPaymentTitle: 'お支払い',
+      policyPaymentBody: 'お支払いは当日、受付にてお願いいたします。現金・クレジットカード（VISA、Mastercard、JCB、AMEX、ダイナース、Discover、銀聯）がご利用いただけます。',
+      policyNotesTitle: 'ご注意',
+      noteArrive: '開始時刻の10分前までにお越しください。',
+      notePhoto: '撮影はお客様ご自身のスマートフォンでの自撮りとなります。',
+      noteStaff: 'スタッフは日本語のみ対応です。翻訳アプリを使ってご案内いたします。',
+      noteChildHeight: 'お子様は身長110cm以上からご参加いただけます。',
+      noteSize: '大きめのサイズをご希望の場合は、事前にご相談ください。',
+      errNeedAge: '年齢を入力してください。',
+      submitBtn: '予約をリクエストする',
+      submitting: '送信中…',
+      completeTitle: 'ご予約を受け付けました',
+      completeBody: '確認メールをお送りしました。当日お会いできるのを楽しみにしております。',
+      reservationIdLabel: '予約番号',
+      spamHint: 'メールが届かない場合は、迷惑メールフォルダをご確認ください。',
+      mailFailed: '確認メールをお送りできませんでしたが、ご予約は成立しています。ご確認が必要な場合はお電話にてご連絡ください。',
+      loadError: '予約情報の読み込みに失敗しました。お電話にてお問い合わせください。',
+      footerContact: 'お問い合わせ',
+      peopleUnit: '名',
+      priceUnit: '円（税込）',
+      summaryPlan: 'プラン',
+      summaryDatetime: '日時',
+      summaryPeople: '人数',
+      summaryPrice: '料金',
+      errNeedMenu: 'プランを選択してください。',
+      errNeedSlot: '日時を選択してください。',
+      errNeedName: 'お名前を入力してください。',
+      errNeedEmail: '正しいメールアドレスを入力してください。',
+      errNeedPhone: '電話番号を入力してください。',
+      err_SLOT_TAKEN: 'その時間は既にご予約が入っています。別の時間をお選びください。',
+      err_OUT_OF_RANGE: 'その日付は予約受付期間外です。',
+      err_CLOSED_DAY: 'その日は定休日です。',
+      err_BEFORE_OPEN: '営業時間前です。',
+      err_AFTER_CLOSE: 'その時間からでは営業時間内に終了できません。',
+      err_INVALID_PEOPLE: '人数の指定が正しくありません。',
+      err_INVALID_SLOT: '日時をもう一度お選びください。',
+      err_INVALID_DATETIME: '日時をもう一度お選びください。',
+      err_TOO_SOON: '開始までの時間が短すぎます。もう少し後の時間をお選びください。',
+      err_BUSY: '混み合っています。少し時間をおいて再度お試しください。',
+      err_INTERNAL: 'システムエラーが発生しました。お手数ですがお電話にてご連絡ください。',
+      err_GENERIC: '送信できませんでした。しばらくしてから再度お試しいただくか、お電話にてご連絡ください。',
+    },
+    en: {
+      heroTitle: 'Kimono Experience',
+      heroSubtitle: 'KKR Hotel Osaka',
+      introTitle: 'About this experience',
+      introBody: 'Enjoy wearing a traditional Japanese kimono and take photos by yourself in a room overlooking Osaka Castle. No outdoor movement is required, so it is not affected by weather.',
+      loading: 'Loading availability…',
+      menuTitle: '1. Choose your plan',
+      dateTitle: '2. Choose date & time',
+      dateLabel: 'Date',
+      timeLabel: 'Available times',
+      noSlot: 'No available times on this date.',
+      noSlotClosed: 'We are closed on this day. Please choose another date.',
+      noSlotHoliday: 'We are closed for a public holiday. Please choose another date.',
+      noSlotTooEarly: 'This plan can be booked from a slightly later date.',
+      sameDayOk: 'Same-day booking OK',
+      leadDays: 'Book {days} days ahead',
+      detailsTitle: '3. Your details',
+      nameLabel: 'Full name',
+      emailLabel: 'Email',
+      phoneLabel: 'Phone number',
+      peopleLabel: 'Number of guests',
+      groupHint: 'For groups of more than {max}, please contact us by phone or email.',
+      ageLabel: "Representative's age",
+      summaryTitle: '4. Confirm',
+      phoneHint: 'Please include your country code.',
+      policyTitle: 'Before you book',
+      policyCancelTitle: 'Cancellation policy',
+      cancelFree: 'Up to 7 days before',
+      cancelFreeRate: 'Free',
+      cancelHalf: '6–2 days before',
+      cancelFull: 'Same day / no-show',
+      cancelContact: 'To cancel or change your booking, please contact us by email.',
+      policyPaymentTitle: 'Payment',
+      policyPaymentBody: 'Payment is made at the reception on the day. Cash and credit cards (VISA, Mastercard, JCB, AMEX, Diners, Discover, UnionPay) are accepted.',
+      policyNotesTitle: 'Please note',
+      noteArrive: 'Please arrive 10 minutes before your start time.',
+      notePhoto: 'Photos are taken with your own smartphone (self-portrait style).',
+      noteStaff: 'Our staff speak Japanese only. We use translation apps to assist you.',
+      noteChildHeight: 'Children can join if they are 110 cm (43 in) or taller.',
+      noteSize: 'Please contact us in advance if you need a larger size.',
+      errNeedAge: 'Please enter your age.',
+      submitBtn: 'Request booking',
+      submitting: 'Sending…',
+      completeTitle: 'Booking received',
+      completeBody: 'A confirmation email has been sent. We look forward to welcoming you.',
+      reservationIdLabel: 'Booking No.',
+      spamHint: 'If you do not receive the email, please check your spam folder.',
+      mailFailed: 'We could not send the confirmation email, but your booking is confirmed. Please contact us by phone if you need confirmation.',
+      loadError: 'Unable to load booking information. Please contact us by phone.',
+      footerContact: 'Contact',
+      peopleUnit: '',
+      priceUnit: ' JPY (tax included)',
+      summaryPlan: 'Plan',
+      summaryDatetime: 'Date & time',
+      summaryPeople: 'Guests',
+      summaryPrice: 'Price',
+      errNeedMenu: 'Please choose a plan.',
+      errNeedSlot: 'Please choose a date and time.',
+      errNeedName: 'Please enter your name.',
+      errNeedEmail: 'Please enter a valid email address.',
+      errNeedPhone: 'Please enter your phone number.',
+      err_SLOT_TAKEN: 'That time slot has just been booked. Please choose another time.',
+      err_OUT_OF_RANGE: 'That date is outside the booking period.',
+      err_CLOSED_DAY: 'The salon is closed on that day.',
+      err_BEFORE_OPEN: 'That time is before opening hours.',
+      err_AFTER_CLOSE: 'The session would not finish before closing time.',
+      err_INVALID_PEOPLE: 'The number of guests is invalid.',
+      err_INVALID_SLOT: 'Please select the date and time again.',
+      err_INVALID_DATETIME: 'Please select the date and time again.',
+      err_TOO_SOON: 'That start time is too soon. Please choose a later time.',
+      err_BUSY: 'The system is busy. Please try again in a moment.',
+      err_INTERNAL: 'A system error occurred. Please contact us by phone.',
+      err_GENERIC: 'Something went wrong. Please try again later or contact us by phone.',
+    },
+    'zh-CN': {
+      heroTitle: '和服体验',
+      heroSubtitle: 'KKR大阪酒店',
+      introTitle: '关于本服务',
+      introBody: '在可以眺望大阪城的房间内穿着日本传统和服，并用您自己的手机自拍留念。无需前往室外，不受天气影响。',
+      loading: '正在加载空余时段…',
+      menuTitle: '1. 选择套餐',
+      dateTitle: '2. 选择日期和时间',
+      dateLabel: '日期',
+      timeLabel: '可选时间',
+      noSlot: '该日期没有空余时段。',
+      noSlotClosed: '该日为休息日，请选择其他日期。',
+      noSlotHoliday: '该日为节假日休息，请选择其他日期。',
+      noSlotTooEarly: '该套餐需要提前预约，请选择稍晚的日期。',
+      sameDayOk: '可当天预约',
+      leadDays: '需提前{days}天预约',
+      detailsTitle: '3. 您的信息',
+      nameLabel: '姓名',
+      emailLabel: '邮箱',
+      phoneLabel: '电话号码',
+      peopleLabel: '人数',
+      groupHint: '超过{max}人的团体，请通过电话或邮件与我们联系。',
+      ageLabel: '代表人年龄',
+      summaryTitle: '4. 确认信息',
+      phoneHint: '请填写含国家代码的号码。',
+      policyTitle: '预约前请阅读',
+      policyCancelTitle: '取消政策',
+      cancelFree: '7天前',
+      cancelFreeRate: '免费',
+      cancelHalf: '6～2天前',
+      cancelFull: '当天／未通知',
+      cancelContact: '如需取消或变更，请通过邮件联系我们。',
+      policyPaymentTitle: '付款方式',
+      policyPaymentBody: '费用请于当天在前台支付。可使用现金及信用卡（VISA、Mastercard、JCB、AMEX、Diners、Discover、银联）。',
+      policyNotesTitle: '注意事项',
+      noteArrive: '请在开始时间前10分钟到达。',
+      notePhoto: '拍摄为使用您自己的手机自拍。',
+      noteStaff: '工作人员仅能使用日语，将通过翻译软件为您服务。',
+      noteChildHeight: '儿童身高110cm以上可参加。',
+      noteSize: '如需较大尺寸，请提前咨询。',
+      errNeedAge: '请输入年龄。',
+      submitBtn: '提交预约申请',
+      submitting: '发送中…',
+      completeTitle: '预约申请已收到',
+      completeBody: '确认邮件已发送。期待您的光临。',
+      reservationIdLabel: '预约编号',
+      spamHint: '如未收到邮件，请查看垃圾邮件文件夹。',
+      mailFailed: '确认邮件发送失败，但您的预约已成立。如需确认请电话联系我们。',
+      loadError: '无法加载预约信息，请电话联系我们。',
+      footerContact: '咨询方式',
+      peopleUnit: '人',
+      priceUnit: '日元（含税）',
+      summaryPlan: '套餐',
+      summaryDatetime: '日期时间',
+      summaryPeople: '人数',
+      summaryPrice: '费用',
+      errNeedMenu: '请选择套餐。',
+      errNeedSlot: '请选择日期和时间。',
+      errNeedName: '请输入姓名。',
+      errNeedEmail: '请输入正确的邮箱地址。',
+      errNeedPhone: '请输入电话号码。',
+      err_SLOT_TAKEN: '该时段刚刚已被预约，请选择其他时间。',
+      err_OUT_OF_RANGE: '该日期不在可预约期间内。',
+      err_CLOSED_DAY: '该日为休息日。',
+      err_BEFORE_OPEN: '该时间早于营业时间。',
+      err_AFTER_CLOSE: '从该时间开始将无法在营业时间内结束。',
+      err_INVALID_PEOPLE: '人数指定有误。',
+      err_INVALID_SLOT: '请重新选择日期和时间。',
+      err_INVALID_DATETIME: '请重新选择日期和时间。',
+      err_TOO_SOON: '距离开始时间太近，请选择更晚的时间。',
+      err_BUSY: '系统繁忙，请稍后再试。',
+      err_INTERNAL: '系统发生错误，请电话联系我们。',
+      err_GENERIC: '提交失败，请稍后重试或电话联系我们。',
+    },
+    'zh-TW': {
+      heroTitle: '和服體驗',
+      heroSubtitle: 'KKR大阪飯店',
+      introTitle: '關於本服務',
+      introBody: '在可以眺望大阪城的房間內穿著日本傳統和服，並用您自己的手機自拍留念。無需前往室外，不受天氣影響。',
+      loading: '正在載入空餘時段…',
+      menuTitle: '1. 選擇方案',
+      dateTitle: '2. 選擇日期與時間',
+      dateLabel: '日期',
+      timeLabel: '可選時間',
+      noSlot: '該日期沒有空餘時段。',
+      noSlotClosed: '該日為公休日，請選擇其他日期。',
+      noSlotHoliday: '該日為國定假日休息，請選擇其他日期。',
+      noSlotTooEarly: '該方案需要提前預約，請選擇稍晚的日期。',
+      sameDayOk: '可當日預約',
+      leadDays: '需提前{days}天預約',
+      detailsTitle: '3. 您的資訊',
+      nameLabel: '姓名',
+      emailLabel: '電子郵件',
+      phoneLabel: '電話號碼',
+      peopleLabel: '人數',
+      groupHint: '超過{max}人的團體，請透過電話或郵件與我們聯絡。',
+      ageLabel: '代表人年齡',
+      summaryTitle: '4. 確認資訊',
+      phoneHint: '請填寫含國碼的號碼。',
+      policyTitle: '預約前請閱讀',
+      policyCancelTitle: '取消政策',
+      cancelFree: '7天前',
+      cancelFreeRate: '免費',
+      cancelHalf: '6～2天前',
+      cancelFull: '當天／未通知',
+      cancelContact: '如需取消或變更，請透過電子郵件聯絡我們。',
+      policyPaymentTitle: '付款方式',
+      policyPaymentBody: '費用請於當天在櫃檯支付。可使用現金及信用卡（VISA、Mastercard、JCB、AMEX、Diners、Discover、銀聯）。',
+      policyNotesTitle: '注意事項',
+      noteArrive: '請於開始時間前10分鐘抵達。',
+      notePhoto: '拍攝為使用您自己的手機自拍。',
+      noteStaff: '工作人員僅能使用日語，將透過翻譯軟體為您服務。',
+      noteChildHeight: '兒童身高110cm以上可參加。',
+      noteSize: '如需較大尺寸，請提前洽詢。',
+      errNeedAge: '請輸入年齡。',
+      submitBtn: '送出預約申請',
+      submitting: '傳送中…',
+      completeTitle: '預約申請已收到',
+      completeBody: '確認郵件已寄出。期待您的蒞臨。',
+      reservationIdLabel: '預約編號',
+      spamHint: '如未收到郵件，請查看垃圾郵件資料夾。',
+      mailFailed: '確認郵件寄送失敗，但您的預約已成立。如需確認請電話聯絡我們。',
+      loadError: '無法載入預約資訊，請電話聯絡我們。',
+      footerContact: '聯絡方式',
+      peopleUnit: '人',
+      priceUnit: '日圓（含稅）',
+      summaryPlan: '方案',
+      summaryDatetime: '日期時間',
+      summaryPeople: '人數',
+      summaryPrice: '費用',
+      errNeedMenu: '請選擇方案。',
+      errNeedSlot: '請選擇日期與時間。',
+      errNeedName: '請輸入姓名。',
+      errNeedEmail: '請輸入正確的電子郵件地址。',
+      errNeedPhone: '請輸入電話號碼。',
+      err_SLOT_TAKEN: '該時段剛被預約，請選擇其他時間。',
+      err_OUT_OF_RANGE: '該日期不在可預約期間內。',
+      err_CLOSED_DAY: '該日為公休日。',
+      err_BEFORE_OPEN: '該時間早於營業時間。',
+      err_AFTER_CLOSE: '從該時間開始將無法在營業時間內結束。',
+      err_INVALID_PEOPLE: '人數指定有誤。',
+      err_INVALID_SLOT: '請重新選擇日期與時間。',
+      err_INVALID_DATETIME: '請重新選擇日期與時間。',
+      err_TOO_SOON: '距離開始時間太近，請選擇更晚的時間。',
+      err_BUSY: '系統忙碌中，請稍後再試。',
+      err_INTERNAL: '系統發生錯誤，請電話聯絡我們。',
+      err_GENERIC: '送出失敗，請稍後重試或電話聯絡我們。',
+    },
+    ko: {
+      heroTitle: '기모노 체험',
+      heroSubtitle: 'KKR 호텔 오사카',
+      introTitle: '서비스 소개',
+      introBody: '오사카성이 보이는 객실에서 일본 전통 기모노를 입고 본인의 스마트폰으로 셀프 촬영을 즐기실 수 있습니다. 실외 이동이 없어 날씨의 영향을 받지 않습니다.',
+      loading: '예약 가능 시간을 불러오는 중…',
+      menuTitle: '1. 플랜 선택',
+      dateTitle: '2. 날짜 및 시간 선택',
+      dateLabel: '날짜',
+      timeLabel: '선택 가능 시간',
+      noSlot: '해당 날짜에는 예약 가능한 시간이 없습니다.',
+      noSlotClosed: '해당 날짜는 정기 휴무일입니다. 다른 날짜를 선택해 주세요.',
+      noSlotHoliday: '해당 날짜는 공휴일 휴무입니다. 다른 날짜를 선택해 주세요.',
+      noSlotTooEarly: '이 플랜은 조금 더 나중 날짜부터 예약하실 수 있습니다.',
+      sameDayOk: '당일 예약 가능',
+      leadDays: '{days}일 전까지 예약',
+      detailsTitle: '3. 예약자 정보',
+      nameLabel: '이름',
+      emailLabel: '이메일',
+      phoneLabel: '전화번호',
+      peopleLabel: '인원수',
+      groupHint: '{max}명을 초과하는 경우 전화 또는 이메일로 문의해 주세요.',
+      ageLabel: '대표자 연령',
+      summaryTitle: '4. 예약 내용 확인',
+      phoneHint: '국가번호를 포함해 입력해 주세요.',
+      policyTitle: '예약 전 확인해 주세요',
+      policyCancelTitle: '취소 정책',
+      cancelFree: '7일 전까지',
+      cancelFreeRate: '무료',
+      cancelHalf: '6~2일 전',
+      cancelFull: '당일 · 무단 불참',
+      cancelContact: '취소 및 변경은 이메일로 연락해 주세요.',
+      policyPaymentTitle: '결제',
+      policyPaymentBody: '요금은 당일 접수처에서 결제해 주세요. 현금 및 신용카드(VISA, Mastercard, JCB, AMEX, Diners, Discover, UnionPay)를 사용하실 수 있습니다.',
+      policyNotesTitle: '유의사항',
+      noteArrive: '시작 시간 10분 전까지 와 주세요.',
+      notePhoto: '촬영은 본인의 스마트폰으로 셀프 촬영입니다.',
+      noteStaff: '직원은 일본어만 가능하며, 번역 앱으로 안내해 드립니다.',
+      noteChildHeight: '어린이는 키 110cm 이상부터 참여하실 수 있습니다.',
+      noteSize: '큰 사이즈가 필요하신 경우 미리 문의해 주세요.',
+      errNeedAge: '나이를 입력해 주세요.',
+      submitBtn: '예약 신청하기',
+      submitting: '전송 중…',
+      completeTitle: '예약 신청이 완료되었습니다',
+      completeBody: '확인 메일을 보내드렸습니다. 당일 뵙기를 기대하겠습니다.',
+      reservationIdLabel: '예약 번호',
+      spamHint: '메일이 오지 않으면 스팸 메일함을 확인해 주세요.',
+      mailFailed: '확인 메일을 보내지 못했지만 예약은 완료되었습니다. 확인이 필요하시면 전화로 문의해 주세요.',
+      loadError: '예약 정보를 불러오지 못했습니다. 전화로 문의해 주세요.',
+      footerContact: '문의처',
+      peopleUnit: '명',
+      priceUnit: '엔 (세금 포함)',
+      summaryPlan: '플랜',
+      summaryDatetime: '일시',
+      summaryPeople: '인원',
+      summaryPrice: '요금',
+      errNeedMenu: '플랜을 선택해 주세요.',
+      errNeedSlot: '날짜와 시간을 선택해 주세요.',
+      errNeedName: '이름을 입력해 주세요.',
+      errNeedEmail: '올바른 이메일 주소를 입력해 주세요.',
+      errNeedPhone: '전화번호를 입력해 주세요.',
+      err_SLOT_TAKEN: '해당 시간은 방금 예약되었습니다. 다른 시간을 선택해 주세요.',
+      err_OUT_OF_RANGE: '해당 날짜는 예약 가능 기간이 아닙니다.',
+      err_CLOSED_DAY: '해당 날짜는 정기 휴무일입니다.',
+      err_BEFORE_OPEN: '영업 시작 전 시간입니다.',
+      err_AFTER_CLOSE: '해당 시간부터는 영업 시간 내에 종료할 수 없습니다.',
+      err_INVALID_PEOPLE: '인원수 지정이 올바르지 않습니다.',
+      err_INVALID_SLOT: '날짜와 시간을 다시 선택해 주세요.',
+      err_INVALID_DATETIME: '날짜와 시간을 다시 선택해 주세요.',
+      err_TOO_SOON: '시작 시간까지 여유가 없습니다. 더 늦은 시간을 선택해 주세요.',
+      err_BUSY: '시스템이 혼잡합니다. 잠시 후 다시 시도해 주세요.',
+      err_INTERNAL: '시스템 오류가 발생했습니다. 전화로 문의해 주세요.',
+      err_GENERIC: '전송에 실패했습니다. 잠시 후 다시 시도하거나 전화로 문의해 주세요.',
+    },
+    fr: {
+      heroTitle: 'Expérience Kimono',
+      heroSubtitle: 'KKR Hotel Osaka',
+      introTitle: 'À propos de cette expérience',
+      introBody: "Portez un kimono traditionnel japonais et prenez vos propres photos dans une salle avec vue sur le château d'Osaka. Aucun déplacement extérieur n'est nécessaire, donc aucune contrainte météo.",
+      loading: 'Chargement des disponibilités…',
+      menuTitle: '1. Choisissez votre formule',
+      dateTitle: '2. Choisissez la date et l\'heure',
+      dateLabel: 'Date',
+      timeLabel: 'Horaires disponibles',
+      noSlot: 'Aucun horaire disponible à cette date.',
+      noSlotClosed: 'Nous sommes fermés ce jour-là. Merci de choisir une autre date.',
+      noSlotHoliday: 'Nous sommes fermés pour un jour férié. Merci de choisir une autre date.',
+      noSlotTooEarly: 'Cette formule est réservable à partir d\'une date un peu plus lointaine.',
+      sameDayOk: 'Réservation le jour même possible',
+      leadDays: 'Réserver {days} jours à l\'avance',
+      detailsTitle: '3. Vos informations',
+      nameLabel: 'Nom complet',
+      emailLabel: 'E-mail',
+      phoneLabel: 'Téléphone',
+      peopleLabel: 'Nombre de personnes',
+      groupHint: "Pour les groupes de plus de {max} personnes, merci de nous contacter par téléphone ou e-mail.",
+      ageLabel: 'Âge du représentant',
+      summaryTitle: '4. Confirmation',
+      phoneHint: "Merci d'indiquer votre indicatif pays.",
+      policyTitle: 'À lire avant de réserver',
+      policyCancelTitle: "Politique d'annulation",
+      cancelFree: "Jusqu'à 7 jours avant",
+      cancelFreeRate: 'Gratuit',
+      cancelHalf: '6 à 2 jours avant',
+      cancelFull: 'Le jour même / absence',
+      cancelContact: "Pour annuler ou modifier votre réservation, merci de nous contacter par e-mail.",
+      policyPaymentTitle: 'Paiement',
+      policyPaymentBody: "Le règlement s'effectue sur place le jour même. Espèces et cartes bancaires (VISA, Mastercard, JCB, AMEX, Diners, Discover, UnionPay) acceptées.",
+      policyNotesTitle: 'À noter',
+      noteArrive: "Merci de vous présenter 10 minutes avant l'heure de début.",
+      notePhoto: 'Les photos se prennent avec votre propre smartphone (en autoportrait).',
+      noteStaff: 'Notre personnel parle uniquement japonais. Nous utilisons des applications de traduction.',
+      noteChildHeight: "Les enfants peuvent participer à partir de 110 cm.",
+      noteSize: "Merci de nous contacter à l'avance si vous avez besoin d'une grande taille.",
+      errNeedAge: 'Merci d\'indiquer votre âge.',
+      submitBtn: 'Demander la réservation',
+      submitting: 'Envoi en cours…',
+      completeTitle: 'Réservation reçue',
+      completeBody: 'Un e-mail de confirmation vous a été envoyé. Au plaisir de vous accueillir.',
+      reservationIdLabel: 'N° de réservation',
+      spamHint: "Si vous ne recevez pas l'e-mail, merci de vérifier vos courriers indésirables.",
+      mailFailed: "Nous n'avons pas pu envoyer l'e-mail de confirmation, mais votre réservation est bien enregistrée. Merci de nous contacter par téléphone si besoin.",
+      loadError: 'Impossible de charger les disponibilités. Merci de nous contacter par téléphone.',
+      footerContact: 'Contact',
+      peopleUnit: '',
+      priceUnit: ' JPY (taxes comprises)',
+      summaryPlan: 'Formule',
+      summaryDatetime: 'Date et heure',
+      summaryPeople: 'Personnes',
+      summaryPrice: 'Tarif',
+      errNeedMenu: 'Veuillez choisir une formule.',
+      errNeedSlot: 'Veuillez choisir une date et une heure.',
+      errNeedName: 'Veuillez indiquer votre nom.',
+      errNeedEmail: 'Veuillez indiquer une adresse e-mail valide.',
+      errNeedPhone: 'Veuillez indiquer votre numéro de téléphone.',
+      err_SLOT_TAKEN: 'Ce créneau vient d\'être réservé. Merci d\'en choisir un autre.',
+      err_OUT_OF_RANGE: 'Cette date est en dehors de la période de réservation.',
+      err_CLOSED_DAY: 'Le salon est fermé ce jour-là.',
+      err_BEFORE_OPEN: 'Cet horaire est avant l\'ouverture.',
+      err_AFTER_CLOSE: 'La séance ne pourrait pas se terminer avant la fermeture.',
+      err_INVALID_PEOPLE: 'Le nombre de personnes est invalide.',
+      err_INVALID_SLOT: 'Merci de sélectionner à nouveau la date et l\'heure.',
+      err_INVALID_DATETIME: 'Merci de sélectionner à nouveau la date et l\'heure.',
+      err_TOO_SOON: 'Ce créneau est trop proche. Merci de choisir un horaire plus tardif.',
+      err_BUSY: 'Le système est occupé. Merci de réessayer dans un instant.',
+      err_INTERNAL: 'Une erreur système est survenue. Merci de nous contacter par téléphone.',
+      err_GENERIC: 'Une erreur est survenue. Merci de réessayer plus tard ou de nous contacter par téléphone.',
+    },
+  };
+
+  var MENU_NAMES = {
+    taiken: { ja: '和装体験', en: 'Kimono Experience', 'zh-CN': '和服体验', 'zh-TW': '和服體驗', ko: '기모노 체험', fr: 'Expérience Kimono' },
+    honkaku: { ja: '和装本格着付け', en: 'Full Kimono Dressing', 'zh-CN': '正式和服着装', 'zh-TW': '正式和服著裝', ko: '정통 기모노 착장', fr: 'Habillage Kimono Complet' },
+  };
+
+  // ==========================================================
+  // 状態
+  // ==========================================================
+
+  var state = {
+    lang: detectInitialLang(),
+    config: null,
+    menus: null,
+    booked: [],
+    holidays: [], // 'yyyy-MM-dd' の配列
+    selectedMenu: null,
+    selectedDate: null,
+    selectedSlot: null, // { start: Date, end: Date }
+  };
+
+  function detectInitialLang() {
+    var nav = (navigator.language || 'en').toLowerCase();
+    if (nav.indexOf('ja') === 0) return 'ja';
+    if (nav.indexOf('zh-tw') === 0 || nav.indexOf('zh-hant') === 0) return 'zh-TW';
+    if (nav.indexOf('zh') === 0) return 'zh-CN';
+    if (nav.indexOf('ko') === 0) return 'ko';
+    if (nav.indexOf('fr') === 0) return 'fr';
+    return 'en';
+  }
+
+  function t(key) {
+    var dict = I18N[state.lang] || I18N.en;
+    return dict[key] !== undefined ? dict[key] : (I18N.en[key] || key);
+  }
+
+  // ==========================================================
+  // DOM要素
+  // ==========================================================
+
+  var el = {
+    langSwitch: document.getElementById('langSwitch'),
+    loadingCard: document.getElementById('loadingCard'),
+    bookingForm: document.getElementById('bookingForm'),
+    menuGrid: document.getElementById('menuGrid'),
+    dateInput: document.getElementById('dateInput'),
+    slotGrid: document.getElementById('slotGrid'),
+    noSlotMsg: document.getElementById('noSlotMsg'),
+    nameInput: document.getElementById('nameInput'),
+    emailInput: document.getElementById('emailInput'),
+    phoneInput: document.getElementById('phoneInput'),
+    peopleInput: document.getElementById('peopleInput'),
+    groupHint: document.getElementById('groupHint'),
+    ageInput: document.getElementById('ageInput'),
+    websiteInput: document.getElementById('websiteInput'),
+    summaryBody: document.getElementById('summaryBody'),
+    formErrorMsg: document.getElementById('formErrorMsg'),
+    submitBtn: document.getElementById('submitBtn'),
+    completeCard: document.getElementById('completeCard'),
+    reservationIdRow: document.getElementById('reservationIdRow'),
+    reservationIdOut: document.getElementById('reservationIdOut'),
+    mailFailedMsg: document.getElementById('mailFailedMsg'),
+    loadErrorCard: document.getElementById('loadErrorCard'),
+    salonPhoneOut: document.getElementById('salonPhoneOut'),
+    footerPhone: document.getElementById('footerPhone'),
+  };
+
+  // ==========================================================
+  // 初期化
+  // ==========================================================
+
+  renderLangSwitch();
+  applyStaticI18n();
+  // 人数の変更で合計金額が変わる。リスナーはここで一度だけ登録する
+  // （renderPeopleOptions は言語切替のたびに呼ばれるため、
+  //   そちらで登録すると重複してしまう）
+  el.peopleInput.addEventListener('change', renderSummary);
+  fetchAvailability();
+
+  function renderLangSwitch() {
+    el.langSwitch.innerHTML = '';
+    SUPPORTED_LANGS.forEach(function (lang) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = LANG_LABELS[lang];
+      if (lang === state.lang) btn.classList.add('active');
+      btn.addEventListener('click', function () {
+        state.lang = lang;
+        document.documentElement.lang = lang;
+        renderLangSwitch();
+        applyStaticI18n();
+        if (state.config) {
+          renderMenus();
+          renderPeopleOptions();
+          renderSlotsForDate();
+          renderSummary();
+        }
+      });
+      el.langSwitch.appendChild(btn);
+    });
+  }
+
+  function applyStaticI18n() {
+    document.documentElement.lang = state.lang;
+    var nodes = document.querySelectorAll('[data-i18n]');
+    nodes.forEach(function (node) {
+      var key = node.getAttribute('data-i18n');
+      node.textContent = t(key);
+    });
+    el.submitBtn.querySelector('span').textContent = t('submitBtn');
+  }
+
+  // ==========================================================
+  // データ取得
+  // ==========================================================
+
+  function fetchAvailability() {
+    fetch(GAS_URL)
+      .then(function (res) { return res.json(); })
+      .then(function (json) {
+        if (json.status !== 'ok') throw new Error(json.message || 'load error');
+        state.config = json.config;
+        state.menus = json.menus;
+        state.booked = (json.booked || []).map(function (b) {
+          return { start: new Date(b.start), end: new Date(b.end) };
+        });
+        state.holidays = json.holidays || [];
+        onDataLoaded();
+      })
+      .catch(function (err) {
+        console.error(err);
+        showLoadError();
+      });
+  }
+
+  function onDataLoaded() {
+    el.loadingCard.classList.add('hidden');
+    el.bookingForm.classList.remove('hidden');
+    el.footerPhone.textContent = state.config.salonPhone || '';
+
+    renderMenus();
+    renderPeopleOptions();
+    setupDateInput();
+    renderSummary();
+  }
+
+  function showLoadError() {
+    el.loadingCard.classList.add('hidden');
+    el.loadErrorCard.classList.remove('hidden');
+    if (state.config && state.config.salonPhone) {
+      el.salonPhoneOut.textContent = state.config.salonPhone;
+    }
+  }
+
+  // ==========================================================
+  // メニュー選択
+  // ==========================================================
+
+  function renderMenus() {
+    el.menuGrid.innerHTML = '';
+    Object.keys(state.menus).forEach(function (menuId) {
+      var menu = state.menus[menuId];
+      var box = document.createElement('div');
+      box.className = 'menu-option' + (state.selectedMenu === menuId ? ' selected' : '');
+      var minDays = resolveMinDaysAhead(menu);
+      var leadNote = minDays === 0
+        ? t('sameDayOk')
+        : t('leadDays').replace('{days}', String(minDays));
+
+      box.innerHTML =
+        '<div class="name">' + (MENU_NAMES[menuId] ? MENU_NAMES[menuId][state.lang] || MENU_NAMES[menuId].en : menuId) + '</div>' +
+        '<div class="price">' + menu.priceInclTax.toLocaleString() + t('priceUnit') + '</div>' +
+        '<div class="duration">' + menu.occupancyMinutes + ' min</div>' +
+        '<div class="lead-note">' + leadNote + '</div>';
+      box.addEventListener('click', function () {
+        state.selectedMenu = menuId;
+        state.selectedSlot = null;
+        renderMenus();
+        // メニューによって受付開始日が変わるため、日付範囲を取り直す
+        updateDateRange();
+        renderSlotsForDate();
+        renderSummary();
+      });
+      el.menuGrid.appendChild(box);
+    });
+  }
+
+  function renderPeopleOptions() {
+    var max = state.config.maxPeople || 4;
+    var current = el.peopleInput.value;
+    el.peopleInput.innerHTML = '';
+    for (var i = 1; i <= max; i++) {
+      var opt = document.createElement('option');
+      opt.value = String(i);
+      opt.textContent = i + t('peopleUnit');
+      el.peopleInput.appendChild(opt);
+    }
+    if (current) el.peopleInput.value = current;
+
+    // 上限を超える人数はWebで受け付けないため、問い合わせに誘導する
+    el.groupHint.textContent = t('groupHint').replace('{max}', String(max));
+  }
+
+  // ==========================================================
+  // 日付・時間選択
+  // ==========================================================
+
+  function setupDateInput() {
+    updateDateRange();
+    el.dateInput.addEventListener('change', function () {
+      state.selectedDate = el.dateInput.value;
+      state.selectedSlot = null;
+      renderSlotsForDate();
+      renderSummary();
+    });
+    renderSlotsForDate();
+  }
+
+  /**
+   * 日付入力欄の選択可能範囲を、選択中のメニューに合わせて更新する。
+   *
+   * メニューによって受付開始日が変わる（当日可／3日前まで）ため、
+   * メニューを切り替えたら呼び直す必要がある。
+   * 既に選んでいた日付が範囲外になった場合は、最短の日に寄せる。
+   */
+  function updateDateRange() {
+    var menu = state.selectedMenu ? state.menus[state.selectedMenu] : null;
+    var minDays = resolveMinDaysAhead(menu);
+
+    // 閲覧者の端末TZではなく、日本時間の「今日」を基準にする
+    var today = todayJst();
+    var minStr = addDaysJst(today, minDays);
+    var maxStr = addDaysJst(today, state.config.maxDaysAhead);
+    el.dateInput.min = minStr;
+    el.dateInput.max = maxStr;
+
+    // 未選択、または範囲外になった場合は最短の日に寄せる
+    if (!state.selectedDate || state.selectedDate < minStr || state.selectedDate > maxStr) {
+      el.dateInput.value = minStr;
+      state.selectedDate = minStr;
+      state.selectedSlot = null;
+    }
+  }
+
+  /**
+   * メニューに適用される minDaysAhead を返す。
+   * メニュー側に数値があればそれを優先し、なければ共通設定に従う。
+   * （サーバーの resolveMinDaysAhead_ と同じ規則）
+   */
+  function resolveMinDaysAhead(menu) {
+    if (menu && typeof menu.minDaysAhead === 'number') return menu.minDaysAhead;
+    return state.config.minDaysAhead;
+  }
+
+  /** その日が予約を受け付けられない日かどうか。理由を返す（受付可なら null） */
+  function getDateBlockReason(dateStr, menu) {
+    if (state.config.closedDays.indexOf(jstDayOfWeek(dateStr)) !== -1) return 'closed';
+    if (state.holidays.indexOf(dateStr) !== -1) return 'holiday';
+
+    // メニューごとに受付開始日が違う。日本時間の「今日」を基準にする。
+    var minDays = resolveMinDaysAhead(menu);
+    if (dateStr < addDaysJst(todayJst(), minDays)) return 'tooEarly';
+
+    return null;
+  }
+
+  function renderSlotsForDate() {
+    el.slotGrid.innerHTML = '';
+    el.noSlotMsg.classList.add('hidden');
+
+    if (!state.selectedMenu || !state.selectedDate) return;
+
+    var menu = state.menus[state.selectedMenu];
+    var dateStr = state.selectedDate;
+
+    var blockReason = getDateBlockReason(dateStr, menu);
+    if (blockReason) {
+      showNoSlot(blockReason);
+      return;
+    }
+
+    var openMinutes = timeToMinutes(state.config.openTime);
+    var closeMinutes = timeToMinutes(state.config.closeTime);
+    var interval = state.config.slotInterval || 15;
+
+    // 当日予約は「今から◯分後」以降しか受け付けない（サーバーと同じ規則）
+    var leadMinutes = state.config.sameDayLeadMinutes || 0;
+    var earliestInstant = Date.now() + leadMinutes * 60000;
+
+    var slots = [];
+    for (var m = openMinutes; m + menu.occupancyMinutes <= closeMinutes; m += interval) {
+      // 枠は「日本時間の壁時計」で定義する。閲覧者の端末TZに依存させない。
+      var startInstant = jstInstant(dateStr, m);
+      var endInstant = startInstant + menu.occupancyMinutes * 60000;
+
+      if (startInstant < earliestInstant) continue;
+
+      var overlapping = state.booked.some(function (b) {
+        return startInstant < b.end.getTime() && endInstant > b.start.getTime();
+      });
+
+      slots.push({
+        dateStr: dateStr,
+        minutes: m,
+        instant: startInstant,
+        label: pad2(Math.floor(m / 60)) + ':' + pad2(m % 60),
+        taken: overlapping,
+      });
+    }
+
+    if (slots.length === 0) {
+      showNoSlot('none');
+      return;
+    }
+
+    slots.forEach(function (slot) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'slot-btn' + (isSlotSelected(slot) ? ' selected' : '');
+      btn.textContent = slot.label;
+      btn.disabled = slot.taken;
+      btn.addEventListener('click', function () {
+        state.selectedSlot = slot;
+        renderSlotsForDate();
+        renderSummary();
+      });
+      el.slotGrid.appendChild(btn);
+    });
+  }
+
+  /**
+   * 枠が出せない理由を表示する。
+   * 「空きなし」で片付けず、定休日・祝日・受付期間前を区別して伝える。
+   * 理由が分かればお客様が別の日を選び直せる。
+   */
+  function showNoSlot(reason) {
+    var keyByReason = {
+      closed: 'noSlotClosed',
+      holiday: 'noSlotHoliday',
+      tooEarly: 'noSlotTooEarly',
+      none: 'noSlot',
+    };
+    el.noSlotMsg.textContent = t(keyByReason[reason] || 'noSlot');
+    el.noSlotMsg.classList.remove('hidden');
+  }
+
+  function isSlotSelected(slot) {
+    return state.selectedSlot && state.selectedSlot.instant === slot.instant;
+  }
+
+  function timeToMinutes(str) {
+    var parts = String(str).split(':');
+    return parseInt(parts[0], 10) * 60 + parseInt(parts[1] || '0', 10);
+  }
+
+  function pad2(n) { return String(n).padStart(2, '0'); }
+
+  // ==========================================================
+  // 日本時間ユーティリティ
+  //
+  // このページは海外から閲覧される。閲覧者の端末のタイムゾーンで
+  // 日付や時刻を作ると、営業時間・定休日の判定がすべてズレる。
+  // （例：パリの端末で「10:00」を選ぶと、日本時間では17:00になる）
+  //
+  // そのため、枠の生成・日付判定はすべて日本時間(JST)を基準に行う。
+  // JSTは年間を通じてUTC+9で固定（サマータイムなし）なので、
+  // 固定オフセットで計算してよい。
+  // ==========================================================
+
+  var JST_OFFSET_MS = 9 * 60 * 60 * 1000;
+
+  /**
+   * 'yyyy-MM-dd' と「0時からの経過分」から、その日本時間に対応する
+   * 実時刻（エポックミリ秒）を返す。
+   */
+  function jstInstant(dateStr, minutesFromMidnight) {
+    var p = dateStr.split('-').map(Number);
+    return Date.UTC(p[0], p[1] - 1, p[2], 0, 0, 0, 0)
+      + minutesFromMidnight * 60000
+      - JST_OFFSET_MS;
+  }
+
+  /** 現在の日本時間の日付を 'yyyy-MM-dd' で返す */
+  function todayJst() {
+    return jstDateString(Date.now());
+  }
+
+  /** エポックミリ秒を、日本時間の 'yyyy-MM-dd' に変換する */
+  function jstDateString(instant) {
+    var d = new Date(instant + JST_OFFSET_MS);
+    return d.getUTCFullYear() + '-' + pad2(d.getUTCMonth() + 1) + '-' + pad2(d.getUTCDate());
+  }
+
+  /** エポックミリ秒を、日本時間の 'HH:mm' に変換する */
+  function jstTimeString(instant) {
+    var d = new Date(instant + JST_OFFSET_MS);
+    return pad2(d.getUTCHours()) + ':' + pad2(d.getUTCMinutes());
+  }
+
+  /** 'yyyy-MM-dd' の曜日を返す（0=日 … 6=土）。日本時間で評価する。 */
+  function jstDayOfWeek(dateStr) {
+    var p = dateStr.split('-').map(Number);
+    return new Date(Date.UTC(p[0], p[1] - 1, p[2])).getUTCDay();
+  }
+
+  /** 'yyyy-MM-dd' に days 日足した 'yyyy-MM-dd' を返す */
+  function addDaysJst(dateStr, days) {
+    var p = dateStr.split('-').map(Number);
+    var d = new Date(Date.UTC(p[0], p[1] - 1, p[2]));
+    d.setUTCDate(d.getUTCDate() + days);
+    return d.getUTCFullYear() + '-' + pad2(d.getUTCMonth() + 1) + '-' + pad2(d.getUTCDate());
+  }
+
+  // ==========================================================
+  // 確認欄
+  // ==========================================================
+
+  function renderSummary() {
+    if (!state.selectedMenu || !state.selectedSlot) {
+      el.summaryBody.innerHTML = '<p style="color:var(--color-muted); font-size:0.9rem;">—</p>';
+      return;
+    }
+    var menu = state.menus[state.selectedMenu];
+    var menuName = MENU_NAMES[state.selectedMenu] ? (MENU_NAMES[state.selectedMenu][state.lang] || MENU_NAMES[state.selectedMenu].en) : state.selectedMenu;
+    var people = el.peopleInput.value || '1';
+    var slot = state.selectedSlot;
+    // 日本時間であることを明示する。海外のお客様が現地時間と誤解するのを防ぐ。
+    var dateStr = slot.dateStr + ' ' + slot.label + ' <small>(JST)</small>';
+
+    el.summaryBody.innerHTML =
+      '<div class="summary-row"><span>' + t('summaryPlan') + '</span><span>' + menuName + '</span></div>' +
+      '<div class="summary-row"><span>' + t('summaryDatetime') + '</span><span>' + dateStr + '</span></div>' +
+      '<div class="summary-row"><span>' + t('summaryPeople') + '</span><span>' + people + t('peopleUnit') + '</span></div>' +
+      '<div class="summary-row total"><span>' + t('summaryPrice') + '</span><span>' + (menu.priceInclTax * parseInt(people, 10)).toLocaleString() + t('priceUnit') + '</span></div>';
+  }
+
+  // ==========================================================
+  // 送信
+  // ==========================================================
+
+  el.bookingForm.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    hideFormError();
+
+    if (!state.selectedMenu) return showFormError(t('errNeedMenu'));
+    if (!state.selectedSlot) return showFormError(t('errNeedSlot'));
+
+    var name = el.nameInput.value.trim();
+    if (!name) return showFormError(t('errNeedName'));
+
+    var email = el.emailInput.value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showFormError(t('errNeedEmail'));
+
+    var phone = el.phoneInput.value.trim();
+    if (phone.length < 6) return showFormError(t('errNeedPhone'));
+
+    // 未入力だと parseInt が NaN になり、|| 0 で「0歳」として送られてしまう。
+    // 空欄と0歳を区別して弾く。
+    var ageRaw = el.ageInput.value.trim();
+    var age = parseInt(ageRaw, 10);
+    if (ageRaw === '' || isNaN(age) || age < 1 || age > 120) {
+      return showFormError(t('errNeedAge'));
+    }
+
+    var payload = {
+      name: name,
+      email: email,
+      phone: phone,
+      people: parseInt(el.peopleInput.value, 10),
+      age: age,
+      menu: state.selectedMenu,
+      datetime: toJstIso(state.selectedSlot),
+      lang: state.lang,
+      website: el.websiteInput.value, // ハニーポット
+    };
+
+    submitBooking(payload);
+  });
+
+  /**
+   * 枠を日本時間のISO8601（+09:00固定）に変換する。
+   *
+   * 端末のタイムゾーンのオフセットを付けてはいけない。
+   * サーバー(GAS)は Asia/Tokyo で時刻を評価するため、
+   * 海外端末のオフセットを送ると営業時間の判定がずれる。
+   */
+  function toJstIso(slot) {
+    return slot.dateStr + 'T' + pad2(Math.floor(slot.minutes / 60))
+      + ':' + pad2(slot.minutes % 60) + ':00+09:00';
+  }
+
+  function submitBooking(payload) {
+    setSubmitting(true);
+    fetch(GAS_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload),
+    })
+      .then(function (res) { return res.json(); })
+      .then(function (json) {
+        setSubmitting(false);
+        if (json.status === 'ok') {
+          showComplete(json.reservationId, json.mailSent);
+        } else {
+          showFormError(mapErrorCode(json.code));
+          // 予約状況を再取得して枠を更新
+          fetchAvailability();
+        }
+      })
+      .catch(function (err) {
+        console.error(err);
+        setSubmitting(false);
+        showFormError(t('err_GENERIC'));
+      });
+  }
+
+  function mapErrorCode(code) {
+    var key = 'err_' + code;
+    var dict = I18N[state.lang] || I18N.en;
+    return dict[key] || t('err_GENERIC');
+  }
+
+  function setSubmitting(isSubmitting) {
+    el.submitBtn.disabled = isSubmitting;
+    el.submitBtn.innerHTML = isSubmitting
+      ? '<span class="spinner"></span>' + t('submitting')
+      : '<span>' + t('submitBtn') + '</span>';
+  }
+
+  function showFormError(msg) {
+    el.formErrorMsg.textContent = msg;
+    el.formErrorMsg.classList.remove('hidden');
+    el.formErrorMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function hideFormError() {
+    el.formErrorMsg.classList.add('hidden');
+  }
+
+  function showComplete(reservationId, mailSent) {
+    el.bookingForm.classList.add('hidden');
+    el.completeCard.classList.remove('hidden');
+
+    // ハニーポット検知時はサーバーが reservationId を返さない。
+    // その場合は番号の行ごと隠す（"undefined" と表示させない）。
+    if (reservationId) {
+      el.reservationIdOut.textContent = reservationId;
+      el.reservationIdRow.classList.remove('hidden');
+    } else {
+      el.reservationIdRow.classList.add('hidden');
+    }
+
+    // メール送信に失敗しても予約は成立している。
+    // 確認メールが届かないことを先に伝えておく。
+    el.mailFailedMsg.classList.toggle('hidden', mailSent !== false);
+
+    el.completeCard.scrollIntoView({ behavior: 'smooth' });
+  }
+
+})();
+</script>
+
+</body>
+</html>

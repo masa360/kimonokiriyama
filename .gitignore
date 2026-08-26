@@ -1,0 +1,24 @@
+# このリポジトリは GitHub Pages で一般公開される。
+# 公開してよいのは予約ページ（index.html）だけ。
+#
+# ドキュメント類には美容室の連絡先や社内の検討経緯が含まれるため、
+# 公開せず Google ドライブ側に留める。
+# バックエンドのコードも、設定値の実体はスクリプトプロパティ側にあるとはいえ
+# カレンダーIDやメールアドレスがコメントに残るため除外する。
+
+# 社内資料
+README.md
+SPEC.md
+salon-answers.md
+docs/
+
+# GASのソース（GASエディタ側が正。ここでは管理しない）
+backend/
+
+# Windows / Googleドライブが自動生成するファイル
+desktop.ini
+Thumbs.db
+.DS_Store
+
+# 旧構成の名残。予約ページは リポジトリ直下の index.html が正。
+frontend/
