@@ -293,6 +293,50 @@
     white-space: nowrap;
   }
 
+  /* 国番号と番号本体を横並びに。国番号は内容に応じて幅を取る */
+  .phone-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: stretch;
+  }
+  .phone-row select {
+    flex: 0 0 auto;
+    max-width: 45%;
+    margin: 0;
+  }
+  .phone-row input {
+    flex: 1 1 auto;
+    min-width: 0;   /* flex内でinputが縮まずはみ出すのを防ぐ */
+    margin: 0;
+  }
+
+  /* 同意チェック。タップ範囲を文言全体に広げる */
+  .agree-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    margin: 1rem 0 0.5rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-weight: 400;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+  .agree-row input {
+    flex: 0 0 auto;
+    width: 1.15rem;
+    height: 1.15rem;
+    margin: 0.1rem 0 0;
+    accent-color: var(--color-accent, #7a2f3a);
+    cursor: pointer;
+  }
+  /* 未同意で送信しようとしたときだけ強調する */
+  .agree-row.is-error {
+    border-color: var(--color-error);
+    background: rgba(192, 57, 43, 0.05);
+  }
+
   .honeypot {
     position: absolute;
     left: -9999px;
@@ -420,11 +464,31 @@
       <label for="emailInput" data-i18n="emailLabel">Email</label>
       <input type="email" id="emailInput" required autocomplete="email"
              inputmode="email" autocapitalize="off" spellcheck="false">
+      <p class="field-hint" data-i18n="emailNote">We will send your booking confirmation to this address.</p>
 
-      <label for="phoneInput" data-i18n="phoneLabel">Phone number</label>
-      <input type="tel" id="phoneInput" required autocomplete="tel" inputmode="tel"
-             placeholder="+1 555 000 0000">
-      <p class="field-hint" data-i18n="phoneHint">Please include your country code.</p>
+      <!--
+        確認用の再入力。宛先を間違えると確認メールが届かず、
+        こちらからも連絡が取れなくなるため2回入力してもらう。
+        コピペは意図的に許可している（禁止するとスマホでの入力が苦痛になり、
+        かえって間違いが増える。ここでの目的はタイプミスの検出）。
+      -->
+      <label for="emailConfirmInput" data-i18n="emailConfirmLabel">Email (confirm)</label>
+      <input type="email" id="emailConfirmInput" required
+             inputmode="email" autocapitalize="off" spellcheck="false"
+             autocomplete="off">
+      <p class="field-hint" data-i18n="emailConfirmHint">Please enter it again to avoid typos.</p>
+
+      <!--
+        国番号は選択式にする。自由入力だと日本の方は「090…」と
+        そのまま書きがちで、国番号が落ちて連絡がつかなくなる。
+      -->
+      <label for="phoneInput" data-i18n="phoneLabel">Mobile number</label>
+      <div class="phone-row">
+        <select id="countryCodeInput" aria-label="Country code"></select>
+        <input type="tel" id="phoneInput" required autocomplete="tel" inputmode="tel"
+               placeholder="90 1234 5678">
+      </div>
+      <p class="field-hint" data-i18n="phoneHint">Enter your mobile number without the leading zero.</p>
 
       <!--
         人数は「来店する人数」と「施術を受ける人数」の2段構え。
@@ -509,6 +573,15 @@
       </ul>
     </details>
 
+    <!--
+      キャンセルポリシーへの同意。当日キャンセルは100%頂くため、
+      「読んでいない」と言われる余地を残さないよう明示的に取る。
+    -->
+    <label class="agree-row" for="agreeInput">
+      <input type="checkbox" id="agreeInput" required>
+      <span data-i18n="agreeLabel">I agree to the cancellation policy and the notes above</span>
+    </label>
+
     <p class="msg error hidden" id="formErrorMsg" role="alert" aria-live="assertive"></p>
 
     <button type="submit" class="submit-btn" id="submitBtn">
@@ -584,30 +657,37 @@
       detailsTitle: '3. お客様情報',
       nameLabel: 'お名前',
       emailLabel: 'メールアドレス',
-      phoneLabel: '電話番号',
+      phoneLabel: '携帯電話番号',
       peopleLabel: '人数',
       groupHint: '{max}名を超えるお申し込みは、お電話またはメールにてご相談ください。',
       ageLabel: '代表者の年齢',
+      emailNote: 'ご予約の確定メールをこちらにお送りします。',
+      emailConfirmLabel: 'メールアドレス（確認のためもう一度）',
+      emailConfirmHint: '入力間違いを防ぐため、もう一度ご入力ください。',
+      errEmailMismatch: 'メールアドレスが一致しません。ご確認ください。',
+      countryLabel: '国番号',
+      agreeLabel: 'キャンセルポリシーと注意事項に同意します',
+      errNeedAgree: 'キャンセルポリシーへの同意が必要です。',
       attendLabel: '参加人数（ご来店される方の合計）',
-      attendHint: '施術を受けない付き添いの方も含めた人数です。上限{max}名。',
-      treatLabel: '施術人数（着付けを受ける方）',
-      treatHint: '料金は施術を受ける方の人数分です。',
-      attrTitle: '施術を受ける方の内訳',
+      attendHint: '着付けをされない付き添いの方も含めた人数です。上限{max}名。',
+      treatLabel: '着付けをされる人数',
+      treatHint: '料金は、着付けをされる方の人数分です。',
+      attrTitle: '着付けをされる方の内訳',
       attrAdultF: '大人（女性）',
       attrAdultM: '大人（男性）',
       attrChild: 'お子様',
       attrChildNote: 'お子様は身長110cm以上から。料金は大人と同額です。',
       perPerson: '1名あたり',
       summaryAttend: '参加人数',
-      summaryTreat: '施術人数',
+      summaryTreat: '着付けをされる方',
       summarySubtotal: '小計',
       summaryDiscount: '団体割引（10%）',
       discountNote: '3名以上の施術で10%割引',
-      waitNote: '施術を受けない方は、受付前の待合スペース（椅子5席）でお待ちいただきます。',
-      errAttrSum: '内訳の合計が施術人数と一致していません。',
-      errTreatOverAttend: '施術人数が参加人数を超えています。',
+      waitNote: '着付けをされない方は、受付前の待合スペース（椅子5席）でお待ちいただきます。',
+      errAttrSum: '内訳の合計が、着付けをされる人数と一致していません。',
+      errTreatOverAttend: '着付けをされる人数が、参加人数を超えています。',
       summaryTitle: '4. 内容確認',
-      phoneHint: '国番号からご入力ください。',
+      phoneHint: 'ご連絡のつく携帯電話の番号を、先頭の0を除いてご入力ください（例: 090… → 90…）。',
       policyTitle: 'ご予約前にお読みください',
       policyCancelTitle: 'キャンセルポリシー',
       cancelFree: '7日前まで',
@@ -684,10 +764,17 @@
       detailsTitle: '3. Your details',
       nameLabel: 'Full name',
       emailLabel: 'Email',
-      phoneLabel: 'Phone number',
+      phoneLabel: 'Mobile number',
       peopleLabel: 'Number of guests',
       groupHint: 'For groups of more than {max}, please contact us by phone or email.',
       ageLabel: "Representative's age",
+      emailNote: 'We will send your booking confirmation to this address.',
+      emailConfirmLabel: 'Email (confirm)',
+      emailConfirmHint: 'Please enter it again to avoid typos.',
+      errEmailMismatch: 'The email addresses do not match. Please check.',
+      countryLabel: 'Country code',
+      agreeLabel: 'I agree to the cancellation policy and the notes above',
+      errNeedAgree: 'Please agree to the cancellation policy.',
       attendLabel: 'Total visitors',
       attendHint: 'Everyone coming, including companions who will not be dressed. Max {max}.',
       treatLabel: 'Guests being dressed',
@@ -707,7 +794,7 @@
       errAttrSum: 'The breakdown does not add up to the number of guests being dressed.',
       errTreatOverAttend: 'Guests being dressed cannot exceed total visitors.',
       summaryTitle: '4. Confirm',
-      phoneHint: 'Please include your country code.',
+      phoneHint: 'Enter your mobile number without the leading zero.',
       policyTitle: 'Before you book',
       policyCancelTitle: 'Cancellation policy',
       cancelFree: 'Up to 7 days before',
@@ -784,30 +871,37 @@
       detailsTitle: '3. 您的信息',
       nameLabel: '姓名',
       emailLabel: '邮箱',
-      phoneLabel: '电话号码',
+      phoneLabel: '手机号码',
       peopleLabel: '人数',
       groupHint: '超过{max}人的团体，请通过电话或邮件与我们联系。',
       ageLabel: '代表人年龄',
+      emailNote: '我们会将预约确认邮件发送至此邮箱。',
+      emailConfirmLabel: '邮箱（再次输入确认）',
+      emailConfirmHint: '为防止输入错误，请再输入一次。',
+      errEmailMismatch: '两次输入的邮箱不一致，请确认。',
+      countryLabel: '国家代码',
+      agreeLabel: '我同意取消政策及上述注意事项',
+      errNeedAgree: '请同意取消政策。',
       attendLabel: '到店总人数',
-      attendHint: '包含不接受服务的陪同人员。上限{max}人。',
-      treatLabel: '接受着装服务的人数',
-      treatHint: '费用按接受服务的人数计算。',
-      attrTitle: '接受服务人员构成',
+      attendHint: '包含不穿和服的陪同人员。上限{max}人。',
+      treatLabel: '穿和服的人数',
+      treatHint: '费用按穿和服的人数计算。',
+      attrTitle: '穿和服人员构成',
       attrAdultF: '成人（女性）',
       attrAdultM: '成人（男性）',
       attrChild: '儿童',
       attrChildNote: '儿童身高需110cm以上。费用与成人相同。',
       perPerson: '每位',
       summaryAttend: '到店人数',
-      summaryTreat: '服务人数',
+      summaryTreat: '穿和服人数',
       summarySubtotal: '小计',
       summaryDiscount: '团体折扣（10%）',
       discountNote: '3人以上接受服务可享10%折扣',
-      waitNote: '不接受服务的陪同人员请在前台前的等候区（5个座位）稍候。',
-      errAttrSum: '构成人数总和与服务人数不一致。',
-      errTreatOverAttend: '服务人数不能超过到店人数。',
+      waitNote: '不穿和服的陪同人员请在前台前的等候区（5个座位）稍候。',
+      errAttrSum: '构成人数总和与穿和服的人数不一致。',
+      errTreatOverAttend: '穿和服的人数不能超过到店人数。',
       summaryTitle: '4. 确认信息',
-      phoneHint: '请填写含国家代码的号码。',
+      phoneHint: '请输入可联系到您的手机号码（不含开头的0）。',
       policyTitle: '预约前请阅读',
       policyCancelTitle: '取消政策',
       cancelFree: '7天前',
@@ -884,30 +978,37 @@
       detailsTitle: '3. 您的資訊',
       nameLabel: '姓名',
       emailLabel: '電子郵件',
-      phoneLabel: '電話號碼',
+      phoneLabel: '手機號碼',
       peopleLabel: '人數',
       groupHint: '超過{max}人的團體，請透過電話或郵件與我們聯絡。',
       ageLabel: '代表人年齡',
+      emailNote: '我們會將預約確認信寄送至此信箱。',
+      emailConfirmLabel: '電子郵件（再次輸入確認）',
+      emailConfirmHint: '為防止輸入錯誤，請再輸入一次。',
+      errEmailMismatch: '兩次輸入的電子郵件不一致，請確認。',
+      countryLabel: '國碼',
+      agreeLabel: '我同意取消政策及上述注意事項',
+      errNeedAgree: '請同意取消政策。',
       attendLabel: '到店總人數',
-      attendHint: '包含不接受服務的陪同人員。上限{max}人。',
-      treatLabel: '接受著裝服務的人數',
-      treatHint: '費用依接受服務的人數計算。',
-      attrTitle: '接受服務人員組成',
+      attendHint: '包含不穿和服的陪同人員。上限{max}人。',
+      treatLabel: '穿和服的人數',
+      treatHint: '費用依穿和服的人數計算。',
+      attrTitle: '穿和服人員組成',
       attrAdultF: '成人（女性）',
       attrAdultM: '成人（男性）',
       attrChild: '兒童',
       attrChildNote: '兒童身高需110cm以上。費用與成人相同。',
       perPerson: '每位',
       summaryAttend: '到店人數',
-      summaryTreat: '服務人數',
+      summaryTreat: '穿和服人數',
       summarySubtotal: '小計',
       summaryDiscount: '團體折扣（10%）',
       discountNote: '3人以上接受服務可享10%折扣',
-      waitNote: '不接受服務的陪同人員請於櫃檯前的等候區（5個座位）稍候。',
-      errAttrSum: '組成人數總和與服務人數不一致。',
-      errTreatOverAttend: '服務人數不可超過到店人數。',
+      waitNote: '不穿和服的陪同人員請於櫃檯前的等候區（5個座位）稍候。',
+      errAttrSum: '組成人數總和與穿和服的人數不一致。',
+      errTreatOverAttend: '穿和服的人數不可超過到店人數。',
       summaryTitle: '4. 確認資訊',
-      phoneHint: '請填寫含國碼的號碼。',
+      phoneHint: '請輸入可聯絡到您的手機號碼（不含開頭的0）。',
       policyTitle: '預約前請閱讀',
       policyCancelTitle: '取消政策',
       cancelFree: '7天前',
@@ -984,30 +1085,37 @@
       detailsTitle: '3. 예약자 정보',
       nameLabel: '이름',
       emailLabel: '이메일',
-      phoneLabel: '전화번호',
+      phoneLabel: '휴대전화 번호',
       peopleLabel: '인원수',
       groupHint: '{max}명을 초과하는 경우 전화 또는 이메일로 문의해 주세요.',
       ageLabel: '대표자 연령',
+      emailNote: '예약 확정 메일을 이 주소로 보내드립니다.',
+      emailConfirmLabel: '이메일 (확인을 위해 한 번 더)',
+      emailConfirmHint: '입력 오류를 막기 위해 한 번 더 입력해 주세요.',
+      errEmailMismatch: '이메일 주소가 일치하지 않습니다. 확인해 주세요.',
+      countryLabel: '국가번호',
+      agreeLabel: '취소 정책 및 위 안내 사항에 동의합니다',
+      errNeedAgree: '취소 정책에 동의해 주세요.',
       attendLabel: '방문 총 인원',
-      attendHint: '시술을 받지 않는 동행자도 포함한 인원입니다. 최대 {max}명.',
-      treatLabel: '착장을 받는 인원',
-      treatHint: '요금은 착장을 받는 인원 수만큼 부과됩니다.',
-      attrTitle: '착장을 받는 분의 구성',
+      attendHint: '기모노를 입지 않는 동행자도 포함한 인원입니다. 최대 {max}명.',
+      treatLabel: '기모노를 입는 인원',
+      treatHint: '요금은 기모노를 입는 인원 수만큼 부과됩니다.',
+      attrTitle: '기모노를 입는 분의 구성',
       attrAdultF: '성인 (여성)',
       attrAdultM: '성인 (남성)',
       attrChild: '어린이',
       attrChildNote: '어린이는 신장 110cm 이상부터 가능합니다. 요금은 성인과 동일합니다.',
       perPerson: '1인당',
       summaryAttend: '방문 인원',
-      summaryTreat: '착장 인원',
+      summaryTreat: '기모노 착용 인원',
       summarySubtotal: '소계',
       summaryDiscount: '단체 할인 (10%)',
       discountNote: '3명 이상 착장 시 10% 할인',
-      waitNote: '착장을 받지 않는 분은 접수 앞 대기 공간(의자 5석)에서 기다려 주세요.',
-      errAttrSum: '구성 인원의 합계가 착장 인원과 일치하지 않습니다.',
-      errTreatOverAttend: '착장 인원이 방문 인원을 초과할 수 없습니다.',
+      waitNote: '기모노를 입지 않는 분은 접수 앞 대기 공간(의자 5석)에서 기다려 주세요.',
+      errAttrSum: '구성 인원의 합계가 기모노를 입는 인원과 일치하지 않습니다.',
+      errTreatOverAttend: '기모노를 입는 인원이 방문 인원을 초과할 수 없습니다.',
       summaryTitle: '4. 예약 내용 확인',
-      phoneHint: '국가번호를 포함해 입력해 주세요.',
+      phoneHint: '연락 가능한 휴대전화 번호를 맨 앞의 0을 빼고 입력해 주세요.',
       policyTitle: '예약 전 확인해 주세요',
       policyCancelTitle: '취소 정책',
       cancelFree: '7일 전까지',
@@ -1084,14 +1192,21 @@
       detailsTitle: '3. Vos informations',
       nameLabel: 'Nom complet',
       emailLabel: 'E-mail',
-      phoneLabel: 'Téléphone',
+      phoneLabel: 'Numéro de portable',
       peopleLabel: 'Nombre de personnes',
       groupHint: "Pour les groupes de plus de {max} personnes, merci de nous contacter par téléphone ou e-mail.",
       ageLabel: 'Âge du représentant',
+      emailNote: 'Nous enverrons votre confirmation de réservation à cette adresse.',
+      emailConfirmLabel: 'E-mail (confirmation)',
+      emailConfirmHint: 'Merci de le saisir à nouveau pour éviter toute erreur.',
+      errEmailMismatch: 'Les adresses e-mail ne correspondent pas. Merci de vérifier.',
+      countryLabel: 'Indicatif pays',
+      agreeLabel: "J'accepte les conditions d'annulation et les remarques ci-dessus",
+      errNeedAgree: "Merci d'accepter les conditions d'annulation.",
       attendLabel: 'Nombre total de visiteurs',
       attendHint: 'Toutes les personnes présentes, y compris les accompagnants non habillés. Maximum {max}.',
       treatLabel: 'Personnes habillées',
-      treatHint: "Le tarif s'applique par personne habillee.",
+      treatHint: "Le tarif s'applique par personne habillée.",
       attrTitle: 'Répartition des personnes habillées',
       attrAdultF: 'Adulte (femme)',
       attrAdultM: 'Adulte (homme)',
@@ -1107,7 +1222,7 @@
       errAttrSum: 'La répartition ne correspond pas au nombre de personnes habillées.',
       errTreatOverAttend: 'Le nombre de personnes habillées ne peut pas dépasser le nombre de visiteurs.',
       summaryTitle: '4. Confirmation',
-      phoneHint: "Merci d'indiquer votre indicatif pays.",
+      phoneHint: 'Saisissez votre numéro de portable sans le zéro initial.',
       policyTitle: 'À lire avant de réserver',
       policyCancelTitle: "Politique d'annulation",
       cancelFree: "Jusqu'à 7 jours avant",
@@ -1174,6 +1289,39 @@
    * それを選択画面に出す。
    */
   /**
+   * 国番号の候補。
+   *
+   * 対応言語の国と、主な訪日客の出身国を並べている。
+   * 網羅よりも「自分の国がすぐ見つかる」ことを優先し、
+   * 該当がない場合に備えて末尾に「その他」を置く。
+   */
+  var COUNTRY_CODES = [
+    { code: '+81',  labelKey: 'JP' },
+    { code: '+1',   labelKey: 'US/CA' },
+    { code: '+86',  labelKey: 'CN' },
+    { code: '+886', labelKey: 'TW' },
+    { code: '+852', labelKey: 'HK' },
+    { code: '+82',  labelKey: 'KR' },
+    { code: '+33',  labelKey: 'FR' },
+    { code: '+44',  labelKey: 'GB' },
+    { code: '+61',  labelKey: 'AU' },
+    { code: '+65',  labelKey: 'SG' },
+    { code: '+66',  labelKey: 'TH' },
+    { code: '+60',  labelKey: 'MY' },
+    { code: '+63',  labelKey: 'PH' },
+    { code: '+62',  labelKey: 'ID' },
+    { code: '+84',  labelKey: 'VN' },
+    { code: '+49',  labelKey: 'DE' },
+    { code: '+39',  labelKey: 'IT' },
+    { code: '+34',  labelKey: 'ES' },
+  ];
+
+  /** 言語から既定の国番号を決める。多くの場合これで当たる */
+  var DEFAULT_COUNTRY_BY_LANG = {
+    ja: '+81', en: '+1', 'zh-CN': '+86', 'zh-TW': '+886', ko: '+82', fr: '+33',
+  };
+
+  /**
    * 団体割引（家族割）。
    * 2026-08-27 の打ち合わせで決定：施術3名以上で合計から10%引き。
    * 端数は切り捨て。
@@ -1196,8 +1344,11 @@
     menus: null,
     booked: [],
     holidays: [], // 'yyyy-MM-dd' の配列
-    // 内訳を一度でも触ったか。触るまでは施術人数に追従して自動で埋める
+    // 内訳を一度でも触ったか。触るまでは着付け人数に追従して自動で埋める
     attrTouched: false,
+    // 国番号を利用者が自分で選んだか。選ぶまでは表示言語に追従させる
+    countryTouched: false,
+    countryCode: '',
     selectedMenu: null,
     selectedDate: null,
     selectedSlot: null, // { start: Date, end: Date }
@@ -1233,6 +1384,9 @@
     nameInput: document.getElementById('nameInput'),
     emailInput: document.getElementById('emailInput'),
     phoneInput: document.getElementById('phoneInput'),
+    emailConfirmInput: document.getElementById('emailConfirmInput'),
+    countryCodeInput: document.getElementById('countryCodeInput'),
+    agreeInput: document.getElementById('agreeInput'),
     attendInput: document.getElementById('attendInput'),
     treatInput: document.getElementById('treatInput'),
     attrAdultFInput: document.getElementById('attrAdultFInput'),
@@ -1263,6 +1417,18 @@
   // 人数の変更で合計金額が変わる。リスナーはここで一度だけ登録する
   // （renderPeopleOptions は言語切替のたびに呼ばれるため、
   //   そちらで登録すると重複してしまう）
+  el.countryCodeInput.addEventListener('change', function () {
+    state.countryTouched = true;
+    state.countryCode = el.countryCodeInput.value;
+  });
+
+  // 同意したら赤枠を外す。エラーを出したまま放置しない
+  el.agreeInput.addEventListener('change', function () {
+    if (el.agreeInput.checked) {
+      el.agreeInput.closest('.agree-row').classList.remove('is-error');
+    }
+  });
+
   // 参加人数を変えたら、施術人数の選択肢を作り直す（参加人数を超えられない）
   el.attendInput.addEventListener('change', function () {
     renderTreatOptions();
@@ -1425,6 +1591,27 @@
     }
   }
 
+  /**
+   * 国番号の選択肢を作る。
+   *
+   * 利用者が自分で選んだあとは、言語を切り替えてもその値を保つ。
+   * まだ選んでいなければ、表示言語に合わせた既定値を入れる
+   * （セレクトの現在値だけで判断すると、こちらが入れた既定値と
+   *   利用者の選択が区別できず、言語を変えても追従しなくなる）。
+   */
+  function renderCountryCodes() {
+    el.countryCodeInput.innerHTML = '';
+    COUNTRY_CODES.forEach(function (c) {
+      var opt = document.createElement('option');
+      opt.value = c.code;
+      opt.textContent = c.labelKey + ' ' + c.code;
+      el.countryCodeInput.appendChild(opt);
+    });
+    el.countryCodeInput.value = state.countryTouched
+      ? state.countryCode
+      : (DEFAULT_COUNTRY_BY_LANG[state.lang] || '+81');
+  }
+
   /** 参加人数（来店する人の合計） */
   function renderPeopleOptions() {
     var max = state.config.maxAttend || state.config.maxPeople || 6;
@@ -1432,6 +1619,7 @@
     // 上限を超える団体はWebで受けないため、問い合わせにも誘導する
     el.attendHint.textContent = t('attendHint').replace('{max}', String(max))
       + ' ' + t('groupHint').replace('{max}', String(max));
+    renderCountryCodes();
     renderTreatOptions();
     renderAttrOptions();
   }
@@ -1757,8 +1945,31 @@
     var email = el.emailInput.value.trim();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showFormError(t('errNeedEmail'));
 
-    var phone = el.phoneInput.value.trim();
-    if (phone.length < 6) return showFormError(t('errNeedPhone'));
+    // 確認欄との一致を見る。大文字小文字はメールでは区別されないことが多いため無視する
+    var emailConfirm = el.emailConfirmInput.value.trim();
+    if (email.toLowerCase() !== emailConfirm.toLowerCase()) {
+      return showFormError(t('errEmailMismatch'));
+    }
+
+    // 番号は国番号を頭に付けて送る。
+    // 利用者が国番号を重ねて入力した場合（例: +81 と +81 90…）を考慮し、
+    // 先頭の + と国番号の重複を取り除く。
+    var phoneLocal = el.phoneInput.value.trim();
+    if (phoneLocal.length < 6) return showFormError(t('errNeedPhone'));
+    var cc = el.countryCodeInput.value || '+81';
+    var digits = phoneLocal.replace(/[^\d]/g, '');
+    var ccDigits = cc.replace(/[^\d]/g, '');
+    if (digits.indexOf(ccDigits) === 0) digits = digits.slice(ccDigits.length);
+    // 国内表記の先頭0（090→90）を落とす。国番号と併記すると重複するため
+    digits = digits.replace(/^0+/, '');
+    if (digits.length < 6) return showFormError(t('errNeedPhone'));
+    var phone = cc + ' ' + digits;
+
+    if (!el.agreeInput.checked) {
+      el.agreeInput.closest('.agree-row').classList.add('is-error');
+      return showFormError(t('errNeedAgree'));
+    }
+    el.agreeInput.closest('.agree-row').classList.remove('is-error');
 
     // 未入力だと parseInt が NaN になり、|| 0 で「0歳」として送られてしまう。
     // 空欄と0歳を区別して弾く。
