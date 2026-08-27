@@ -337,6 +337,15 @@
     background: rgba(192, 57, 43, 0.05);
   }
 
+  /* アクセスへの導線。本文リンクとして目立たせすぎない */
+  .access-link {
+    display: inline-block;
+    color: var(--color-accent-dark);
+    font-weight: 600;
+    text-decoration: underline;
+    padding: 4px 0;
+  }
+
   .honeypot {
     position: absolute;
     left: -9999px;
@@ -432,6 +441,7 @@
   <div class="card" id="introCard">
     <h2 data-i18n="introTitle">About this experience</h2>
     <p data-i18n="introBody">Enjoy wearing a traditional Japanese kimono and take photos by yourself in a room overlooking Osaka Castle. No outdoor movement is required, so it is not affected by weather.</p>
+    <p><a class="access-link" href="./access.html" id="introAccessLink" data-i18n="accessLink">View access and map</a></p>
   </div>
 
   <div class="card" id="loadingCard">
@@ -598,6 +608,17 @@
     <p class="msg error hidden" id="mailFailedMsg" data-i18n="mailFailed">We could not send the confirmation email, but your booking is confirmed. Please contact us by phone if you need confirmation.</p>
   </div>
 
+  <!--
+    アクセス。地図の埋め込みではなくリンクにしている。
+    予約ページは枠の読み込みで既に通信しており、
+    ここに地図を足すと表示が重くなるため。
+  -->
+  <div class="card" id="accessCard">
+    <h2 data-i18n="accessTitle">Access</h2>
+    <p data-i18n="accessSummary"></p>
+    <p><a class="access-link" href="./access.html" id="footerAccessLink" data-i18n="accessLink">View access and map</a></p>
+  </div>
+
   <div class="card hidden" id="loadErrorCard">
     <p class="msg error" data-i18n="loadError">Unable to load booking information. Please contact us by phone.</p>
     <p id="salonPhoneOut"></p>
@@ -661,6 +682,9 @@
       peopleLabel: '人数',
       groupHint: '{max}名を超えるお申し込みは、お電話またはメールにてご相談ください。',
       ageLabel: '代表者の年齢',
+      accessLink: 'アクセス・地図を見る',
+      accessTitle: 'アクセス',
+      accessSummary: 'KKRホテル大阪 4階 美容室（〒540-0007 大阪市中央区馬場町2-24）',
       emailNote: 'ご予約の確定メールをこちらにお送りします。',
       emailConfirmLabel: 'メールアドレス（確認のためもう一度）',
       emailConfirmHint: '入力間違いを防ぐため、もう一度ご入力ください。',
@@ -768,6 +792,9 @@
       peopleLabel: 'Number of guests',
       groupHint: 'For groups of more than {max}, please contact us by phone or email.',
       ageLabel: "Representative's age",
+      accessLink: 'View access and map',
+      accessTitle: 'Access',
+      accessSummary: 'Beauty Salon, 4F, KKR Hotel Osaka (2-24 Babacho, Chuo-ku, Osaka)',
       emailNote: 'We will send your booking confirmation to this address.',
       emailConfirmLabel: 'Email (confirm)',
       emailConfirmHint: 'Please enter it again to avoid typos.',
@@ -875,6 +902,9 @@
       peopleLabel: '人数',
       groupHint: '超过{max}人的团体，请通过电话或邮件与我们联系。',
       ageLabel: '代表人年龄',
+      accessLink: '查看交通指南和地图',
+      accessTitle: '交通指南',
+      accessSummary: 'KKR大阪酒店 4楼 美容室（大阪市中央区马场町2-24）',
       emailNote: '我们会将预约确认邮件发送至此邮箱。',
       emailConfirmLabel: '邮箱（再次输入确认）',
       emailConfirmHint: '为防止输入错误，请再输入一次。',
@@ -982,6 +1012,9 @@
       peopleLabel: '人數',
       groupHint: '超過{max}人的團體，請透過電話或郵件與我們聯絡。',
       ageLabel: '代表人年齡',
+      accessLink: '查看交通指南與地圖',
+      accessTitle: '交通指南',
+      accessSummary: 'KKR大阪飯店 4樓 美容室（大阪市中央區馬場町2-24）',
       emailNote: '我們會將預約確認信寄送至此信箱。',
       emailConfirmLabel: '電子郵件（再次輸入確認）',
       emailConfirmHint: '為防止輸入錯誤，請再輸入一次。',
@@ -1089,6 +1122,9 @@
       peopleLabel: '인원수',
       groupHint: '{max}명을 초과하는 경우 전화 또는 이메일로 문의해 주세요.',
       ageLabel: '대표자 연령',
+      accessLink: '오시는 길・지도 보기',
+      accessTitle: '오시는 길',
+      accessSummary: 'KKR 호텔 오사카 4층 미용실 (오사카시 주오구 바바초 2-24)',
       emailNote: '예약 확정 메일을 이 주소로 보내드립니다.',
       emailConfirmLabel: '이메일 (확인을 위해 한 번 더)',
       emailConfirmHint: '입력 오류를 막기 위해 한 번 더 입력해 주세요.',
@@ -1196,6 +1232,9 @@
       peopleLabel: 'Nombre de personnes',
       groupHint: "Pour les groupes de plus de {max} personnes, merci de nous contacter par téléphone ou e-mail.",
       ageLabel: 'Âge du représentant',
+      accessLink: "Voir l'accès et le plan",
+      accessTitle: 'Accès',
+      accessSummary: 'Salon de beauté, 4e étage, KKR Hotel Osaka (2-24 Babacho, Chuo-ku, Osaka)',
       emailNote: 'Nous enverrons votre confirmation de réservation à cette adresse.',
       emailConfirmLabel: 'E-mail (confirmation)',
       emailConfirmHint: 'Merci de le saisir à nouveau pour éviter toute erreur.',
@@ -1448,6 +1487,18 @@
   });
   fetchAvailability();
 
+  /**
+   * アクセスページへのリンクに、いま選んでいる言語を付ける。
+   * 付けないと端末の言語で開き直され、選んだ言語が失われる。
+   */
+  function updateAccessLinks() {
+    var href = './access.html?lang=' + encodeURIComponent(state.lang);
+    ['introAccessLink', 'footerAccessLink'].forEach(function (id) {
+      var a = document.getElementById(id);
+      if (a) a.href = href;
+    });
+  }
+
   function renderLangSwitch() {
     el.langSwitch.innerHTML = '';
     SUPPORTED_LANGS.forEach(function (lang) {
@@ -1460,6 +1511,8 @@
         document.documentElement.lang = lang;
         renderLangSwitch();
         applyStaticI18n();
+        updateAccessLinks();
+    updateAccessLinks();
         if (state.config) {
           renderMenus();
           renderPeopleOptions();
