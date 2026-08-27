@@ -118,6 +118,34 @@
     font-size: 0.8rem;
     color: var(--color-muted);
   }
+  .menu-features {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0;
+    font-size: 0.8rem;
+    color: var(--color-text);
+    line-height: 1.7;
+  }
+  .menu-features li {
+    padding-left: 1.2em;
+    position: relative;
+  }
+  .menu-features li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent);
+    font-weight: bold;
+  }
+  /* 「〜なし」の項目は控えめに見せ、含まれないことが一目で分かるようにする */
+  .menu-features li.is-absent {
+    color: var(--color-muted);
+  }
+  .menu-features li.is-absent::before {
+    content: '—';
+    color: var(--color-muted);
+    font-weight: normal;
+  }
   .menu-option .lead-note {
     font-size: 0.75rem;
     color: var(--color-accent-dark);
@@ -223,6 +251,48 @@
   }
   .policy-list { padding-left: 1.2em; margin: 6px 0 0; }
   .policy-list li { margin-bottom: 4px; }
+  /* 施術を受ける方の内訳。ラベルとselectを横並びにして縦の圧迫感を減らす */
+  .attr-group {
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 0.9rem 1rem 0.6rem;
+    margin: 0.4rem 0 1rem;
+  }
+  .attr-group legend {
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0 0.4rem;
+  }
+  .attr-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+  .attr-row label {
+    margin: 0;
+    font-weight: 400;
+    font-size: 0.95rem;
+    flex: 1 1 auto;
+  }
+  .attr-row select {
+    flex: 0 0 5.5rem;
+    margin: 0;
+  }
+  /* 合計が一致しないときだけ赤くする。既定は控えめな注記 */
+  .attr-total { margin-top: 0.5rem; }
+  .attr-total.is-error { color: var(--color-error); font-weight: 600; }
+
+  /* 料金が1名分であることを価格の直後に必ず出す。
+     人数分を掛けた総額と誤解されると当日の会計でもめる */
+  .menu-option .per-person {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--color-muted);
+    white-space: nowrap;
+  }
+
   .honeypot {
     position: absolute;
     left: -9999px;
@@ -356,10 +426,44 @@
              placeholder="+1 555 000 0000">
       <p class="field-hint" data-i18n="phoneHint">Please include your country code.</p>
 
-      <label for="peopleInput" data-i18n="peopleLabel">Number of guests</label>
-      <select id="peopleInput" required></select>
+      <!--
+        人数は「来店する人数」と「施術を受ける人数」の2段構え。
+        付き添いだけの方がいるため、1項目だと料金計算と待合席の
+        見積もりが両方ずれる。料金は施術人数のみに掛かる。
+      -->
+      <label for="attendInput" data-i18n="attendLabel">Total visitors</label>
+      <select id="attendInput" required></select>
       <!-- 文言は renderPeopleOptions() が上限値を埋めて差し替える -->
-      <p class="field-hint" id="groupHint"></p>
+      <p class="field-hint" id="attendHint"></p>
+
+      <label for="treatInput" data-i18n="treatLabel">Guests being dressed</label>
+      <select id="treatInput" required></select>
+      <p class="field-hint" data-i18n="treatHint">The price is charged per guest being dressed.</p>
+
+      <!--
+        施術を受ける方の内訳。衣装と担当者の準備に必要なため、
+        人数だけでなく大人女性/大人男性/子ども の別を取る。
+        合計は treatInput と一致していなければ送信できない。
+      -->
+      <fieldset class="attr-group">
+        <legend data-i18n="attrTitle">Breakdown of guests being dressed</legend>
+        <div class="attr-row">
+          <label for="attrAdultFInput" data-i18n="attrAdultF">Adult (female)</label>
+          <select id="attrAdultFInput"></select>
+        </div>
+        <div class="attr-row">
+          <label for="attrAdultMInput" data-i18n="attrAdultM">Adult (male)</label>
+          <select id="attrAdultMInput"></select>
+        </div>
+        <div class="attr-row">
+          <label for="attrChildInput" data-i18n="attrChild">Child</label>
+          <select id="attrChildInput"></select>
+        </div>
+        <p class="field-hint" data-i18n="attrChildNote">Children must be at least 110 cm tall.</p>
+        <p class="field-hint attr-total" id="attrTotalHint"></p>
+      </fieldset>
+
+      <p class="field-hint" data-i18n="waitNote">Companions wait in the seating area by the reception.</p>
 
       <label for="ageInput" data-i18n="ageLabel">Representative's age</label>
       <input type="number" id="ageInput" min="1" max="120" inputmode="numeric" required>
@@ -461,6 +565,13 @@
       introBody: '大阪城が見えるお部屋で、日本の伝統衣装を着用し、ご自身のスマートフォンで自撮り撮影をお楽しみいただけます。屋外への移動がないため、天候に左右されません。',
       loading: '空き状況を読み込んでいます…',
       menuTitle: '1. プランを選択',
+      durationLabel: '約{min}分',
+      featDressLight: '打掛を羽織ります',
+      featDressFull: '本格的なお着付け',
+      featHair: 'ヘアセット付き',
+      featNoHair: 'ヘアセットなし',
+      featMakeup: 'メイク付き',
+      featNoMakeup: 'メイクなし',
       dateTitle: '2. 日時を選択',
       dateLabel: '日付',
       timeLabel: '選択可能な時間',
@@ -477,6 +588,24 @@
       peopleLabel: '人数',
       groupHint: '{max}名を超えるお申し込みは、お電話またはメールにてご相談ください。',
       ageLabel: '代表者の年齢',
+      attendLabel: '参加人数（ご来店される方の合計）',
+      attendHint: '施術を受けない付き添いの方も含めた人数です。上限{max}名。',
+      treatLabel: '施術人数（着付けを受ける方）',
+      treatHint: '料金は施術を受ける方の人数分です。',
+      attrTitle: '施術を受ける方の内訳',
+      attrAdultF: '大人（女性）',
+      attrAdultM: '大人（男性）',
+      attrChild: 'お子様',
+      attrChildNote: 'お子様は身長110cm以上から。料金は大人と同額です。',
+      perPerson: '1名あたり',
+      summaryAttend: '参加人数',
+      summaryTreat: '施術人数',
+      summarySubtotal: '小計',
+      summaryDiscount: '団体割引（10%）',
+      discountNote: '3名以上の施術で10%割引',
+      waitNote: '施術を受けない方は、受付前の待合スペース（椅子5席）でお待ちいただきます。',
+      errAttrSum: '内訳の合計が施術人数と一致していません。',
+      errTreatOverAttend: '施術人数が参加人数を超えています。',
       summaryTitle: '4. 内容確認',
       phoneHint: '国番号からご入力ください。',
       policyTitle: 'ご予約前にお読みください',
@@ -506,6 +635,7 @@
       footerContact: 'お問い合わせ',
       peopleUnit: '名',
       priceUnit: '円（税込）',
+      priceUnitPlain: '円',
       summaryPlan: 'プラン',
       summaryDatetime: '日時',
       summaryPeople: '人数',
@@ -535,6 +665,13 @@
       introBody: 'Enjoy wearing a traditional Japanese kimono and take photos by yourself in a room overlooking Osaka Castle. No outdoor movement is required, so it is not affected by weather.',
       loading: 'Loading availability…',
       menuTitle: '1. Choose your plan',
+      durationLabel: 'approx. {min} min',
+      featDressLight: 'Wear an uchikake robe',
+      featDressFull: 'Full kimono dressing',
+      featHair: 'Hair styling included',
+      featNoHair: 'No hair styling',
+      featMakeup: 'Makeup included',
+      featNoMakeup: 'No makeup',
       dateTitle: '2. Choose date & time',
       dateLabel: 'Date',
       timeLabel: 'Available times',
@@ -551,6 +688,24 @@
       peopleLabel: 'Number of guests',
       groupHint: 'For groups of more than {max}, please contact us by phone or email.',
       ageLabel: "Representative's age",
+      attendLabel: 'Total visitors',
+      attendHint: 'Everyone coming, including companions who will not be dressed. Max {max}.',
+      treatLabel: 'Guests being dressed',
+      treatHint: 'The price is charged per guest being dressed.',
+      attrTitle: 'Breakdown of guests being dressed',
+      attrAdultF: 'Adult (female)',
+      attrAdultM: 'Adult (male)',
+      attrChild: 'Child',
+      attrChildNote: 'Children must be at least 110 cm tall. Same price as adults.',
+      perPerson: 'per person',
+      summaryAttend: 'Total visitors',
+      summaryTreat: 'Guests dressed',
+      summarySubtotal: 'Subtotal',
+      summaryDiscount: 'Group discount (10%)',
+      discountNote: '10% off for 3 or more guests dressed',
+      waitNote: 'Companions wait in the seating area by the reception (5 seats).',
+      errAttrSum: 'The breakdown does not add up to the number of guests being dressed.',
+      errTreatOverAttend: 'Guests being dressed cannot exceed total visitors.',
       summaryTitle: '4. Confirm',
       phoneHint: 'Please include your country code.',
       policyTitle: 'Before you book',
@@ -580,6 +735,7 @@
       footerContact: 'Contact',
       peopleUnit: '',
       priceUnit: ' JPY (tax included)',
+      priceUnitPlain: ' JPY',
       summaryPlan: 'Plan',
       summaryDatetime: 'Date & time',
       summaryPeople: 'Guests',
@@ -609,6 +765,13 @@
       introBody: '在可以眺望大阪城的房间内穿着日本传统和服，并用您自己的手机自拍留念。无需前往室外，不受天气影响。',
       loading: '正在加载空余时段…',
       menuTitle: '1. 选择套餐',
+      durationLabel: '约{min}分钟',
+      featDressLight: '披上打褂',
+      featDressFull: '正式和服着装',
+      featHair: '含发型设计',
+      featNoHair: '不含发型设计',
+      featMakeup: '含化妆',
+      featNoMakeup: '不含化妆',
       dateTitle: '2. 选择日期和时间',
       dateLabel: '日期',
       timeLabel: '可选时间',
@@ -625,6 +788,24 @@
       peopleLabel: '人数',
       groupHint: '超过{max}人的团体，请通过电话或邮件与我们联系。',
       ageLabel: '代表人年龄',
+      attendLabel: '到店总人数',
+      attendHint: '包含不接受服务的陪同人员。上限{max}人。',
+      treatLabel: '接受着装服务的人数',
+      treatHint: '费用按接受服务的人数计算。',
+      attrTitle: '接受服务人员构成',
+      attrAdultF: '成人（女性）',
+      attrAdultM: '成人（男性）',
+      attrChild: '儿童',
+      attrChildNote: '儿童身高需110cm以上。费用与成人相同。',
+      perPerson: '每位',
+      summaryAttend: '到店人数',
+      summaryTreat: '服务人数',
+      summarySubtotal: '小计',
+      summaryDiscount: '团体折扣（10%）',
+      discountNote: '3人以上接受服务可享10%折扣',
+      waitNote: '不接受服务的陪同人员请在前台前的等候区（5个座位）稍候。',
+      errAttrSum: '构成人数总和与服务人数不一致。',
+      errTreatOverAttend: '服务人数不能超过到店人数。',
       summaryTitle: '4. 确认信息',
       phoneHint: '请填写含国家代码的号码。',
       policyTitle: '预约前请阅读',
@@ -654,6 +835,7 @@
       footerContact: '咨询方式',
       peopleUnit: '人',
       priceUnit: '日元（含税）',
+      priceUnitPlain: '日元',
       summaryPlan: '套餐',
       summaryDatetime: '日期时间',
       summaryPeople: '人数',
@@ -683,6 +865,13 @@
       introBody: '在可以眺望大阪城的房間內穿著日本傳統和服，並用您自己的手機自拍留念。無需前往室外，不受天氣影響。',
       loading: '正在載入空餘時段…',
       menuTitle: '1. 選擇方案',
+      durationLabel: '約{min}分鐘',
+      featDressLight: '披上打褂',
+      featDressFull: '正式和服著裝',
+      featHair: '含髮型設計',
+      featNoHair: '不含髮型設計',
+      featMakeup: '含化妝',
+      featNoMakeup: '不含化妝',
       dateTitle: '2. 選擇日期與時間',
       dateLabel: '日期',
       timeLabel: '可選時間',
@@ -699,6 +888,24 @@
       peopleLabel: '人數',
       groupHint: '超過{max}人的團體，請透過電話或郵件與我們聯絡。',
       ageLabel: '代表人年齡',
+      attendLabel: '到店總人數',
+      attendHint: '包含不接受服務的陪同人員。上限{max}人。',
+      treatLabel: '接受著裝服務的人數',
+      treatHint: '費用依接受服務的人數計算。',
+      attrTitle: '接受服務人員組成',
+      attrAdultF: '成人（女性）',
+      attrAdultM: '成人（男性）',
+      attrChild: '兒童',
+      attrChildNote: '兒童身高需110cm以上。費用與成人相同。',
+      perPerson: '每位',
+      summaryAttend: '到店人數',
+      summaryTreat: '服務人數',
+      summarySubtotal: '小計',
+      summaryDiscount: '團體折扣（10%）',
+      discountNote: '3人以上接受服務可享10%折扣',
+      waitNote: '不接受服務的陪同人員請於櫃檯前的等候區（5個座位）稍候。',
+      errAttrSum: '組成人數總和與服務人數不一致。',
+      errTreatOverAttend: '服務人數不可超過到店人數。',
       summaryTitle: '4. 確認資訊',
       phoneHint: '請填寫含國碼的號碼。',
       policyTitle: '預約前請閱讀',
@@ -728,6 +935,7 @@
       footerContact: '聯絡方式',
       peopleUnit: '人',
       priceUnit: '日圓（含稅）',
+      priceUnitPlain: '日圓',
       summaryPlan: '方案',
       summaryDatetime: '日期時間',
       summaryPeople: '人數',
@@ -757,6 +965,13 @@
       introBody: '오사카성이 보이는 객실에서 일본 전통 기모노를 입고 본인의 스마트폰으로 셀프 촬영을 즐기실 수 있습니다. 실외 이동이 없어 날씨의 영향을 받지 않습니다.',
       loading: '예약 가능 시간을 불러오는 중…',
       menuTitle: '1. 플랜 선택',
+      durationLabel: '약 {min}분',
+      featDressLight: '우치카케를 걸칩니다',
+      featDressFull: '정통 기모노 착장',
+      featHair: '헤어 스타일링 포함',
+      featNoHair: '헤어 스타일링 없음',
+      featMakeup: '메이크업 포함',
+      featNoMakeup: '메이크업 없음',
       dateTitle: '2. 날짜 및 시간 선택',
       dateLabel: '날짜',
       timeLabel: '선택 가능 시간',
@@ -773,6 +988,24 @@
       peopleLabel: '인원수',
       groupHint: '{max}명을 초과하는 경우 전화 또는 이메일로 문의해 주세요.',
       ageLabel: '대표자 연령',
+      attendLabel: '방문 총 인원',
+      attendHint: '시술을 받지 않는 동행자도 포함한 인원입니다. 최대 {max}명.',
+      treatLabel: '착장을 받는 인원',
+      treatHint: '요금은 착장을 받는 인원 수만큼 부과됩니다.',
+      attrTitle: '착장을 받는 분의 구성',
+      attrAdultF: '성인 (여성)',
+      attrAdultM: '성인 (남성)',
+      attrChild: '어린이',
+      attrChildNote: '어린이는 신장 110cm 이상부터 가능합니다. 요금은 성인과 동일합니다.',
+      perPerson: '1인당',
+      summaryAttend: '방문 인원',
+      summaryTreat: '착장 인원',
+      summarySubtotal: '소계',
+      summaryDiscount: '단체 할인 (10%)',
+      discountNote: '3명 이상 착장 시 10% 할인',
+      waitNote: '착장을 받지 않는 분은 접수 앞 대기 공간(의자 5석)에서 기다려 주세요.',
+      errAttrSum: '구성 인원의 합계가 착장 인원과 일치하지 않습니다.',
+      errTreatOverAttend: '착장 인원이 방문 인원을 초과할 수 없습니다.',
       summaryTitle: '4. 예약 내용 확인',
       phoneHint: '국가번호를 포함해 입력해 주세요.',
       policyTitle: '예약 전 확인해 주세요',
@@ -802,6 +1035,7 @@
       footerContact: '문의처',
       peopleUnit: '명',
       priceUnit: '엔 (세금 포함)',
+      priceUnitPlain: '엔',
       summaryPlan: '플랜',
       summaryDatetime: '일시',
       summaryPeople: '인원',
@@ -831,6 +1065,13 @@
       introBody: "Portez un kimono traditionnel japonais et prenez vos propres photos dans une salle avec vue sur le château d'Osaka. Aucun déplacement extérieur n'est nécessaire, donc aucune contrainte météo.",
       loading: 'Chargement des disponibilités…',
       menuTitle: '1. Choisissez votre formule',
+      durationLabel: 'environ {min} min',
+      featDressLight: "Port d'un uchikake",
+      featDressFull: 'Habillage complet',
+      featHair: 'Coiffure incluse',
+      featNoHair: 'Sans coiffure',
+      featMakeup: 'Maquillage inclus',
+      featNoMakeup: 'Sans maquillage',
       dateTitle: '2. Choisissez la date et l\'heure',
       dateLabel: 'Date',
       timeLabel: 'Horaires disponibles',
@@ -847,6 +1088,24 @@
       peopleLabel: 'Nombre de personnes',
       groupHint: "Pour les groupes de plus de {max} personnes, merci de nous contacter par téléphone ou e-mail.",
       ageLabel: 'Âge du représentant',
+      attendLabel: 'Nombre total de visiteurs',
+      attendHint: 'Toutes les personnes présentes, y compris les accompagnants non habillés. Maximum {max}.',
+      treatLabel: 'Personnes habillées',
+      treatHint: "Le tarif s'applique par personne habillee.",
+      attrTitle: 'Répartition des personnes habillées',
+      attrAdultF: 'Adulte (femme)',
+      attrAdultM: 'Adulte (homme)',
+      attrChild: 'Enfant',
+      attrChildNote: 'Les enfants doivent mesurer au moins 110 cm. Même tarif que les adultes.',
+      perPerson: 'par personne',
+      summaryAttend: 'Visiteurs',
+      summaryTreat: 'Personnes habillées',
+      summarySubtotal: 'Sous-total',
+      summaryDiscount: 'Remise groupe (10%)',
+      discountNote: '10% de remise à partir de 3 personnes habillées',
+      waitNote: "Les accompagnants patientent dans l'espace d'attente près de la réception (5 places).",
+      errAttrSum: 'La répartition ne correspond pas au nombre de personnes habillées.',
+      errTreatOverAttend: 'Le nombre de personnes habillées ne peut pas dépasser le nombre de visiteurs.',
       summaryTitle: '4. Confirmation',
       phoneHint: "Merci d'indiquer votre indicatif pays.",
       policyTitle: 'À lire avant de réserver',
@@ -876,6 +1135,7 @@
       footerContact: 'Contact',
       peopleUnit: '',
       priceUnit: ' JPY (taxes comprises)',
+      priceUnitPlain: ' JPY',
       summaryPlan: 'Formule',
       summaryDatetime: 'Date et heure',
       summaryPeople: 'Personnes',
@@ -905,6 +1165,27 @@
     honkaku: { ja: '和装本格着付け', en: 'Full Kimono Dressing', 'zh-CN': '正式和服着装', 'zh-TW': '正式和服著裝', ko: '정통 기모노 착장', fr: 'Habillage Kimono Complet' },
   };
 
+  /**
+   * プランごとの含まれる内容。翻訳キーの配列。
+   *
+   * 2つのプランの差は27,500円あるが、それが何の差なのかは
+   * 価格と時間だけでは伝わらない。実際の違いは
+   * 「羽織るだけ / しっかり着る」「ヘアセット・メイクの有無」なので、
+   * それを選択画面に出す。
+   */
+  /**
+   * 団体割引（家族割）。
+   * 2026-08-27 の打ち合わせで決定：施術3名以上で合計から10%引き。
+   * 端数は切り捨て。
+   */
+  var GROUP_DISCOUNT_MIN = 3;
+  var GROUP_DISCOUNT_RATE = 0.1;
+
+  var MENU_FEATURES = {
+    taiken: ['featDressLight', 'featNoHair', 'featNoMakeup'],
+    honkaku: ['featDressFull', 'featHair', 'featMakeup'],
+  };
+
   // ==========================================================
   // 状態
   // ==========================================================
@@ -915,6 +1196,8 @@
     menus: null,
     booked: [],
     holidays: [], // 'yyyy-MM-dd' の配列
+    // 内訳を一度でも触ったか。触るまでは施術人数に追従して自動で埋める
+    attrTouched: false,
     selectedMenu: null,
     selectedDate: null,
     selectedSlot: null, // { start: Date, end: Date }
@@ -950,8 +1233,13 @@
     nameInput: document.getElementById('nameInput'),
     emailInput: document.getElementById('emailInput'),
     phoneInput: document.getElementById('phoneInput'),
-    peopleInput: document.getElementById('peopleInput'),
-    groupHint: document.getElementById('groupHint'),
+    attendInput: document.getElementById('attendInput'),
+    treatInput: document.getElementById('treatInput'),
+    attrAdultFInput: document.getElementById('attrAdultFInput'),
+    attrAdultMInput: document.getElementById('attrAdultMInput'),
+    attrChildInput: document.getElementById('attrChildInput'),
+    attrTotalHint: document.getElementById('attrTotalHint'),
+    attendHint: document.getElementById('attendHint'),
     ageInput: document.getElementById('ageInput'),
     websiteInput: document.getElementById('websiteInput'),
     summaryBody: document.getElementById('summaryBody'),
@@ -975,7 +1263,23 @@
   // 人数の変更で合計金額が変わる。リスナーはここで一度だけ登録する
   // （renderPeopleOptions は言語切替のたびに呼ばれるため、
   //   そちらで登録すると重複してしまう）
-  el.peopleInput.addEventListener('change', renderSummary);
+  // 参加人数を変えたら、施術人数の選択肢を作り直す（参加人数を超えられない）
+  el.attendInput.addEventListener('change', function () {
+    renderTreatOptions();
+    renderAttrOptions();
+    renderSummary();
+  });
+  el.treatInput.addEventListener('change', function () {
+    renderAttrOptions();
+    renderSummary();
+  });
+  [el.attrAdultFInput, el.attrAdultMInput, el.attrChildInput].forEach(function (sel) {
+    sel.addEventListener('change', function () {
+      state.attrTouched = true;
+      updateAttrTotalHint();
+      renderSummary();
+    });
+  });
   fetchAvailability();
 
   function renderLangSwitch() {
@@ -1068,10 +1372,25 @@
         ? t('sameDayOk')
         : t('leadDays').replace('{days}', String(minDays));
 
+      // お客様に見せるのは実際の所要時間（支度＋撮影）。
+      // occupancyMinutes はバッファ込みの「枠を押さえる時間」で、店側の都合。
+      var serviceMinutes = menu.prepMinutes + menu.shootMinutes;
+
+      // 2つのプランの違いはヘアセット・メイクの有無。
+      // ここを書かないと価格差の理由が伝わらない。
+      var features = MENU_FEATURES[menuId] || [];
+      var featureHtml = features.map(function (key) {
+        // featNo... は「含まれない」項目。灰色＋「—」で見せ分ける
+        var absent = key.indexOf('featNo') === 0;
+        return '<li' + (absent ? ' class="is-absent"' : '') + '>' + t(key) + '</li>';
+      }).join('');
+
       box.innerHTML =
         '<div class="name">' + (MENU_NAMES[menuId] ? MENU_NAMES[menuId][state.lang] || MENU_NAMES[menuId].en : menuId) + '</div>' +
-        '<div class="price">' + menu.priceInclTax.toLocaleString() + t('priceUnit') + '</div>' +
-        '<div class="duration">' + menu.occupancyMinutes + ' min</div>' +
+        '<div class="price">' + menu.priceInclTax.toLocaleString() + t('priceUnit')
+          + ' <small class="per-person">' + t('perPerson') + '</small></div>' +
+        '<div class="duration">' + t('durationLabel').replace('{min}', String(serviceMinutes)) + '</div>' +
+        '<ul class="menu-features">' + featureHtml + '</ul>' +
         '<div class="lead-note">' + leadNote + '</div>';
       box.addEventListener('click', function () {
         state.selectedMenu = menuId;
@@ -1086,20 +1405,88 @@
     });
   }
 
-  function renderPeopleOptions() {
-    var max = state.config.maxPeople || 4;
-    var current = el.peopleInput.value;
-    el.peopleInput.innerHTML = '';
-    for (var i = 1; i <= max; i++) {
+  /**
+   * 選択肢を min〜max で詰め直す。
+   * 選択中の値が新しい範囲の外に出ていたら丸める
+   * （参加人数を減らしたときに施術人数が取り残されるのを防ぐ）。
+   */
+  function fillCountOptions(sel, max, min) {
+    var floor = (typeof min === 'number') ? min : 1;
+    var current = parseInt(sel.value, 10);
+    sel.innerHTML = '';
+    for (var i = floor; i <= max; i++) {
       var opt = document.createElement('option');
       opt.value = String(i);
       opt.textContent = i + t('peopleUnit');
-      el.peopleInput.appendChild(opt);
+      sel.appendChild(opt);
     }
-    if (current) el.peopleInput.value = current;
+    if (!isNaN(current)) {
+      sel.value = String(Math.min(Math.max(current, floor), max));
+    }
+  }
 
-    // 上限を超える人数はWebで受け付けないため、問い合わせに誘導する
-    el.groupHint.textContent = t('groupHint').replace('{max}', String(max));
+  /** 参加人数（来店する人の合計） */
+  function renderPeopleOptions() {
+    var max = state.config.maxAttend || state.config.maxPeople || 6;
+    fillCountOptions(el.attendInput, max);
+    // 上限を超える団体はWebで受けないため、問い合わせにも誘導する
+    el.attendHint.textContent = t('attendHint').replace('{max}', String(max))
+      + ' ' + t('groupHint').replace('{max}', String(max));
+    renderTreatOptions();
+    renderAttrOptions();
+  }
+
+  /**
+   * 施術人数。参加人数を超えられない。
+   * 上限は「参加人数」と「サロンが受けられる人数」の小さいほう。
+   */
+  function renderTreatOptions() {
+    var attend = parseInt(el.attendInput.value, 10) || 1;
+    var maxTreat = Math.min(attend, state.config.maxPeople || 5);
+    fillCountOptions(el.treatInput, maxTreat);
+  }
+
+  /** 内訳（大人女性／大人男性／子ども）。合計が施術人数と一致する必要がある */
+  function renderAttrOptions() {
+    var treat = parseInt(el.treatInput.value, 10) || 1;
+    [el.attrAdultFInput, el.attrAdultMInput, el.attrChildInput].forEach(function (sel) {
+      fillCountOptions(sel, treat, 0);
+    });
+    // 内訳を触るまでは「大人女性が全員」で埋めておく。
+    // 最も多いケースに寄せて、入力の手間を減らす。
+    if (!state.attrTouched) {
+      el.attrAdultFInput.value = String(treat);
+      el.attrAdultMInput.value = '0';
+      el.attrChildInput.value = '0';
+    }
+    updateAttrTotalHint();
+  }
+
+  /** 内訳の合計を表示する。一致しないうちは赤くして送信前に気づかせる */
+  function updateAttrTotalHint() {
+    var treat = parseInt(el.treatInput.value, 10) || 0;
+    var sum = getAttrSum();
+    el.attrTotalHint.textContent = t('summaryTreat') + ': ' + sum + ' / ' + treat + t('peopleUnit');
+    el.attrTotalHint.classList.toggle('is-error', sum !== treat);
+  }
+
+  function getAttrSum() {
+    return (parseInt(el.attrAdultFInput.value, 10) || 0)
+      + (parseInt(el.attrAdultMInput.value, 10) || 0)
+      + (parseInt(el.attrChildInput.value, 10) || 0);
+  }
+
+  /**
+   * 料金を計算する。
+   * 対象は施術を受ける人数のみ。付き添いは無料。
+   * 3名以上の施術で10%割引（端数は切り捨て）。
+   */
+  function calcPrice(menu, treatCount) {
+    var subtotal = menu.priceInclTax * treatCount;
+    var discount = treatCount >= GROUP_DISCOUNT_MIN
+      ? Math.floor(subtotal * GROUP_DISCOUNT_RATE)
+      : 0;
+    return { subtotal: subtotal, discount: discount, total: subtotal - discount };
   }
 
   // ==========================================================
@@ -1323,16 +1710,34 @@
     }
     var menu = state.menus[state.selectedMenu];
     var menuName = MENU_NAMES[state.selectedMenu] ? (MENU_NAMES[state.selectedMenu][state.lang] || MENU_NAMES[state.selectedMenu].en) : state.selectedMenu;
-    var people = el.peopleInput.value || '1';
+    var attend = parseInt(el.attendInput.value, 10) || 1;
+    var treat = parseInt(el.treatInput.value, 10) || 1;
+    var price = calcPrice(menu, treat);
     var slot = state.selectedSlot;
     // 日本時間であることを明示する。海外のお客様が現地時間と誤解するのを防ぐ。
     var dateStr = slot.dateStr + ' ' + slot.label + ' <small>(JST)</small>';
 
+    // 割引が乗るときだけ小計と割引額を出す。
+    // 割引なしのときに0円の行を並べても読み手の負担が増えるだけ。
+    var priceRows = '';
+    if (price.discount > 0) {
+      // 「税込」は最後の合計行だけに付ける。
+      // 小計・割引にも付けると同じ語が3回並んで読みにくい。
+      priceRows =
+        '<div class="summary-row"><span>' + t('summarySubtotal') + '</span><span>'
+          + price.subtotal.toLocaleString() + t('priceUnitPlain') + '</span></div>' +
+        '<div class="summary-row"><span>' + t('summaryDiscount') + '</span><span>-'
+          + price.discount.toLocaleString() + t('priceUnitPlain') + '</span></div>';
+    }
+
     el.summaryBody.innerHTML =
       '<div class="summary-row"><span>' + t('summaryPlan') + '</span><span>' + menuName + '</span></div>' +
       '<div class="summary-row"><span>' + t('summaryDatetime') + '</span><span>' + dateStr + '</span></div>' +
-      '<div class="summary-row"><span>' + t('summaryPeople') + '</span><span>' + people + t('peopleUnit') + '</span></div>' +
-      '<div class="summary-row total"><span>' + t('summaryPrice') + '</span><span>' + (menu.priceInclTax * parseInt(people, 10)).toLocaleString() + t('priceUnit') + '</span></div>';
+      '<div class="summary-row"><span>' + t('summaryAttend') + '</span><span>' + attend + t('peopleUnit') + '</span></div>' +
+      '<div class="summary-row"><span>' + t('summaryTreat') + '</span><span>' + treat + t('peopleUnit') + '</span></div>' +
+      priceRows +
+      '<div class="summary-row total"><span>' + t('summaryPrice') + '</span><span>'
+        + price.total.toLocaleString() + t('priceUnit') + '</span></div>';
   }
 
   // ==========================================================
@@ -1363,11 +1768,28 @@
       return showFormError(t('errNeedAge'));
     }
 
+    var attend = parseInt(el.attendInput.value, 10);
+    var treat = parseInt(el.treatInput.value, 10);
+    if (isNaN(attend) || isNaN(treat) || treat < 1) return showFormError(t('err_INVALID_PEOPLE'));
+    if (treat > attend) return showFormError(t('errTreatOverAttend'));
+    if (getAttrSum() !== treat) return showFormError(t('errAttrSum'));
+
+    var selectedMenu = state.menus[state.selectedMenu];
+    var price = calcPrice(selectedMenu, treat);
+
     var payload = {
       name: name,
       email: email,
       phone: phone,
-      people: parseInt(el.peopleInput.value, 10),
+      // people は施術人数（料金の対象）。サーバー側の既存の検証と互換を保つ
+      people: treat,
+      attendCount: attend,
+      treatCount: treat,
+      attrAdultF: parseInt(el.attrAdultFInput.value, 10) || 0,
+      attrAdultM: parseInt(el.attrAdultMInput.value, 10) || 0,
+      attrChild: parseInt(el.attrChildInput.value, 10) || 0,
+      discount: price.discount,
+      totalPrice: price.total,
       age: age,
       menu: state.selectedMenu,
       datetime: toJstIso(state.selectedSlot),
