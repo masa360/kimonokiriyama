@@ -736,6 +736,7 @@
       mailFailed: '確認メールをお送りできませんでしたが、ご予約は成立しています。ご確認が必要な場合はお電話にてご連絡ください。',
       loadError: '予約情報の読み込みに失敗しました。お電話にてお問い合わせください。',
       footerContact: 'お問い合わせ',
+      phoneLabelFront: 'KKRホテルフロント',
       peopleUnit: '名',
       priceUnit: '円（税込）',
       priceUnitPlain: '円',
@@ -845,6 +846,7 @@
       mailFailed: 'We could not send the confirmation email, but your booking is confirmed. Please contact us by phone if you need confirmation.',
       loadError: 'Unable to load booking information. Please contact us by phone.',
       footerContact: 'Contact',
+      phoneLabelFront: 'KKR Hotel front desk',
       peopleUnit: '',
       priceUnit: ' JPY (tax included)',
       priceUnitPlain: ' JPY',
@@ -954,6 +956,7 @@
       mailFailed: '确认邮件发送失败，但您的预约已成立。如需确认请电话联系我们。',
       loadError: '无法加载预约信息，请电话联系我们。',
       footerContact: '咨询方式',
+      phoneLabelFront: 'KKR大阪酒店前台',
       peopleUnit: '人',
       priceUnit: '日元（含税）',
       priceUnitPlain: '日元',
@@ -1063,6 +1066,7 @@
       mailFailed: '確認郵件寄送失敗，但您的預約已成立。如需確認請電話聯絡我們。',
       loadError: '無法載入預約資訊，請電話聯絡我們。',
       footerContact: '聯絡方式',
+      phoneLabelFront: 'KKR大阪飯店櫃檯',
       peopleUnit: '人',
       priceUnit: '日圓（含稅）',
       priceUnitPlain: '日圓',
@@ -1172,6 +1176,7 @@
       mailFailed: '확인 메일을 보내지 못했지만 예약은 완료되었습니다. 확인이 필요하시면 전화로 문의해 주세요.',
       loadError: '예약 정보를 불러오지 못했습니다. 전화로 문의해 주세요.',
       footerContact: '문의처',
+      phoneLabelFront: 'KKR 호텔 프런트',
       peopleUnit: '명',
       priceUnit: '엔 (세금 포함)',
       priceUnitPlain: '엔',
@@ -1281,6 +1286,7 @@
       mailFailed: "Nous n'avons pas pu envoyer l'e-mail de confirmation, mais votre réservation est bien enregistrée. Merci de nous contacter par téléphone si besoin.",
       loadError: 'Impossible de charger les disponibilités. Merci de nous contacter par téléphone.',
       footerContact: 'Contact',
+      phoneLabelFront: 'Réception du KKR Hotel',
       peopleUnit: '',
       priceUnit: ' JPY (taxes comprises)',
       priceUnitPlain: ' JPY',
@@ -1495,6 +1501,21 @@
     });
   }
 
+  /**
+   * 電話番号を表示する。
+   *
+   * この番号はホテルのフロントで、美容室の直通ではない。
+   * どこにつながるのか分からないと、かけた側も受けた側も戸惑うため
+   * 名称を添える。言語を切り替えたら呼び直す必要がある。
+   */
+  function renderPhone() {
+    if (!state.config) return;
+    var phone = state.config.salonPhone;
+    el.footerPhone.textContent = phone
+      ? phone + '（' + t('phoneLabelFront') + '）'
+      : '';
+  }
+
   function renderLangSwitch() {
     el.langSwitch.innerHTML = '';
     SUPPORTED_LANGS.forEach(function (lang) {
@@ -1508,12 +1529,12 @@
         renderLangSwitch();
         applyStaticI18n();
         updateAccessLinks();
-    updateAccessLinks();
         if (state.config) {
           renderMenus();
           renderPeopleOptions();
           renderSlotsForDate();
           renderSummary();
+          renderPhone();
         }
       });
       el.langSwitch.appendChild(btn);
@@ -1556,7 +1577,7 @@
   function onDataLoaded() {
     el.loadingCard.classList.add('hidden');
     el.bookingForm.classList.remove('hidden');
-    el.footerPhone.textContent = state.config.salonPhone || '';
+    renderPhone();
 
     renderMenus();
     renderPeopleOptions();
@@ -1568,7 +1589,8 @@
     el.loadingCard.classList.add('hidden');
     el.loadErrorCard.classList.remove('hidden');
     if (state.config && state.config.salonPhone) {
-      el.salonPhoneOut.textContent = state.config.salonPhone;
+      el.salonPhoneOut.textContent = state.config.salonPhone
+        + '（' + t('phoneLabelFront') + '）';
     }
   }
 

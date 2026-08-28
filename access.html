@@ -552,6 +552,7 @@
       onArrival: 'エレベーターで4階までお上がりください。4階の美容室が会場です。フロントにお立ち寄りいただく必要はありません。',
       arriveEarly: '開始時刻の10分前までにお越しください。',
       contactTitle: 'お問い合わせ',
+      phoneLabelFront: 'KKRホテルフロント',
       backToBooking: '予約ページへ戻る'
     },
     en: {
@@ -580,6 +581,7 @@
       onArrival: 'Take the elevator directly to the 4th floor. The salon is on that floor — you do not need to stop at the front desk.',
       arriveEarly: 'Please arrive 10 minutes before your start time.',
       contactTitle: 'Contact',
+      phoneLabelFront: 'KKR Hotel front desk',
       backToBooking: 'Back to booking page'
     },
     'zh-CN': {
@@ -608,6 +610,7 @@
       onArrival: '请乘电梯直接前往4楼。沙龙就在4楼，无需到前台办理。',
       arriveEarly: '请在开始时间前10分钟到达。',
       contactTitle: '咨询方式',
+      phoneLabelFront: 'KKR大阪酒店前台',
       backToBooking: '返回预约页面'
     },
     'zh-TW': {
@@ -636,6 +639,7 @@
       onArrival: '請搭電梯直接前往4樓。沙龍就在4樓，無需前往櫃檯。',
       arriveEarly: '請於開始時間前10分鐘抵達。',
       contactTitle: '聯絡方式',
+      phoneLabelFront: 'KKR大阪飯店櫃檯',
       backToBooking: '返回預約頁面'
     },
     ko: {
@@ -664,6 +668,7 @@
       onArrival: '엘리베이터로 4층까지 올라와 주세요. 살롱은 4층에 있으며, 프런트에 들르실 필요는 없습니다.',
       arriveEarly: '시작 시간 10분 전까지 와 주세요.',
       contactTitle: '문의',
+      phoneLabelFront: 'KKR 호텔 프런트',
       backToBooking: '예약 페이지로 돌아가기'
     },
     fr: {
@@ -692,6 +697,7 @@
       onArrival: "Prenez l'ascenseur jusqu'au 4e étage. Le salon s'y trouve — inutile de passer par la réception.",
       arriveEarly: 'Merci de vous présenter 10 minutes avant l\'heure de début.',
       contactTitle: 'Contact',
+      phoneLabelFront: 'Réception du KKR Hotel',
       backToBooking: 'Retour à la page de réservation'
     }
   };
@@ -730,8 +736,10 @@
     for (var i = 0; i < nodes.length; i++) {
       nodes[i].textContent = t(nodes[i].getAttribute('data-i18n'));
     }
-    document.getElementById('phoneOut').textContent = SALON_PHONE;
-    document.getElementById('footerPhone').textContent = SALON_PHONE;
+    // ホテルのフロントにつながる番号なので、その旨を添える
+    var phoneText = SALON_PHONE + '（' + t('phoneLabelFront') + '）';
+    document.getElementById('phoneOut').textContent = phoneText;
+    document.getElementById('footerPhone').textContent = phoneText;
   }
 
   function renderLangSwitch() {
