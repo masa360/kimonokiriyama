@@ -370,6 +370,49 @@
     background: rgba(255, 255, 255, 0.85);
   }
 
+  /* 打掛ギャラリーのボタン。サービス説明の下に出る */
+  .gallery-btn {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 10px 16px;
+    border: 1px solid var(--color-accent);
+    border-radius: 6px;
+    background: #fff;
+    color: var(--color-accent-dark);
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .gallery-btn::before {
+    content: '👘';
+    margin-right: 7px;
+  }
+
+  /* 送り操作。1枚しかないときは隠す */
+  .viewer-nav {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 14px;
+  }
+  .viewer-nav.hidden { display: none; }
+  .viewer-nav button {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border: 0;
+    border-radius: 6px;
+    width: 48px;
+    height: 44px;
+    font-size: 1.3rem;
+    cursor: pointer;
+  }
+  .viewer-count {
+    color: #ddd;
+    font-size: 0.85rem;
+    min-width: 3.5rem;
+    text-align: center;
+  }
+
   /* 拡大表示。ページを移動せず、その場で全画面に出す */
   .photo-viewer {
     position: fixed;
@@ -504,7 +547,8 @@
   <div class="card" id="introCard">
     <h2 data-i18n="introTitle">About this experience</h2>
     <p data-i18n="introBody">Wear a traditional Japanese kimono and take your own photos in an indoor space overlooking Osaka Castle. Everything happens inside the hotel, so the weather never gets in the way.</p>
-    <p><a class="access-link" href="./access.html" id="introAccessLink" data-i18n="accessLink">View access and map</a></p>
+    <!-- 打掛ギャラリー。画像が1枚も無ければ JS が丸ごと消す -->
+    <div id="gallerySlot"></div>
   </div>
 
   <div class="card" id="loadingCard">
@@ -693,7 +737,12 @@
 <div class="photo-viewer hidden" id="photoViewer" role="dialog" aria-modal="true">
   <button type="button" class="viewer-close" id="photoClose" data-i18n="photoClose">Close</button>
   <img id="photoViewerImg" alt="">
-  <p class="viewer-note" data-i18n="photoNote"></p>
+  <div class="viewer-nav hidden" id="photoNav">
+    <button type="button" id="photoPrev" aria-label="Previous">‹</button>
+    <span class="viewer-count" id="photoCount"></span>
+    <button type="button" id="photoNext" aria-label="Next">›</button>
+  </div>
+  <p class="viewer-note" id="viewerNote"></p>
 </div>
 
 <footer>
@@ -753,6 +802,9 @@
       ageLabel: '代表者の年齢',
       photoAlt: '{plan} の衣装イメージ',
       photoBtn: 'こんな写真が撮れます',
+      galleryBtn: 'お衣装（打掛）を見る',
+      galleryNote: '当日、この中からお選びいただけます。写真は一例で、在庫により異なる場合があります。打掛は女性の大人用です。',
+      galleryAlt: 'お衣装の例 {n}枚目',
       photoClose: '閉じる',
       photoNote: '衣装は一例です。当日の在庫により異なる場合があります。',
       accessLink: 'アクセス・地図を見る',
@@ -867,6 +919,9 @@
       ageLabel: "Representative's age",
       photoAlt: 'Sample of the {plan} kimono',
       photoBtn: 'See what your photos could look like',
+      galleryBtn: 'See the kimono robes',
+      galleryNote: 'You choose on the day from what is available. Photos are examples and stock may vary. These uchikake robes are for adult women.',
+      galleryAlt: 'Kimono robe example {n}',
       photoClose: 'Close',
       photoNote: 'Photos are examples. Available kimonos may vary on the day.',
       accessLink: 'View access and map',
@@ -981,6 +1036,9 @@
       ageLabel: '代表人年龄',
       photoAlt: '{plan} 的和服示例',
       photoBtn: '看看能拍出怎样的照片',
+      galleryBtn: '查看和服（打褂）',
+      galleryNote: '当天可从中挑选。照片仅为示例，实际库存可能不同。打褂为成人女性用。',
+      galleryAlt: '和服示例 第{n}张',
       photoClose: '关闭',
       photoNote: '照片仅为示例，当天可选和服可能有所不同。',
       accessLink: '查看交通指南和地图',
@@ -1095,6 +1153,9 @@
       ageLabel: '代表人年齡',
       photoAlt: '{plan} 的和服範例',
       photoBtn: '看看能拍出怎樣的照片',
+      galleryBtn: '查看和服（打褂）',
+      galleryNote: '當天可從中挑選。照片僅為範例，實際庫存可能不同。打褂為成人女性用。',
+      galleryAlt: '和服範例 第{n}張',
       photoClose: '關閉',
       photoNote: '照片僅為範例，當天可選和服可能有所不同。',
       accessLink: '查看交通指南與地圖',
@@ -1209,6 +1270,9 @@
       ageLabel: '대표자 연령',
       photoAlt: '{plan} 기모노 예시',
       photoBtn: '이런 사진을 찍을 수 있습니다',
+      galleryBtn: '기모노(우치카케) 보기',
+      galleryNote: '당일 준비된 것 중에서 고르실 수 있습니다. 사진은 예시이며 재고에 따라 다를 수 있습니다. 우치카케는 성인 여성용입니다.',
+      galleryAlt: '기모노 예시 {n}번째',
       photoClose: '닫기',
       photoNote: '사진은 예시입니다. 당일 준비된 기모노는 다를 수 있습니다.',
       accessLink: '오시는 길・지도 보기',
@@ -1323,6 +1387,9 @@
       ageLabel: 'Âge du représentant',
       photoAlt: 'Exemple de kimono pour {plan}',
       photoBtn: 'Voir un exemple de photo',
+      galleryBtn: 'Voir les kimonos (uchikake)',
+      galleryNote: "Vous choisissez le jour même parmi les modèles disponibles. Photos données à titre d'exemple. Ces uchikake sont pour femmes adultes.",
+      galleryAlt: 'Exemple de kimono {n}',
       photoClose: 'Fermer',
       photoNote: "Photos données à titre d'exemple. Les kimonos disponibles peuvent varier.",
       accessLink: "Voir l'accès et le plan",
@@ -1472,6 +1539,26 @@
   var photoExists = {};
 
   /**
+   * 打掛ギャラリー。
+   *
+   * 衣装の「指定」はしない。システムは在庫を知らないため、
+   * 同じ日に2組が同じ衣装を選べてしまい、当日どちらかに謝ることになる。
+   * ここでは雰囲気を見せるだけで、選ぶのは当日その場。
+   *
+   * 実在する画像だけを使うので、5枚揃っていなくても動く。
+   */
+  var GALLERY_PHOTOS = [
+    'images/kimono-1.jpg',
+    'images/kimono-2.jpg',
+    'images/kimono-3.jpg',
+    'images/kimono-4.jpg',
+    'images/kimono-5.jpg',
+  ];
+
+  /** 実在が確認できた分だけ入る */
+  var galleryAvailable = [];
+
+  /**
    * 団体割引（家族割）。
    * 2026-08-27 の打ち合わせで決定：施術3名以上で合計から10%引き。
    * 端数は切り捨て。
@@ -1539,6 +1626,10 @@
     emailConfirmInput: document.getElementById('emailConfirmInput'),
     countryCodeInput: document.getElementById('countryCodeInput'),
     agreeInput: document.getElementById('agreeInput'),
+    gallerySlot: document.getElementById('gallerySlot'),
+    photoNav: document.getElementById('photoNav'),
+    photoCount: document.getElementById('photoCount'),
+    viewerNote: document.getElementById('viewerNote'),
     photoViewer: document.getElementById('photoViewer'),
     photoViewerImg: document.getElementById('photoViewerImg'),
     attendInput: document.getElementById('attendInput'),
@@ -1608,7 +1699,7 @@
    */
   function updateAccessLinks() {
     var href = './access.html?lang=' + encodeURIComponent(state.lang);
-    ['introAccessLink', 'footerAccessLink'].forEach(function (id) {
+    ['footerAccessLink'].forEach(function (id) {
       var a = document.getElementById(id);
       if (a) a.href = href;
     });
@@ -1642,6 +1733,7 @@
         renderLangSwitch();
         applyStaticI18n();
         updateAccessLinks();
+        renderGalleryButton();
         if (state.config) {
           renderMenus();
           renderPeopleOptions();
@@ -1856,15 +1948,48 @@
     return btn;
   }
 
+  /** 拡大表示の状態。1枚だけのときも同じ仕組みで扱う */
+  var viewerState = { list: [], index: 0, altKey: 'photoAlt', altArg: '' };
+
   function openPhotoViewer(menuId) {
     var src = MENU_PHOTOS[menuId];
     if (!src) return;
     var planName = MENU_NAMES[menuId]
       ? (MENU_NAMES[menuId][state.lang] || MENU_NAMES[menuId].en)
       : menuId;
-    el.photoViewerImg.src = src;
-    el.photoViewerImg.alt = t('photoAlt').replace('{plan}', planName);
+    viewerState = { list: [src], index: 0, altKey: 'photoAlt', altArg: planName };
+    el.viewerNote.textContent = t('photoNote');
+    showViewer();
+  }
+
+  function openGallery() {
+    if (!galleryAvailable.length) return;
+    viewerState = { list: galleryAvailable, index: 0, altKey: 'galleryAlt', altArg: '' };
+    el.viewerNote.textContent = t('galleryNote');
+    showViewer();
+  }
+
+  function showViewer() {
+    renderViewerImage();
+    // 送り操作は2枚以上のときだけ出す
+    el.photoNav.classList.toggle('hidden', viewerState.list.length < 2);
     el.photoViewer.classList.remove('hidden');
+  }
+
+  function renderViewerImage() {
+    var i = viewerState.index;
+    el.photoViewerImg.src = viewerState.list[i];
+    el.photoViewerImg.alt = viewerState.altKey === 'photoAlt'
+      ? t('photoAlt').replace('{plan}', viewerState.altArg)
+      : t('galleryAlt').replace('{n}', String(i + 1));
+    el.photoCount.textContent = (i + 1) + ' / ' + viewerState.list.length;
+  }
+
+  function moveViewer(step) {
+    var n = viewerState.list.length;
+    if (n < 2) return;
+    viewerState.index = (viewerState.index + step + n) % n;
+    renderViewerImage();
   }
 
   function closePhotoViewer() {
@@ -1874,15 +1999,69 @@
   }
 
   document.getElementById('photoClose').addEventListener('click', closePhotoViewer);
+  document.getElementById('photoPrev').addEventListener('click', function (ev) {
+    ev.stopPropagation();
+    moveViewer(-1);
+  });
+  document.getElementById('photoNext').addEventListener('click', function (ev) {
+    ev.stopPropagation();
+    moveViewer(1);
+  });
   // 背景をタップしても閉じられるようにする（スマホで押しやすい）
   el.photoViewer.addEventListener('click', function (ev) {
     if (ev.target === el.photoViewer) closePhotoViewer();
   });
   document.addEventListener('keydown', function (ev) {
-    if (ev.key === 'Escape' && !el.photoViewer.classList.contains('hidden')) {
-      closePhotoViewer();
-    }
+    if (el.photoViewer.classList.contains('hidden')) return;
+    if (ev.key === 'Escape') closePhotoViewer();
+    else if (ev.key === 'ArrowLeft') moveViewer(-1);
+    else if (ev.key === 'ArrowRight') moveViewer(1);
   });
+
+  /**
+   * ギャラリーの画像を調べ、1枚でもあればボタンを出す。
+   *
+   * 画像が届いていない間はボタンごと出さない。
+   * 押しても何も出ないボタンは、お客様には不具合に見える。
+   */
+  function setupGallery() {
+    var pending = GALLERY_PHOTOS.length;
+    var found = [];
+
+    GALLERY_PHOTOS.forEach(function (src, i) {
+      var probe = new Image();
+      probe.onload = function () {
+        found[i] = src;
+        if (--pending === 0) finish();
+      };
+      probe.onerror = function () {
+        if (--pending === 0) finish();
+      };
+      probe.src = src;
+    });
+
+    function finish() {
+      // 欠番があっても詰めて使う（5枚揃っていなくてよい）
+      galleryAvailable = found.filter(function (x) { return !!x; });
+      renderGalleryButton();
+    }
+  }
+
+  /** ボタンを描き直す。言語切替でも文言を追従させる */
+  function renderGalleryButton() {
+    if (!el.gallerySlot) return;
+    el.gallerySlot.innerHTML = '';
+    if (!galleryAvailable.length) return;
+
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'gallery-btn';
+    btn.textContent = t('galleryBtn');
+    btn.addEventListener('click', openGallery);
+    el.gallerySlot.appendChild(btn);
+  }
+
+  setupGallery();
 
   /** 参加人数（来店する人の合計） */
   function renderPeopleOptions() {
