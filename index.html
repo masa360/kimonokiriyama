@@ -452,6 +452,29 @@
     cursor: pointer;
   }
 
+  /* 完了画面のキャンセル導線。
+     予約直後に見せておくことで、後から探さずに済む */
+  .cancel-box {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border);
+    text-align: left;
+  }
+  .cancel-box h3 {
+    font-size: 0.95rem;
+    margin: 0 0 8px;
+  }
+  .cancel-link {
+    display: inline-block;
+    padding: 9px 14px;
+    border: 1px solid var(--color-accent);
+    border-radius: 6px;
+    color: var(--color-accent-dark);
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 600;
+  }
+
   .honeypot {
     position: absolute;
     left: -9999px;
@@ -713,6 +736,17 @@
     <p id="reservationIdRow"><strong data-i18n="reservationIdLabel">Booking No.</strong>: <span id="reservationIdOut"></span></p>
     <p class="field-hint" data-i18n="spamHint">If you do not receive the email, please check your spam folder.</p>
     <p class="msg error hidden" id="mailFailedMsg" data-i18n="mailFailed">We could not send the confirmation email, but your booking is confirmed. Please contact us by phone if you need confirmation.</p>
+
+    <!--
+      キャンセル・変更の導線。
+      予約番号を件名と本文に入れておき、お客様は送るだけにする。
+      アドレスは設定から受け取るため、JSが組み立てる。
+    -->
+    <div class="cancel-box hidden" id="cancelBox">
+      <h3 data-i18n="cancelHeading">Cancellations and changes</h3>
+      <a class="cancel-link" id="cancelMailLink" href="#" data-i18n="cancelMailBtn">Cancel or change by email</a>
+      <p class="field-hint" data-i18n="cancelMailHint">You can also just reply to your confirmation email.</p>
+    </div>
   </div>
 
   <!--
@@ -790,9 +824,9 @@
       noSlot: 'この日は空きがありません。',
       noSlotClosed: 'この日は定休日です。別の日をお選びください。',
       noSlotHoliday: 'この日は祝日のため休業です。別の日をお選びください。',
-      noSlotTooEarly: 'このプランは、もう少し先の日付からご予約いただけます。',
+      noSlotTooEarly: 'このプランは着付け師・美容師を別途手配するため、{date} 以降のご予約となります。',
       sameDayOk: '当日予約OK',
-      leadDays: '{days}日前までにご予約ください',
+      leadDays: '{days}日前までにご予約ください（着付け師・美容師を手配いたします）',
       detailsTitle: '3. お客様情報',
       nameLabel: 'お名前',
       emailLabel: 'メールアドレス',
@@ -859,6 +893,11 @@
       completeBody: '確認メールをお送りしました。当日お会いできるのを楽しみにしております。',
       reservationIdLabel: '予約番号',
       spamHint: 'メールが届かない場合は、迷惑メールフォルダをご確認ください。',
+      cancelHeading: 'キャンセル・変更',
+      cancelMailBtn: 'メールでキャンセル・変更を申し込む',
+      cancelMailHint: '確認メールへの返信でも承ります。',
+      cancelSubject: '予約のキャンセル・変更のお願い（予約番号 {id}）',
+      cancelBody: 'ご担当者様\n\n下記の予約について、キャンセルまたは変更をお願いいたします。\n\n予約番号: {id}\nご希望: （キャンセル／日時変更のいずれかをお書きください）\n\nお名前: \n',
       mailFailed: '確認メールをお送りできませんでしたが、ご予約は成立しています。ご確認が必要な場合はお電話にてご連絡ください。',
       loadError: '予約情報の読み込みに失敗しました。お電話にてお問い合わせください。',
       footerContact: 'お問い合わせ',
@@ -907,9 +946,9 @@
       noSlot: 'No available times on this date.',
       noSlotClosed: 'We are closed on this day. Please choose another date.',
       noSlotHoliday: 'We are closed for a public holiday. Please choose another date.',
-      noSlotTooEarly: 'This plan can be booked from a slightly later date.',
+      noSlotTooEarly: 'For this plan we arrange a kimono dresser and hairstylist for you, so the earliest available date is {date}.',
       sameDayOk: 'Same-day booking OK',
-      leadDays: 'Book at least {days} days in advance',
+      leadDays: 'Book at least {days} days in advance (we arrange a kimono dresser and hairstylist)',
       detailsTitle: '3. Your details',
       nameLabel: 'Full name',
       emailLabel: 'Email',
@@ -976,6 +1015,11 @@
       completeBody: 'A confirmation email has been sent. We look forward to welcoming you.',
       reservationIdLabel: 'Booking No.',
       spamHint: 'If you do not receive the email, please check your spam folder.',
+      cancelHeading: 'Cancellations and changes',
+      cancelMailBtn: 'Cancel or change by email',
+      cancelMailHint: 'You can also just reply to your confirmation email.',
+      cancelSubject: 'Cancellation / change request (Booking No. {id})',
+      cancelBody: 'Hello,\n\nI would like to cancel or change the following booking.\n\nBooking No.: {id}\nRequest: (please write either "cancel" or your preferred new date and time)\n\nName: \n',
       mailFailed: 'We could not send the confirmation email, but your booking is confirmed. Please contact us by phone if you need confirmation.',
       loadError: 'Unable to load booking information. Please contact us by phone.',
       footerContact: 'Contact',
@@ -1024,9 +1068,9 @@
       noSlot: '该日期没有空余时段。',
       noSlotClosed: '该日为休息日，请选择其他日期。',
       noSlotHoliday: '该日为节假日休息，请选择其他日期。',
-      noSlotTooEarly: '该套餐需要提前预约，请选择稍晚的日期。',
+      noSlotTooEarly: '此套餐需另行安排和服着装师与发型师，最早可预约日期为 {date}。',
       sameDayOk: '可当天预约',
-      leadDays: '请至少提前{days}天预约',
+      leadDays: '请至少提前{days}天预约（我们将为您安排和服着装师与发型师）',
       detailsTitle: '3. 您的信息',
       nameLabel: '姓名',
       emailLabel: '邮箱',
@@ -1093,6 +1137,11 @@
       completeBody: '确认邮件已发送。期待您的光临。',
       reservationIdLabel: '预约编号',
       spamHint: '如未收到邮件，请查看垃圾邮件文件夹。',
+      cancelHeading: '取消与变更',
+      cancelMailBtn: '通过邮件申请取消或变更',
+      cancelMailHint: '直接回复确认邮件也可以。',
+      cancelSubject: '预约取消・变更申请（预约编号 {id}）',
+      cancelBody: '您好，\n\n我想取消或变更以下预约。\n\n预约编号：{id}\n需求：（请填写「取消」或希望变更的日期时间）\n\n姓名：\n',
       mailFailed: '确认邮件发送失败，但您的预约已成立。如需确认请电话联系我们。',
       loadError: '无法加载预约信息，请电话联系我们。',
       footerContact: '咨询方式',
@@ -1141,9 +1190,9 @@
       noSlot: '該日期沒有空餘時段。',
       noSlotClosed: '該日為公休日，請選擇其他日期。',
       noSlotHoliday: '該日為國定假日休息，請選擇其他日期。',
-      noSlotTooEarly: '該方案需要提前預約，請選擇稍晚的日期。',
+      noSlotTooEarly: '此方案需另行安排和服著裝師與髮型師，最早可預約日期為 {date}。',
       sameDayOk: '可當日預約',
-      leadDays: '請至少提前{days}天預約',
+      leadDays: '請至少提前{days}天預約（我們將為您安排和服著裝師與髮型師）',
       detailsTitle: '3. 您的資訊',
       nameLabel: '姓名',
       emailLabel: '電子郵件',
@@ -1210,6 +1259,11 @@
       completeBody: '確認郵件已寄出。期待您的蒞臨。',
       reservationIdLabel: '預約編號',
       spamHint: '如未收到郵件，請查看垃圾郵件資料夾。',
+      cancelHeading: '取消與變更',
+      cancelMailBtn: '透過郵件申請取消或變更',
+      cancelMailHint: '直接回覆確認郵件也可以。',
+      cancelSubject: '預約取消・變更申請（預約編號 {id}）',
+      cancelBody: '您好，\n\n我想取消或變更以下預約。\n\n預約編號：{id}\n需求：（請填寫「取消」或希望變更的日期時間）\n\n姓名：\n',
       mailFailed: '確認郵件寄送失敗，但您的預約已成立。如需確認請電話聯絡我們。',
       loadError: '無法載入預約資訊，請電話聯絡我們。',
       footerContact: '聯絡方式',
@@ -1258,9 +1312,9 @@
       noSlot: '해당 날짜에는 예약 가능한 시간이 없습니다.',
       noSlotClosed: '해당 날짜는 정기 휴무일입니다. 다른 날짜를 선택해 주세요.',
       noSlotHoliday: '해당 날짜는 공휴일 휴무입니다. 다른 날짜를 선택해 주세요.',
-      noSlotTooEarly: '이 플랜은 조금 더 나중 날짜부터 예약하실 수 있습니다.',
+      noSlotTooEarly: '이 플랜은 기모노 착장사와 헤어 디자이너를 별도로 준비해야 하므로, {date} 이후부터 예약하실 수 있습니다.',
       sameDayOk: '당일 예약 가능',
-      leadDays: '최소 {days}일 전까지 예약해 주세요',
+      leadDays: '최소 {days}일 전까지 예약해 주세요 (기모노 착장사와 헤어 디자이너를 준비합니다)',
       detailsTitle: '3. 예약자 정보',
       nameLabel: '이름',
       emailLabel: '이메일',
@@ -1327,6 +1381,11 @@
       completeBody: '확인 메일을 보내드렸습니다. 당일 뵙기를 기대하겠습니다.',
       reservationIdLabel: '예약 번호',
       spamHint: '메일이 오지 않으면 스팸 메일함을 확인해 주세요.',
+      cancelHeading: '취소 및 변경',
+      cancelMailBtn: '메일로 취소・변경 신청하기',
+      cancelMailHint: '확인 메일에 답장하셔도 됩니다.',
+      cancelSubject: '예약 취소・변경 요청 (예약 번호 {id})',
+      cancelBody: '담당자님께\n\n아래 예약을 취소 또는 변경하고 싶습니다.\n\n예약 번호: {id}\n요청 내용: (취소 또는 희망하시는 날짜와 시간을 적어 주세요)\n\n성함: \n',
       mailFailed: '확인 메일을 보내지 못했지만 예약은 완료되었습니다. 확인이 필요하시면 전화로 문의해 주세요.',
       loadError: '예약 정보를 불러오지 못했습니다. 전화로 문의해 주세요.',
       footerContact: '문의처',
@@ -1375,9 +1434,9 @@
       noSlot: 'Aucun horaire disponible à cette date.',
       noSlotClosed: 'Nous sommes fermés ce jour-là. Merci de choisir une autre date.',
       noSlotHoliday: 'Nous sommes fermés pour un jour férié. Merci de choisir une autre date.',
-      noSlotTooEarly: 'Cette formule est réservable à partir d\'une date un peu plus lointaine.',
+      noSlotTooEarly: 'Pour cette formule, nous faisons appel a une habilleuse et a un coiffeur ; la date la plus proche est le {date}.',
       sameDayOk: 'Réservation le jour même possible',
-      leadDays: "Réservez au moins {days} jours à l'avance",
+      leadDays: "Reservez au moins {days} jours a l'avance (nous faisons appel a une habilleuse et a un coiffeur)",
       detailsTitle: '3. Vos informations',
       nameLabel: 'Nom complet',
       emailLabel: 'E-mail',
@@ -1444,6 +1503,11 @@
       completeBody: 'Un e-mail de confirmation vous a été envoyé. Au plaisir de vous accueillir.',
       reservationIdLabel: 'N° de réservation',
       spamHint: "Si vous ne recevez pas l'e-mail, merci de vérifier vos courriers indésirables.",
+      cancelHeading: 'Annulation et modification',
+      cancelMailBtn: 'Annuler ou modifier par e-mail',
+      cancelMailHint: 'Vous pouvez aussi simplement repondre a votre e-mail de confirmation.',
+      cancelSubject: "Demande d'annulation / modification (reservation n° {id})",
+      cancelBody: 'Bonjour,\n\nJe souhaite annuler ou modifier la reservation suivante.\n\nNumero de reservation : {id}\nDemande : (indiquez "annulation" ou la nouvelle date et heure souhaitees)\n\nNom : \n',
       mailFailed: "Nous n'avons pas pu envoyer l'e-mail de confirmation, mais votre réservation est bien enregistrée. Merci de nous contacter par téléphone si besoin.",
       loadError: 'Impossible de charger les disponibilités. Merci de nous contacter par téléphone.',
       footerContact: 'Contact',
@@ -1646,6 +1710,8 @@
     formErrorMsg: document.getElementById('formErrorMsg'),
     submitBtn: document.getElementById('submitBtn'),
     completeCard: document.getElementById('completeCard'),
+    cancelBox: document.getElementById('cancelBox'),
+    cancelMailLink: document.getElementById('cancelMailLink'),
     reservationIdRow: document.getElementById('reservationIdRow'),
     reservationIdOut: document.getElementById('reservationIdOut'),
     mailFailedMsg: document.getElementById('mailFailedMsg'),
@@ -2203,7 +2269,9 @@
 
     var blockReason = getDateBlockReason(dateStr, menu);
     if (blockReason) {
-      showNoSlot(blockReason);
+      // 「いつから予約できるか」まで出す。
+      // 日付が分からないと、お客様は当てずっぽうに押すことになる。
+      showNoSlot(blockReason, addDaysJst(todayJst(), resolveMinDaysAhead(menu)));
       return;
     }
 
@@ -2261,15 +2329,47 @@
    * 「空きなし」で片付けず、定休日・祝日・受付期間前を区別して伝える。
    * 理由が分かればお客様が別の日を選び直せる。
    */
-  function showNoSlot(reason) {
+  function showNoSlot(reason, earliestDate) {
     var keyByReason = {
       closed: 'noSlotClosed',
       holiday: 'noSlotHoliday',
       tooEarly: 'noSlotTooEarly',
       none: 'noSlot',
     };
-    el.noSlotMsg.textContent = t(keyByReason[reason] || 'noSlot');
+    var msg = t(keyByReason[reason] || 'noSlot');
+    if (earliestDate) {
+      msg = msg.replace('{date}', formatDateForLang(earliestDate));
+    }
+    el.noSlotMsg.textContent = msg;
     el.noSlotMsg.classList.remove('hidden');
+  }
+
+  /**
+   * YYYY-MM-DD を、その言語で読みやすい日付にする。
+   *
+   * 端末のタイムゾーンで解釈されないよう、数値から組み立てる
+   * （海外から見られるため、日付がずれると予約日を誤解される）。
+   */
+  function formatDateForLang(dateStr) {
+    var parts = String(dateStr).split('-');
+    if (parts.length !== 3) return dateStr;
+    var y = parseInt(parts[0], 10);
+    var m = parseInt(parts[1], 10);
+    var d = parseInt(parts[2], 10);
+    if (state.lang === 'ja') return y + '年' + m + '月' + d + '日';
+    if (state.lang === 'zh-CN' || state.lang === 'zh-TW') {
+      return y + '年' + m + '月' + d + '日';
+    }
+    if (state.lang === 'ko') return y + '년 ' + m + '월 ' + d + '일';
+    try {
+      // 日本時間の正午で固定し、時差で前日にずれるのを防ぐ
+      var dt = new Date(Date.UTC(y, m - 1, d, 3, 0, 0));
+      return dt.toLocaleDateString(state.lang === 'fr' ? 'fr-FR' : 'en-GB', {
+        year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC',
+      });
+    } catch (e) {
+      return dateStr;
+    }
   }
 
   function isSlotSelected(slot) {
@@ -2513,6 +2613,29 @@
       : '<span>' + t('submitBtn') + '</span>';
   }
 
+  /**
+   * キャンセル・変更用の mailto: を組み立てる。
+   *
+   * 件名と本文に予約番号を入れておくと、お客様は送るだけで済み、
+   * 美容室側も番号だけで予約を特定できる。
+   *
+   * アドレスが設定から届いていないときは、リンクごと出さない。
+   * 押しても何も起きないリンクは不具合に見える。
+   */
+  function renderCancelLink(reservationId) {
+    var addr = state.config && state.config.salonEmail;
+    if (!addr || !reservationId) {
+      el.cancelBox.classList.add('hidden');
+      return;
+    }
+    var subject = t('cancelSubject').replace('{id}', reservationId);
+    var body = t('cancelBody').replace('{id}', reservationId);
+    el.cancelMailLink.href = 'mailto:' + addr
+      + '?subject=' + encodeURIComponent(subject)
+      + '&body=' + encodeURIComponent(body);
+    el.cancelBox.classList.remove('hidden');
+  }
+
   function showFormError(msg) {
     el.formErrorMsg.textContent = msg;
     el.formErrorMsg.classList.remove('hidden');
@@ -2539,6 +2662,8 @@
     // メール送信に失敗しても予約は成立している。
     // 確認メールが届かないことを先に伝えておく。
     el.mailFailedMsg.classList.toggle('hidden', mailSent !== false);
+
+    renderCancelLink(reservationId);
 
     el.completeCard.scrollIntoView({ behavior: 'smooth' });
   }
