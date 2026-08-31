@@ -334,10 +334,22 @@
   .attr-plan {
     margin: -0.25rem 0 0.6rem;
     padding-left: 0.2rem;
-    font-size: 0.76rem;
-    color: var(--color-muted);
+    font-size: 0.78rem;
+    color: var(--color-text);
   }
-  .attr-plan::before { content: '└ '; }
+  .attr-plan::before { content: '└ '; color: var(--color-muted); }
+  /* プラン名は太字。どの人がどのプランかを最初に読ませる */
+  .attr-plan strong { font-weight: 600; }
+  /* 変更できない旨は色を変える。
+     選び直そうとして初めて気づくのでは遅い */
+  .attr-plan .fixed-mark {
+    color: var(--color-accent-dark);
+    font-weight: 600;
+  }
+  .attr-plan .choice-mark {
+    color: var(--color-muted);
+    font-weight: 400;
+  }
 
   /* 混在の内訳。合計より一段下げて、内訳だと分かるようにする */
   .summary-row.sub {
@@ -708,13 +720,13 @@
           <select id="attrAdultMInput"></select>
         </div>
         <!-- 大人男性は本格着付けで固定。選ばせるものが無いので、そう書く -->
-        <p class="attr-plan hidden" id="attrAdultMPlan" data-i18n="fixedFull">Full Kimono Dressing</p>
+        <p class="attr-plan hidden" id="attrAdultMPlan"></p>
         <div class="attr-row">
           <label for="attrChildInput" data-i18n="attrChild">Child</label>
           <select id="attrChildInput"></select>
         </div>
         <!-- お子様は和装体験で固定 -->
-        <p class="attr-plan hidden" id="attrChildPlan" data-i18n="fixedLight">Kimono Experience</p>
+        <p class="attr-plan hidden" id="attrChildPlan"></p>
         <p class="field-hint" data-i18n="attrChildNote">Children are typically ages 3 to 7. Same price as adults.</p>
         <p class="field-hint attr-total" id="attrTotalHint"></p>
       </fieldset>
@@ -955,6 +967,8 @@
       fixedFull: '和装本格着付け（変更できません）',
       fixedLight: '和装体験（変更できません）',
       chosenPlan: '{plan}（下でお選びいただけます）',
+      planFixedNote: '変更できません',
+      planChoiceNote: '下でお選びいただけます',
       summaryMixed: 'お支度の内訳',
       menuMixedNote: '大人の男性・お子様のプランは決まっているため、大人の女性の分をお選びください。',
       dateTitle: '3. 日時を選択',
@@ -1022,7 +1036,7 @@
       cancelFreeRate: '無料',
       cancelHalf: '6〜2日前',
       cancelFull: '当日・ご連絡なし',
-      cancelContact: 'キャンセル・変更はメールにてご連絡ください。なお、KKRホテル大阪にご宿泊の方はキャンセル料をいただきません。',
+      cancelContact: 'キャンセル・変更はメールにてご連絡ください。',
       policyPaymentTitle: 'お支払い',
       policyPaymentBody: 'お支払いは当日、4階の美容室にてお願いいたします。現金・クレジットカード（VISA、Mastercard、JCB、AMEX、ダイナース、Discover、銀聯）がご利用いただけます。',
       policyNotesTitle: 'ご注意',
@@ -1096,6 +1110,8 @@
       fixedFull: 'Full Kimono Dressing (fixed)',
       fixedLight: 'Kimono Experience (fixed)',
       chosenPlan: '{plan} (your choice below)',
+      planFixedNote: 'fixed',
+      planChoiceNote: 'your choice below',
       summaryMixed: 'Breakdown',
       menuMixedNote: 'Plans for adult men and children are already set. Please choose the plan for adult women.',
       dateTitle: '3. Choose date & time',
@@ -1163,7 +1179,7 @@
       cancelFreeRate: 'Free',
       cancelHalf: '6 to 2 days before',
       cancelFull: 'Same day / no-show',
-      cancelContact: 'To cancel or change your booking, please contact us by email. Guests staying at KKR Hotel Osaka are not charged a cancellation fee.',
+      cancelContact: 'To cancel or change your booking, please contact us by email.',
       policyPaymentTitle: 'Payment',
       policyPaymentBody: 'Payment is made at the salon on the day. Cash and credit cards (VISA, Mastercard, JCB, AMEX, Diners, Discover, UnionPay) are accepted.',
       policyNotesTitle: 'Please note',
@@ -1237,6 +1253,8 @@
       fixedFull: '正式和服着装（不可变更）',
       fixedLight: '和服体验（不可变更）',
       chosenPlan: '{plan}（可在下方选择）',
+      planFixedNote: '不可变更',
+      planChoiceNote: '可在下方选择',
       summaryMixed: '内容明细',
       menuMixedNote: '成年男性与儿童的套餐已确定，请选择成年女性的套餐。',
       dateTitle: '3. 选择日期与时间',
@@ -1304,7 +1322,7 @@
       cancelFreeRate: '免费',
       cancelHalf: '提前6～2天',
       cancelFull: '当天取消／未联系',
-      cancelContact: '如需取消或变更，请通过邮件联系我们。入住KKR大阪酒店的客人不收取取消费用。',
+      cancelContact: '如需取消或变更，请通过邮件联系我们。',
       policyPaymentTitle: '付款方式',
       policyPaymentBody: '费用请于当天在4楼沙龙支付。可使用现金及信用卡（VISA、Mastercard、JCB、AMEX、Diners、Discover、银联）。',
       policyNotesTitle: '注意事项',
@@ -1378,6 +1396,8 @@
       fixedFull: '正式和服著裝（不可變更）',
       fixedLight: '和服體驗（不可變更）',
       chosenPlan: '{plan}（可在下方選擇）',
+      planFixedNote: '不可變更',
+      planChoiceNote: '可在下方選擇',
       summaryMixed: '內容明細',
       menuMixedNote: '成年男性與兒童的方案已確定，請選擇成年女性的方案。',
       dateTitle: '3. 選擇日期與時間',
@@ -1445,7 +1465,7 @@
       cancelFreeRate: '免費',
       cancelHalf: '提前6～2天',
       cancelFull: '當天取消／未聯絡',
-      cancelContact: '如需取消或變更，請透過郵件與我們聯絡。入住KKR大阪飯店的客人不收取取消費用。',
+      cancelContact: '如需取消或變更，請透過郵件與我們聯絡。',
       policyPaymentTitle: '付款方式',
       policyPaymentBody: '費用請於當天在4樓沙龍支付。可使用現金及信用卡（VISA、Mastercard、JCB、AMEX、Diners、Discover、銀聯）。',
       policyNotesTitle: '注意事項',
@@ -1519,6 +1539,8 @@
       fixedFull: '정통 기모노 착장 (변경 불가)',
       fixedLight: '기모노 체험 (변경 불가)',
       chosenPlan: '{plan} (아래에서 선택)',
+      planFixedNote: '변경 불가',
+      planChoiceNote: '아래에서 선택',
       summaryMixed: '내역',
       menuMixedNote: '성인 남성과 어린이의 플랜은 정해져 있습니다. 성인 여성의 플랜을 선택해 주세요.',
       dateTitle: '3. 날짜와 시간 선택',
@@ -1586,7 +1608,7 @@
       cancelFreeRate: '무료',
       cancelHalf: '6~2일 전',
       cancelFull: '당일 · 무단 불참',
-      cancelContact: '취소·변경은 이메일로 연락해 주세요. KKR 호텔 오사카에 숙박하시는 분은 취소 수수료를 받지 않습니다.',
+      cancelContact: '취소·변경은 이메일로 연락해 주세요.',
       policyPaymentTitle: '결제',
       policyPaymentBody: '요금은 당일 4층 살롱에서 결제해 주세요. 현금 및 신용카드(VISA, Mastercard, JCB, AMEX, Diners, Discover, UnionPay)를 사용하실 수 있습니다.',
       policyNotesTitle: '유의사항',
@@ -1660,6 +1682,8 @@
       fixedFull: 'Habillage Kimono Complet (imposé)',
       fixedLight: 'Expérience Kimono (imposé)',
       chosenPlan: '{plan} (à choisir ci-dessous)',
+      planFixedNote: 'imposé',
+      planChoiceNote: 'à choisir ci-dessous',
       summaryMixed: 'Détail',
       menuMixedNote: 'Les formules pour les hommes adultes et les enfants sont déjà fixées. Choisissez celle des femmes adultes.',
       dateTitle: "3. Choisissez la date et l'heure",
@@ -1727,7 +1751,7 @@
       cancelFreeRate: 'Gratuit',
       cancelHalf: 'De 6 à 2 jours avant',
       cancelFull: 'Le jour même / absence',
-      cancelContact: "Pour annuler ou modifier, contactez-nous par e-mail. Les clients séjournant au KKR Hotel Osaka ne paient pas de frais d'annulation.",
+      cancelContact: 'Pour annuler ou modifier, contactez-nous par e-mail.',
       policyPaymentTitle: 'Paiement',
       policyPaymentBody: "Le règlement s'effectue au salon le jour même. Espèces et cartes bancaires (VISA, Mastercard, JCB, AMEX, Diners, Discover, UnionPay) acceptées.",
       policyNotesTitle: 'À noter',
@@ -2506,11 +2530,20 @@
     var femaleName = state.selectedMenu && MENU_NAMES[state.selectedMenu]
       ? (MENU_NAMES[state.selectedMenu][state.lang] || MENU_NAMES[state.selectedMenu].en)
       : '';
-    // 女性の行だけは「選べる」ことを示す。
-    // 固定の2行と同じ書き方にすると、どれが選択なのか分からない。
-    el.attrAdultFPlan.textContent = femaleName
-      ? t('chosenPlan').replace('{plan}', femaleName)
-      : '';
+    // プラン名を太字にし、固定か選択かを色で分ける。
+    // 「変更できません」は、選び直そうとして気づくのでは遅い。
+    function planLine(name, fixed) {
+      if (!name) return '';
+      return '<strong>' + name + '</strong>'
+        + ' <span class="' + (fixed ? 'fixed-mark' : 'choice-mark') + '">('
+        + t(fixed ? 'planFixedNote' : 'planChoiceNote') + ')</span>';
+    }
+
+    el.attrAdultFPlan.innerHTML = planLine(femaleName, false);
+    el.attrAdultMPlan.innerHTML = planLine(
+      MENU_NAMES.honkaku[state.lang] || MENU_NAMES.honkaku.en, true);
+    el.attrChildPlan.innerHTML = planLine(
+      MENU_NAMES.taiken[state.lang] || MENU_NAMES.taiken.en, true);
     el.attrAdultFPlan.classList.toggle('hidden', !adultF || !femaleName);
     el.attrAdultMPlan.classList.toggle('hidden', !adultM);
     el.attrChildPlan.classList.toggle('hidden', !child);
