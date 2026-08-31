@@ -952,8 +952,9 @@
       attrAdultMNote: '大人の男性は「和装本格着付け」のみご利用いただけます。',
       menuOnlyFull: '大人の男性がいらっしゃるため、本格着付けのみお選びいただけます。',
       adultFPlanLabel: '大人（女性）のプラン',
-      fixedFull: '本格着付けとなります',
-      fixedLight: '和装体験となります',
+      fixedFull: '和装本格着付け（変更できません）',
+      fixedLight: '和装体験（変更できません）',
+      chosenPlan: '{plan}（下でお選びいただけます）',
       summaryMixed: 'お支度の内訳',
       menuMixedNote: '大人の男性・お子様のプランは決まっているため、大人の女性の分をお選びください。',
       dateTitle: '3. 日時を選択',
@@ -1092,8 +1093,9 @@
       attrAdultMNote: 'Adult men can book the Full Kimono Dressing plan.',
       menuOnlyFull: 'Because an adult man is joining, only the Full Kimono Dressing plan is available.',
       adultFPlanLabel: 'Plan for adult women',
-      fixedFull: 'Full Kimono Dressing',
-      fixedLight: 'Kimono Experience',
+      fixedFull: 'Full Kimono Dressing (fixed)',
+      fixedLight: 'Kimono Experience (fixed)',
+      chosenPlan: '{plan} (your choice below)',
       summaryMixed: 'Breakdown',
       menuMixedNote: 'Plans for adult men and children are already set. Please choose the plan for adult women.',
       dateTitle: '3. Choose date & time',
@@ -1232,8 +1234,9 @@
       attrAdultMNote: '成年男性仅可选择「正式和服着装」。',
       menuOnlyFull: '由于有成年男性参加，仅可选择正式和服着装。',
       adultFPlanLabel: '成人（女性）的套餐',
-      fixedFull: '正式和服着装',
-      fixedLight: '和服体验',
+      fixedFull: '正式和服着装（不可变更）',
+      fixedLight: '和服体验（不可变更）',
+      chosenPlan: '{plan}（可在下方选择）',
       summaryMixed: '内容明细',
       menuMixedNote: '成年男性与儿童的套餐已确定，请选择成年女性的套餐。',
       dateTitle: '3. 选择日期与时间',
@@ -1372,8 +1375,9 @@
       attrAdultMNote: '成年男性僅可選擇「正式和服著裝」。',
       menuOnlyFull: '由於有成年男性參加，僅可選擇正式和服著裝。',
       adultFPlanLabel: '成人（女性）的方案',
-      fixedFull: '正式和服著裝',
-      fixedLight: '和服體驗',
+      fixedFull: '正式和服著裝（不可變更）',
+      fixedLight: '和服體驗（不可變更）',
+      chosenPlan: '{plan}（可在下方選擇）',
       summaryMixed: '內容明細',
       menuMixedNote: '成年男性與兒童的方案已確定，請選擇成年女性的方案。',
       dateTitle: '3. 選擇日期與時間',
@@ -1512,8 +1516,9 @@
       attrAdultMNote: '성인 남성은 「정통 기모노 착장」만 이용하실 수 있습니다.',
       menuOnlyFull: '성인 남성이 참여하시므로 정통 기모노 착장만 선택하실 수 있습니다.',
       adultFPlanLabel: '성인(여성)의 플랜',
-      fixedFull: '정통 기모노 착장',
-      fixedLight: '기모노 체험',
+      fixedFull: '정통 기모노 착장 (변경 불가)',
+      fixedLight: '기모노 체험 (변경 불가)',
+      chosenPlan: '{plan} (아래에서 선택)',
       summaryMixed: '내역',
       menuMixedNote: '성인 남성과 어린이의 플랜은 정해져 있습니다. 성인 여성의 플랜을 선택해 주세요.',
       dateTitle: '3. 날짜와 시간 선택',
@@ -1652,8 +1657,9 @@
       attrAdultMNote: 'Les hommes adultes peuvent réserver la formule Habillage Kimono Complet.',
       menuOnlyFull: 'Un homme adulte participant, seule la formule Habillage Kimono Complet est disponible.',
       adultFPlanLabel: 'Formule pour les femmes adultes',
-      fixedFull: 'Habillage Kimono Complet',
-      fixedLight: 'Expérience Kimono',
+      fixedFull: 'Habillage Kimono Complet (imposé)',
+      fixedLight: 'Expérience Kimono (imposé)',
+      chosenPlan: '{plan} (à choisir ci-dessous)',
       summaryMixed: 'Détail',
       menuMixedNote: 'Les formules pour les hommes adultes et les enfants sont déjà fixées. Choisissez celle des femmes adultes.',
       dateTitle: "3. Choisissez la date et l'heure",
@@ -2500,7 +2506,11 @@
     var femaleName = state.selectedMenu && MENU_NAMES[state.selectedMenu]
       ? (MENU_NAMES[state.selectedMenu][state.lang] || MENU_NAMES[state.selectedMenu].en)
       : '';
-    el.attrAdultFPlan.textContent = femaleName;
+    // 女性の行だけは「選べる」ことを示す。
+    // 固定の2行と同じ書き方にすると、どれが選択なのか分からない。
+    el.attrAdultFPlan.textContent = femaleName
+      ? t('chosenPlan').replace('{plan}', femaleName)
+      : '';
     el.attrAdultFPlan.classList.toggle('hidden', !adultF || !femaleName);
     el.attrAdultMPlan.classList.toggle('hidden', !adultM);
     el.attrChildPlan.classList.toggle('hidden', !child);
