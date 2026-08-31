@@ -346,6 +346,31 @@
     color: var(--color-muted);
   }
 
+  /* ホテル宿泊の確認。周りの入力欄と区別が付くよう囲う */
+  .hotel-box {
+    margin: 1rem 0;
+    padding: 0.8rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background: #fafafa;
+  }
+  .hotel-box .check-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    font-weight: 400;
+    cursor: pointer;
+  }
+  .hotel-box .check-row input {
+    width: auto;
+    margin: 0;
+    flex: 0 0 auto;
+  }
+  .hotel-box label[for="hotelRoomInput"] {
+    margin-top: 0.6rem;
+  }
+
   .attr-total { margin-top: 0.5rem; }
   .attr-total.is-error { color: var(--color-error); font-weight: 600; }
 
@@ -750,6 +775,26 @@
       </div>
       <p class="field-hint" data-i18n="phoneHint">Enter your mobile number without the leading zero.</p>
 
+      <!--
+        ホテル宿泊者かどうか。
+        割引の有無は書かない（金額を出すと、宿泊していない方も
+        チェックしてしまう）。当日、部屋番号で照合する。
+      -->
+      <div class="hotel-box">
+        <label class="check-row" for="hotelGuestInput">
+          <input type="checkbox" id="hotelGuestInput">
+          <span data-i18n="hotelGuestLabel">Are you staying at KKR Hotel Osaka?</span>
+        </label>
+        <p class="field-hint" data-i18n="hotelGuestNote">If you are, we will have something to tell you on the day.</p>
+
+        <!-- 部屋番号は任意。チェックイン前だと分からない -->
+        <div class="hidden" id="hotelRoomRow">
+          <label for="hotelRoomInput" data-i18n="hotelRoomLabel">Room number (if you know it)</label>
+          <input type="text" id="hotelRoomInput" maxlength="10" autocomplete="off">
+          <p class="field-hint" data-i18n="hotelRoomHint">Leave this blank if you have not checked in yet.</p>
+        </div>
+      </div>
+
       <label for="ageInput" data-i18n="ageLabel">Representative's age</label>
       <input type="number" id="ageInput" min="1" max="120" inputmode="numeric" required>
 
@@ -960,6 +1005,12 @@
       summaryDiscount: '団体割引（10%）',
       discountNote: '3名以上の施術で10%割引',
       waitNote: 'サロンにお入りいただけるのは、着付けをされる方のみです。付き添いの方は、受付前の待合スペース（椅子5席）でお待ちください。',
+      hotelGuestLabel: 'KKRホテル大阪にご宿泊ですか？',
+      hotelGuestNote: 'ご宿泊の方には当日ご案内がございます。お部屋番号は当日で結構です。',
+      hotelRoomLabel: 'お部屋番号（お分かりの場合）',
+      hotelRoomHint: 'チェックイン前の場合は空欄で構いません。',
+      summaryHotel: 'ホテルご宿泊',
+      yes: 'はい',
       errAttrSum: '内訳の合計が、着付けをされる人数と一致していません。',
       errTreatOverAttend: '着付けをされる人数が、参加人数を超えています。',
       summaryTitle: '5. ご予約内容の確認',
@@ -1094,6 +1145,12 @@
       summaryDiscount: 'Group discount (10%)',
       discountNote: '10% off for 3 or more guests dressed',
       waitNote: 'Only guests being dressed can enter the salon. Companions wait in the seating area by the reception (5 seats).',
+      hotelGuestLabel: 'Are you staying at KKR Hotel Osaka?',
+      hotelGuestNote: 'If you are, we will have something to tell you on the day. Your room number can wait until then.',
+      hotelRoomLabel: 'Room number (if you know it)',
+      hotelRoomHint: 'Leave this blank if you have not checked in yet.',
+      summaryHotel: 'Staying at the hotel',
+      yes: 'Yes',
       errAttrSum: 'The breakdown does not add up to the number of guests being dressed.',
       errTreatOverAttend: 'Guests being dressed cannot exceed total visitors.',
       summaryTitle: '5. Confirm',
@@ -1228,6 +1285,12 @@
       summaryDiscount: '团体折扣（10%）',
       discountNote: '3人以上接受服务可享10%折扣',
       waitNote: '仅穿和服的客人可进入沙龙。陪同人员请在前台前的等候区（5个座位）稍候。',
+      hotelGuestLabel: '您是否入住KKR大阪酒店？',
+      hotelGuestNote: '入住的客人当天会有相关说明。房号可当天再告知。',
+      hotelRoomLabel: '房间号（如已知）',
+      hotelRoomHint: '尚未办理入住时可留空。',
+      summaryHotel: '入住本酒店',
+      yes: '是',
       errAttrSum: '构成人数总和与穿和服的人数不一致。',
       errTreatOverAttend: '穿和服的人数不能超过到店人数。',
       summaryTitle: '5. 确认预约内容',
@@ -1362,6 +1425,12 @@
       summaryDiscount: '團體折扣（10%）',
       discountNote: '3人以上接受服務可享10%折扣',
       waitNote: '僅穿和服的客人可進入沙龍。陪同人員請於櫃檯前的等候區（5個座位）稍候。',
+      hotelGuestLabel: '您是否入住KKR大阪飯店？',
+      hotelGuestNote: '入住的客人當天會有相關說明。房號可當天再告知。',
+      hotelRoomLabel: '房間號碼（如已知）',
+      hotelRoomHint: '尚未辦理入住時可留空。',
+      summaryHotel: '入住本飯店',
+      yes: '是',
       errAttrSum: '組成人數總和與穿和服的人數不一致。',
       errTreatOverAttend: '穿和服的人數不可超過到店人數。',
       summaryTitle: '5. 確認預約內容',
@@ -1496,6 +1565,12 @@
       summaryDiscount: '단체 할인 (10%)',
       discountNote: '3명 이상 착장 시 10% 할인',
       waitNote: '살롱에 들어가실 수 있는 분은 기모노를 입는 분뿐입니다. 동행자는 접수 앞 대기 공간(의자 5석)에서 기다려 주세요.',
+      hotelGuestLabel: 'KKR 호텔 오사카에 숙박하십니까?',
+      hotelGuestNote: '숙박하시는 분께는 당일 안내가 있습니다. 객실 번호는 당일에 알려주셔도 됩니다.',
+      hotelRoomLabel: '객실 번호 (아시는 경우)',
+      hotelRoomHint: '체크인 전이라면 비워두셔도 됩니다.',
+      summaryHotel: '호텔 숙박',
+      yes: '예',
       errAttrSum: '구성 인원의 합계가 기모노를 입는 인원과 일치하지 않습니다.',
       errTreatOverAttend: '기모노를 입는 인원이 방문 인원을 초과할 수 없습니다.',
       summaryTitle: '5. 예약 내용 확인',
@@ -1630,6 +1705,12 @@
       summaryDiscount: 'Remise groupe (10%)',
       discountNote: '10% de remise à partir de 3 personnes habillées',
       waitNote: "Seules les personnes habillées peuvent entrer dans le salon. Les accompagnants patientent dans l'espace d'attente près de la réception (5 places).",
+      hotelGuestLabel: 'Séjournez-vous au KKR Hotel Osaka ?',
+      hotelGuestNote: 'Si oui, nous aurons quelque chose à vous indiquer le jour même. Votre numéro de chambre peut attendre.',
+      hotelRoomLabel: 'Numéro de chambre (si vous le connaissez)',
+      hotelRoomHint: "Laissez vide si vous n'avez pas encore fait votre arrivée.",
+      summaryHotel: "Séjour à l'hôtel",
+      yes: 'Oui',
       errAttrSum: 'La répartition ne correspond pas au nombre de personnes habillées.',
       errTreatOverAttend: 'Le nombre de personnes habillées ne peut pas dépasser le nombre de visiteurs.',
       summaryTitle: '5. Confirmation',
@@ -1877,6 +1958,9 @@
     attendInput: document.getElementById('attendInput'),
     treatInput: document.getElementById('treatInput'),
     attrAdultFInput: document.getElementById('attrAdultFInput'),
+    hotelGuestInput: document.getElementById('hotelGuestInput'),
+    hotelRoomInput: document.getElementById('hotelRoomInput'),
+    hotelRoomRow: document.getElementById('hotelRoomRow'),
     attrAdultFPlan: document.getElementById('attrAdultFPlan'),
     attrAdultMPlan: document.getElementById('attrAdultMPlan'),
     attrChildPlan: document.getElementById('attrChildPlan'),
@@ -2479,6 +2563,20 @@
     return rows.length ? rows[0].menu : (state.selectedMenu || 'taiken');
   }
 
+  // 宿泊にチェックが入ったときだけ部屋番号を出す。
+  // 最初から出しておくと、宿泊しない方にも入力欄が見えて紛らわしい。
+  el.hotelGuestInput.addEventListener('change', function () {
+    el.hotelRoomRow.classList.toggle('hidden', !el.hotelGuestInput.checked);
+    if (!el.hotelGuestInput.checked) el.hotelRoomInput.value = '';
+    renderSummary();
+  });
+
+  // 番号を打っている最中も確認欄に反映する。
+  // input と change の両方を拾う。端末や入力方式（日本語IME、
+  // 自動入力）によって、どちらが飛ぶかが変わるため。
+  el.hotelRoomInput.addEventListener('input', renderSummary);
+  el.hotelRoomInput.addEventListener('change', renderSummary);
+
   function getAttrSum() {
     return (parseInt(el.attrAdultFInput.value, 10) || 0)
       + (parseInt(el.attrAdultMInput.value, 10) || 0)
@@ -2838,6 +2936,15 @@
       '<div class="summary-row"><span>' + t('summaryDatetime') + '</span><span>' + dateStr + '</span></div>' +
       '<div class="summary-row"><span>' + t('summaryAttend') + '</span><span>' + attend + t('peopleUnit') + '</span></div>' +
       '<div class="summary-row"><span>' + t('summaryTreat') + '</span><span>' + treat + t('peopleUnit') + '</span></div>' +
+      // 宿泊にチェックが入っているときだけ出す。
+      // 「はい」と答えたことがお客様にも見えるようにする。
+      (el.hotelGuestInput.checked
+        ? '<div class="summary-row"><span>' + t('summaryHotel') + '</span><span>'
+            + t('yes')
+            + (el.hotelRoomInput.value.trim()
+                ? '（' + el.hotelRoomInput.value.trim() + '）' : '')
+          + '</span></div>'
+        : '') +
       mixRows +
       priceRows +
       '<div class="summary-row total"><span>' + t('summaryPrice') + '</span><span>'
@@ -2930,6 +3037,11 @@
       // 大人女性のプラン。混在の判定と料金計算に使う。
       // 無ければ menu が全員に適用される（旧フロント互換）。
       adultFMenu: state.selectedMenu,
+      // ホテル宿泊の申告。画面では割引しないため、
+      // ここは「申告があった」という記録だけ。
+      // 実際の割引は当日、部屋番号を照合してから判断する。
+      hotelGuest: el.hotelGuestInput.checked,
+      hotelRoom: el.hotelRoomInput.value.trim(),
       datetime: toJstIso(state.selectedSlot),
       lang: state.lang,
       website: el.websiteInput.value, // ハニーポット
