@@ -118,6 +118,15 @@
     font-size: 0.8rem;
     color: var(--color-muted);
   }
+  /* 対象者だけは他の内容と重みを変える。
+     「誰が受けられるか」は選び直しにつながる情報で、
+     ヘアセットの有無と同列に置くと見落とされる。 */
+  .menu-features li.audience {
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px dashed var(--color-border);
+    font-weight: 600;
+  }
   .menu-features {
     list-style: none;
     padding: 0;
@@ -280,6 +289,45 @@
     flex: 0 0 5.5rem;
     margin: 0;
   }
+  /* 選べない区分は行ごと薄くする。
+     select だけがブラウザ既定の灰色になっても、
+     ラベルが黒いままだと「選べない」と気づけない。 */
+  .attr-row.is-disabled label {
+    color: var(--color-muted);
+  }
+  .attr-row select:disabled {
+    background: #f0eeec;
+    color: var(--color-muted);
+    cursor: not-allowed;
+  }
+
+  /* 制約の告知。ページには補足が10個以上並ぶので、
+     同じ見た目だと埋もれて読まれない。
+     色と縦線で「これは他と違う」と分かるようにする。 */
+  .constraint-note {
+    margin: 0.5rem 0 0;
+    padding: 0.5rem 0.7rem;
+    border-left: 3px solid var(--color-accent);
+    background: #fdf1f3;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: var(--color-text);
+  }
+  /* 制約に当たった場所から、そのままプランを選び直せるようにする。
+     上まで戻って押し直すのは、入力を終えたあとでは負担が大きい。 */
+  .switch-btn {
+    display: block;
+    margin-top: 0.5rem;
+    padding: 7px 12px;
+    border: 1px solid var(--color-accent);
+    border-radius: 6px;
+    background: #fff;
+    color: var(--color-accent-dark);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
   /* 合計が一致しないときだけ赤くする。既定は控えめな注記 */
   .attr-total { margin-top: 0.5rem; }
   .attr-total.is-error { color: var(--color-error); font-weight: 600; }
@@ -655,15 +703,18 @@
           <label for="attrAdultFInput" data-i18n="attrAdultF">Adult (female)</label>
           <select id="attrAdultFInput"></select>
         </div>
-        <div class="attr-row">
+        <div class="attr-row" id="attrAdultMRow">
           <label for="attrAdultMInput" data-i18n="attrAdultM">Adult (male)</label>
-          <select id="attrAdultMInput"></select>
+          <select id="attrAdultMInput" aria-describedby="attrAdultMNote"></select>
         </div>
         <div class="attr-row">
           <label for="attrChildInput" data-i18n="attrChild">Child</label>
           <select id="attrChildInput"></select>
         </div>
-        <p class="field-hint hidden" id="attrAdultMNote" data-i18n="attrAdultMNote">Adult men can book the Full Kimono Dressing plan.</p>
+        <div class="constraint-note hidden" id="attrAdultMNote" role="status" aria-live="polite">
+          <span data-i18n="attrAdultMNote">Adult men can book the Full Kimono Dressing plan.</span>
+          <button type="button" class="switch-btn" id="attrSwitchBtn" data-i18n="attrSwitchBtn">Switch to the full plan</button>
+        </div>
         <p class="field-hint" data-i18n="attrChildNote">Children are typically ages 3 to 7. Same price as adults.</p>
         <p class="field-hint attr-total" id="attrTotalHint"></p>
       </fieldset>
@@ -824,6 +875,7 @@
       featAllWelcome: '男女ともご利用いただけます',
       errMaleNeedsFull: '大人の男性は「和装本格着付け」をお選びください。「和装体験」は大人の女性とお子様が対象です。',
       attrAdultMNote: '大人の男性は「和装本格着付け」のみご利用いただけます。',
+      attrSwitchBtn: '本格着付けに変更する',
       dateTitle: '2. 日時を選択',
       dateLabel: '日付',
       timeLabel: '選択可能な時間',
@@ -951,6 +1003,7 @@
       featAllWelcome: 'Open to all genders',
       errMaleNeedsFull: 'Adult men are welcome on the Full Kimono Dressing plan. The Kimono Experience plan is for adult women and children.',
       attrAdultMNote: 'Adult men can book the Full Kimono Dressing plan.',
+      attrSwitchBtn: 'Switch to the full plan',
       dateTitle: '2. Choose date & time',
       dateLabel: 'Date',
       timeLabel: 'Available times',
@@ -1078,6 +1131,7 @@
       featAllWelcome: '男女均可参加',
       errMaleNeedsFull: '成年男性请选择「正式和服着装」。「和服体验」的对象为成年女性与儿童。',
       attrAdultMNote: '成年男性仅可选择「正式和服着装」。',
+      attrSwitchBtn: '改选正式和服着装',
       dateTitle: '2. 选择日期和时间',
       dateLabel: '日期',
       timeLabel: '可选时间',
@@ -1205,6 +1259,7 @@
       featAllWelcome: '男女均可參加',
       errMaleNeedsFull: '成年男性請選擇「正式和服著裝」。「和服體驗」的對象為成年女性與兒童。',
       attrAdultMNote: '成年男性僅可選擇「正式和服著裝」。',
+      attrSwitchBtn: '改選正式和服著裝',
       dateTitle: '2. 選擇日期與時間',
       dateLabel: '日期',
       timeLabel: '可選時間',
@@ -1332,6 +1387,7 @@
       featAllWelcome: '남녀 모두 이용하실 수 있습니다',
       errMaleNeedsFull: '성인 남성은 「정통 기모노 착장」을 선택해 주세요. 「기모노 체험」은 성인 여성과 어린이가 대상입니다.',
       attrAdultMNote: '성인 남성은 「정통 기모노 착장」만 이용하실 수 있습니다.',
+      attrSwitchBtn: '정통 착장으로 변경',
       dateTitle: '2. 날짜 및 시간 선택',
       dateLabel: '날짜',
       timeLabel: '선택 가능 시간',
@@ -1459,6 +1515,7 @@
       featAllWelcome: 'Ouvert à toutes et à tous',
       errMaleNeedsFull: "Les hommes adultes sont accueillis sur la formule Habillage Kimono Complet. La formule Expérience Kimono s'adresse aux femmes adultes et aux enfants.",
       attrAdultMNote: 'Les hommes adultes peuvent réserver la formule Habillage Kimono Complet.',
+      attrSwitchBtn: 'Passer à la formule complète',
       dateTitle: '2. Choisissez la date et l\'heure',
       dateLabel: 'Date',
       timeLabel: 'Horaires disponibles',
@@ -1745,6 +1802,8 @@
     treatInput: document.getElementById('treatInput'),
     attrAdultFInput: document.getElementById('attrAdultFInput'),
     attrAdultMNote: document.getElementById('attrAdultMNote'),
+    attrAdultMRow: document.getElementById('attrAdultMRow'),
+    attrSwitchBtn: document.getElementById('attrSwitchBtn'),
     attrAdultMInput: document.getElementById('attrAdultMInput'),
     attrChildInput: document.getElementById('attrChildInput'),
     attrTotalHint: document.getElementById('attrTotalHint'),
@@ -1937,7 +1996,12 @@
       var featureHtml = features.map(function (key) {
         // featNo... は「含まれない」項目。灰色＋「—」で見せ分ける
         var absent = key.indexOf('featNo') === 0;
-        return '<li' + (absent ? ' class="is-absent"' : '') + '>' + t(key) + '</li>';
+        // 対象者（誰が受けられるか）は、他のプラン内容と重みを変える。
+        // ヘアセットの有無と同列に並べると見落とされ、
+        // 入力の最後まで進んでから弾かれることになる。
+        var isAudience = key === 'featWomenOnly' || key === 'featAllWelcome';
+        var cls = absent ? 'is-absent' : (isAudience ? 'audience' : '');
+        return '<li' + (cls ? ' class="' + cls + '"' : '') + '>' + t(key) + '</li>';
       }).join('');
 
       // 写真は、実在が確認できたときだけボタンを出す（後段で差し込む）
@@ -1954,17 +2018,7 @@
       addPhotoButton(box.querySelector('.photo-slot'), menuId);
 
       box.addEventListener('click', function () {
-        state.selectedMenu = menuId;
-        state.selectedSlot = null;
-        renderMenus();
-        // メニューによって受付開始日が変わるため、日付範囲を取り直す
-        updateDateRange();
-        renderSlotsForDate();
-        // プランによって大人の男性を受けられるかが変わる。
-        // ここで呼ばないと、和装体験に切り替えても
-        // 大人男性の欄が選べるままになる。
-        renderAttrOptions();
-        renderSummary();
+        selectMenu(menuId);
       });
       el.menuGrid.appendChild(box);
     });
@@ -2201,6 +2255,27 @@
     fillCountOptions(el.treatInput, maxTreat);
   }
 
+  /**
+   * プランを選ぶ。
+   *
+   * カードのクリックと、制約の注記にある切り替えボタンの
+   * 両方から呼ぶ。片方だけ処理が漏れると、
+   * 「切り替えたのに欄が開かない」といった不整合になる。
+   */
+  function selectMenu(menuId) {
+    state.selectedMenu = menuId;
+    state.selectedSlot = null;
+    renderMenus();
+    // メニューによって受付開始日が変わるため、日付範囲を取り直す
+    updateDateRange();
+    renderSlotsForDate();
+    // プランによって大人の男性を受けられるかが変わる。
+    // ここで呼ばないと、和装体験に切り替えても
+    // 大人男性の欄が選べるままになる。
+    renderAttrOptions();
+    renderSummary();
+  }
+
   /** 内訳（大人女性／大人男性／子ども）。合計が施術人数と一致する必要がある */
   function renderAttrOptions() {
     var treat = parseInt(el.treatInput.value, 10) || 1;
@@ -2215,6 +2290,7 @@
       ? MENU_ALLOWS_ADULT_MALE[state.selectedMenu] !== false
       : true;
     el.attrAdultMInput.disabled = !allowsMale;
+    el.attrAdultMRow.classList.toggle('is-disabled', !allowsMale);
     el.attrAdultMNote.classList.toggle('hidden', allowsMale);
     if (!allowsMale) {
       el.attrAdultMInput.value = '0';
@@ -2242,6 +2318,14 @@
     el.attrTotalHint.textContent = t('summaryTreat') + ': ' + sum + ' / ' + treat + t('peopleUnit');
     el.attrTotalHint.classList.toggle('is-error', sum !== treat);
   }
+
+  // 制約の注記から、その場で本格着付けに切り替える。
+  // 入力済みの内容はそのままにし、プランだけを変える。
+  el.attrSwitchBtn.addEventListener('click', function () {
+    selectMenu('honkaku');
+    // 切り替えたことが分かるよう、プラン欄を見せる
+    el.menuGrid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
 
   function getAttrSum() {
     return (parseInt(el.attrAdultFInput.value, 10) || 0)
