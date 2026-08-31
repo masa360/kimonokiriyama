@@ -329,6 +329,23 @@
   }
 
   /* 合計が一致しないときだけ赤くする。既定は控えめな注記 */
+  /* 各区分の下に、確定しているプランを小さく添える。
+     どの人がどのプランになるのかを、その場で分かるようにする */
+  .attr-plan {
+    margin: -0.25rem 0 0.6rem;
+    padding-left: 0.2rem;
+    font-size: 0.76rem;
+    color: var(--color-muted);
+  }
+  .attr-plan::before { content: '└ '; }
+
+  /* 混在の内訳。合計より一段下げて、内訳だと分かるようにする */
+  .summary-row.sub {
+    padding-left: 1rem;
+    font-size: 0.85rem;
+    color: var(--color-muted);
+  }
+
   .attr-total { margin-top: 0.5rem; }
   .attr-total.is-error { color: var(--color-error); font-weight: 600; }
 
@@ -660,17 +677,19 @@
           <label for="attrAdultFInput" data-i18n="attrAdultF">Adult (female)</label>
           <select id="attrAdultFInput"></select>
         </div>
+        <p class="attr-plan hidden" id="attrAdultFPlan"></p>
         <div class="attr-row">
           <label for="attrAdultMInput" data-i18n="attrAdultM">Adult (male)</label>
-          <select id="attrAdultMInput" aria-describedby="attrAdultMNote"></select>
+          <select id="attrAdultMInput"></select>
         </div>
+        <!-- 大人男性は本格着付けで固定。選ばせるものが無いので、そう書く -->
+        <p class="attr-plan hidden" id="attrAdultMPlan" data-i18n="fixedFull">Full Kimono Dressing</p>
         <div class="attr-row">
           <label for="attrChildInput" data-i18n="attrChild">Child</label>
           <select id="attrChildInput"></select>
         </div>
-        <div class="constraint-note hidden" id="attrAdultMNote" role="status" aria-live="polite">
-          <span data-i18n="attrAdultMNote">Adult men can book the Full Kimono Dressing plan.</span>
-        </div>
+        <!-- お子様は和装体験で固定 -->
+        <p class="attr-plan hidden" id="attrChildPlan" data-i18n="fixedLight">Kimono Experience</p>
         <p class="field-hint" data-i18n="attrChildNote">Children are typically ages 3 to 7. Same price as adults.</p>
         <p class="field-hint attr-total" id="attrTotalHint"></p>
       </fieldset>
@@ -887,6 +906,11 @@
       errMaleNeedsFull: '大人の男性は「和装本格着付け」をお選びください。「和装体験」は大人の女性とお子様が対象です。',
       attrAdultMNote: '大人の男性は「和装本格着付け」のみご利用いただけます。',
       menuOnlyFull: '大人の男性がいらっしゃるため、本格着付けのみお選びいただけます。',
+      adultFPlanLabel: '大人（女性）のプラン',
+      fixedFull: '本格着付けとなります',
+      fixedLight: '和装体験となります',
+      summaryMixed: 'お支度の内訳',
+      menuMixedNote: '大人の男性・お子様のプランは決まっているため、大人の女性の分をお選びください。',
       dateTitle: '3. 日時を選択',
       dateLabel: '日付',
       timeLabel: '選択可能な時間',
@@ -1016,6 +1040,11 @@
       errMaleNeedsFull: 'Adult men are welcome on the Full Kimono Dressing plan. The Kimono Experience plan is for adult women and children.',
       attrAdultMNote: 'Adult men can book the Full Kimono Dressing plan.',
       menuOnlyFull: 'Because an adult man is joining, only the Full Kimono Dressing plan is available.',
+      adultFPlanLabel: 'Plan for adult women',
+      fixedFull: 'Full Kimono Dressing',
+      fixedLight: 'Kimono Experience',
+      summaryMixed: 'Breakdown',
+      menuMixedNote: 'Plans for adult men and children are already set. Please choose the plan for adult women.',
       dateTitle: '3. Choose date & time',
       dateLabel: 'Date',
       timeLabel: 'Available times',
@@ -1145,6 +1174,11 @@
       errMaleNeedsFull: '成年男性请选择「正式和服着装」。「和服体验」的对象为成年女性与儿童。',
       attrAdultMNote: '成年男性仅可选择「正式和服着装」。',
       menuOnlyFull: '由于有成年男性参加，仅可选择正式和服着装。',
+      adultFPlanLabel: '成人（女性）的套餐',
+      fixedFull: '正式和服着装',
+      fixedLight: '和服体验',
+      summaryMixed: '内容明细',
+      menuMixedNote: '成年男性与儿童的套餐已确定，请选择成年女性的套餐。',
       dateTitle: '3. 选择日期与时间',
       dateLabel: '日期',
       timeLabel: '可选时间',
@@ -1274,6 +1308,11 @@
       errMaleNeedsFull: '成年男性請選擇「正式和服著裝」。「和服體驗」的對象為成年女性與兒童。',
       attrAdultMNote: '成年男性僅可選擇「正式和服著裝」。',
       menuOnlyFull: '由於有成年男性參加，僅可選擇正式和服著裝。',
+      adultFPlanLabel: '成人（女性）的方案',
+      fixedFull: '正式和服著裝',
+      fixedLight: '和服體驗',
+      summaryMixed: '內容明細',
+      menuMixedNote: '成年男性與兒童的方案已確定，請選擇成年女性的方案。',
       dateTitle: '3. 選擇日期與時間',
       dateLabel: '日期',
       timeLabel: '可選時間',
@@ -1403,6 +1442,11 @@
       errMaleNeedsFull: '성인 남성은 「정통 기모노 착장」을 선택해 주세요. 「기모노 체험」은 성인 여성과 어린이가 대상입니다.',
       attrAdultMNote: '성인 남성은 「정통 기모노 착장」만 이용하실 수 있습니다.',
       menuOnlyFull: '성인 남성이 참여하시므로 정통 기모노 착장만 선택하실 수 있습니다.',
+      adultFPlanLabel: '성인(여성)의 플랜',
+      fixedFull: '정통 기모노 착장',
+      fixedLight: '기모노 체험',
+      summaryMixed: '내역',
+      menuMixedNote: '성인 남성과 어린이의 플랜은 정해져 있습니다. 성인 여성의 플랜을 선택해 주세요.',
       dateTitle: '3. 날짜와 시간 선택',
       dateLabel: '날짜',
       timeLabel: '선택 가능 시간',
@@ -1532,6 +1576,11 @@
       errMaleNeedsFull: "Les hommes adultes sont accueillis sur la formule Habillage Kimono Complet. La formule Expérience Kimono s'adresse aux femmes adultes et aux enfants.",
       attrAdultMNote: 'Les hommes adultes peuvent réserver la formule Habillage Kimono Complet.',
       menuOnlyFull: 'Un homme adulte participant, seule la formule Habillage Kimono Complet est disponible.',
+      adultFPlanLabel: 'Formule pour les femmes adultes',
+      fixedFull: 'Habillage Kimono Complet',
+      fixedLight: 'Expérience Kimono',
+      summaryMixed: 'Détail',
+      menuMixedNote: 'Les formules pour les hommes adultes et les enfants sont déjà fixées. Choisissez celle des femmes adultes.',
       dateTitle: "3. Choisissez la date et l'heure",
       dateLabel: 'Date',
       timeLabel: 'Horaires disponibles',
@@ -1750,6 +1799,17 @@
    * 選べない組み合わせは、送信前に理由を出して止める
    * （当日「できません」となるのが一番困る）。
    */
+  /**
+   * 区分ごとの、固定されているプラン。
+   *
+   * 大人男性は本格のみ、お子様は体験のみ（いずれも美容室の決定）。
+   * 大人女性だけが選べるので、画面に出す選択肢は1つで足りる。
+   */
+  var FIXED_MENU_BY_ATTR = {
+    adultM: 'honkaku',
+    child: 'taiken',
+  };
+
   var MENU_ALLOWS_ADULT_MALE = {
     taiken: false,
     honkaku: true,
@@ -1817,7 +1877,9 @@
     attendInput: document.getElementById('attendInput'),
     treatInput: document.getElementById('treatInput'),
     attrAdultFInput: document.getElementById('attrAdultFInput'),
-    attrAdultMNote: document.getElementById('attrAdultMNote'),
+    attrAdultFPlan: document.getElementById('attrAdultFPlan'),
+    attrAdultMPlan: document.getElementById('attrAdultMPlan'),
+    attrChildPlan: document.getElementById('attrChildPlan'),
     menuNote: document.getElementById('menuNote'),
     attrAdultMInput: document.getElementById('attrAdultMInput'),
     attrChildInput: document.getElementById('attrChildInput'),
@@ -1999,18 +2061,15 @@
   /**
    * いま選べるプランを返す。
    *
-   * 大人の男性がいれば本格着付けのみ。
-   * 選べないものを見せないことで、選んだあとに弾かれる状況を無くす。
+   * 混在できるようになったので、絞る必要がなくなった。
+   * 大人男性は本格、お子様は体験で固定され、
+   * ここで選ぶのは「大人女性の分」だけ。
+   *
+   * 大人女性が0名なら選ぶものが無いが、
+   * 枠の長さを決めるために選択自体は残す。
    */
   function availableMenuIds() {
-    var ids = Object.keys(state.menus);
-    var adultM = parseInt(el.attrAdultMInput.value, 10) || 0;
-    if (adultM > 0) {
-      return ids.filter(function (id) {
-        return MENU_ALLOWS_ADULT_MALE[id] !== false;
-      });
-    }
-    return ids;
+    return Object.keys(state.menus);
   }
 
   function renderMenus() {
@@ -2029,11 +2088,17 @@
       state.selectedMenu = ids[0];
     }
 
-    // なぜ選択肢が減っているのかを述べる。
-    // 黙って消すと「片方が出ない不具合」に見える。
-    var hidden = Object.keys(state.menus).length - ids.length;
-    el.menuNote.textContent = hidden > 0 ? t('menuOnlyFull') : '';
-    el.menuNote.classList.toggle('hidden', hidden === 0);
+    // 大人男性やお子様がいるときは、
+    // ここで選ぶのが「大人女性の分」だけであることを述べる。
+    // 述べないと、選んだプランが全員に適用されると誤解される。
+    // 実際にプランが分かれるときだけ出す。
+    // 女性も本格を選べば全員本格なので、注記は不要。
+    var hasFixed = (parseInt(el.attrAdultMInput.value, 10) || 0) > 0
+      || (parseInt(el.attrChildInput.value, 10) || 0) > 0;
+    var hasFemale = (parseInt(el.attrAdultFInput.value, 10) || 0) > 0;
+    var showNote = hasFixed && hasFemale && isMixedParty();
+    el.menuNote.textContent = showNote ? t('menuMixedNote') : '';
+    el.menuNote.classList.toggle('hidden', !showNote);
 
     ids.forEach(function (menuId) {
       var menu = state.menus[menuId];
@@ -2342,9 +2407,19 @@
       fillCountOptions(sel, treat, 0);
     });
 
-    // 人数を先に聞くようになったので、ここで大人男性を止める必要はない。
-    // 男性がいるならプランの側を絞る（availableMenuIds）。
-    // 「入力してから弾かれる」より「選べないものを見せない」ほうが良い。
+    // 各区分の下に、その人たちのプランを書く。
+    // 0名の区分には出さない（読む量を増やさない）。
+    var adultF = parseInt(el.attrAdultFInput.value, 10) || 0;
+    var adultM = parseInt(el.attrAdultMInput.value, 10) || 0;
+    var child = parseInt(el.attrChildInput.value, 10) || 0;
+
+    var femaleName = state.selectedMenu && MENU_NAMES[state.selectedMenu]
+      ? (MENU_NAMES[state.selectedMenu][state.lang] || MENU_NAMES[state.selectedMenu].en)
+      : '';
+    el.attrAdultFPlan.textContent = femaleName;
+    el.attrAdultFPlan.classList.toggle('hidden', !adultF || !femaleName);
+    el.attrAdultMPlan.classList.toggle('hidden', !adultM);
+    el.attrChildPlan.classList.toggle('hidden', !child);
     // 内訳を触るまでは「大人女性が全員」で埋めておく。
     // 最も多いケースに寄せて、入力の手間を減らす。
     if (!state.attrTouched) {
@@ -2364,6 +2439,46 @@
     el.attrTotalHint.classList.toggle('is-error', sum !== treat);
   }
 
+  /**
+   * 区分ごとの人数と、それぞれのプランを返す。
+   *
+   * 料金・確認欄・送信データの3か所で使う。
+   * ここ1か所で組み立てることで、表示と実際の請求がずれないようにする。
+   */
+  function getPartyBreakdown() {
+    var adultF = parseInt(el.attrAdultFInput.value, 10) || 0;
+    var adultM = parseInt(el.attrAdultMInput.value, 10) || 0;
+    var child = parseInt(el.attrChildInput.value, 10) || 0;
+    // 大人女性のプランは、上で選んだプランに従う
+    var femaleMenu = state.selectedMenu || 'taiken';
+    var rows = [];
+    if (adultF) rows.push({ attr: 'adultF', count: adultF, menu: femaleMenu });
+    if (adultM) rows.push({ attr: 'adultM', count: adultM, menu: FIXED_MENU_BY_ATTR.adultM });
+    if (child) rows.push({ attr: 'child', count: child, menu: FIXED_MENU_BY_ATTR.child });
+    return rows;
+  }
+
+  /** この組が混在しているか（プランが2種類以上あるか） */
+  function isMixedParty() {
+    var seen = {};
+    getPartyBreakdown().forEach(function (r) { seen[r.menu] = 1; });
+    return Object.keys(seen).length > 1;
+  }
+
+  /**
+   * 枠を押さえる時間を決めるプラン。
+   *
+   * 混在する組は、長いほう（本格60分）に合わせる。
+   * 短いほうに合わせると、当日に枠を食い込む。
+   */
+  function occupancyMenuId() {
+    var rows = getPartyBreakdown();
+    for (var i = 0; i < rows.length; i++) {
+      if (rows[i].menu === 'honkaku') return 'honkaku';
+    }
+    return rows.length ? rows[0].menu : (state.selectedMenu || 'taiken');
+  }
+
   function getAttrSum() {
     return (parseInt(el.attrAdultFInput.value, 10) || 0)
       + (parseInt(el.attrAdultMInput.value, 10) || 0)
@@ -2381,6 +2496,29 @@
       ? Math.floor(subtotal * GROUP_DISCOUNT_RATE)
       : 0;
     return { subtotal: subtotal, discount: discount, total: subtotal - discount };
+  }
+
+  /**
+   * 混在を含む料金を計算する。
+   *
+   * 区分ごとの単価を足し上げ、割引は「合計から」10%
+   * （2026-08-31 決定。プランごとに分けて掛けない）。
+   */
+  function calcPartyPrice() {
+    var rows = getPartyBreakdown();
+    var subtotal = 0;
+    var treat = 0;
+    rows.forEach(function (r) {
+      var m = state.menus[r.menu];
+      if (!m) return;
+      subtotal += m.priceInclTax * r.count;
+      treat += r.count;
+    });
+    var discount = treat >= GROUP_DISCOUNT_MIN
+      ? Math.floor(subtotal * GROUP_DISCOUNT_RATE)
+      : 0;
+    return { subtotal: subtotal, discount: discount, total: subtotal - discount,
+             treat: treat, rows: rows };
   }
 
   // ==========================================================
@@ -2406,7 +2544,11 @@
    * 既に選んでいた日付が範囲外になった場合は、最短の日に寄せる。
    */
   function updateDateRange() {
-    var menu = state.selectedMenu ? state.menus[state.selectedMenu] : null;
+    // 混在なら本格着付けに従う。
+    // 女性が体験を選んでいても、男性がいれば着付け師の手配が要るため、
+    // 3日前までという条件は変わらない。
+    var occId = occupancyMenuId();
+    var menu = occId ? state.menus[occId] : null;
     var minDays = resolveMinDaysAhead(menu);
 
     // 閲覧者の端末TZではなく、日本時間の「今日」を基準にする
@@ -2452,7 +2594,8 @@
 
     if (!state.selectedMenu || !state.selectedDate) return;
 
-    var menu = state.menus[state.selectedMenu];
+    // 枠の長さと受付開始日は、いちばん長い／厳しいプランに合わせる
+    var menu = state.menus[occupancyMenuId()] || state.menus[state.selectedMenu];
     var dateStr = state.selectedDate;
 
     var blockReason = getDateBlockReason(dateStr, menu);
@@ -2636,14 +2779,41 @@
       el.summaryBody.innerHTML = '<p style="color:var(--color-muted); font-size:0.9rem;">—</p>';
       return;
     }
-    var menu = state.menus[state.selectedMenu];
-    var menuName = MENU_NAMES[state.selectedMenu] ? (MENU_NAMES[state.selectedMenu][state.lang] || MENU_NAMES[state.selectedMenu].en) : state.selectedMenu;
     var attend = parseInt(el.attendInput.value, 10) || 1;
     var treat = parseInt(el.treatInput.value, 10) || 1;
-    var price = calcPrice(menu, treat);
+    var price = calcPartyPrice();
+    var mixed = isMixedParty();
     var slot = state.selectedSlot;
+
+    function menuNameOf(id) {
+      return MENU_NAMES[id] ? (MENU_NAMES[id][state.lang] || MENU_NAMES[id].en) : id;
+    }
+    var menuName = menuNameOf(state.selectedMenu);
     // 日本時間であることを明示する。海外のお客様が現地時間と誤解するのを防ぐ。
     var dateStr = slot.dateStr + ' ' + slot.label + ' <small>(JST)</small>';
+
+    // 混在しているときは「何がいくら」を必ず出す。
+    // 単価が2種類あるのに合計だけ見せると、
+    // 金額の根拠が分からず当日の会計でもめる。
+    var mixRows = '';
+    if (mixed) {
+      // プラン単位でまとめる。区分ごとに出すと
+      // 「和装体験 × 1名」が2行並び、同じ行の繰り返しに見える。
+      var byMenu = {};
+      var order = [];
+      price.rows.forEach(function (r) {
+        if (byMenu[r.menu] === undefined) { byMenu[r.menu] = 0; order.push(r.menu); }
+        byMenu[r.menu] += r.count;
+      });
+      mixRows = '<div class="summary-row"><span>' + t('summaryMixed') + '</span><span></span></div>';
+      order.forEach(function (id) {
+        var m = state.menus[id];
+        if (!m) return;
+        mixRows += '<div class="summary-row sub"><span>' + menuNameOf(id)
+          + ' × ' + byMenu[id] + t('peopleUnit') + '</span><span>'
+          + (m.priceInclTax * byMenu[id]).toLocaleString() + t('priceUnitPlain') + '</span></div>';
+      });
+    }
 
     // 割引が乗るときだけ小計と割引額を出す。
     // 割引なしのときに0円の行を並べても読み手の負担が増えるだけ。
@@ -2658,11 +2828,17 @@
           + price.discount.toLocaleString() + t('priceUnitPlain') + '</span></div>';
     }
 
+    // 混在しているときは、代表プラン1つを書くと誤解を招くので出さない。
+    // 代わりに内訳（mixRows）で全員分を示す。
+    var planRow = mixed ? ''
+      : '<div class="summary-row"><span>' + t('summaryPlan') + '</span><span>' + menuName + '</span></div>';
+
     el.summaryBody.innerHTML =
-      '<div class="summary-row"><span>' + t('summaryPlan') + '</span><span>' + menuName + '</span></div>' +
+      planRow +
       '<div class="summary-row"><span>' + t('summaryDatetime') + '</span><span>' + dateStr + '</span></div>' +
       '<div class="summary-row"><span>' + t('summaryAttend') + '</span><span>' + attend + t('peopleUnit') + '</span></div>' +
       '<div class="summary-row"><span>' + t('summaryTreat') + '</span><span>' + treat + t('peopleUnit') + '</span></div>' +
+      mixRows +
       priceRows +
       '<div class="summary-row total"><span>' + t('summaryPrice') + '</span><span>'
         + price.total.toLocaleString() + t('priceUnit') + '</span></div>';
@@ -2725,16 +2901,15 @@
     if (treat > attend) return showFormError(t('errTreatOverAttend'));
     if (getAttrSum() !== treat) return showFormError(t('errAttrSum'));
 
-    // 大人の男性が受けられないプランを選んでいないか。
-    // フォームでは 0 に固定しているが、値を書き換えられても
-    // 当日もめないよう、ここでも確かめる。
-    if (MENU_ALLOWS_ADULT_MALE[state.selectedMenu] === false
-        && (parseInt(el.attrAdultMInput.value, 10) || 0) > 0) {
-      return showFormError(t('errMaleNeedsFull'));
-    }
+    // 大人男性のプラン制約は、混在対応で不要になった。
+    // 男性は常に本格着付けとして計算されるため、
+    // 「体験を選んだ男性」という状態が作れない。
 
-    var selectedMenu = state.menus[state.selectedMenu];
-    var price = calcPrice(selectedMenu, treat);
+    // 枠の長さは、いちばん長いプランに合わせる（混在なら本格60分）。
+    // サーバー側も同じ menu で占有時間を出すため、ここを間違えると
+    // カレンダーの押さえが足りなくなる。
+    var occMenuId = occupancyMenuId();
+    var price = calcPartyPrice();
 
     var payload = {
       name: name,
@@ -2750,7 +2925,11 @@
       discount: price.discount,
       totalPrice: price.total,
       age: age,
-      menu: state.selectedMenu,
+      // 占有時間の決定に使う（従来どおり1つ）。混在なら長いほう。
+      menu: occMenuId,
+      // 大人女性のプラン。混在の判定と料金計算に使う。
+      // 無ければ menu が全員に適用される（旧フロント互換）。
+      adultFMenu: state.selectedMenu,
       datetime: toJstIso(state.selectedSlot),
       lang: state.lang,
       website: el.websiteInput.value, // ハニーポット
