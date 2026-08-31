@@ -628,9 +628,62 @@
 
   <form id="bookingForm" class="hidden" novalidate>
 
+    <!--
+      人数を最初に聞く。
+      誰が来るか分かってからプランを出せば、
+      選べないプランをそもそも見せずに済む。
+    -->
     <div class="card">
-      <h2 data-i18n="menuTitle">1. Choose your plan</h2>
+      <h2 data-i18n="peopleTitle">1. Who is coming</h2>
+      <!--
+        人数は「来店する人数」と「施術を受ける人数」の2段構え。
+        付き添いだけの方がいるため、1項目だと料金計算と待合席の
+        見積もりが両方ずれる。料金は施術人数のみに掛かる。
+      -->
+      <label for="attendInput" data-i18n="attendLabel">Total visitors</label>
+      <select id="attendInput" required></select>
+      <!-- 文言は renderPeopleOptions() が上限値を埋めて差し替える -->
+      <p class="field-hint" id="attendHint"></p>
+
+      <label for="treatInput" data-i18n="treatLabel">Guests being dressed</label>
+      <select id="treatInput" required></select>
+      <p class="field-hint" data-i18n="treatHint">The price is charged per guest being dressed.</p>
+
+      <!--
+        施術を受ける方の内訳。衣装と担当者の準備に必要なため、
+        人数だけでなく大人女性/大人男性/子ども の別を取る。
+        合計は treatInput と一致していなければ送信できない。
+      -->
+      <fieldset class="attr-group">
+        <legend data-i18n="attrTitle">Breakdown of guests being dressed</legend>
+        <div class="attr-row">
+          <label for="attrAdultFInput" data-i18n="attrAdultF">Adult (female)</label>
+          <select id="attrAdultFInput"></select>
+        </div>
+        <div class="attr-row">
+          <label for="attrAdultMInput" data-i18n="attrAdultM">Adult (male)</label>
+          <select id="attrAdultMInput" aria-describedby="attrAdultMNote"></select>
+        </div>
+        <div class="attr-row">
+          <label for="attrChildInput" data-i18n="attrChild">Child</label>
+          <select id="attrChildInput"></select>
+        </div>
+        <div class="constraint-note hidden" id="attrAdultMNote" role="status" aria-live="polite">
+          <span data-i18n="attrAdultMNote">Adult men can book the Full Kimono Dressing plan.</span>
+        </div>
+        <p class="field-hint" data-i18n="attrChildNote">Children are typically ages 3 to 7. Same price as adults.</p>
+        <p class="field-hint attr-total" id="attrTotalHint"></p>
+      </fieldset>
+
+      <p class="field-hint" data-i18n="waitNote">Companions wait in the seating area by the reception.</p>
+
+    </div>
+
+    <div class="card">
+      <h2 data-i18n="menuTitle">2. Choose your plan</h2>
       <div class="menu-grid" id="menuGrid"></div>
+      <!-- 選べないプランがあるときだけ、その理由を出す -->
+      <p class="constraint-note hidden" id="menuNote" role="status" aria-live="polite"></p>
     </div>
 
     <div class="card">
@@ -677,49 +730,6 @@
                placeholder="90 1234 5678">
       </div>
       <p class="field-hint" data-i18n="phoneHint">Enter your mobile number without the leading zero.</p>
-
-      <!--
-        人数は「来店する人数」と「施術を受ける人数」の2段構え。
-        付き添いだけの方がいるため、1項目だと料金計算と待合席の
-        見積もりが両方ずれる。料金は施術人数のみに掛かる。
-      -->
-      <label for="attendInput" data-i18n="attendLabel">Total visitors</label>
-      <select id="attendInput" required></select>
-      <!-- 文言は renderPeopleOptions() が上限値を埋めて差し替える -->
-      <p class="field-hint" id="attendHint"></p>
-
-      <label for="treatInput" data-i18n="treatLabel">Guests being dressed</label>
-      <select id="treatInput" required></select>
-      <p class="field-hint" data-i18n="treatHint">The price is charged per guest being dressed.</p>
-
-      <!--
-        施術を受ける方の内訳。衣装と担当者の準備に必要なため、
-        人数だけでなく大人女性/大人男性/子ども の別を取る。
-        合計は treatInput と一致していなければ送信できない。
-      -->
-      <fieldset class="attr-group">
-        <legend data-i18n="attrTitle">Breakdown of guests being dressed</legend>
-        <div class="attr-row">
-          <label for="attrAdultFInput" data-i18n="attrAdultF">Adult (female)</label>
-          <select id="attrAdultFInput"></select>
-        </div>
-        <div class="attr-row" id="attrAdultMRow">
-          <label for="attrAdultMInput" data-i18n="attrAdultM">Adult (male)</label>
-          <select id="attrAdultMInput" aria-describedby="attrAdultMNote"></select>
-        </div>
-        <div class="attr-row">
-          <label for="attrChildInput" data-i18n="attrChild">Child</label>
-          <select id="attrChildInput"></select>
-        </div>
-        <div class="constraint-note hidden" id="attrAdultMNote" role="status" aria-live="polite">
-          <span data-i18n="attrAdultMNote">Adult men can book the Full Kimono Dressing plan.</span>
-          <button type="button" class="switch-btn" id="attrSwitchBtn" data-i18n="attrSwitchBtn">Switch to the full plan</button>
-        </div>
-        <p class="field-hint" data-i18n="attrChildNote">Children are typically ages 3 to 7. Same price as adults.</p>
-        <p class="field-hint attr-total" id="attrTotalHint"></p>
-      </fieldset>
-
-      <p class="field-hint" data-i18n="waitNote">Companions wait in the seating area by the reception.</p>
 
       <label for="ageInput" data-i18n="ageLabel">Representative's age</label>
       <input type="number" id="ageInput" min="1" max="120" inputmode="numeric" required>
@@ -864,7 +874,8 @@
       introTitle: 'サービスについて',
       introBody: '大阪城を望むホテル内のスペースで、日本の伝統衣装を着用し、ご自身のスマートフォンで自撮り撮影をお楽しみいただけます。撮影は屋内で行うため天候に左右されず、お天気がよければ大阪城を望むお庭でも撮影いただけます。',
       loading: '空き状況を読み込んでいます…',
-      menuTitle: '1. プランを選択',
+      peopleTitle: '1. ご利用人数',
+      menuTitle: '2. プランを選択',
       durationLabel: '約{min}分',
       featDressLight: '打掛を羽織ります',
       featDressFull: '本格的なお着付け',
@@ -875,8 +886,8 @@
       featAllWelcome: '男女ともご利用いただけます',
       errMaleNeedsFull: '大人の男性は「和装本格着付け」をお選びください。「和装体験」は大人の女性とお子様が対象です。',
       attrAdultMNote: '大人の男性は「和装本格着付け」のみご利用いただけます。',
-      attrSwitchBtn: '本格着付けに変更する',
-      dateTitle: '2. 日時を選択',
+      menuOnlyFull: '大人の男性がいらっしゃるため、本格着付けのみお選びいただけます。',
+      dateTitle: '3. 日時を選択',
       dateLabel: '日付',
       timeLabel: '選択可能な時間',
       noSlot: 'この日は空きがありません。',
@@ -885,7 +896,7 @@
       noSlotTooEarly: 'このプランは着付け師・美容師を別途手配するため、{date} 以降のご予約となります。',
       sameDayOk: '当日予約OK',
       leadDays: '{days}日前までにご予約ください（着付け師・美容師を手配いたします）',
-      detailsTitle: '3. お客様情報',
+      detailsTitle: '4. お客様情報',
       nameLabel: 'お名前',
       emailLabel: 'メールアドレス',
       phoneLabel: '携帯電話番号',
@@ -927,7 +938,7 @@
       waitNote: 'サロンにお入りいただけるのは、着付けをされる方のみです。付き添いの方は、受付前の待合スペース（椅子5席）でお待ちください。',
       errAttrSum: '内訳の合計が、着付けをされる人数と一致していません。',
       errTreatOverAttend: '着付けをされる人数が、参加人数を超えています。',
-      summaryTitle: '4. 内容確認',
+      summaryTitle: '5. ご予約内容の確認',
       phoneHint: 'ご連絡のつく携帯電話の番号を、先頭の0を除いてご入力ください（例: 090… → 90…）。',
       policyTitle: 'ご予約前にお読みください',
       policyCancelTitle: 'キャンセルポリシー',
@@ -992,7 +1003,8 @@
       introTitle: 'About this experience',
       introBody: 'Wear a traditional Japanese kimono and take your own photos in a space overlooking Osaka Castle. Photos are taken indoors, so the weather never gets in the way — and on a fine day you can also step out into the garden, which looks onto the castle.',
       loading: 'Loading availability…',
-      menuTitle: '1. Choose your plan',
+      peopleTitle: '1. Who is coming',
+      menuTitle: '2. Choose your plan',
       durationLabel: 'approx. {min} min',
       featDressLight: 'Drape a kimono robe over your clothes',
       featDressFull: 'Full kimono dressing',
@@ -1003,8 +1015,8 @@
       featAllWelcome: 'Open to all genders',
       errMaleNeedsFull: 'Adult men are welcome on the Full Kimono Dressing plan. The Kimono Experience plan is for adult women and children.',
       attrAdultMNote: 'Adult men can book the Full Kimono Dressing plan.',
-      attrSwitchBtn: 'Switch to the full plan',
-      dateTitle: '2. Choose date & time',
+      menuOnlyFull: 'Because an adult man is joining, only the Full Kimono Dressing plan is available.',
+      dateTitle: '3. Choose date & time',
       dateLabel: 'Date',
       timeLabel: 'Available times',
       noSlot: 'No available times on this date.',
@@ -1013,7 +1025,7 @@
       noSlotTooEarly: 'For this plan we arrange a kimono dresser and hairstylist for you, so the earliest available date is {date}.',
       sameDayOk: 'Same-day booking OK',
       leadDays: 'Book at least {days} days in advance (we arrange a kimono dresser and hairstylist)',
-      detailsTitle: '3. Your details',
+      detailsTitle: '4. Your details',
       nameLabel: 'Full name',
       emailLabel: 'Email',
       phoneLabel: 'Mobile number',
@@ -1055,7 +1067,7 @@
       waitNote: 'Only guests being dressed can enter the salon. Companions wait in the seating area by the reception (5 seats).',
       errAttrSum: 'The breakdown does not add up to the number of guests being dressed.',
       errTreatOverAttend: 'Guests being dressed cannot exceed total visitors.',
-      summaryTitle: '4. Confirm',
+      summaryTitle: '5. Confirm',
       phoneHint: 'Enter your mobile number without the leading zero.',
       policyTitle: 'Before you book',
       policyCancelTitle: 'Cancellation policy',
@@ -1120,7 +1132,8 @@
       introTitle: '关于本服务',
       introBody: '在酒店内可眺望大阪城的场地穿着日本传统和服，并用您自己的手机自拍留念。拍摄在室内进行，不受天气影响；天气好时，也可在可眺望大阪城的庭园拍摄。',
       loading: '正在加载空余时段…',
-      menuTitle: '1. 选择套餐',
+      peopleTitle: '1. 参加人数',
+      menuTitle: '2. 选择套餐',
       durationLabel: '约{min}分钟',
       featDressLight: '在衣服外披上和服外褂',
       featDressFull: '正式和服着装',
@@ -1131,8 +1144,8 @@
       featAllWelcome: '男女均可参加',
       errMaleNeedsFull: '成年男性请选择「正式和服着装」。「和服体验」的对象为成年女性与儿童。',
       attrAdultMNote: '成年男性仅可选择「正式和服着装」。',
-      attrSwitchBtn: '改选正式和服着装',
-      dateTitle: '2. 选择日期和时间',
+      menuOnlyFull: '由于有成年男性参加，仅可选择正式和服着装。',
+      dateTitle: '3. 选择日期与时间',
       dateLabel: '日期',
       timeLabel: '可选时间',
       noSlot: '该日期没有空余时段。',
@@ -1141,7 +1154,7 @@
       noSlotTooEarly: '此套餐需另行安排和服着装师与发型师，最早可预约日期为 {date}。',
       sameDayOk: '可当天预约',
       leadDays: '请至少提前{days}天预约（我们将为您安排和服着装师与发型师）',
-      detailsTitle: '3. 您的信息',
+      detailsTitle: '4. 客户信息',
       nameLabel: '姓名',
       emailLabel: '邮箱',
       phoneLabel: '手机号码',
@@ -1183,7 +1196,7 @@
       waitNote: '仅穿和服的客人可进入沙龙。陪同人员请在前台前的等候区（5个座位）稍候。',
       errAttrSum: '构成人数总和与穿和服的人数不一致。',
       errTreatOverAttend: '穿和服的人数不能超过到店人数。',
-      summaryTitle: '4. 确认信息',
+      summaryTitle: '5. 确认预约内容',
       phoneHint: '请输入可联系到您的手机号码（不含开头的0）。',
       policyTitle: '预约前请阅读',
       policyCancelTitle: '取消政策',
@@ -1248,7 +1261,8 @@
       introTitle: '關於本服務',
       introBody: '在飯店內可眺望大阪城的場地穿著日本傳統和服，並用您自己的手機自拍留念。拍攝於室內進行，不受天氣影響；天氣好時，也可在可眺望大阪城的庭園拍攝。',
       loading: '正在載入空餘時段…',
-      menuTitle: '1. 選擇方案',
+      peopleTitle: '1. 參加人數',
+      menuTitle: '2. 選擇方案',
       durationLabel: '約{min}分鐘',
       featDressLight: '在衣服外披上和服外褂',
       featDressFull: '正式和服著裝',
@@ -1259,8 +1273,8 @@
       featAllWelcome: '男女均可參加',
       errMaleNeedsFull: '成年男性請選擇「正式和服著裝」。「和服體驗」的對象為成年女性與兒童。',
       attrAdultMNote: '成年男性僅可選擇「正式和服著裝」。',
-      attrSwitchBtn: '改選正式和服著裝',
-      dateTitle: '2. 選擇日期與時間',
+      menuOnlyFull: '由於有成年男性參加，僅可選擇正式和服著裝。',
+      dateTitle: '3. 選擇日期與時間',
       dateLabel: '日期',
       timeLabel: '可選時間',
       noSlot: '該日期沒有空餘時段。',
@@ -1269,7 +1283,7 @@
       noSlotTooEarly: '此方案需另行安排和服著裝師與髮型師，最早可預約日期為 {date}。',
       sameDayOk: '可當日預約',
       leadDays: '請至少提前{days}天預約（我們將為您安排和服著裝師與髮型師）',
-      detailsTitle: '3. 您的資訊',
+      detailsTitle: '4. 顧客資訊',
       nameLabel: '姓名',
       emailLabel: '電子郵件',
       phoneLabel: '手機號碼',
@@ -1311,7 +1325,7 @@
       waitNote: '僅穿和服的客人可進入沙龍。陪同人員請於櫃檯前的等候區（5個座位）稍候。',
       errAttrSum: '組成人數總和與穿和服的人數不一致。',
       errTreatOverAttend: '穿和服的人數不可超過到店人數。',
-      summaryTitle: '4. 確認資訊',
+      summaryTitle: '5. 確認預約內容',
       phoneHint: '請輸入可聯絡到您的手機號碼（不含開頭的0）。',
       policyTitle: '預約前請閱讀',
       policyCancelTitle: '取消政策',
@@ -1376,7 +1390,8 @@
       introTitle: '서비스 소개',
       introBody: '오사카성이 보이는 호텔 내 공간에서 일본 전통 기모노를 입고 본인의 스마트폰으로 셀프 촬영을 즐기실 수 있습니다. 촬영은 실내에서 진행되어 날씨의 영향을 받지 않으며, 날씨가 좋으면 오사카성이 보이는 정원에서도 촬영하실 수 있습니다.',
       loading: '예약 가능 시간을 불러오는 중…',
-      menuTitle: '1. 플랜 선택',
+      peopleTitle: '1. 이용 인원',
+      menuTitle: '2. 플랜 선택',
       durationLabel: '약 {min}분',
       featDressLight: '옷 위에 기모노 겉옷을 걸칩니다',
       featDressFull: '정통 기모노 착장',
@@ -1387,8 +1402,8 @@
       featAllWelcome: '남녀 모두 이용하실 수 있습니다',
       errMaleNeedsFull: '성인 남성은 「정통 기모노 착장」을 선택해 주세요. 「기모노 체험」은 성인 여성과 어린이가 대상입니다.',
       attrAdultMNote: '성인 남성은 「정통 기모노 착장」만 이용하실 수 있습니다.',
-      attrSwitchBtn: '정통 착장으로 변경',
-      dateTitle: '2. 날짜 및 시간 선택',
+      menuOnlyFull: '성인 남성이 참여하시므로 정통 기모노 착장만 선택하실 수 있습니다.',
+      dateTitle: '3. 날짜와 시간 선택',
       dateLabel: '날짜',
       timeLabel: '선택 가능 시간',
       noSlot: '해당 날짜에는 예약 가능한 시간이 없습니다.',
@@ -1397,7 +1412,7 @@
       noSlotTooEarly: '이 플랜은 기모노 착장사와 헤어 디자이너를 별도로 준비해야 하므로, {date} 이후부터 예약하실 수 있습니다.',
       sameDayOk: '당일 예약 가능',
       leadDays: '최소 {days}일 전까지 예약해 주세요 (기모노 착장사와 헤어 디자이너를 준비합니다)',
-      detailsTitle: '3. 예약자 정보',
+      detailsTitle: '4. 고객 정보',
       nameLabel: '이름',
       emailLabel: '이메일',
       phoneLabel: '휴대전화 번호',
@@ -1439,7 +1454,7 @@
       waitNote: '살롱에 들어가실 수 있는 분은 기모노를 입는 분뿐입니다. 동행자는 접수 앞 대기 공간(의자 5석)에서 기다려 주세요.',
       errAttrSum: '구성 인원의 합계가 기모노를 입는 인원과 일치하지 않습니다.',
       errTreatOverAttend: '기모노를 입는 인원이 방문 인원을 초과할 수 없습니다.',
-      summaryTitle: '4. 예약 내용 확인',
+      summaryTitle: '5. 예약 내용 확인',
       phoneHint: '연락 가능한 휴대전화 번호를 맨 앞의 0을 빼고 입력해 주세요.',
       policyTitle: '예약 전 확인해 주세요',
       policyCancelTitle: '취소 정책',
@@ -1504,7 +1519,8 @@
       introTitle: 'À propos de cette expérience',
       introBody: "Portez un kimono traditionnel japonais et prenez vos propres photos dans un espace avec vue sur le château d'Osaka. Les photos se prennent à l'intérieur, sans contrainte météo ; par beau temps, vous pouvez aussi photographier dans le jardin, face au château.",
       loading: 'Chargement des disponibilités…',
-      menuTitle: '1. Choisissez votre formule',
+      peopleTitle: '1. Qui participe',
+      menuTitle: '2. Choisissez votre formule',
       durationLabel: 'environ {min} min',
       featDressLight: 'Kimono porté par-dessus vos vêtements',
       featDressFull: 'Habillage kimono complet',
@@ -1515,8 +1531,8 @@
       featAllWelcome: 'Ouvert à toutes et à tous',
       errMaleNeedsFull: "Les hommes adultes sont accueillis sur la formule Habillage Kimono Complet. La formule Expérience Kimono s'adresse aux femmes adultes et aux enfants.",
       attrAdultMNote: 'Les hommes adultes peuvent réserver la formule Habillage Kimono Complet.',
-      attrSwitchBtn: 'Passer à la formule complète',
-      dateTitle: '2. Choisissez la date et l\'heure',
+      menuOnlyFull: 'Un homme adulte participant, seule la formule Habillage Kimono Complet est disponible.',
+      dateTitle: "3. Choisissez la date et l'heure",
       dateLabel: 'Date',
       timeLabel: 'Horaires disponibles',
       noSlot: 'Aucun horaire disponible à cette date.',
@@ -1525,7 +1541,7 @@
       noSlotTooEarly: 'Pour cette formule, nous faisons appel a une habilleuse et a un coiffeur ; la date la plus proche est le {date}.',
       sameDayOk: 'Réservation le jour même possible',
       leadDays: "Reservez au moins {days} jours a l'avance (nous faisons appel a une habilleuse et a un coiffeur)",
-      detailsTitle: '3. Vos informations',
+      detailsTitle: '4. Vos coordonnées',
       nameLabel: 'Nom complet',
       emailLabel: 'E-mail',
       phoneLabel: 'Numéro de portable',
@@ -1567,7 +1583,7 @@
       waitNote: "Seules les personnes habillées peuvent entrer dans le salon. Les accompagnants patientent dans l'espace d'attente près de la réception (5 places).",
       errAttrSum: 'La répartition ne correspond pas au nombre de personnes habillées.',
       errTreatOverAttend: 'Le nombre de personnes habillées ne peut pas dépasser le nombre de visiteurs.',
-      summaryTitle: '4. Confirmation',
+      summaryTitle: '5. Confirmation',
       phoneHint: 'Saisissez votre numéro de portable sans le zéro initial.',
       policyTitle: 'À lire avant de réserver',
       policyCancelTitle: "Politique d'annulation",
@@ -1802,8 +1818,7 @@
     treatInput: document.getElementById('treatInput'),
     attrAdultFInput: document.getElementById('attrAdultFInput'),
     attrAdultMNote: document.getElementById('attrAdultMNote'),
-    attrAdultMRow: document.getElementById('attrAdultMRow'),
-    attrSwitchBtn: document.getElementById('attrSwitchBtn'),
+    menuNote: document.getElementById('menuNote'),
     attrAdultMInput: document.getElementById('attrAdultMInput'),
     attrChildInput: document.getElementById('attrChildInput'),
     attrTotalHint: document.getElementById('attrTotalHint'),
@@ -1859,6 +1874,13 @@
     sel.addEventListener('change', function () {
       state.attrTouched = true;
       updateAttrTotalHint();
+      // 大人男性の人数が変わると、選べるプランが変わる。
+      // 枠と日付もプランに従うので、あわせて描き直す。
+      if (sel === el.attrAdultMInput) {
+        renderMenus();
+        updateDateRange();
+        renderSlotsForDate();
+      }
       renderSummary();
     });
   });
@@ -1974,9 +1996,46 @@
   // メニュー選択
   // ==========================================================
 
+  /**
+   * いま選べるプランを返す。
+   *
+   * 大人の男性がいれば本格着付けのみ。
+   * 選べないものを見せないことで、選んだあとに弾かれる状況を無くす。
+   */
+  function availableMenuIds() {
+    var ids = Object.keys(state.menus);
+    var adultM = parseInt(el.attrAdultMInput.value, 10) || 0;
+    if (adultM > 0) {
+      return ids.filter(function (id) {
+        return MENU_ALLOWS_ADULT_MALE[id] !== false;
+      });
+    }
+    return ids;
+  }
+
   function renderMenus() {
     el.menuGrid.innerHTML = '';
-    Object.keys(state.menus).forEach(function (menuId) {
+    var ids = availableMenuIds();
+
+    // 選べなくなったプランを選んだままにしない。
+    // 人数を変えて選択肢が減ったとき、古い選択が残ると
+    // 送信時に弾かれ、原因も分からない。
+    if (state.selectedMenu && ids.indexOf(state.selectedMenu) === -1) {
+      state.selectedMenu = ids.length === 1 ? ids[0] : null;
+      state.selectedSlot = null;
+    }
+    // 選択肢が1つしかないなら、選ぶ手間を省いて最初から選んでおく
+    if (!state.selectedMenu && ids.length === 1) {
+      state.selectedMenu = ids[0];
+    }
+
+    // なぜ選択肢が減っているのかを述べる。
+    // 黙って消すと「片方が出ない不具合」に見える。
+    var hidden = Object.keys(state.menus).length - ids.length;
+    el.menuNote.textContent = hidden > 0 ? t('menuOnlyFull') : '';
+    el.menuNote.classList.toggle('hidden', hidden === 0);
+
+    ids.forEach(function (menuId) {
       var menu = state.menus[menuId];
       var box = document.createElement('div');
       box.className = 'menu-option' + (state.selectedMenu === menuId ? ' selected' : '');
@@ -2283,18 +2342,9 @@
       fillCountOptions(sel, treat, 0);
     });
 
-    // 和装体験は大人の女性とお子様が対象。
-    // 大人男性の欄は 0 に固定し、選べない理由をその場に出す
-    // （欄ごと消すと「入力欄が足りない」という別の疑問を生む）。
-    var allowsMale = state.selectedMenu
-      ? MENU_ALLOWS_ADULT_MALE[state.selectedMenu] !== false
-      : true;
-    el.attrAdultMInput.disabled = !allowsMale;
-    el.attrAdultMRow.classList.toggle('is-disabled', !allowsMale);
-    el.attrAdultMNote.classList.toggle('hidden', allowsMale);
-    if (!allowsMale) {
-      el.attrAdultMInput.value = '0';
-    }
+    // 人数を先に聞くようになったので、ここで大人男性を止める必要はない。
+    // 男性がいるならプランの側を絞る（availableMenuIds）。
+    // 「入力してから弾かれる」より「選べないものを見せない」ほうが良い。
     // 内訳を触るまでは「大人女性が全員」で埋めておく。
     // 最も多いケースに寄せて、入力の手間を減らす。
     if (!state.attrTouched) {
@@ -2302,12 +2352,7 @@
       el.attrAdultMInput.value = '0';
       el.attrChildInput.value = '0';
     }
-    // プランを変えて大人男性が選べなくなったときは、
-    // その分を大人女性に戻す（合計が合わないまま放置しない）。
-    if (!allowsMale && getAttrSum() !== treat) {
-      el.attrAdultFInput.value = String(
-        Math.max(0, treat - (parseInt(el.attrChildInput.value, 10) || 0)));
-    }
+
     updateAttrTotalHint();
   }
 
@@ -2318,14 +2363,6 @@
     el.attrTotalHint.textContent = t('summaryTreat') + ': ' + sum + ' / ' + treat + t('peopleUnit');
     el.attrTotalHint.classList.toggle('is-error', sum !== treat);
   }
-
-  // 制約の注記から、その場で本格着付けに切り替える。
-  // 入力済みの内容はそのままにし、プランだけを変える。
-  el.attrSwitchBtn.addEventListener('click', function () {
-    selectMenu('honkaku');
-    // 切り替えたことが分かるよう、プラン欄を見せる
-    el.menuGrid.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  });
 
   function getAttrSum() {
     return (parseInt(el.attrAdultFInput.value, 10) || 0)
