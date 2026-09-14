@@ -686,6 +686,48 @@
     height: 0;
     transition: height 0.5s ease;
   }
+  /* 最初に出る文字。写真より先に、言葉だけで場面を作る。
+     いきなり写真が出るより、一拍置いたほうが印象に残る。 */
+  .intro-lead {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    text-align: center;
+    color: #fff;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+    pointer-events: none;
+  }
+  .intro-lead.is-active { opacity: 1; }
+  /* 2行を順に浮かび上がらせる。同時に出すと「文章」になってしまい、
+     一息ついて読ませる間が作れない。 */
+  .intro-lead span {
+    display: block;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 1.1s ease, transform 1.1s ease;
+    font-size: 1.05rem;
+    line-height: 1.9;
+    letter-spacing: 0.08em;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+  }
+  .intro-lead span.is-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .intro-lead span.lead-2 {
+    /* 画面幅に追従させる。固定だと、狭い端末で
+       「してみません／か？」のような切れ方をする。 */
+    font-size: clamp(0.92rem, 4.6vw, 1.2rem);
+    font-weight: 600;
+    margin-top: 0.6em;
+  }
+
   .intro-slide {
     position: absolute;
     inset: 0;
@@ -693,13 +735,14 @@
     align-items: center;
     justify-content: center;
     opacity: 0;
-    /* L判らしく、少し傾けた状態から起こす */
-    transform: translateX(18%) rotate(2.5deg);
-    transition: opacity 0.9s ease, transform 0.9s ease;
+    /* 文字のあとはフェードで受ける。
+       横から滑り込ませると、文字を押しのけたように見える。 */
+    transform: scale(1.04);
+    transition: opacity 1.4s ease, transform 1.6s ease;
   }
   .intro-slide.is-active {
     opacity: 1;
-    transform: translateX(0) rotate(0deg);
+    transform: scale(1);
   }
   /* 白フチを付けてL判プリントに見せる */
   .intro-slide img {
@@ -732,6 +775,13 @@
       transform: none;
       transition: opacity 0.3s linear;
     }
+    .intro-slide.is-active { transform: none; }
+    .intro-lead { transition: opacity 0.3s linear; }
+    .intro-lead span {
+      transform: none;
+      transition: opacity 0.3s linear;
+    }
+    .intro-lead span.is-in { transform: none; }
     .intro-slides.is-done { transition: none; }
   }
 </style>
@@ -1078,6 +1128,8 @@
       photoBtn: 'こんな写真が撮れます',
       galleryBtn: 'お衣装（打掛）を見る',
       introSkip: 'スキップ',
+      introLead1: '大阪城が見える、特別なホテルで',
+      introLead2: '特別な和装体験をしてみませんか？',
       galleryNote: 'お衣装は当日、ご用意のある中からお選びいただけます。写真は一例で、在庫により異なる場合があります。女性の大人用です。',
       galleryAlt: 'お衣装の例（{n}枚目）',
       photoClose: '閉じる',
@@ -1225,6 +1277,8 @@
       photoBtn: 'See what your photos could look like',
       galleryBtn: 'See the kimono robes',
       introSkip: 'Skip',
+      introLead1: 'At a hotel with a view of Osaka Castle',
+      introLead2: 'Shall we try a kimono experience?',
       galleryNote: 'On the day you choose from the robes available. Photos are examples and the selection may differ. These are for adult women.',
       galleryAlt: 'Kimono robe, example {n}',
       photoClose: 'Close',
@@ -1372,6 +1426,8 @@
       photoBtn: '看看能拍出怎样的照片',
       galleryBtn: '查看和服外褂',
       introSkip: '跳过',
+      introLead1: '在可眺望大阪城的特别酒店',
+      introLead2: '体验一次特别的和服之旅',
       galleryNote: '当天可从现有的和服中挑选。照片仅为示例，实际可选款式可能不同。为成人女性用。',
       galleryAlt: '和服示例（第{n}张）',
       photoClose: '关闭',
@@ -1519,6 +1575,8 @@
       photoBtn: '看看能拍出怎樣的照片',
       galleryBtn: '查看和服外褂',
       introSkip: '略過',
+      introLead1: '在可眺望大阪城的特別飯店',
+      introLead2: '體驗一次特別的和服之旅',
       galleryNote: '當天可從現有的和服中挑選。照片僅為範例，實際可選款式可能不同。為成人女性用。',
       galleryAlt: '和服範例（第{n}張）',
       photoClose: '關閉',
@@ -1666,6 +1724,8 @@
       photoBtn: '이런 사진을 찍을 수 있습니다',
       galleryBtn: '기모노 겉옷 보기',
       introSkip: '건너뛰기',
+      introLead1: '오사카성이 보이는 특별한 호텔에서',
+      introLead2: '특별한 기모노 체험을 해보시겠어요?',
       galleryNote: '당일 준비된 것 중에서 고르실 수 있습니다. 사진은 예시이며 실제 선택 가능한 것은 다를 수 있습니다. 성인 여성용입니다.',
       galleryAlt: '기모노 예시 ({n}번째)',
       photoClose: '닫기',
@@ -1813,6 +1873,8 @@
       photoBtn: 'Voir un exemple de photo',
       galleryBtn: 'Voir les kimonos',
       introSkip: 'Passer',
+      introLead1: "Dans un hôtel avec vue sur le château d'Osaka",
+      introLead2: 'Et si vous essayiez le kimono ?',
       galleryNote: "Le jour même, vous choisissez parmi les modèles disponibles. Photos données à titre d'exemple ; la sélection peut différer. Réservé aux femmes adultes.",
       galleryAlt: 'Kimono, exemple {n}',
       photoClose: 'Fermer',
@@ -2237,6 +2299,10 @@
         // 押せないボタンが残ると、閉じ方が分からなくなる。
         var sk = document.querySelector('.intro-skip');
         if (sk) sk.textContent = t('introSkip');
+        var ld1 = document.querySelector('.intro-lead .lead-1');
+        var ld2 = document.querySelector('.intro-lead .lead-2');
+        if (ld1) ld1.textContent = t('introLead1');
+        if (ld2) ld2.textContent = t('introLead2');
         if (state.config) {
           renderMenus();
           renderPeopleOptions();
@@ -2567,7 +2633,14 @@
    * 押しても何も出ないボタンは、お客様には不具合に見える。
    */
   /**
-   * 導入スライドを動かす。
+   * 導入演出を動かす。
+   *
+   *   ① 文字だけが、ふわっと2行浮かび上がる
+   *   ② 文字が消えて、写真がフェードインする
+   *   ③ 畳んで、予約フォームに場を渡す
+   *
+   * 写真より先に言葉を置く。いきなり写真が出るより、
+   * 一拍あったほうが「何の店か」が入ってから絵を見られる。
    *
    * 1枚目が読めた時点で始め、残りは裏で読む。
    * 全部揃うのを待つと、予約フォームが出るまでが遅くなる。
@@ -2597,6 +2670,24 @@
       box.classList.remove('hidden');
       try { sessionStorage.setItem('introSeen', '1'); } catch (ignore) {}
 
+      // 動きを減らす設定なら、全体を短く済ませる
+      var reduce = window.matchMedia
+        && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // --- ① 文字 ---
+      var lead = document.createElement('div');
+      lead.className = 'intro-lead';
+      var l1 = document.createElement('span');
+      l1.className = 'lead-1';
+      l1.textContent = t('introLead1');
+      var l2 = document.createElement('span');
+      l2.className = 'lead-2';
+      l2.textContent = t('introLead2');
+      lead.appendChild(l1);
+      lead.appendChild(l2);
+      box.appendChild(lead);
+
+      // --- ② 写真 ---
       var slides = INTRO_PHOTOS.map(function (src, i) {
         var d = document.createElement('div');
         d.className = 'intro-slide';
@@ -2617,20 +2708,32 @@
       skip.addEventListener('click', close);
       box.appendChild(skip);
 
+      // 時間の割り振り。文字を読む間を先に取り、そのあと写真へ渡す。
+      var t1 = reduce ? 200 : 400;    // 1行目が出るまで
+      var t2 = reduce ? 500 : 1400;   // 2行目が出るまで
+      var tPhoto = reduce ? 1200 : 3400;  // 写真に切り替わるまで
+      var hold = reduce ? 1200 : 2600;    // 写真1枚あたり
+
+      var timers = [];
+      timers.push(setTimeout(function () {
+        lead.classList.add('is-active');
+        l1.classList.add('is-in');
+      }, t1));
+      timers.push(setTimeout(function () { l2.classList.add('is-in'); }, t2));
+
       var at = 0;
-      slides[0].classList.add('is-active');
-
-      // 動きを減らす設定なら、切り替えを速く終わらせる
-      var reduce = window.matchMedia
-        && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      var hold = reduce ? 1200 : 2200;
-
-      var timer = setInterval(function () {
-        slides[at].classList.remove('is-active');
-        at++;
-        if (at >= slides.length) { close(); return; }
-        slides[at].classList.add('is-active');
-      }, hold);
+      var timer = null;
+      timers.push(setTimeout(function () {
+        // 文字を先に引いてから写真を出す。重ねると両方読めない。
+        lead.classList.remove('is-active');
+        slides[0].classList.add('is-active');
+        timer = setInterval(function () {
+          slides[at].classList.remove('is-active');
+          at++;
+          if (at >= slides.length) { close(); return; }
+          slides[at].classList.add('is-active');
+        }, hold);
+      }, tPhoto));
 
       // スクロールされたら、見たいものが下にあるということ。すぐ畳む。
       window.addEventListener('scroll', close, { passive: true, once: true });
@@ -2640,7 +2743,8 @@
       function close() {
         if (closed) return;
         closed = true;
-        clearInterval(timer);
+        timers.forEach(clearTimeout);
+        if (timer) clearInterval(timer);
         box.classList.add('is-done');
         // 畳み終わってから消す。途中で消すと高さが飛ぶ
         setTimeout(function () { box.classList.add('hidden'); }, 600);
