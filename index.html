@@ -657,6 +657,83 @@
     margin-right: 6px;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ===========================================================
+     導入スライド
+     ページを開いた直後に、L判写真が流れてくる演出。
+
+     【なぜ入れるか】
+     以前はページを開くと文字だけで、写真は「こんな写真が撮れます」
+     を押した先にあった。押さない人には一生見えない。
+     チラシから来た人に「やってみたい」と思わせる材料が
+     入口に何も置かれていない状態だった。
+
+     【守っていること】
+     ・タップでもスクロールでも即座に消える（予約の邪魔をしない）
+     ・2回目以降は出さない（sessionStorage）
+     ・prefers-reduced-motion では動かさない
+     ・1枚目だけ先に読み、残りは裏で読む（表示を遅くしない）
+     =========================================================== */
+  .intro-slides {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-accent-dark);
+    /* 高さは画面に応じて。小さすぎると写真が潰れる */
+    height: min(58vh, 420px);
+  }
+  .intro-slides.is-done {
+    /* 閉じるときは高さごと畳む。要素を残すと余白が出る */
+    height: 0;
+    transition: height 0.5s ease;
+  }
+  .intro-slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    /* L判らしく、少し傾けた状態から起こす */
+    transform: translateX(18%) rotate(2.5deg);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  .intro-slide.is-active {
+    opacity: 1;
+    transform: translateX(0) rotate(0deg);
+  }
+  /* 白フチを付けてL判プリントに見せる */
+  .intro-slide img {
+    max-width: 78%;
+    max-height: 82%;
+    object-fit: contain;
+    background: #fff;
+    padding: 8px 8px 22px;
+    border-radius: 2px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+  }
+  .intro-skip {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    z-index: 2;
+    background: rgba(0,0,0,0.45);
+    color: #fff;
+    border: 0;
+    border-radius: 999px;
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    cursor: pointer;
+  }
+
+  /* 動きを減らす設定の端末では、動かさずに出すだけにする。
+     乗り物酔いのように感じる利用者が実際にいる。 */
+  @media (prefers-reduced-motion: reduce) {
+    .intro-slide {
+      transform: none;
+      transition: opacity 0.3s linear;
+    }
+    .intro-slides.is-done { transition: none; }
+  }
 </style>
 </head>
 <body>
@@ -666,6 +743,12 @@
   <p data-i18n="heroSubtitle">KKR Hotel Osaka</p>
   <div class="lang-switch" id="langSwitch"></div>
 </header>
+
+<!--
+  導入スライド。写真が1枚も無ければ JS が丸ごと消す。
+  帯の下に差し込む形にして、予約フォームを覆い隠さない。
+-->
+<div class="intro-slides hidden" id="introSlides"></div>
 
 <main>
 
@@ -994,6 +1077,7 @@
       photoAlt: '{plan} の様子',
       photoBtn: 'こんな写真が撮れます',
       galleryBtn: 'お衣装（打掛）を見る',
+      introSkip: 'スキップ',
       galleryNote: 'お衣装は当日、ご用意のある中からお選びいただけます。写真は一例で、在庫により異なる場合があります。女性の大人用です。',
       galleryAlt: 'お衣装の例（{n}枚目）',
       photoClose: '閉じる',
@@ -1140,6 +1224,7 @@
       photoAlt: 'Photo from the {plan} plan',
       photoBtn: 'See what your photos could look like',
       galleryBtn: 'See the kimono robes',
+      introSkip: 'Skip',
       galleryNote: 'On the day you choose from the robes available. Photos are examples and the selection may differ. These are for adult women.',
       galleryAlt: 'Kimono robe, example {n}',
       photoClose: 'Close',
@@ -1286,6 +1371,7 @@
       photoAlt: '{plan} 的照片',
       photoBtn: '看看能拍出怎样的照片',
       galleryBtn: '查看和服外褂',
+      introSkip: '跳过',
       galleryNote: '当天可从现有的和服中挑选。照片仅为示例，实际可选款式可能不同。为成人女性用。',
       galleryAlt: '和服示例（第{n}张）',
       photoClose: '关闭',
@@ -1432,6 +1518,7 @@
       photoAlt: '{plan} 的照片',
       photoBtn: '看看能拍出怎樣的照片',
       galleryBtn: '查看和服外褂',
+      introSkip: '略過',
       galleryNote: '當天可從現有的和服中挑選。照片僅為範例，實際可選款式可能不同。為成人女性用。',
       galleryAlt: '和服範例（第{n}張）',
       photoClose: '關閉',
@@ -1578,6 +1665,7 @@
       photoAlt: '{plan} 사진',
       photoBtn: '이런 사진을 찍을 수 있습니다',
       galleryBtn: '기모노 겉옷 보기',
+      introSkip: '건너뛰기',
       galleryNote: '당일 준비된 것 중에서 고르실 수 있습니다. 사진은 예시이며 실제 선택 가능한 것은 다를 수 있습니다. 성인 여성용입니다.',
       galleryAlt: '기모노 예시 ({n}번째)',
       photoClose: '닫기',
@@ -1724,6 +1812,7 @@
       photoAlt: 'Photo de la formule {plan}',
       photoBtn: 'Voir un exemple de photo',
       galleryBtn: 'Voir les kimonos',
+      introSkip: 'Passer',
       galleryNote: "Le jour même, vous choisissez parmi les modèles disponibles. Photos données à titre d'exemple ; la sélection peut différer. Réservé aux femmes adultes.",
       galleryAlt: 'Kimono, exemple {n}',
       photoClose: 'Fermer',
@@ -1890,6 +1979,20 @@
   var photoExists = {};
 
   /**
+   * 導入スライドに流す写真。
+   *
+   * 雰囲気を伝えるためのもので、判断材料ではない。
+   * プランの違いを示す写真（MENU_PHOTOS）とは役割が違う。
+   * 流れて消えるものには雰囲気を、止まって見るものには事実を。
+   *
+   * 1枚目が無ければ演出ごと出さない。
+   */
+  var INTRO_PHOTOS = [
+    'images/intro-1.jpg',
+    'images/intro-2.jpg',
+  ];
+
+  /**
    * 打掛ギャラリー。
    *
    * 衣装の「指定」はしない。システムは在庫を知らないため、
@@ -1905,6 +2008,10 @@
     'images/kimono-4.jpg',
     'images/kimono-5.jpg',
     'images/kimono-6.jpg',
+    'images/kimono-7.jpg',
+    'images/kimono-8.jpg',
+    'images/kimono-9.jpg',
+    'images/kimono-10.jpg',
   ];
 
   /** 実在が確認できた分だけ入る */
@@ -2002,6 +2109,7 @@
     countryCodeInput: document.getElementById('countryCodeInput'),
     agreeInput: document.getElementById('agreeInput'),
     gallerySlot: document.getElementById('gallerySlot'),
+    introSlides: document.getElementById('introSlides'),
     photoNav: document.getElementById('photoNav'),
     photoCount: document.getElementById('photoCount'),
     viewerNote: document.getElementById('viewerNote'),
@@ -2125,6 +2233,10 @@
         applyStaticI18n();
         updateAccessLinks();
         renderGalleryButton();
+        // 演出の途中で言語を変えられることがある。
+        // 押せないボタンが残ると、閉じ方が分からなくなる。
+        var sk = document.querySelector('.intro-skip');
+        if (sk) sk.textContent = t('introSkip');
         if (state.config) {
           renderMenus();
           renderPeopleOptions();
@@ -2454,6 +2566,88 @@
    * 画像が届いていない間はボタンごと出さない。
    * 押しても何も出ないボタンは、お客様には不具合に見える。
    */
+  /**
+   * 導入スライドを動かす。
+   *
+   * 1枚目が読めた時点で始め、残りは裏で読む。
+   * 全部揃うのを待つと、予約フォームが出るまでが遅くなる。
+   *
+   * 2回目以降は出さない。予約しに来た人にとって、
+   * 演出は待たされる時間でしかない。
+   * 「きれいだが毎回出る」が一番嫌われる。
+   */
+  function setupIntroSlides() {
+    var box = el.introSlides;
+    if (!box) return;
+
+    // 同じセッションで一度見せたら、もう出さない。
+    // private mode などで例外が出ることがあるので囲む。
+    try {
+      if (sessionStorage.getItem('introSeen')) return;
+    } catch (ignore) {}
+
+    var probe = new Image();
+    probe.onerror = function () { /* 写真が無ければ何もしない */ };
+    probe.onload = function () {
+      start();
+    };
+    probe.src = INTRO_PHOTOS[0];
+
+    function start() {
+      box.classList.remove('hidden');
+      try { sessionStorage.setItem('introSeen', '1'); } catch (ignore) {}
+
+      var slides = INTRO_PHOTOS.map(function (src, i) {
+        var d = document.createElement('div');
+        d.className = 'intro-slide';
+        var img = document.createElement('img');
+        // 1枚目以外は裏で読ませる
+        if (i > 0) img.loading = 'lazy';
+        img.src = src;
+        img.alt = '';
+        d.appendChild(img);
+        box.appendChild(d);
+        return d;
+      });
+
+      var skip = document.createElement('button');
+      skip.type = 'button';
+      skip.className = 'intro-skip';
+      skip.textContent = t('introSkip');
+      skip.addEventListener('click', close);
+      box.appendChild(skip);
+
+      var at = 0;
+      slides[0].classList.add('is-active');
+
+      // 動きを減らす設定なら、切り替えを速く終わらせる
+      var reduce = window.matchMedia
+        && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var hold = reduce ? 1200 : 2200;
+
+      var timer = setInterval(function () {
+        slides[at].classList.remove('is-active');
+        at++;
+        if (at >= slides.length) { close(); return; }
+        slides[at].classList.add('is-active');
+      }, hold);
+
+      // スクロールされたら、見たいものが下にあるということ。すぐ畳む。
+      window.addEventListener('scroll', close, { passive: true, once: true });
+      box.addEventListener('click', close);
+
+      var closed = false;
+      function close() {
+        if (closed) return;
+        closed = true;
+        clearInterval(timer);
+        box.classList.add('is-done');
+        // 畳み終わってから消す。途中で消すと高さが飛ぶ
+        setTimeout(function () { box.classList.add('hidden'); }, 600);
+      }
+    }
+  }
+
   function setupGallery() {
     var pending = GALLERY_PHOTOS.length;
     var found = [];
@@ -2492,6 +2686,7 @@
   }
 
   setupGallery();
+  setupIntroSlides();
 
   /** 参加人数（来店する人の合計） */
   function renderPeopleOptions() {
