@@ -2052,12 +2052,12 @@
    * 押しても何も出ないほうが、お客様には不具合に見える。
    */
   var MENU_PHOTOS = {
-    taiken: 'images/taiken.jpg',
-    honkaku: 'images/honkaku.jpg',
+    taiken: ['images/taiken.jpg', 'images/kimono-11.jpg', 'images/kimono-12.jpg'],
+    honkaku: ['images/honkaku.jpg', 'images/kimono-13.jpg', 'images/kimono-14.jpg'],
   };
 
-  /** 写真が実在するか（調べ終わるまで undefined） */
-  var photoExists = {};
+  /** 実在が確認できた分だけ入る（調べ終わるまで undefined） */
+  var menuPhotosAvailable = {};
 
   /**
    * 導入スライドに流す写真。
@@ -2093,6 +2093,10 @@
     'images/kimono-8.jpg',
     'images/kimono-9.jpg',
     'images/kimono-10.jpg',
+    'images/kimono-11.jpg',
+    'images/kimono-12.jpg',
+    'images/kimono-13.jpg',
+    'images/kimono-14.jpg',
   ];
 
   /** 実在が確認できた分だけ入る */
@@ -2531,21 +2535,29 @@
    */
   function addPhotoButton(slot, menuId) {
     if (!slot) return;
-    var src = MENU_PHOTOS[menuId];
-    if (!src) return;
+    var candidates = MENU_PHOTOS[menuId];
+    if (!candidates || !candidates.length) return;
 
     // 一度調べた結果は覚えておく。
     // 言語を切り替えるとカードを作り直すため、毎回調べ直していると
     // 調べ終わる前に作り直され、ボタンが二度と出なくなる。
-    if (photoExists[menuId] === true) {
-      slot.appendChild(buildPhotoButton(menuId));
+    if (menuPhotosAvailable[menuId]) {
+      if (menuPhotosAvailable[menuId].length) slot.appendChild(buildPhotoButton(menuId));
       return;
     }
-    if (photoExists[menuId] === false) return;
 
-    var probe = new Image();
-    probe.onload = function () {
-      photoExists[menuId] = true;
+    var pending = candidates.length;
+    var found = [];
+    candidates.forEach(function (src, i) {
+      var probe = new Image();
+      probe.onload = function () { found[i] = src; if (--pending === 0) finish(); };
+      probe.onerror = function () { if (--pending === 0) finish(); };
+      probe.src = src;
+    });
+
+    function finish() {
+      menuPhotosAvailable[menuId] = found.filter(function (x) { return !!x; });
+      if (!menuPhotosAvailable[menuId].length) return;
       // 調べている間にカードが作り直された可能性があるので、
       // 現在の差し込み先を取り直す
       var current = document.querySelector(
@@ -2554,11 +2566,7 @@
       if (!target.querySelector('.photo-btn')) {
         target.appendChild(buildPhotoButton(menuId));
       }
-    };
-    probe.onerror = function () {
-      photoExists[menuId] = false;
-    };
-    probe.src = src;
+    }
   }
 
   /** 「こんな写真が撮れます」ボタンを作る */
@@ -2579,12 +2587,12 @@
   var viewerState = { list: [], index: 0, altKey: 'photoAlt', altArg: '' };
 
   function openPhotoViewer(menuId) {
-    var src = MENU_PHOTOS[menuId];
-    if (!src) return;
+    var list = menuPhotosAvailable[menuId];
+    if (!list || !list.length) return;
     var planName = MENU_NAMES[menuId]
       ? (MENU_NAMES[menuId][state.lang] || MENU_NAMES[menuId].en)
       : menuId;
-    viewerState = { list: [src], index: 0, altKey: 'photoAlt', altArg: planName };
+    viewerState = { list: list, index: 0, altKey: 'photoAlt', altArg: planName };
     el.viewerNote.textContent = t('photoNote');
     showViewer();
   }
