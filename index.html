@@ -757,7 +757,7 @@
     /* 文字のあとはフェードで受ける。
        横から滑り込ませると、文字を押しのけたように見える。 */
     transform: scale(1.04);
-    transition: opacity 1.4s ease, transform 1.6s ease;
+    transition: opacity 0.9s ease, transform 1.1s ease;
   }
   .intro-slide.is-active {
     opacity: 1;
@@ -2071,6 +2071,8 @@
   var INTRO_PHOTOS = [
     'images/intro-1.jpg',
     'images/intro-2.jpg',
+    'images/honkaku.jpg',
+    'images/kimono-13.jpg',
   ];
 
   /**
@@ -2739,7 +2741,7 @@
       var t1 = reduce ? 200 : 400;    // 1行目が出るまで
       var t2 = reduce ? 500 : 1400;   // 2行目が出るまで
       var tPhoto = reduce ? 1200 : 3400;  // 写真に切り替わるまで
-      var hold = reduce ? 1200 : 2600;    // 写真1枚あたり
+      var hold = reduce ? 900 : 1500;     // 写真1枚あたり（4枚でも尺が伸びすぎないよう短縮）
 
       var timers = [];
       timers.push(setTimeout(function () {
