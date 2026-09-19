@@ -2053,7 +2053,7 @@
    */
   var MENU_PHOTOS = {
     taiken: ['images/taiken.jpg', 'images/kimono-11.jpg', 'images/kimono-12.jpg'],
-    honkaku: ['images/honkaku.jpg', 'images/kimono-13.jpg', 'images/kimono-14.jpg'],
+    honkaku: ['images/honkaku.jpg', 'images/kimono-13.jpg', 'images/kimono-14.jpg', 'images/kimono-15.jpg'],
   };
 
   /** 実在が確認できた分だけ入る（調べ終わるまで undefined） */
@@ -2073,6 +2073,7 @@
     'images/intro-2.jpg',
     'images/honkaku.jpg',
     'images/kimono-13.jpg',
+    'images/kimono-15.jpg',
   ];
 
   /**
@@ -2099,6 +2100,7 @@
     'images/kimono-12.jpg',
     'images/kimono-13.jpg',
     'images/kimono-14.jpg',
+    'images/kimono-15.jpg',
   ];
 
   /** 実在が確認できた分だけ入る */
@@ -2741,7 +2743,7 @@
       var t1 = reduce ? 200 : 400;    // 1行目が出るまで
       var t2 = reduce ? 500 : 1400;   // 2行目が出るまで
       var tPhoto = reduce ? 1200 : 3400;  // 写真に切り替わるまで
-      var hold = reduce ? 900 : 1500;     // 写真1枚あたり（4枚でも尺が伸びすぎないよう短縮）
+      var hold = reduce ? 700 : 1100;     // 写真1枚あたり（枚数が増えても尺が伸びすぎないよう短縮）
 
       var timers = [];
       timers.push(setTimeout(function () {
