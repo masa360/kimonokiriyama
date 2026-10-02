@@ -177,7 +177,8 @@
   input[type="tel"],
   input[type="number"],
   input[type="date"],
-  select {
+  select,
+  textarea {
     width: 100%;
     padding: 10px 12px;
     border: 1px solid var(--color-border);
@@ -185,6 +186,11 @@
     font-size: 1rem;
     background: #fff;
     color: var(--color-text);
+  }
+  textarea {
+    font-family: inherit;
+    line-height: 1.5;
+    resize: vertical;
   }
   .slot-grid {
     display: grid;
@@ -962,6 +968,15 @@
       <label for="ageInput" data-i18n="ageLabel">Representative's age</label>
       <input type="number" id="ageInput" min="1" max="120" inputmode="numeric" required>
 
+      <!--
+        ご要望・ご質問（任意）。美容室への通知とカレンダーにそのまま載る。
+        出張など、ここで受けられない相談が来ることもあるが、
+        レアケースなので美容室が個別に対応する（2026-10-02 決定）。
+      -->
+      <label for="requestInput" data-i18n="requestLabel">Requests or questions (optional)</label>
+      <textarea id="requestInput" rows="3" maxlength="500"></textarea>
+      <p class="field-hint" data-i18n="requestHint">Let us know anything we should prepare for, such as your children's ages or if you need a larger size.</p>
+
       <div class="honeypot" aria-hidden="true">
         <label for="websiteInput">Website</label>
         <input type="text" id="websiteInput" name="website" tabindex="-1" autocomplete="off">
@@ -1184,6 +1199,8 @@
       hotelRoomLabel: 'お部屋番号（お分かりの場合）',
       hotelRoomHint: 'チェックイン前の場合は空欄で構いません。',
       summaryHotel: 'ホテルご宿泊',
+      requestLabel: 'ご要望・ご質問（任意）',
+      requestHint: 'お子様の年齢や、大きめのサイズが必要な場合など、事前にお知らせいただきたいことがあればご記入ください。',
       yes: 'はい',
       errAttrSum: '内訳の合計が、着付けをされる人数と一致していません。',
       errTreatOverAttend: '着付けをされる人数が、参加人数を超えています。',
@@ -1333,6 +1350,8 @@
       hotelRoomLabel: 'Room number (if you know it)',
       hotelRoomHint: 'Leave this blank if you have not checked in yet.',
       summaryHotel: 'Staying at the hotel',
+      requestLabel: 'Requests or questions (optional)',
+      requestHint: "Let us know anything we should prepare for, such as your children's ages or if you need a larger size.",
       yes: 'Yes',
       errAttrSum: 'The breakdown does not add up to the number of guests being dressed.',
       errTreatOverAttend: 'Guests being dressed cannot exceed total visitors.',
@@ -1482,6 +1501,8 @@
       hotelRoomLabel: '房间号（如已知）',
       hotelRoomHint: '尚未办理入住时可留空。',
       summaryHotel: '入住本酒店',
+      requestLabel: '需求或问题（选填）',
+      requestHint: '如有需要提前告知的事项，例如孩子的年龄或需要较大尺寸，请在此填写。',
       yes: '是',
       errAttrSum: '构成人数总和与穿和服的人数不一致。',
       errTreatOverAttend: '穿和服的人数不能超过到店人数。',
@@ -1631,6 +1652,8 @@
       hotelRoomLabel: '房間號碼（如已知）',
       hotelRoomHint: '尚未辦理入住時可留空。',
       summaryHotel: '入住本飯店',
+      requestLabel: '需求或問題（選填）',
+      requestHint: '如有需要提前告知的事項，例如孩子的年齡或需要較大尺寸，請在此填寫。',
       yes: '是',
       errAttrSum: '組成人數總和與穿和服的人數不一致。',
       errTreatOverAttend: '穿和服的人數不可超過到店人數。',
@@ -1780,6 +1803,8 @@
       hotelRoomLabel: '객실 번호 (아시는 경우)',
       hotelRoomHint: '체크인 전이라면 비워두셔도 됩니다.',
       summaryHotel: '호텔 숙박',
+      requestLabel: '요청 사항 · 문의 (선택)',
+      requestHint: '아이의 나이나 큰 사이즈가 필요한 경우 등, 미리 알려 주실 내용이 있으면 적어 주세요.',
       yes: '예',
       errAttrSum: '구성 인원의 합계가 기모노를 입는 인원과 일치하지 않습니다.',
       errTreatOverAttend: '기모노를 입는 인원이 방문 인원을 초과할 수 없습니다.',
@@ -1929,6 +1954,8 @@
       hotelRoomLabel: 'Numéro de chambre (si vous le connaissez)',
       hotelRoomHint: "Laissez vide si vous n'avez pas encore fait votre arrivée.",
       summaryHotel: "Séjour à l'hôtel",
+      requestLabel: 'Demandes ou questions (facultatif)',
+      requestHint: "Indiquez-nous ce que nous devrions préparer, par exemple l'âge de vos enfants ou si vous avez besoin d'une taille plus grande.",
       yes: 'Oui',
       errAttrSum: 'La répartition ne correspond pas au nombre de personnes habillées.',
       errTreatOverAttend: 'Le nombre de personnes habillées ne peut pas dépasser le nombre de visiteurs.',
@@ -2219,6 +2246,7 @@
     attrTotalHint: document.getElementById('attrTotalHint'),
     attendHint: document.getElementById('attendHint'),
     ageInput: document.getElementById('ageInput'),
+    requestInput: document.getElementById('requestInput'),
     websiteInput: document.getElementById('websiteInput'),
     summaryBody: document.getElementById('summaryBody'),
     formErrorMsg: document.getElementById('formErrorMsg'),
@@ -2363,9 +2391,7 @@
         if (json.status !== 'ok') throw new Error(json.message || 'load error');
         state.config = json.config;
         state.menus = json.menus;
-        state.booked = (json.booked || []).map(function (b) {
-          return { start: new Date(b.start), end: new Date(b.end) };
-        });
+        state.booked = toBookedList(json.booked);
         state.holidays = json.holidays || [];
         onDataLoaded();
       })
@@ -2373,6 +2399,12 @@
         console.error(err);
         showLoadError();
       });
+  }
+
+  function toBookedList(list) {
+    return (list || []).map(function (b) {
+      return { start: new Date(b.start), end: new Date(b.end) };
+    });
   }
 
   function onDataLoaded() {
@@ -3437,6 +3469,7 @@
       // 実際の割引は当日、部屋番号を照合してから判断する。
       hotelGuest: el.hotelGuestInput.checked,
       hotelRoom: el.hotelRoomInput.value.trim(),
+      request: el.requestInput.value.trim(),
       datetime: toJstIso(state.selectedSlot),
       lang: state.lang,
       website: el.websiteInput.value, // ハニーポット
@@ -3457,7 +3490,50 @@
       + ':' + pad2(slot.minutes % 60) + ':00+09:00';
   }
 
+  /**
+   * 送る直前に空き状況を取り直し、選んだ枠がまだ空いているか確かめる。
+   *
+   * ページを開いてから入力し終えるまでの間に、他の方が同じ枠を
+   * 取っていることがある。サーバー側でも弾くので二重予約にはならないが、
+   * 送ってから「埋まっていました」と言われるより、先に分かるほうがよい。
+   *
+   * 取り直しに失敗したときは、そのまま送る（最終判断はサーバーがする）。
+   */
   function submitBooking(payload) {
+    setSubmitting(true);
+    fetch(GAS_URL)
+      .then(function (res) { return res.json(); })
+      .then(function (json) {
+        if (json.status !== 'ok') return true;
+        state.booked = toBookedList(json.booked);
+        return !isSelectedSlotTaken(payload.menu);
+      })
+      .catch(function () { return true; })
+      .then(function (stillFree) {
+        if (stillFree) {
+          postBooking(payload);
+          return;
+        }
+        setSubmitting(false);
+        state.selectedSlot = null;
+        renderSlotsForDate();
+        renderSummary();
+        showFormError(t('err_SLOT_TAKEN'));
+      });
+  }
+
+  function isSelectedSlotTaken(menuId) {
+    var slot = state.selectedSlot;
+    var menu = state.menus && state.menus[menuId];
+    if (!slot || !menu) return false;
+    var start = slot.instant;
+    var end = start + menu.occupancyMinutes * 60000;
+    return state.booked.some(function (b) {
+      return start < b.end.getTime() && end > b.start.getTime();
+    });
+  }
+
+  function postBooking(payload) {
     setSubmitting(true);
     fetch(GAS_URL, {
       method: 'POST',
