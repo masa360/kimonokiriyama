@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kimono Experience Booking - KKR Hotel Osaka</title>
-<meta name="description" content="Book a traditional Japanese kimono experience at KKR Hotel Osaka. Dress in a kimono and take photos in a room overlooking Osaka Castle. Available in 6 languages.">
-<meta property="og:title" content="Kimono Experience - KKR Hotel Osaka">
+<!-- 最初のHTMLの文言は英語。lang もそれに合わせる（開いたあと、言語に応じて JS が書き換える）。
+     タイトルも言語ごとに pageTitle で差し替える -->
+<title>Kimono Experience Booking | Salon BI-BI, KKR Hotel Osaka</title>
+<meta name="description" content="Book a kimono experience at Salon BI-BI, KKR Hotel Osaka. Dress in a traditional Japanese kimono and take photos in a room overlooking Osaka Castle. Booking page available in 6 languages.">
+<meta property="og:title" content="Kimono Experience Booking | Salon BI-BI, KKR Hotel Osaka">
 <meta property="og:description" content="Dress in a traditional Japanese kimono and take photos in a room overlooking Osaka Castle.">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
@@ -670,6 +672,8 @@
     color: var(--color-muted);
     padding: 20px;
   }
+  footer .official-link { margin: 10px 0 0; }
+  footer .official-link a { color: inherit; text-decoration: underline; }
   .spinner {
     display: inline-block;
     width: 18px;
@@ -1091,6 +1095,8 @@
 
 <footer>
   <span data-i18n="footerContact">Contact</span>: <span id="footerPhone"></span>
+  <!-- 運営会社の公式サイト（着物体験のご案内ページ）へ。予約の入力を失わないよう別タブで開く -->
+  <p class="official-link"><a id="officialSiteLink" href="https://bride-innovation.com/inbound-kimono-experience" target="_blank" rel="noopener" data-i18n="officialSiteLink">Official site: Bride Innovation, Kimono Experience in Osaka</a></p>
 </footer>
 
 <script>
@@ -1118,6 +1124,8 @@
     ja: {
       heroTitle: '和装体験',
       heroSubtitle: '美容室 BI-BI｜KKRホテル大阪 4階',
+      pageTitle: '着物体験・和装体験の予約｜美容室 BI-BI｜KKRホテル大阪',
+      officialSiteLink: '公式サイトで詳しく見る：大阪の着物体験・和装撮影（ブライド・イノベーション）',
       introTitle: 'サービスについて',
       introBody: '大阪城を望むホテル内のスペースで、日本の伝統衣装を着用し、ご自身のスマートフォンで自撮り撮影をお楽しみいただけます。撮影は屋内で行うため天候に左右されず、お天気がよければ大阪城を望むお庭でも撮影いただけます。',
       loading: '空き状況を読み込んでいます…',
@@ -1269,6 +1277,8 @@
     en: {
       heroTitle: 'Kimono Experience',
       heroSubtitle: 'Salon BI-BI | KKR Hotel Osaka, 4F',
+      pageTitle: 'Kimono Experience Booking | Salon BI-BI, KKR Hotel Osaka',
+      officialSiteLink: 'Official site: Bride Innovation, Kimono Experience in Osaka',
       introTitle: 'About this experience',
       introBody: 'Wear a traditional Japanese kimono and take your own photos in a space overlooking Osaka Castle. Photos are taken indoors, so the weather never gets in the way — and on a fine day you can also step out into the garden, which looks onto the castle.',
       loading: 'Loading availability…',
@@ -1420,6 +1430,8 @@
     'zh-CN': {
       heroTitle: '和服体验',
       heroSubtitle: '美容室 BI-BI｜KKR大阪酒店 4楼',
+      pageTitle: '大阪和服体验预约｜美容室 BI-BI｜KKR大阪酒店',
+      officialSiteLink: '官方网站：Bride Innovation 大阪和服体验介绍',
       introTitle: '关于本服务',
       introBody: '在酒店内可眺望大阪城的场地穿着日本传统和服，并用您自己的手机自拍留念。拍摄在室内进行，不受天气影响；天气好时，也可在可眺望大阪城的庭园拍摄。',
       loading: '正在加载空余时段…',
@@ -1571,6 +1583,8 @@
     'zh-TW': {
       heroTitle: '和服體驗',
       heroSubtitle: '美容室 BI-BI｜KKR大阪飯店 4樓',
+      pageTitle: '大阪和服體驗預約｜美容室 BI-BI｜KKR大阪飯店',
+      officialSiteLink: '官方網站：Bride Innovation 大阪和服體驗介紹',
       introTitle: '關於本服務',
       introBody: '在飯店內可眺望大阪城的場地穿著日本傳統和服，並用您自己的手機自拍留念。拍攝於室內進行，不受天氣影響；天氣好時，也可在可眺望大阪城的庭園拍攝。',
       loading: '正在載入空餘時段…',
@@ -1722,6 +1736,8 @@
     ko: {
       heroTitle: '기모노 체험',
       heroSubtitle: '살롱 BI-BI | KKR 호텔 오사카 4층',
+      pageTitle: '오사카 기모노 체험 예약｜살롱 BI-BI｜KKR 호텔 오사카',
+      officialSiteLink: '공식 사이트: Bride Innovation 오사카 기모노 체험 안내',
       introTitle: '서비스 소개',
       introBody: '오사카성이 보이는 호텔 내 공간에서 일본 전통 기모노를 입고 본인의 스마트폰으로 셀프 촬영을 즐기실 수 있습니다. 촬영은 실내에서 진행되어 날씨의 영향을 받지 않으며, 날씨가 좋으면 오사카성이 보이는 정원에서도 촬영하실 수 있습니다.',
       loading: '예약 가능 시간을 불러오는 중…',
@@ -1873,6 +1889,8 @@
     fr: {
       heroTitle: 'Expérience Kimono',
       heroSubtitle: 'Salon BI-BI | KKR Hotel Osaka, 4e étage',
+      pageTitle: 'Réservation expérience kimono | Salon BI-BI, KKR Hotel Osaka',
+      officialSiteLink: 'Site officiel : Bride Innovation, expérience kimono à Osaka',
       introTitle: 'À propos de cette expérience',
       introBody: "Portez un kimono traditionnel japonais et prenez vos propres photos dans un espace avec vue sur le château d'Osaka. Les photos se prennent à l'intérieur, sans contrainte météo ; par beau temps, vous pouvez aussi photographier dans le jardin, face au château.",
       loading: 'Chargement des disponibilités…',
@@ -2372,6 +2390,7 @@
 
   function applyStaticI18n() {
     document.documentElement.lang = state.lang;
+    document.title = t('pageTitle');
     var nodes = document.querySelectorAll('[data-i18n]');
     nodes.forEach(function (node) {
       var key = node.getAttribute('data-i18n');
