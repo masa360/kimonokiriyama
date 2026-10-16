@@ -471,12 +471,18 @@
   </div>
 
   <div class="card">
+    <!--
+      和装体験用のGoogleマップ（2026-10-16に美容室から受け取った新しい場所）。
+      埋め込みは、名前の検索ではなく場所のID（cid）で指す。名前で探すと、
+      同じ住所の別の場所（KKRホテル大阪など）に変わってしまうことがあるため。
+      ボタンは、受け取った共有リンク（短縮URL）をそのまま使う。
+    -->
     <div class="map-wrap">
-      <iframe src="https://www.google.com/maps?q=KKR%E3%83%9B%E3%83%86%E3%83%AB%E5%A4%A7%E9%98%AA&output=embed&hl=ja" allowfullscreen loading="lazy"
+      <iframe src="https://www.google.com/maps?cid=1905503341137426242&output=embed&hl=ja" allowfullscreen loading="lazy"
               referrerpolicy="strict-origin-when-cross-origin"
-              title="KKR Hotel Osaka map"></iframe>
+              title="Map: Salon BI-BI, KKR Hotel Osaka"></iframe>
     </div>
-    <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=KKR%E3%83%9B%E3%83%86%E3%83%AB%E5%A4%A7%E9%98%AA" target="_blank" rel="noopener"
+    <a class="map-btn" href="https://maps.app.goo.gl/BWR5sQCdB1BMWwu58" target="_blank" rel="noopener"
        data-i18n="mapBtn">Googleマップで経路を見る</a>
   </div>
 
