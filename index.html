@@ -17,7 +17,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%237a2e42'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='4.5' stroke-linecap='round'%3E%3Cpath d='M50 88 22 34a40 40 0 0 1 56 0Z'/%3E%3Cpath d='M50 88 32 40M50 88 41 36M50 88 59 36M50 88 68 40'/%3E%3C/g%3E%3Ccircle cx='50' cy='88' r='4' fill='%23fff'/%3E%3C/svg%3E">
 <style>
   :root {
-    /* 配色は案A「深い蘇芳と生成り」（2026-10-16）。経緯は docs/03_開発/設計案_デザイン_深い蘇芳と生成り.md */
+    /* 配色は案A「深い蘇芳と生成り」（2026-10-16）。考え方は <style> 最後の「意匠：案A」のコメント */
     --color-bg: #f7f3ec;           /* 生成り */
     --color-card: #fffdf9;
     --color-accent: #7a2e42;       /* 深い蘇芳 */
@@ -1053,6 +1053,7 @@
   }
   .policy-table td:last-child { font-weight: 500; }
   .complete-box .big-check { color: var(--color-accent); font-weight: 300; }
+  .complete-box h2::after { left: 50%; transform: translateX(-50%); }
 
   /* フッター：細い線で本文と区切り、明朝体で静かに */
   footer {
@@ -1068,6 +1069,7 @@
   .intro-lead span { font-family: var(--font-serif); letter-spacing: 0.14em; }
   .intro-slide img { border-radius: 0; box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4); }
   .intro-skip { border-radius: 2px; letter-spacing: 0.1em; background: rgba(0, 0, 0, 0.4); }
+  .photo-viewer { background: rgba(24, 18, 19, 0.96); }
   .photo-viewer .viewer-close, .viewer-nav button { border-radius: 2px; }
 </style>
 </head>

@@ -7,7 +7,7 @@
 <style>
 
   :root {
-    /* 配色は案A「深い蘇芳と生成り」（2026-10-16）。経緯は docs/03_開発/設計案_デザイン_深い蘇芳と生成り.md */
+    /* 配色は案A「深い蘇芳と生成り」（2026-10-16）。考え方は <style> 最後の「意匠：案A」のコメント */
     --color-bg: #f7f3ec;           /* 生成り */
     --color-card: #fffdf9;
     --color-accent: #7a2e42;       /* 深い蘇芳 */
@@ -690,6 +690,7 @@
   }
   .policy-table td:last-child { font-weight: 500; }
   .complete-box .big-check { color: var(--color-accent); font-weight: 300; }
+  .complete-box h2::after { left: 50%; transform: translateX(-50%); }
 
   /* フッター：細い線で本文と区切り、明朝体で静かに */
   footer {
