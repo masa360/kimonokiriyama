@@ -7,16 +7,18 @@
 <style>
 
   :root {
-    --color-bg: #faf7f2;
-    --color-card: #ffffff;
-    --color-accent: #a6304c;
-    --color-accent-dark: #7c2138;
-    --color-text: #2b2320;
-    --color-muted: #8a7d74;
-    --color-border: #e6ddd3;
+    /* 配色は案A「深い蘇芳と生成り」（2026-10-16）。経緯は docs/03_開発/設計案_デザイン_深い蘇芳と生成り.md */
+    --color-bg: #f7f3ec;           /* 生成り */
+    --color-card: #fffdf9;
+    --color-accent: #7a2e42;       /* 深い蘇芳 */
+    --color-accent-dark: #5e2132;
+    --color-brass: #b08d57;        /* くすんだ真鍮色。線と小さな飾りだけに使う（文字には使わない。生成りの上では読みにくい） */
+    --color-text: #2a2320;
+    --color-muted: #6e6259;        /* 文字として読める濃さ（生成りの上で 5:1 以上） */
+    --color-border: #e3dacb;
     --color-error: #c0392b;
     --color-success: #2f7d4f;
-    --radius: 10px;
+    --radius: 2px;
     font-family: "Hiragino Sans", "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;
   }
   * { box-sizing: border-box; }
@@ -451,11 +453,276 @@
   .access-list li { margin-bottom: 6px; }
   .back-link { display: inline-block; margin-top: 8px; }
 
+  /* ===========================================================
+     意匠：案A「深い蘇芳と生成り」（2026-10-16）
+
+     【考え方】足すより引く。
+     ・余白を広く、色を絞る（墨・生成り・蘇芳・細い真鍮色の線）
+     ・濃いグラデーション、太い枠、大きな角丸、丸いボタンをやめる
+     ・見出しと価格は明朝体。本文は読みやすいゴシックのまま
+     ・動作・文言・構造は変えない（色と形と書体だけ）
+
+     【守っていること】
+     ・文字色と背景のコントラストは 4.5:1 以上（真鍮色は線だけに使う）
+     ・外部の書体は読み込まない（端末に入っている明朝体を指定。表示を重くしない）
+     ・言語ごとに書体を分ける（日本語・中国語・韓国語は別の明朝系）
+     =========================================================== */
+  :root { --font-serif: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "Noto Serif JP", "MS PMincho", serif; }
+  :root:lang(en), :root:lang(fr) { --font-serif: "Palatino Linotype", "Book Antiqua", Palatino, Georgia, "Times New Roman", serif; }
+  :root:lang(zh-CN) { --font-serif: "Songti SC", "STSong", "SimSun", "Noto Serif SC", serif; }
+  :root:lang(zh-TW) { --font-serif: "Songti TC", "PMingLiU", "MingLiU", "Noto Serif TC", serif; }
+  :root:lang(ko) { --font-serif: "AppleMyungjo", "Batang", "Noto Serif KR", serif; }
+
+  ::selection { background: rgba(176, 141, 87, 0.3); }
+  body { -webkit-font-smoothing: antialiased; }
+
+  /* ヘッダー：濃い帯をやめ、生成りの上に文字と細い線だけにする */
+  header.hero {
+    background: none;
+    color: var(--color-text);
+    padding: 40px 20px 18px;
+  }
+  .hero-emblem {
+    display: block;
+    width: 36px;
+    height: 36px;
+    margin: 0 auto 16px;
+    color: var(--color-brass);
+  }
+  header.hero h1 {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(1.45rem, 6vw, 1.9rem);
+    letter-spacing: 0.16em;
+    /* 字間を空けると、最後の文字の右にも空きが付いて中央からずれて見える */
+    padding-left: 0.16em;
+  }
+  header.hero p {
+    margin: 10px 0 0;
+    opacity: 1;
+    color: var(--color-muted);
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+  }
+  header.hero p::after {
+    content: '';
+    display: block;
+    width: 44px;
+    height: 1px;
+    margin: 20px auto 0;
+    background: var(--color-brass);
+  }
+  /* 言語の切り替え：丸いボタンをやめ、細い縦線で区切った文字にする。
+     狭い画面は3つずつ2段にする（折り返しで区切り線が行頭に残るのを避ける）。 */
+  .lang-switch {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-content: center;
+    gap: 2px 0;
+    margin-top: 12px;
+  }
+  .lang-switch button {
+    position: relative;
+    border: 0;
+    background: none;
+    color: var(--color-muted);
+    padding: 6px 12px;
+    border-radius: 0;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+  }
+  .lang-switch button + button::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 1px;
+    height: 12px;
+    background: var(--color-border);
+    transform: translateY(-50%);
+  }
+  .lang-switch button:nth-child(3n+1)::before { display: none; }
+  .lang-switch button.active {
+    background: none;
+    color: var(--color-accent);
+    font-weight: 600;
+    box-shadow: inset 0 -1px 0 var(--color-brass);
+  }
+  @media (min-width: 560px) {
+    .lang-switch { display: flex; }
+    .lang-switch button + button:nth-child(3n+1)::before { display: block; }
+  }
+
+  /* 区画：角を落とし、余白を広げる。見出しの下に短い真鍮色の線 */
+  .card {
+    border-radius: 2px;
+    padding: 26px 22px;
+    margin-bottom: 22px;
+  }
+  .card h2 {
+    position: relative;
+    margin: 0 0 18px;
+    padding-bottom: 12px;
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.15rem;
+    letter-spacing: 0.06em;
+    color: var(--color-text);
+  }
+  .card h2::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 28px;
+    height: 1px;
+    background: var(--color-brass);
+  }
+  .policy-card summary {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--color-text);
+  }
+
+  /* プラン：選んだ状態は、ピンクの塗りではなく細い二重線で示す */
+  .menu-option {
+    border: 1px solid var(--color-border);
+    border-radius: 2px;
+    padding: 18px 16px;
+    transition: border-color 0.25s, box-shadow 0.25s;
+  }
+  .menu-option:hover { border-color: #cdbfa8; }
+  .menu-option.selected {
+    border-color: var(--color-accent);
+    background: var(--color-card);
+    box-shadow: inset 0 0 0 1px var(--color-accent);
+  }
+  .menu-option .name {
+    margin-bottom: 6px;
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.05rem;
+    letter-spacing: 0.06em;
+  }
+  .menu-option .price {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.25rem;
+    line-height: 1.4;
+    letter-spacing: 0.03em;
+    color: var(--color-accent);
+  }
+  .menu-option .duration { letter-spacing: 0.06em; }
+  .menu-features li::before { font-weight: normal; }
+  .menu-option .lead-note { background: #f3ece0; border-radius: 2px; }
+
+  /* 入力欄：角を小さく、枠を細く。選んだとき（フォーカス）は蘇芳の線と淡い縁取り */
+  label {
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="date"],
+  select,
+  textarea {
+    border-radius: 2px;
+    border-color: #d8ccb9;
+    background: #fffefb;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(122, 46, 66, 0.12);
+  }
+  .attr-group, .agree-row { border-radius: 2px; border-color: #d8ccb9; }
+  .attr-row select:disabled { background: #efe9df; }
+  .hotel-box { border-radius: 2px; background: #fbf8f2; }
+  .constraint-note { background: #f6efe3; border-left-width: 2px; }
+
+  /* 時間の枠 */
+  .slot-btn {
+    border-radius: 2px;
+    background: #fffefb;
+    letter-spacing: 0.04em;
+    transition: border-color 0.2s;
+  }
+  .slot-btn:hover:not(:disabled):not(.selected) { border-color: var(--color-accent); }
+
+  /* ボタン：ほぼ直角。英語・フランス語は大文字にして字間を広げる */
+  .submit-btn {
+    border-radius: 2px;
+    /* 直後に区画が続くので、くっつかないよう下に余白 */
+    margin-bottom: 22px;
+    padding: 16px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    transition: background 0.25s;
+  }
+  .submit-btn:hover:not(:disabled) { background: var(--color-accent-dark); }
+  :root:lang(en) .submit-btn, :root:lang(fr) .submit-btn {
+    font-size: 0.95rem;
+    text-transform: uppercase;
+  }
+  .photo-btn, .gallery-btn, .switch-btn, .cancel-link {
+    border-radius: 2px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+
+  /* メッセージ・合計・完了 */
+  .msg { border-radius: 2px; }
+  .msg.error { background: #fbefec; border-color: #ecc9c2; }
+  .msg.success { background: #f1f5ee; border-color: #d5e0cc; }
+  .summary-row.total {
+    margin-top: 10px;
+    padding-top: 12px;
+    border-top-color: var(--color-brass);
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.15rem;
+  }
+  .policy-table td:last-child { font-weight: 500; }
+  .complete-box .big-check { color: var(--color-accent); font-weight: 300; }
+
+  /* フッター：細い線で本文と区切り、明朝体で静かに */
+  footer {
+    max-width: 608px;
+    margin: 8px auto 0;
+    padding: 28px 16px 44px;
+    border-top: 1px solid var(--color-border);
+    font-family: var(--font-serif);
+    letter-spacing: 0.08em;
+  }
+
+  .map-wrap { border-radius: 2px; }
+  .map-btn {
+    border-radius: 2px;
+    background: var(--color-accent);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    transition: background 0.25s;
+  }
+  .map-btn:hover { background: var(--color-accent-dark); }
+  .addr-line {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+  }
+
 </style>
 </head>
 <body>
 
 <header class="hero">
+  <!-- 扇の線画（ファビコンと同じ意匠）。文字の上に1つだけ置く -->
+  <svg class="hero-emblem" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M50 88 22 34a40 40 0 0 1 56 0Z"/><path d="M50 88 32 40M50 88 41 36M50 88 59 36M50 88 68 40"/></g><circle cx="50" cy="88" r="3.5" fill="currentColor"/></svg>
   <h1 data-i18n="h1">アクセス</h1>
   <p data-i18n="sub">KKRホテル大阪 4階 美容室</p>
   <div class="lang-switch" id="langSwitch"></div>
