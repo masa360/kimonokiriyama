@@ -340,6 +340,40 @@
     cursor: pointer;
   }
 
+  /* 追加オプション（2026-10-29）。プランの下に、名前・単価・人数を1行ずつ */
+  .options-box {
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid var(--color-border);
+  }
+  .options-box h3 {
+    margin: 0 0 4px;
+    font-size: 0.95rem;
+  }
+  .option-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 12px;
+  }
+  .option-row label {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+  .option-row .option-price {
+    font-size: 0.85rem;
+    color: var(--color-accent-dark);
+  }
+  .option-row .option-price small {
+    color: var(--color-muted);
+  }
+  .option-row select {
+    flex: 0 0 5.5rem;
+    margin: 0;
+  }
+
   /* 合計が一致しないときだけ赤くする。既定は控えめな注記 */
   /* 各区分の下に、確定しているプランを小さく添える。
      どの人がどのプランになるのかを、その場で分かるようにする */
@@ -1071,6 +1105,13 @@
   .intro-skip { border-radius: 2px; letter-spacing: 0.1em; background: rgba(0, 0, 0, 0.4); }
   .photo-viewer { background: rgba(24, 18, 19, 0.96); }
   .photo-viewer .viewer-close, .viewer-nav button { border-radius: 2px; }
+  /* 追加オプションの見出しも、ほかの区画の見出しと同じ明朝体に */
+  .options-box h3 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1rem;
+    letter-spacing: 0.06em;
+  }
 </style>
 </head>
 <body>
@@ -1162,6 +1203,17 @@
       <div class="menu-grid" id="menuGrid"></div>
       <!-- 選べないプランがあるときだけ、その理由を出す -->
       <p class="constraint-note hidden" id="menuNote" role="status" aria-live="polite"></p>
+
+      <!--
+        追加オプション（かつら・レンタルネイルチップ。2026-10-29）。
+        大人の女性がいて、GASが options を返したときだけ、JS が中身を作って出す。
+        古いGASのままなら何も出ない（選んだのに請求されない、を避けるため）。
+      -->
+      <div class="options-box hidden" id="optionsBox">
+        <h3 data-i18n="optionsTitle">Add-ons (optional)</h3>
+        <p class="field-hint" data-i18n="optionsNote"></p>
+        <div id="optionsList"></div>
+      </div>
     </div>
 
     <div class="card">
@@ -1461,6 +1513,8 @@
       summarySubtotal: '小計',
       summaryDiscount: '団体割引（10%）',
       discountNote: '3名以上の施術で10%割引',
+      optionsTitle: '追加オプション（任意）',
+      optionsNote: '大人の女性が対象です。使いたい方の人数を選んでください。団体割引（10%）はオプションには適用されません。',
       waitNote: 'サロンにお入りいただけるのは、着付けをされる方のみです。付き添いの方は、受付前の待合スペース（椅子5席）でお待ちください。',
       hotelGuestLabel: 'KKRホテル大阪にご宿泊ですか？',
       hotelGuestNote: 'ご宿泊の方には当日ご案内がございます。お部屋番号は当日で結構です。',
@@ -1527,6 +1581,7 @@
       err_BEFORE_OPEN: '営業時間前です。',
       err_AFTER_CLOSE: 'その時間からでは営業時間内に終了できません。',
       err_INVALID_PEOPLE: '人数の指定が正しくありません。',
+      err_INVALID_OPTION: 'オプションの指定が正しくありません。オプションは大人の女性の人数までお選びいただけます。',
       err_INVALID_SLOT: '日時をもう一度お選びください。',
       err_INVALID_DATETIME: '日時をもう一度お選びください。',
       err_TOO_SOON: '開始までの時間が短すぎます。もう少し後の時間をお選びください。',
@@ -1614,6 +1669,8 @@
       summarySubtotal: 'Subtotal',
       summaryDiscount: 'Group discount (10%)',
       discountNote: '10% off for 3 or more guests dressed',
+      optionsTitle: 'Add-ons (optional)',
+      optionsNote: 'For adult women only. Choose how many guests want each add-on. The group discount (10%) does not apply to add-ons.',
       waitNote: 'Only guests being dressed can enter the salon. Companions wait in the seating area by the reception (5 seats).',
       hotelGuestLabel: 'Are you staying at KKR Hotel Osaka?',
       hotelGuestNote: 'If you are, we will have something to tell you on the day. Your room number can wait until then.',
@@ -1680,6 +1737,7 @@
       err_BEFORE_OPEN: 'That time is before opening hours.',
       err_AFTER_CLOSE: 'The session would not finish before closing time.',
       err_INVALID_PEOPLE: 'The number of guests is invalid.',
+      err_INVALID_OPTION: 'The add-on selection is not valid. Add-ons are for adult women only.',
       err_INVALID_SLOT: 'Please select the date and time again.',
       err_INVALID_DATETIME: 'Please select the date and time again.',
       err_TOO_SOON: 'That start time is too soon. Please choose a later time.',
@@ -1767,6 +1825,8 @@
       summarySubtotal: '小计',
       summaryDiscount: '团体折扣（10%）',
       discountNote: '3人以上接受服务可享10%折扣',
+      optionsTitle: '附加项目（可选）',
+      optionsNote: '仅限成年女性。请选择需要的人数。团体折扣（10%）不适用于附加项目。',
       waitNote: '仅穿和服的客人可进入沙龙。陪同人员请在前台前的等候区（5个座位）稍候。',
       hotelGuestLabel: '您是否入住KKR大阪酒店？',
       hotelGuestNote: '入住的客人当天会有相关说明。房号可当天再告知。',
@@ -1833,6 +1893,7 @@
       err_BEFORE_OPEN: '该时间早于营业时间。',
       err_AFTER_CLOSE: '从该时间开始将无法在营业时间内结束。',
       err_INVALID_PEOPLE: '人数指定有误。',
+      err_INVALID_OPTION: '附加项目的选择有误。附加项目仅限成年女性。',
       err_INVALID_SLOT: '请重新选择日期和时间。',
       err_INVALID_DATETIME: '请重新选择日期和时间。',
       err_TOO_SOON: '距离开始时间太近，请选择更晚的时间。',
@@ -1920,6 +1981,8 @@
       summarySubtotal: '小計',
       summaryDiscount: '團體折扣（10%）',
       discountNote: '3人以上接受服務可享10%折扣',
+      optionsTitle: '附加項目（選填）',
+      optionsNote: '僅限成年女性。請選擇需要的人數。團體折扣（10%）不適用於附加項目。',
       waitNote: '僅穿和服的客人可進入沙龍。陪同人員請於櫃檯前的等候區（5個座位）稍候。',
       hotelGuestLabel: '您是否入住KKR大阪飯店？',
       hotelGuestNote: '入住的客人當天會有相關說明。房號可當天再告知。',
@@ -1986,6 +2049,7 @@
       err_BEFORE_OPEN: '該時間早於營業時間。',
       err_AFTER_CLOSE: '從該時間開始將無法在營業時間內結束。',
       err_INVALID_PEOPLE: '人數指定有誤。',
+      err_INVALID_OPTION: '附加項目的選擇有誤。附加項目僅限成年女性。',
       err_INVALID_SLOT: '請重新選擇日期與時間。',
       err_INVALID_DATETIME: '請重新選擇日期與時間。',
       err_TOO_SOON: '距離開始時間太近，請選擇更晚的時間。',
@@ -2073,6 +2137,8 @@
       summarySubtotal: '소계',
       summaryDiscount: '단체 할인 (10%)',
       discountNote: '3명 이상 착장 시 10% 할인',
+      optionsTitle: '추가 옵션 (선택)',
+      optionsNote: '성인 여성만 이용할 수 있습니다. 원하시는 인원수를 선택해 주세요. 단체 할인(10%)은 옵션에는 적용되지 않습니다.',
       waitNote: '살롱에 들어가실 수 있는 분은 기모노를 입는 분뿐입니다. 동행자는 접수 앞 대기 공간(의자 5석)에서 기다려 주세요.',
       hotelGuestLabel: 'KKR 호텔 오사카에 숙박하십니까?',
       hotelGuestNote: '숙박하시는 분께는 당일 안내가 있습니다. 객실 번호는 당일에 알려주셔도 됩니다.',
@@ -2139,6 +2205,7 @@
       err_BEFORE_OPEN: '영업 시작 전 시간입니다.',
       err_AFTER_CLOSE: '해당 시간부터는 영업 시간 내에 종료할 수 없습니다.',
       err_INVALID_PEOPLE: '인원수 지정이 올바르지 않습니다.',
+      err_INVALID_OPTION: '옵션 선택이 올바르지 않습니다. 옵션은 성인 여성만 이용할 수 있습니다.',
       err_INVALID_SLOT: '날짜와 시간을 다시 선택해 주세요.',
       err_INVALID_DATETIME: '날짜와 시간을 다시 선택해 주세요.',
       err_TOO_SOON: '시작 시간까지 여유가 없습니다. 더 늦은 시간을 선택해 주세요.',
@@ -2226,6 +2293,8 @@
       summarySubtotal: 'Sous-total',
       summaryDiscount: 'Remise groupe (10%)',
       discountNote: '10% de remise à partir de 3 personnes habillées',
+      optionsTitle: 'Options supplémentaires (facultatif)',
+      optionsNote: 'Réservées aux femmes adultes. Indiquez le nombre de personnes concernées. La remise groupe (10%) ne s\'applique pas aux options.',
       waitNote: "Seules les personnes habillées peuvent entrer dans le salon. Les accompagnants patientent dans l'espace d'attente près de la réception (5 places).",
       hotelGuestLabel: 'Séjournez-vous au KKR Hotel Osaka ?',
       hotelGuestNote: 'Si oui, nous aurons quelque chose à vous indiquer le jour même. Votre numéro de chambre peut attendre.',
@@ -2292,6 +2361,7 @@
       err_BEFORE_OPEN: 'Cet horaire est avant l\'ouverture.',
       err_AFTER_CLOSE: 'La séance ne pourrait pas se terminer avant la fermeture.',
       err_INVALID_PEOPLE: 'Le nombre de personnes est invalide.',
+      err_INVALID_OPTION: 'La sélection des options est invalide. Les options sont réservées aux femmes adultes.',
       err_INVALID_SLOT: 'Merci de sélectionner à nouveau la date et l\'heure.',
       err_INVALID_DATETIME: 'Merci de sélectionner à nouveau la date et l\'heure.',
       err_TOO_SOON: 'Ce créneau est trop proche. Merci de choisir un horaire plus tardif.',
@@ -2299,6 +2369,15 @@
       err_INTERNAL: 'Une erreur système est survenue. Merci de nous contacter par téléphone.',
       err_GENERIC: 'Une erreur est survenue. Merci de réessayer plus tard ou de nous contacter par téléphone.',
     },
+  };
+
+  /**
+   * 追加オプションの名前（2026-10-29）。単価・対象は GAS の doGet が返す options から読む。
+   * ここは表示名だけ（値を2か所に持たないため）。
+   */
+  var OPTION_NAMES = {
+    wig: { ja: 'かつら', en: 'Wig', 'zh-CN': '假发', 'zh-TW': '假髮', ko: '가발', fr: 'Perruque' },
+    nailTip: { ja: 'レンタルネイルチップ', en: 'Nail tips (rental)', 'zh-CN': '美甲贴片（租借）', 'zh-TW': '美甲貼片（租借）', ko: '네일 팁 (대여)', fr: 'Faux ongles (location)' },
   };
 
   var MENU_NAMES = {
@@ -2467,6 +2546,11 @@
     selectedMenu: null,
     selectedDate: null,
     selectedSlot: null, // { start: Date, end: Date }
+    // 追加オプション。定義（単価・対象）は GAS の doGet が返す。
+    // 古いGASなら null のまま＝オプション欄を出さない
+    options: null,
+    // 選んだ個数 { wig: 2, nailTip: 1 }。対象の人数（大人女性）を超えない
+    optionQty: {},
   };
 
   function detectInitialLang() {
@@ -2519,6 +2603,8 @@
     attrAdultMPlan: document.getElementById('attrAdultMPlan'),
     attrChildPlan: document.getElementById('attrChildPlan'),
     menuNote: document.getElementById('menuNote'),
+    optionsBox: document.getElementById('optionsBox'),
+    optionsList: document.getElementById('optionsList'),
     attrAdultMInput: document.getElementById('attrAdultMInput'),
     attrChildInput: document.getElementById('attrChildInput'),
     attrTotalHint: document.getElementById('attrTotalHint'),
@@ -2582,6 +2668,8 @@
         updateDateRange();
         renderSlotsForDate();
       }
+      // 大人女性の人数が変わると、オプションを選べる上限が変わる
+      renderOptions();
       renderSummary();
     });
   });
@@ -2670,6 +2758,9 @@
         if (json.status !== 'ok') throw new Error(json.message || 'load error');
         state.config = json.config;
         state.menus = json.menus;
+        // 古いGASは options を返さない。そのときはオプション欄を出さない
+        // （欄だけ出して、選んでも請求に反映されない、を避けるため）
+        state.options = (json.options && typeof json.options === 'object') ? json.options : null;
         state.booked = toBookedList(json.booked);
         state.holidays = json.holidays || [];
         onDataLoaded();
@@ -3219,6 +3310,78 @@
     }
 
     updateAttrTotalHint();
+    renderOptions();
+  }
+
+  /**
+   * 追加オプション（かつら・レンタルネイルチップ）の選択欄。
+   *
+   * 対象は大人の女性のみ。個数は「何名分か」で、大人女性の人数まで。
+   * 割引の対象外（定価のまま足す）。時間・受付日は変わらない。
+   *
+   * 出すのは、GASがオプションの定義を返していて、かつ大人女性が1名以上のとき。
+   * 対象がいなくなったら、選んでいた個数は捨てる（請求に残さない）。
+   * 言語を切り替えたときも、ここで作り直す。
+   */
+  function renderOptions() {
+    var ids = state.options ? Object.keys(state.options) : [];
+    var adultF = parseInt(el.attrAdultFInput.value, 10) || 0;
+    var show = ids.length > 0 && adultF > 0;
+    el.optionsBox.classList.toggle('hidden', !show);
+    el.optionsList.innerHTML = '';
+    if (!show) { state.optionQty = {}; return; }
+
+    ids.forEach(function (id) {
+      var def = state.options[id];
+      var name = OPTION_NAMES[id] ? (OPTION_NAMES[id][state.lang] || OPTION_NAMES[id].en) : id;
+      // 選んでいた個数は、新しい上限に収める
+      var qty = Math.min(parseInt(state.optionQty[id], 10) || 0, adultF);
+      state.optionQty[id] = qty;
+
+      var row = document.createElement('div');
+      row.className = 'option-row';
+      var info = document.createElement('div');
+      var label = document.createElement('label');
+      label.setAttribute('for', 'optionQty_' + id);
+      label.textContent = name;
+      var price = document.createElement('div');
+      price.className = 'option-price';
+      price.innerHTML = def.priceInclTax.toLocaleString() + t('priceUnitPlain')
+        + ' <small>' + t('perPerson') + '</small>';
+      info.appendChild(label);
+      info.appendChild(price);
+
+      var sel = document.createElement('select');
+      sel.id = 'optionQty_' + id;
+      sel.setAttribute('data-option', id);
+      fillCountOptions(sel, adultF, 0);
+      sel.value = String(qty);
+      sel.addEventListener('change', function () {
+        state.optionQty[id] = parseInt(sel.value, 10) || 0;
+        renderSummary();
+      });
+
+      row.appendChild(info);
+      row.appendChild(sel);
+      el.optionsList.appendChild(row);
+    });
+  }
+
+  /**
+   * 選んだオプションを、定義の順に [{id, count, unit, amount}] で返す。
+   * 金額は state.options の単価から出す（表示と請求を同じ式にする）。
+   */
+  function getOptionRows() {
+    var adultF = parseInt(el.attrAdultFInput.value, 10) || 0;
+    if (!state.options || adultF < 1) return [];
+    var rows = [];
+    Object.keys(state.options).forEach(function (id) {
+      var n = Math.min(parseInt(state.optionQty[id], 10) || 0, adultF);
+      if (n < 1) return;
+      var unit = state.options[id].priceInclTax;
+      rows.push({ id: id, count: n, unit: unit, amount: unit * n });
+    });
+    return rows;
   }
 
   /** 内訳の合計を表示する。一致しないうちは赤くして送信前に気づかせる */
@@ -3318,11 +3481,16 @@
       subtotal += m.priceInclTax * r.count;
       treat += r.count;
     });
+    // 割引はプラン料金の合計にだけ掛ける。オプションは定価のまま足す（2026-10-29 決定）
     var discount = treat >= GROUP_DISCOUNT_MIN
       ? Math.floor(subtotal * GROUP_DISCOUNT_RATE)
       : 0;
-    return { subtotal: subtotal, discount: discount, total: subtotal - discount,
-             treat: treat, rows: rows };
+    var options = getOptionRows();
+    var optionsTotal = 0;
+    options.forEach(function (o) { optionsTotal += o.amount; });
+    return { subtotal: subtotal, discount: discount, optionsTotal: optionsTotal,
+             total: subtotal - discount + optionsTotal,
+             treat: treat, rows: rows, options: options };
   }
 
   // ==========================================================
@@ -3622,15 +3790,26 @@
     // 割引が乗るときだけ小計と割引額を出す。
     // 割引なしのときに0円の行を並べても読み手の負担が増えるだけ。
     var priceRows = '';
-    if (price.discount > 0) {
+    // オプションがあるときも小計（プラン分）を出す。
+    // 合計がプラン＋オプションの足し算だと、見て分かるようにする。
+    if (price.discount > 0 || price.optionsTotal > 0) {
       // 「税込」は最後の合計行だけに付ける。
       // 小計・割引にも付けると同じ語が3回並んで読みにくい。
       priceRows =
         '<div class="summary-row"><span>' + t('summarySubtotal') + '</span><span>'
-          + price.subtotal.toLocaleString() + t('priceUnitPlain') + '</span></div>' +
-        '<div class="summary-row"><span>' + t('summaryDiscount') + '</span><span>-'
-          + price.discount.toLocaleString() + t('priceUnitPlain') + '</span></div>';
+          + price.subtotal.toLocaleString() + t('priceUnitPlain') + '</span></div>';
+      if (price.discount > 0) {
+        priceRows +=
+          '<div class="summary-row"><span>' + t('summaryDiscount') + '</span><span>-'
+            + price.discount.toLocaleString() + t('priceUnitPlain') + '</span></div>';
+      }
     }
+    // 追加オプション。1行ずつ「名前 × 人数」と金額（割引の対象外）
+    price.options.forEach(function (o) {
+      var oname = OPTION_NAMES[o.id] ? (OPTION_NAMES[o.id][state.lang] || OPTION_NAMES[o.id].en) : o.id;
+      priceRows += '<div class="summary-row"><span>' + oname + ' × ' + o.count + t('peopleUnit')
+        + '</span><span>' + o.amount.toLocaleString() + t('priceUnitPlain') + '</span></div>';
+    });
 
     // 混在しているときは、代表プラン1つを書くと誤解を招くので出さない。
     // 代わりに内訳（mixRows）で全員分を示す。
@@ -3737,6 +3916,9 @@
       attrChild: parseInt(el.attrChildInput.value, 10) || 0,
       discount: price.discount,
       totalPrice: price.total,
+      // 追加オプション { wig: 2 }。選んでいなければ空。
+      // 金額は送らない（サーバーが単価から計算し直す）
+      options: optionsPayload(price.options),
       age: age,
       // 占有時間の決定に使う（従来どおり1つ）。混在なら長いほう。
       menu: occMenuId,
@@ -3756,6 +3938,13 @@
 
     submitBooking(payload);
   });
+
+  /** 選んだオプションを送信用の { id: 個数 } にする。無ければ空のオブジェクト */
+  function optionsPayload(rows) {
+    var o = {};
+    (rows || []).forEach(function (r) { o[r.id] = r.count; });
+    return o;
+  }
 
   /**
    * 枠を日本時間のISO8601（+09:00固定）に変換する。
