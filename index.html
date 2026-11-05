@@ -373,6 +373,27 @@
     flex: 0 0 5.5rem;
     margin: 0;
   }
+  /* 1組の上限・色・見本の案内（2026-11-05）。名前と単価の下に小さく添える */
+  .option-row .option-meta {
+    margin-top: 2px;
+    font-size: 0.78rem;
+    color: var(--color-muted);
+    line-height: 1.5;
+  }
+  .option-row .option-meta span {
+    display: block;
+  }
+  .option-sample-btn {
+    margin-top: 6px;
+    padding: 6px 12px;
+    border: 1px solid var(--color-accent);
+    border-radius: 6px;
+    background: #fff;
+    color: var(--color-accent-dark);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
 
   /* 合計が一致しないときだけ赤くする。既定は控えめな注記 */
   /* 各区分の下に、確定しているプランを小さく添える。
@@ -1067,7 +1088,7 @@
     font-size: 0.95rem;
     text-transform: uppercase;
   }
-  .photo-btn, .gallery-btn, .switch-btn, .cancel-link {
+  .photo-btn, .gallery-btn, .option-sample-btn, .switch-btn, .cancel-link {
     border-radius: 2px;
     font-weight: 500;
     letter-spacing: 0.04em;
@@ -1515,6 +1536,10 @@
       discountNote: '3名以上の施術で10%割引',
       optionsTitle: '追加オプション（任意）',
       optionsNote: '大人の女性が対象です。使いたい方の人数を選んでください。団体割引（10%）はオプションには適用されません。',
+      optionMax: '1組{n}名まで',
+      nailSamplesBtn: 'ネイルチップの見本を見る',
+      nailNote: '見本の写真です。デザインは当日、ご用意のある中からお選びいただけます。',
+      nailAlt: 'ネイルチップの見本（{n}枚目）',
       waitNote: 'サロンにお入りいただけるのは、着付けをされる方のみです。付き添いの方は、受付前の待合スペース（椅子5席）でお待ちください。',
       hotelGuestLabel: 'KKRホテル大阪にご宿泊ですか？',
       hotelGuestNote: 'ご宿泊の方には当日ご案内がございます。お部屋番号は当日で結構です。',
@@ -1581,7 +1606,7 @@
       err_BEFORE_OPEN: '営業時間前です。',
       err_AFTER_CLOSE: 'その時間からでは営業時間内に終了できません。',
       err_INVALID_PEOPLE: '人数の指定が正しくありません。',
-      err_INVALID_OPTION: 'オプションの指定が正しくありません。オプションは大人の女性の人数までお選びいただけます。',
+      err_INVALID_OPTION: 'オプションの指定が正しくありません。オプションは大人の女性の人数までで、かつらは1組2名までです。',
       err_INVALID_SLOT: '日時をもう一度お選びください。',
       err_INVALID_DATETIME: '日時をもう一度お選びください。',
       err_TOO_SOON: '開始までの時間が短すぎます。もう少し後の時間をお選びください。',
@@ -1671,6 +1696,10 @@
       discountNote: '10% off for 3 or more guests dressed',
       optionsTitle: 'Add-ons (optional)',
       optionsNote: 'For adult women only. Choose how many guests want each add-on. The group discount (10%) does not apply to add-ons.',
+      optionMax: 'Up to {n} per booking',
+      nailSamplesBtn: 'See nail tip samples',
+      nailNote: 'Sample photos. On the day you choose your design from those available.',
+      nailAlt: 'Nail tip sample ({n})',
       waitNote: 'Only guests being dressed can enter the salon. Companions wait in the seating area by the reception (5 seats).',
       hotelGuestLabel: 'Are you staying at KKR Hotel Osaka?',
       hotelGuestNote: 'If you are, we will have something to tell you on the day. Your room number can wait until then.',
@@ -1737,7 +1766,7 @@
       err_BEFORE_OPEN: 'That time is before opening hours.',
       err_AFTER_CLOSE: 'The session would not finish before closing time.',
       err_INVALID_PEOPLE: 'The number of guests is invalid.',
-      err_INVALID_OPTION: 'The add-on selection is not valid. Add-ons are for adult women only.',
+      err_INVALID_OPTION: 'The add-on selection is not valid. Add-ons are for adult women only, and wigs are limited to 2 per booking.',
       err_INVALID_SLOT: 'Please select the date and time again.',
       err_INVALID_DATETIME: 'Please select the date and time again.',
       err_TOO_SOON: 'That start time is too soon. Please choose a later time.',
@@ -1827,6 +1856,10 @@
       discountNote: '3人以上接受服务可享10%折扣',
       optionsTitle: '附加项目（可选）',
       optionsNote: '仅限成年女性。请选择需要的人数。团体折扣（10%）不适用于附加项目。',
+      optionMax: '每组最多{n}位',
+      nailSamplesBtn: '查看美甲贴片样品',
+      nailNote: '样品照片。款式请于当天从现有的中挑选。',
+      nailAlt: '美甲贴片样品（第{n}张）',
       waitNote: '仅穿和服的客人可进入沙龙。陪同人员请在前台前的等候区（5个座位）稍候。',
       hotelGuestLabel: '您是否入住KKR大阪酒店？',
       hotelGuestNote: '入住的客人当天会有相关说明。房号可当天再告知。',
@@ -1893,7 +1926,7 @@
       err_BEFORE_OPEN: '该时间早于营业时间。',
       err_AFTER_CLOSE: '从该时间开始将无法在营业时间内结束。',
       err_INVALID_PEOPLE: '人数指定有误。',
-      err_INVALID_OPTION: '附加项目的选择有误。附加项目仅限成年女性。',
+      err_INVALID_OPTION: '附加项目的选择有误。附加项目仅限成年女性，假发每组最多2位。',
       err_INVALID_SLOT: '请重新选择日期和时间。',
       err_INVALID_DATETIME: '请重新选择日期和时间。',
       err_TOO_SOON: '距离开始时间太近，请选择更晚的时间。',
@@ -1983,6 +2016,10 @@
       discountNote: '3人以上接受服務可享10%折扣',
       optionsTitle: '附加項目（選填）',
       optionsNote: '僅限成年女性。請選擇需要的人數。團體折扣（10%）不適用於附加項目。',
+      optionMax: '每組最多{n}位',
+      nailSamplesBtn: '查看美甲貼片樣品',
+      nailNote: '樣品照片。款式請於當天從現有的中挑選。',
+      nailAlt: '美甲貼片樣品（第{n}張）',
       waitNote: '僅穿和服的客人可進入沙龍。陪同人員請於櫃檯前的等候區（5個座位）稍候。',
       hotelGuestLabel: '您是否入住KKR大阪飯店？',
       hotelGuestNote: '入住的客人當天會有相關說明。房號可當天再告知。',
@@ -2049,7 +2086,7 @@
       err_BEFORE_OPEN: '該時間早於營業時間。',
       err_AFTER_CLOSE: '從該時間開始將無法在營業時間內結束。',
       err_INVALID_PEOPLE: '人數指定有誤。',
-      err_INVALID_OPTION: '附加項目的選擇有誤。附加項目僅限成年女性。',
+      err_INVALID_OPTION: '附加項目的選擇有誤。附加項目僅限成年女性，假髮每組最多2位。',
       err_INVALID_SLOT: '請重新選擇日期與時間。',
       err_INVALID_DATETIME: '請重新選擇日期與時間。',
       err_TOO_SOON: '距離開始時間太近，請選擇更晚的時間。',
@@ -2139,6 +2176,10 @@
       discountNote: '3명 이상 착장 시 10% 할인',
       optionsTitle: '추가 옵션 (선택)',
       optionsNote: '성인 여성만 이용할 수 있습니다. 원하시는 인원수를 선택해 주세요. 단체 할인(10%)은 옵션에는 적용되지 않습니다.',
+      optionMax: '1팀 최대 {n}명',
+      nailSamplesBtn: '네일 팁 샘플 보기',
+      nailNote: '샘플 사진입니다. 디자인은 당일 준비된 것 중에서 고르실 수 있습니다.',
+      nailAlt: '네일 팁 샘플 ({n}번째)',
       waitNote: '살롱에 들어가실 수 있는 분은 기모노를 입는 분뿐입니다. 동행자는 접수 앞 대기 공간(의자 5석)에서 기다려 주세요.',
       hotelGuestLabel: 'KKR 호텔 오사카에 숙박하십니까?',
       hotelGuestNote: '숙박하시는 분께는 당일 안내가 있습니다. 객실 번호는 당일에 알려주셔도 됩니다.',
@@ -2205,7 +2246,7 @@
       err_BEFORE_OPEN: '영업 시작 전 시간입니다.',
       err_AFTER_CLOSE: '해당 시간부터는 영업 시간 내에 종료할 수 없습니다.',
       err_INVALID_PEOPLE: '인원수 지정이 올바르지 않습니다.',
-      err_INVALID_OPTION: '옵션 선택이 올바르지 않습니다. 옵션은 성인 여성만 이용할 수 있습니다.',
+      err_INVALID_OPTION: '옵션 선택이 올바르지 않습니다. 옵션은 성인 여성만 이용할 수 있으며, 가발은 1팀 최대 2명입니다.',
       err_INVALID_SLOT: '날짜와 시간을 다시 선택해 주세요.',
       err_INVALID_DATETIME: '날짜와 시간을 다시 선택해 주세요.',
       err_TOO_SOON: '시작 시간까지 여유가 없습니다. 더 늦은 시간을 선택해 주세요.',
@@ -2295,6 +2336,10 @@
       discountNote: '10% de remise à partir de 3 personnes habillées',
       optionsTitle: 'Options supplémentaires (facultatif)',
       optionsNote: 'Réservées aux femmes adultes. Indiquez le nombre de personnes concernées. La remise groupe (10%) ne s\'applique pas aux options.',
+      optionMax: 'Jusqu\'à {n} par réservation',
+      nailSamplesBtn: 'Voir les échantillons de faux ongles',
+      nailNote: 'Photos d\'échantillons. Le jour même, vous choisissez le modèle parmi ceux disponibles.',
+      nailAlt: 'Échantillon de faux ongles ({n})',
       waitNote: "Seules les personnes habillées peuvent entrer dans le salon. Les accompagnants patientent dans l'espace d'attente près de la réception (5 places).",
       hotelGuestLabel: 'Séjournez-vous au KKR Hotel Osaka ?',
       hotelGuestNote: 'Si oui, nous aurons quelque chose à vous indiquer le jour même. Votre numéro de chambre peut attendre.',
@@ -2361,7 +2406,7 @@
       err_BEFORE_OPEN: 'Cet horaire est avant l\'ouverture.',
       err_AFTER_CLOSE: 'La séance ne pourrait pas se terminer avant la fermeture.',
       err_INVALID_PEOPLE: 'Le nombre de personnes est invalide.',
-      err_INVALID_OPTION: 'La sélection des options est invalide. Les options sont réservées aux femmes adultes.',
+      err_INVALID_OPTION: 'La sélection des options est invalide. Les options sont réservées aux femmes adultes, et les perruques sont limitées à 2 par réservation.',
       err_INVALID_SLOT: 'Merci de sélectionner à nouveau la date et l\'heure.',
       err_INVALID_DATETIME: 'Merci de sélectionner à nouveau la date et l\'heure.',
       err_TOO_SOON: 'Ce créneau est trop proche. Merci de choisir un horaire plus tardif.',
@@ -2378,6 +2423,23 @@
   var OPTION_NAMES = {
     wig: { ja: 'かつら', en: 'Wig', 'zh-CN': '假发', 'zh-TW': '假髮', ko: '가발', fr: 'Perruque' },
     nailTip: { ja: 'レンタルネイルチップ', en: 'Nail tips (rental)', 'zh-CN': '美甲贴片（租借）', 'zh-TW': '美甲貼片（租借）', ko: '네일 팁 (대여)', fr: 'Faux ongles (location)' },
+  };
+
+  /**
+   * オプションの補足（色など）。名前の下に小さく出す。
+   * かつらは焦げ茶色の1種類のみ（2026-11-05）。
+   */
+  var OPTION_DESCS = {
+    wig: {
+      ja: '色は焦げ茶色です（1種類）', en: 'One color: dark brown',
+      'zh-CN': '仅有深棕色一种', 'zh-TW': '僅有深棕色一種',
+      ko: '색상은 짙은 갈색 1종류입니다', fr: 'Une seule couleur : brun foncé',
+    },
+    nailTip: {
+      ja: 'デザインは当日、見本からお選びいただけます', en: 'Choose your design from the samples on the day',
+      'zh-CN': '款式请于当天从样品中挑选', 'zh-TW': '款式請於當天從樣品中挑選',
+      ko: '디자인은 당일 샘플에서 고르실 수 있습니다', fr: 'Le modèle se choisit sur place, parmi les échantillons',
+    },
   };
 
   var MENU_NAMES = {
@@ -2489,6 +2551,16 @@
 
   /** 実在が確認できた分だけ入る */
   var galleryAvailable = [];
+
+  /**
+   * レンタルネイルチップの見本（2026-11-05）。
+   *
+   * デザインは予約では選ばせない。当日、見本を見て決めてもらう。
+   * 在庫（どの柄が空いているか）をシステムが知らないのは、衣装と同じ。
+   * 実在する分だけを使う。1枚も無ければ、見本のボタンごと出さない。
+   */
+  var NAIL_PHOTOS = ['images/nail-1.jpg', 'images/nail-2.jpg'];
+  var nailAvailable = [];
 
   /**
    * 団体割引（家族割）。
@@ -3003,6 +3075,14 @@
     showViewer();
   }
 
+  /** ネイルチップの見本を開く。デザインは当日選ぶので、写真は一例 */
+  function openNailSamples() {
+    if (!nailAvailable.length) return;
+    viewerState = { list: nailAvailable, index: 0, altKey: 'nailAlt', altArg: '' };
+    el.viewerNote.textContent = t('nailNote');
+    showViewer();
+  }
+
   function openGallery() {
     if (!galleryAvailable.length) return;
     viewerState = { list: galleryAvailable, index: 0, altKey: 'galleryAlt', altArg: '' };
@@ -3022,7 +3102,7 @@
     el.photoViewerImg.src = viewerState.list[i];
     el.photoViewerImg.alt = viewerState.altKey === 'photoAlt'
       ? t('photoAlt').replace('{plan}', viewerState.altArg)
-      : t('galleryAlt').replace('{n}', String(i + 1));
+      : t(viewerState.altKey).replace('{n}', String(i + 1));
     el.photoCount.textContent = (i + 1) + ' / ' + viewerState.list.length;
   }
 
@@ -3222,7 +3302,27 @@
     el.gallerySlot.appendChild(btn);
   }
 
+  /**
+   * ネイルチップの見本が実在するか調べる。
+   * 調べ終わったら、選択欄を作り直して見本ボタンを出す（欄は先にできているため）。
+   */
+  function setupNailPhotos() {
+    var pending = NAIL_PHOTOS.length;
+    var found = [];
+    NAIL_PHOTOS.forEach(function (src, i) {
+      var probe = new Image();
+      probe.onload = function () { found[i] = src; if (--pending === 0) finish(); };
+      probe.onerror = function () { if (--pending === 0) finish(); };
+      probe.src = src;
+    });
+    function finish() {
+      nailAvailable = found.filter(function (x) { return !!x; });
+      if (nailAvailable.length) renderOptions();
+    }
+  }
+
   setupGallery();
+  setupNailPhotos();
   setupIntroSlides();
 
   /** 参加人数（来店する人の合計） */
@@ -3334,8 +3434,10 @@
     ids.forEach(function (id) {
       var def = state.options[id];
       var name = OPTION_NAMES[id] ? (OPTION_NAMES[id][state.lang] || OPTION_NAMES[id].en) : id;
+      // 上限は「大人女性の人数」と「1組あたりの数（かつらは2台）」の小さいほう
+      var limit = optionLimit(id, adultF);
       // 選んでいた個数は、新しい上限に収める
-      var qty = Math.min(parseInt(state.optionQty[id], 10) || 0, adultF);
+      var qty = Math.min(parseInt(state.optionQty[id], 10) || 0, limit);
       state.optionQty[id] = qty;
 
       var row = document.createElement('div');
@@ -3350,11 +3452,37 @@
         + ' <small>' + t('perPerson') + '</small>';
       info.appendChild(label);
       info.appendChild(price);
+      // 色・1組の上限・見本の案内
+      var meta = [];
+      if (OPTION_DESCS[id]) meta.push(OPTION_DESCS[id][state.lang] || OPTION_DESCS[id].en);
+      if (state.options[id].maxPerBooking) {
+        meta.push(t('optionMax').replace('{n}', String(state.options[id].maxPerBooking)));
+      }
+      if (meta.length) {
+        var metaEl = document.createElement('div');
+        metaEl.className = 'option-meta';
+        // 1項目1行。区切り文字でつなぐと、狭い画面で途中から折り返す
+        meta.forEach(function (text) {
+          var line = document.createElement('span');
+          line.textContent = text;
+          metaEl.appendChild(line);
+        });
+        info.appendChild(metaEl);
+      }
+      // ネイルチップの見本。画像が1枚も無ければボタンは出さない
+      if (id === 'nailTip' && nailAvailable.length) {
+        var sampleBtn = document.createElement('button');
+        sampleBtn.type = 'button';
+        sampleBtn.className = 'option-sample-btn';
+        sampleBtn.textContent = t('nailSamplesBtn');
+        sampleBtn.addEventListener('click', openNailSamples);
+        info.appendChild(sampleBtn);
+      }
 
       var sel = document.createElement('select');
       sel.id = 'optionQty_' + id;
       sel.setAttribute('data-option', id);
-      fillCountOptions(sel, adultF, 0);
+      fillCountOptions(sel, limit, 0);
       sel.value = String(qty);
       sel.addEventListener('change', function () {
         state.optionQty[id] = parseInt(sel.value, 10) || 0;
@@ -3368,6 +3496,16 @@
   }
 
   /**
+   * オプションを選べる個数の上限。
+   * 大人女性の人数まで。さらに1組の上限（かつらは2台）があれば、それも超えない。
+   * 上限の値はGASが渡す（maxPerBooking）。古いGASで無ければ、人数だけで決める。
+   */
+  function optionLimit(id, adultF) {
+    var cap = state.options && state.options[id] ? parseInt(state.options[id].maxPerBooking, 10) : 0;
+    return cap > 0 ? Math.min(adultF, cap) : adultF;
+  }
+
+  /**
    * 選んだオプションを、定義の順に [{id, count, unit, amount}] で返す。
    * 金額は state.options の単価から出す（表示と請求を同じ式にする）。
    */
@@ -3376,7 +3514,7 @@
     if (!state.options || adultF < 1) return [];
     var rows = [];
     Object.keys(state.options).forEach(function (id) {
-      var n = Math.min(parseInt(state.optionQty[id], 10) || 0, adultF);
+      var n = Math.min(parseInt(state.optionQty[id], 10) || 0, optionLimit(id, adultF));
       if (n < 1) return;
       var unit = state.options[id].priceInclTax;
       rows.push({ id: id, count: n, unit: unit, amount: unit * n });
