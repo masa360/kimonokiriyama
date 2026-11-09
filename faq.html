@@ -1,0 +1,1386 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FAQ | Kimono Experience, KKR Hotel Osaka</title>
+<meta name="description" content="What is an uchikake, the Japanese bridal kimono? Plans, prices, sizes, hair and makeup, photos and what to expect at Salon BI-BI, KKR Hotel Osaka. Available in 6 languages.">
+<meta property="og:title" content="FAQ | Kimono Experience, KKR Hotel Osaka">
+<meta property="og:type" content="website">
+<style>
+
+  :root {
+    /* 配色は案A「深い蘇芳と生成り」（2026-10-16）。考え方は <style> 最後の「意匠：案A」のコメント */
+    --color-bg: #f7f3ec;           /* 生成り */
+    --color-card: #fffdf9;
+    --color-accent: #7a2e42;       /* 深い蘇芳 */
+    --color-accent-dark: #5e2132;
+    --color-brass: #b08d57;        /* くすんだ真鍮色。線と小さな飾りだけに使う（文字には使わない。生成りの上では読みにくい） */
+    --color-text: #2a2320;
+    --color-muted: #6e6259;        /* 文字として読める濃さ（生成りの上で 5:1 以上） */
+    --color-border: #e3dacb;
+    --color-error: #c0392b;
+    --color-success: #2f7d4f;
+    --radius: 2px;
+    font-family: "Hiragino Sans", "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.6;
+  }
+  header.hero {
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-dark));
+    color: #fff;
+    padding: 28px 20px 24px;
+    text-align: center;
+  }
+  header.hero h1 {
+    margin: 0 0 6px;
+    font-size: 1.5rem;
+    letter-spacing: 0.02em;
+  }
+  header.hero p {
+    margin: 0;
+    opacity: 0.9;
+    font-size: 0.9rem;
+  }
+  .lang-switch {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 16px;
+  }
+  .lang-switch button {
+    border: 1px solid rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    cursor: pointer;
+  }
+  .lang-switch button.active {
+    background: #fff;
+    color: var(--color-accent-dark);
+    font-weight: bold;
+  }
+  main {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 20px 16px 60px;
+  }
+  .card {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .card h2 {
+    margin-top: 0;
+    font-size: 1.1rem;
+    color: var(--color-accent-dark);
+  }
+  .menu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 480px) {
+    .menu-grid { grid-template-columns: 1fr; }
+  }
+  .menu-option {
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 14px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .menu-option.selected {
+    border-color: var(--color-accent);
+    background: #fdf1f3;
+  }
+  .menu-option .name {
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+  .menu-option .price {
+    color: var(--color-accent-dark);
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+  .menu-option .duration {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+  }
+  .menu-features {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0;
+    font-size: 0.8rem;
+    color: var(--color-text);
+    line-height: 1.7;
+  }
+  .menu-features li {
+    padding-left: 1.2em;
+    position: relative;
+  }
+  .menu-features li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent);
+    font-weight: bold;
+  }
+  /* 「〜なし」の項目は控えめに見せ、含まれないことが一目で分かるようにする */
+  .menu-features li.is-absent {
+    color: var(--color-muted);
+  }
+  .menu-features li.is-absent::before {
+    content: '—';
+    color: var(--color-muted);
+    font-weight: normal;
+  }
+  .menu-option .lead-note {
+    font-size: 0.75rem;
+    color: var(--color-accent-dark);
+    background: #f6ecef;
+    border-radius: 4px;
+    padding: 2px 6px;
+    margin-top: 6px;
+    display: inline-block;
+  }
+  label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin: 14px 0 6px;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="date"],
+  select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-size: 1rem;
+    background: #fff;
+    color: var(--color-text);
+  }
+  .slot-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+    max-height: 220px;
+    overflow-y: auto;
+    padding: 4px;
+  }
+  .slot-btn {
+    border: 1px solid var(--color-border);
+    background: #fff;
+    border-radius: 8px;
+    padding: 8px 4px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    text-align: center;
+  }
+  .slot-btn.selected {
+    background: var(--color-accent);
+    color: #fff;
+    border-color: var(--color-accent);
+  }
+  .slot-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    text-decoration: line-through;
+  }
+  .field-hint {
+    font-size: 0.78rem;
+    color: var(--color-muted);
+    margin: 4px 0 0;
+  }
+  .policy-card summary {
+    font-weight: bold;
+    font-size: 1.05rem;
+    color: var(--color-accent-dark);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .policy-card summary::-webkit-details-marker { display: none; }
+  .policy-card summary::before {
+    content: '▸';
+    transition: transform 0.15s;
+    display: inline-block;
+  }
+  .policy-card[open] summary::before { transform: rotate(90deg); }
+  .policy-card h3 {
+    font-size: 0.9rem;
+    margin: 18px 0 6px;
+    color: var(--color-text);
+  }
+  .policy-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+  .policy-table td {
+    padding: 6px 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .policy-table td:last-child {
+    text-align: right;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+  .policy-note,
+  .policy-list {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+  }
+  .policy-list { padding-left: 1.2em; margin: 6px 0 0; }
+  .policy-list li { margin-bottom: 4px; }
+  /* 施術を受ける方の内訳。ラベルとselectを横並びにして縦の圧迫感を減らす */
+  .attr-group {
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 0.9rem 1rem 0.6rem;
+    margin: 0.4rem 0 1rem;
+  }
+  .attr-group legend {
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0 0.4rem;
+  }
+  .attr-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+  .attr-row label {
+    margin: 0;
+    font-weight: 400;
+    font-size: 0.95rem;
+    flex: 1 1 auto;
+  }
+  .attr-row select {
+    flex: 0 0 5.5rem;
+    margin: 0;
+  }
+  /* 合計が一致しないときだけ赤くする。既定は控えめな注記 */
+  .attr-total { margin-top: 0.5rem; }
+  .attr-total.is-error { color: var(--color-error); font-weight: 600; }
+
+  /* 料金が1名分であることを価格の直後に必ず出す。
+     人数分を掛けた総額と誤解されると当日の会計でもめる */
+  .menu-option .per-person {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--color-muted);
+    white-space: nowrap;
+  }
+
+  /* 国番号と番号本体を横並びに。国番号は内容に応じて幅を取る */
+  .phone-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: stretch;
+  }
+  .phone-row select {
+    flex: 0 0 auto;
+    max-width: 45%;
+    margin: 0;
+  }
+  .phone-row input {
+    flex: 1 1 auto;
+    min-width: 0;   /* flex内でinputが縮まずはみ出すのを防ぐ */
+    margin: 0;
+  }
+
+  /* 同意チェック。タップ範囲を文言全体に広げる */
+  .agree-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    margin: 1rem 0 0.5rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-weight: 400;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+  .agree-row input {
+    flex: 0 0 auto;
+    width: 1.15rem;
+    height: 1.15rem;
+    margin: 0.1rem 0 0;
+    accent-color: var(--color-accent, #7a2f3a);
+    cursor: pointer;
+  }
+  /* 未同意で送信しようとしたときだけ強調する */
+  .agree-row.is-error {
+    border-color: var(--color-error);
+    background: rgba(192, 57, 43, 0.05);
+  }
+
+  .honeypot {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    opacity: 0;
+    height: 0;
+    width: 0;
+  }
+  .submit-btn {
+    width: 100%;
+    background: var(--color-accent);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 14px;
+    font-size: 1.05rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  .submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .msg {
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin-top: 12px;
+  }
+  .msg.error {
+    background: #fdecea;
+    color: var(--color-error);
+    border: 1px solid #f5c6cb;
+  }
+  .msg.success {
+    background: #eaf6ee;
+    color: var(--color-success);
+    border: 1px solid #c3e6cb;
+  }
+  .hidden { display: none !important; }
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    padding: 4px 0;
+  }
+  .summary-row.total {
+    font-weight: bold;
+    font-size: 1.05rem;
+    border-top: 1px solid var(--color-border);
+    margin-top: 6px;
+    padding-top: 8px;
+  }
+  .complete-box {
+    text-align: center;
+    padding: 30px 20px;
+  }
+  .complete-box .big-check {
+    font-size: 3rem;
+    color: var(--color-success);
+  }
+  footer {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    padding: 20px;
+  }
+  footer .official-link { margin: 10px 0 0; }
+  footer .official-link a { color: inherit; text-decoration: underline; }
+  .spinner {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 3px solid rgba(255,255,255,0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+
+  /* 地図。高さを固定しつつ、幅は端末に合わせる */
+  .map-wrap {
+    position: relative;
+    width: 100%;
+    height: 320px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    margin-bottom: 12px;
+  }
+  .map-wrap iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+  /* 経路ボタン。現地で押されるので、指で押しやすい大きさにする */
+  .map-btn {
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-dark));
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .addr-line { font-size: 1.05rem; font-weight: 600; margin: 0 0 4px; }
+  /* 本文中のリンク。経路ボタンほど強くせず、押せることは分かるようにする */
+  .access-link {
+    display: inline-block;
+    color: var(--color-accent-dark);
+    font-weight: 600;
+    text-decoration: underline;
+    padding: 4px 0;
+  }
+  .access-list { padding-left: 1.2em; margin: 6px 0 0; }
+  .access-list li { margin-bottom: 6px; }
+  .back-link { display: inline-block; margin-top: 8px; }
+
+  /* ===========================================================
+     意匠：案A「深い蘇芳と生成り」（2026-10-16）
+
+     【考え方】足すより引く。
+     ・余白を広く、色を絞る（墨・生成り・蘇芳・細い真鍮色の線）
+     ・濃いグラデーション、太い枠、大きな角丸、丸いボタンをやめる
+     ・見出しと価格は明朝体。本文は読みやすいゴシックのまま
+     ・動作・文言・構造は変えない（色と形と書体だけ）
+
+     【守っていること】
+     ・文字色と背景のコントラストは 4.5:1 以上（真鍮色は線だけに使う）
+     ・外部の書体は読み込まない（端末に入っている明朝体を指定。表示を重くしない）
+     ・言語ごとに書体を分ける（日本語・中国語・韓国語は別の明朝系）
+     =========================================================== */
+  :root { --font-serif: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "Noto Serif JP", "MS PMincho", serif; }
+  :root:lang(en), :root:lang(fr) { --font-serif: "Palatino Linotype", "Book Antiqua", Palatino, Georgia, "Times New Roman", serif; }
+  :root:lang(zh-CN) { --font-serif: "Songti SC", "STSong", "SimSun", "Noto Serif SC", serif; }
+  :root:lang(zh-TW) { --font-serif: "Songti TC", "PMingLiU", "MingLiU", "Noto Serif TC", serif; }
+  :root:lang(ko) { --font-serif: "AppleMyungjo", "Batang", "Noto Serif KR", serif; }
+
+  ::selection { background: rgba(176, 141, 87, 0.3); }
+  body { -webkit-font-smoothing: antialiased; }
+
+  /* ヘッダー：濃い帯をやめ、生成りの上に文字と細い線だけにする */
+  header.hero {
+    background: none;
+    color: var(--color-text);
+    padding: 40px 20px 18px;
+  }
+  .hero-emblem {
+    display: block;
+    width: 36px;
+    height: 36px;
+    margin: 0 auto 16px;
+    color: var(--color-brass);
+  }
+  header.hero h1 {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(1.45rem, 6vw, 1.9rem);
+    letter-spacing: 0.16em;
+    /* 字間を空けると、最後の文字の右にも空きが付いて中央からずれて見える */
+    padding-left: 0.16em;
+  }
+  header.hero p {
+    margin: 10px 0 0;
+    opacity: 1;
+    color: var(--color-muted);
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+  }
+  header.hero p::after {
+    content: '';
+    display: block;
+    width: 44px;
+    height: 1px;
+    margin: 20px auto 0;
+    background: var(--color-brass);
+  }
+  /* 言語の切り替え：丸いボタンをやめ、細い縦線で区切った文字にする。
+     狭い画面は3つずつ2段にする（折り返しで区切り線が行頭に残るのを避ける）。 */
+  .lang-switch {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-content: center;
+    gap: 2px 0;
+    margin-top: 12px;
+  }
+  .lang-switch button {
+    position: relative;
+    border: 0;
+    background: none;
+    color: var(--color-muted);
+    padding: 6px 12px;
+    border-radius: 0;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+  }
+  .lang-switch button + button::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 1px;
+    height: 12px;
+    background: var(--color-border);
+    transform: translateY(-50%);
+  }
+  .lang-switch button:nth-child(3n+1)::before { display: none; }
+  .lang-switch button.active {
+    background: none;
+    color: var(--color-accent);
+    font-weight: 600;
+    box-shadow: inset 0 -1px 0 var(--color-brass);
+  }
+  @media (min-width: 560px) {
+    .lang-switch { display: flex; }
+    .lang-switch button + button:nth-child(3n+1)::before { display: block; }
+  }
+
+  /* 区画：角を落とし、余白を広げる。見出しの下に短い真鍮色の線 */
+  .card {
+    border-radius: 2px;
+    padding: 26px 22px;
+    margin-bottom: 22px;
+  }
+  .card h2 {
+    position: relative;
+    margin: 0 0 18px;
+    padding-bottom: 12px;
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.15rem;
+    letter-spacing: 0.06em;
+    color: var(--color-text);
+  }
+  .card h2::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 28px;
+    height: 1px;
+    background: var(--color-brass);
+  }
+  .policy-card summary {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--color-text);
+  }
+
+  /* プラン：選んだ状態は、ピンクの塗りではなく細い二重線で示す */
+  .menu-option {
+    border: 1px solid var(--color-border);
+    border-radius: 2px;
+    padding: 18px 16px;
+    transition: border-color 0.25s, box-shadow 0.25s;
+  }
+  .menu-option:hover { border-color: #cdbfa8; }
+  .menu-option.selected {
+    border-color: var(--color-accent);
+    background: var(--color-card);
+    box-shadow: inset 0 0 0 1px var(--color-accent);
+  }
+  .menu-option .name {
+    margin-bottom: 6px;
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.05rem;
+    letter-spacing: 0.06em;
+  }
+  .menu-option .price {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.25rem;
+    line-height: 1.4;
+    letter-spacing: 0.03em;
+    color: var(--color-accent);
+  }
+  .menu-option .duration { letter-spacing: 0.06em; }
+  .menu-features li::before { font-weight: normal; }
+  .menu-option .lead-note { background: #f3ece0; border-radius: 2px; }
+
+  /* 入力欄：角を小さく、枠を細く。選んだとき（フォーカス）は蘇芳の線と淡い縁取り */
+  label {
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="date"],
+  select,
+  textarea {
+    border-radius: 2px;
+    border-color: #d8ccb9;
+    background: #fffefb;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(122, 46, 66, 0.12);
+  }
+  .attr-group, .agree-row { border-radius: 2px; border-color: #d8ccb9; }
+  .attr-row select:disabled { background: #efe9df; }
+  .hotel-box { border-radius: 2px; background: #fbf8f2; }
+  .constraint-note { background: #f6efe3; border-left-width: 2px; }
+
+  /* 時間の枠 */
+  .slot-btn {
+    border-radius: 2px;
+    background: #fffefb;
+    letter-spacing: 0.04em;
+    transition: border-color 0.2s;
+  }
+  .slot-btn:hover:not(:disabled):not(.selected) { border-color: var(--color-accent); }
+
+  /* ボタン：ほぼ直角。英語・フランス語は大文字にして字間を広げる */
+  .submit-btn {
+    border-radius: 2px;
+    /* 直後に区画が続くので、くっつかないよう下に余白 */
+    margin-bottom: 22px;
+    padding: 16px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    transition: background 0.25s;
+  }
+  .submit-btn:hover:not(:disabled) { background: var(--color-accent-dark); }
+  :root:lang(en) .submit-btn, :root:lang(fr) .submit-btn {
+    font-size: 0.95rem;
+    text-transform: uppercase;
+  }
+  .photo-btn, .gallery-btn, .switch-btn, .cancel-link {
+    border-radius: 2px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+
+  /* メッセージ・合計・完了 */
+  .msg { border-radius: 2px; }
+  .msg.error { background: #fbefec; border-color: #ecc9c2; }
+  .msg.success { background: #f1f5ee; border-color: #d5e0cc; }
+  .summary-row.total {
+    margin-top: 10px;
+    padding-top: 12px;
+    border-top-color: var(--color-brass);
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.15rem;
+  }
+  .policy-table td:last-child { font-weight: 500; }
+  .complete-box .big-check { color: var(--color-accent); font-weight: 300; }
+  .complete-box h2::after { left: 50%; transform: translateX(-50%); }
+
+  /* フッター：細い線で本文と区切り、明朝体で静かに */
+  footer {
+    max-width: 608px;
+    margin: 8px auto 0;
+    padding: 28px 16px 44px;
+    border-top: 1px solid var(--color-border);
+    font-family: var(--font-serif);
+    letter-spacing: 0.08em;
+  }
+
+  .map-wrap { border-radius: 2px; }
+  .map-btn {
+    border-radius: 2px;
+    background: var(--color-accent);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    transition: background 0.25s;
+  }
+  .map-btn:hover { background: var(--color-accent-dark); }
+  .addr-line {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+  }
+
+
+  /* ===========================================================
+     よくある質問（2026-11-09）
+     質問を押すと答えが開く。表は狭い画面では横にずらして読む
+     =========================================================== */
+  .faq-group h2 { margin-bottom: 6px; }
+  details.faq { border-top: 1px solid var(--color-border); }
+  details.faq:last-child { border-bottom: 1px solid var(--color-border); }
+  details.faq summary {
+    position: relative;
+    cursor: pointer;
+    list-style: none;
+    padding: 14px 32px 14px 0;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+  details.faq summary::-webkit-details-marker { display: none; }
+  details.faq summary::after {
+    content: '+';
+    position: absolute;
+    right: 4px;
+    top: 11px;
+    font-size: 1.25rem;
+    color: var(--color-accent);
+  }
+  details.faq[open] summary::after { content: '\2212'; }
+  details.faq summary:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  .faq-a { padding: 0 0 16px; }
+  .faq-a p { margin: 0 0 10px; }
+  .faq-a ul { margin: 0 0 10px; padding-left: 1.2em; }
+  .faq-a li { margin-bottom: 6px; }
+  .faq-table-wrap { overflow-x: auto; margin: 4px 0 12px; }
+  /* 列の幅は中身に合わせて自動。語の途中では切らない（入りきらない画面だけ横にずらせる） */
+  .faq-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+  /* 韓国語は語の途中で折り返さない */
+  html:lang(ko) .faq-table { word-break: keep-all; }
+  .faq-table th, .faq-table td {
+    border: 1px solid var(--color-border);
+    padding: 6px 4px;
+    text-align: left;
+    vertical-align: top;
+  }
+  .faq-table thead th { background: var(--color-bg); font-weight: 600; }
+  .faq-table tbody th { font-weight: 600; }
+
+  .book-link { margin-top: 12px; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <!-- 扇の線画（ファビコンと同じ意匠）。文字の上に1つだけ置く -->
+  <svg class="hero-emblem" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M50 88 22 34a40 40 0 0 1 56 0Z"/><path d="M50 88 32 40M50 88 41 36M50 88 59 36M50 88 68 40"/></g><circle cx="50" cy="88" r="3.5" fill="currentColor"/></svg>
+  <h1 data-i18n="h1">Frequently Asked Questions</h1>
+  <p data-i18n="sub">Salon BI-BI | 4F, KKR Hotel Osaka</p>
+  <div class="lang-switch" id="langSwitch"></div>
+</header>
+
+<main>
+
+  <div class="card">
+    <p data-i18n="intro">What is an uchikake, how is it different from a regular kimono, and what happens on the day? Here are the answers to the questions we hear most often.</p>
+    <a class="map-btn book-link" href="./" data-i18n="bookCta">Book your experience</a>
+  </div>
+
+  <!--
+    質問と答えは下の FAQ（言語ごと）から組み立てる。
+    文字はすべて textContent で入れる（HTMLとして解釈させない）。
+    質問を足すときは、6言語すべてに同じ数だけ足すこと。
+  -->
+  <div id="faqList"></div>
+  <noscript><div class="card"><p>Please turn on JavaScript to read the questions and answers.</p></div></noscript>
+
+  <div class="card">
+    <h2 data-i18n="moreTitle">Other questions</h2>
+    <p data-i18n="moreBody">If you have any other questions, please call us.</p>
+    <p id="phoneOut"></p>
+    <a class="map-btn book-link" href="./" data-i18n="bookCta">Book your experience</a>
+    <p><a class="access-link" id="accessLink" href="./access.html" data-i18n="accessLink">View access and map</a></p>
+  </div>
+
+</main>
+
+<footer>
+  <span data-i18n="contactTitle">Contact</span>: <span id="footerPhone"></span>
+  <p class="official-link"><a id="officialSiteLink" href="https://bride-innovation.com/inbound-kimono-experience" target="_blank" rel="noopener" data-i18n="officialSiteLink">Official site: Bride Innovation, Kimono Experience in Osaka</a></p>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /*
+   * よくある質問（2026-11-09）。
+   * 中身は、美容室から確定の回答をいただいた内容に合わせている。
+   * 料金・時間・キャンセル料・支払い方法は、予約ページ（index.html）の表示と同じにすること。
+   *
+   * 1問の形：{ q: 質問, a: [段落…], table: { head: [...], rows: [[...]] }, list: [...], after: [段落…] }
+   * 表示の順は a → table → list → after（無いものは飛ばす）。
+   */
+  var FAQ = {
+    ja: [
+      { title: '打掛について', items: [
+        { q: '打掛（うちかけ）とは何ですか？',
+          a: ['日本の花嫁が結婚式で羽織る、特別に豪華な着物です。金糸や色鮮やかな刺繍が施され、裾が長く広がるのが特徴です。',
+              'もとは武家の女性の礼装で、江戸時代に婚礼の衣装として定着しました。'] },
+        { q: '浴衣や普通の着物とは何が違いますか？',
+          a: ['打掛は、着物のいちばん外側に羽織る婚礼用の衣装で、日本の衣装の中でも最も格式の高いもののひとつです。'],
+          table: { head: ['', '浴衣', '着物', '打掛'], rows: [
+            ['着る場面', '夏祭り・花火・温泉', '外出・お祝いの席', '花嫁の婚礼'],
+            ['生地', '木綿など。軽く気軽', '絹など', '絹に、金糸や色糸の刺繍'],
+            ['着方', '1枚で着る', '帯を締めて着る', '着物の上に羽織る。裾が長く広がる']] } },
+        { q: 'どんな色やデザインがありますか？',
+          a: ['赤や金など華やかな色柄の「色打掛」と、純白の「白無垢（しろむく）」の打掛をご用意しています。',
+              'お衣装の写真は、予約ページの「お衣装（打掛）を見る」からご覧いただけます。'] }
+      ] },
+      { title: 'ご参加について', items: [
+        { q: '日本人でなくても、結婚していなくても着られますか？',
+          a: ['もちろんです。結婚式ではなく撮影の体験ですので、国籍や、ご結婚されているかどうかにかかわらず、どなたでもお楽しみいただけます。'] },
+        { q: '身長が高くても、小柄でも着られますか？',
+          a: ['打掛はフリーサイズです。背の高い方も小柄な方も、お召しいただけます。',
+              'ご心配なことがあれば、ご予約の「ご要望・ご質問」欄にお書きください。'] },
+        { q: '男性や子どもも参加できますか？',
+          a: ['はい。男性は紋付袴（和装本格着付け）、お子様はお子様用のお着物（和装体験）でご案内します。',
+              'お子様のお着物は七五三用のサイズで、3歳〜7歳ごろが目安です。',
+              'ご一緒のご予約の中で、お一人ずつ違うプランにすることもできます。'] },
+        { q: '着物を着たことがなくても、日本語が話せなくても大丈夫ですか？',
+          a: ['着付けはスタッフが行いますので、初めての方でもご安心ください。',
+              'スタッフは日本語での対応になりますが、翻訳アプリを使ってご案内します。'] }
+      ] },
+      { title: 'プランと料金', items: [
+        { q: '2つのプランは何が違いますか？',
+          table: { head: ['', '和装体験', '和装本格着付け'], rows: [
+            ['料金（お一人様・税込）', '22,000円', '49,500円'],
+            ['所要時間', '約30分', '約45分'],
+            ['着付け', 'お洋服の上に打掛を羽織ります', '本格的にお着付けします'],
+            ['ヘアセット', 'なし', 'あり（地毛でセット）'],
+            ['対象', '大人の女性・お子様', '大人の女性・男性']] },
+          after: ['着付けを受ける方が3名様以上のときは、合計から10%割引になります。'] },
+        { q: 'ヘアセットやメイクはお願いできますか？',
+          list: ['ヘアセットは「和装本格着付け」に含まれます。',
+                 '日本の花嫁らしい髪型にしたい方は、追加オプションの「かつら」（22,000円）をお選びいただけます（大人の女性・1組2名まで）。',
+                 'メイクはどちらのプランにも含まれません。メイクをされてからお越しください。'] },
+        { q: '予約の変更やキャンセルはできますか？',
+          a: ['確認メールにそのままご返信ください。キャンセル料は次のとおりです。'],
+          list: ['7日前まで：無料', '6〜2日前：料金の50%', '前日・当日・ご連絡なし：料金の100%'] }
+      ] },
+      { title: '撮影と当日', items: [
+        { q: '自分のスマートフォンで撮れますか？撮ってもらえますか？',
+          a: ['はい、ご自身のスマートフォンでお撮りいただけます。',
+              '撮影中はスタッフが1名付き添いますので、シャッターを押すのもお任せください（どちらのプランでも）。',
+              '番傘と模造刀（本物ではありません）の小道具もお使いいただけます。'] },
+        { q: '何を持っていけばいいですか？',
+          a: ['手ぶらでお越しいただけます。肌着などのご用意も不要です。',
+              '開始時刻の10分前までに、エレベーターでホテルの4階へお越しください。フロントに寄る必要はありません。'] },
+        { q: 'ホテルに泊まっていなくても利用できますか？支払いは？',
+          a: ['ご宿泊でない方もご予約いただけます。',
+              'お支払いは当日、4階の美容室 BI-BI にて、現金またはクレジットカード（VISA、Mastercard、JCB、AMEX、ダイナース、Discover、銀聯）でお願いします。'] }
+      ] }
+    ],
+
+    en: [
+      { title: 'About the uchikake', items: [
+        { q: 'What is an uchikake?',
+          a: ['An uchikake is the lavish outer kimono that a Japanese bride wears at her wedding. It is decorated with gold thread and colorful embroidery, and its long hem spreads out behind her.',
+              'It began as formal wear for women of samurai families and became established as bridal wear in the Edo period.'] },
+        { q: 'How is it different from a yukata or a regular kimono?',
+          a: ['The uchikake is worn as the outermost layer, over a kimono. It is one of the most formal garments in traditional Japanese dress.'],
+          table: { head: ['', 'Yukata', 'Kimono', 'Uchikake'], rows: [
+            ['When it is worn', 'Summer festivals, fireworks, hot springs', 'Outings, special occasions', 'A bride’s wedding'],
+            ['Fabric', 'Cotton; light and casual', 'Silk and other fabrics', 'Silk with gold and color embroidery'],
+            ['How it is worn', 'A single layer', 'Tied with an obi sash', 'Draped over a kimono, with a long, flowing hem']] } },
+        { q: 'What colors and designs are available?',
+          a: ['We have colorful “iro-uchikake” in vivid shades such as red and gold, and pure white “shiromuku” uchikake.',
+              'You can see photos of our robes on the booking page under “See the kimono robes”.'] }
+      ] },
+      { title: 'Who can join', items: [
+        { q: 'Can I wear one if I am not Japanese, or not married?',
+          a: ['Of course. This is a photo experience, not a wedding, so everyone is welcome, whatever your nationality and whether or not you are married.'] },
+        { q: 'Will it fit me if I am tall or petite?',
+          a: ['The uchikake is one size fits all, so it suits both tall and petite guests.',
+              'If you have any concerns, please mention them in the “Requests or questions” field when you book.'] },
+        { q: 'Can men and children join?',
+          a: ['Yes. Men wear a formal crested kimono with hakama (Full Kimono Dressing), and children wear a children’s kimono (Kimono Experience).',
+              'Children’s kimonos are Shichi-Go-San sizes, so ages 3 to 7 are the guide.',
+              'People in the same booking can each be on a different plan.'] },
+        { q: 'I have never worn a kimono and I do not speak Japanese. Is that OK?',
+          a: ['Yes. Our staff will dress you, so first-timers can relax.',
+              'Our staff speak Japanese only, and we use translation apps to guide you.'] }
+      ] },
+      { title: 'Plans and prices', items: [
+        { q: 'What is the difference between the two plans?',
+          table: { head: ['', 'Kimono Experience', 'Full Kimono Dressing'], rows: [
+            ['Price (per person, tax incl.)', 'JPY 22,000', 'JPY 49,500'],
+            ['Time', 'About 30 min', 'About 45 min'],
+            ['Dressing', 'The uchikake is draped over your clothes', 'Full, formal kimono dressing'],
+            ['Hair styling', 'Not included', 'Included (using your own hair)'],
+            ['Who', 'Adult women and children', 'Adult women and men']] },
+          after: ['When 3 or more people are being dressed, you get 10% off the total.'] },
+        { q: 'Can I have my hair or makeup done?',
+          list: ['Hair styling is included in the Full Kimono Dressing plan.',
+                 'For a traditional bridal look, you can add a wig (JPY 22,000) as an option (adult women, up to 2 per booking).',
+                 'Makeup is not included in either plan. Please arrive with your makeup done.'] },
+        { q: 'Can I change or cancel my booking?',
+          a: ['Simply reply to your confirmation email. The cancellation fees are as follows.'],
+          list: ['7 or more days before: free', '6 to 2 days before: 50% of the price', 'Day before / same day / no-show: 100% of the price'] }
+      ] },
+      { title: 'Photos and the day', items: [
+        { q: 'Can I take photos with my own phone? Can someone take them for me?',
+          a: ['Yes, you can use your own smartphone.',
+              'A staff member stays with you during the photo session, so feel free to ask them to take the pictures for you (on both plans).',
+              'Props are available too: a traditional paper umbrella and a replica sword (not a real blade).'] },
+        { q: 'What should I bring?',
+          a: ['You can come empty-handed. No special underwear is needed.',
+              'Please come straight up to the 4th floor of the hotel by elevator, 10 minutes before your start time. There is no need to stop at the front desk.'] },
+        { q: 'Do I need to be staying at the hotel? How do I pay?',
+          a: ['No. Guests who are not staying at the hotel are welcome too.',
+              'Payment is made on the day at Salon BI-BI on the 4th floor, by cash or credit card (VISA, Mastercard, JCB, AMEX, Diners, Discover, UnionPay).'] }
+      ] }
+    ],
+
+    'zh-CN': [
+      { title: '关于打褂', items: [
+        { q: '什么是打褂（Uchikake）？',
+          a: ['打褂是日本新娘在婚礼上披在最外层的华丽和服。上面饰有金线和色彩鲜艳的刺绣，长长的下摆向后铺展开来。',
+              '它最初是武家女性的礼服，到江户时代成为新娘礼服并流传下来。'] },
+        { q: '和浴衣、普通和服有什么不同？',
+          a: ['打褂是披在和服最外层的婚礼服装，是日本传统服饰中规格最高的服装之一。'],
+          table: { head: ['', '浴衣', '和服', '打褂'], rows: [
+            ['穿着场合', '夏日祭典、烟火大会、温泉', '外出、喜庆场合', '新娘的婚礼'],
+            ['面料', '棉布等，轻便随意', '丝绸等', '丝绸上饰以金线和彩线刺绣'],
+            ['穿法', '单穿一件', '系上腰带穿着', '披在和服外面，下摆长而铺展']] } },
+        { q: '有哪些颜色和款式？',
+          a: ['我们备有红色、金色等色彩华丽的“色打褂”，以及纯白的“白无垢”打褂。',
+              '服装照片可在预约页面的“查看和服外褂”中浏览。'] }
+      ] },
+      { title: '参加条件', items: [
+        { q: '不是日本人、没有结婚也可以穿吗？',
+          a: ['当然可以。这是拍照体验而不是婚礼，无论国籍、是否已婚，都欢迎体验。'] },
+        { q: '个子高或娇小也能穿吗？',
+          a: ['打褂为均码，个子高或娇小的客人都可以穿着。',
+              '如有任何担心，请在预约时填写在“需求或问题”栏中。'] },
+        { q: '男士和儿童也可以参加吗？',
+          a: ['可以。男士穿着带家纹的和服配袴（正式和服着装），儿童穿着儿童和服（和服体验）。',
+              '儿童和服为七五三尺寸，以3至7岁左右为宜。',
+              '同一个预约中的每位客人可以分别选择不同的套餐。'] },
+        { q: '没穿过和服、不会说日语也没关系吗？',
+          a: ['没关系。由工作人员为您着装，第一次穿也可以放心。',
+              '工作人员仅能使用日语，将通过翻译软件为您服务。'] }
+      ] },
+      { title: '套餐与费用', items: [
+        { q: '两种套餐有什么不同？',
+          table: { head: ['', '和服体验', '正式和服着装'], rows: [
+            ['费用（每人・含税）', '22,000日元', '49,500日元'],
+            ['所需时间', '约30分钟', '约45分钟'],
+            ['着装', '在衣服外披上打褂', '正式穿着和服'],
+            ['发型', '不含', '含（用您本人的头发做造型）'],
+            ['适用对象', '成年女性、儿童', '成年女性、男性']] },
+          after: ['接受着装的客人达3人以上时，总价享9折优惠。'] },
+        { q: '可以做发型和化妆吗？',
+          list: ['“正式和服着装”套餐包含发型设计。',
+                 '如想要日本新娘风格的发型，可另选附加项目“假发”（22,000日元，限成年女性，每个预约最多2人）。',
+                 '两种套餐均不含化妆，请化好妆后再来。'] },
+        { q: '可以更改或取消预约吗？',
+          a: ['请直接回复确认邮件。取消费用如下。'],
+          list: ['提前7天以上：免费', '提前6～2天：费用的50%', '前一天／当天取消／未联系：费用的100%'] }
+      ] },
+      { title: '拍摄与当天', items: [
+        { q: '可以用自己的手机拍照吗？可以请人帮忙拍吗？',
+          a: ['可以，请用您自己的手机拍摄。',
+              '拍摄时会有一名工作人员陪同，也可以请工作人员帮您按快门（两种套餐均可）。',
+              '另备有日式纸伞与模造刀（非真刀）等拍摄道具。'] },
+        { q: '需要带什么吗？',
+          a: ['空手前来即可，也无需准备贴身衣物。',
+              '请于开始时间前10分钟乘电梯直接前往酒店4楼，无需到前台办理。'] },
+        { q: '没有入住酒店也可以预约吗？如何付款？',
+          a: ['未入住的客人也可以预约。',
+              '请于当天在4楼美容室 BI-BI 付款，可使用现金或信用卡（VISA、Mastercard、JCB、AMEX、Diners、Discover、银联）。'] }
+      ] }
+    ],
+
+    'zh-TW': [
+      { title: '關於打褂', items: [
+        { q: '什麼是打褂（Uchikake）？',
+          a: ['打褂是日本新娘在婚禮上披在最外層的華麗和服。上面飾有金線與色彩鮮豔的刺繡，長長的下襬向後鋪展開來。',
+              '它最初是武家女性的禮服，到了江戶時代成為新娘禮服並流傳至今。'] },
+        { q: '和浴衣、一般和服有什麼不同？',
+          a: ['打褂是披在和服最外層的婚禮服裝，是日本傳統服飾中規格最高的服裝之一。'],
+          table: { head: ['', '浴衣', '和服', '打褂'], rows: [
+            ['穿著場合', '夏日祭典、煙火大會、溫泉', '外出、喜慶場合', '新娘的婚禮'],
+            ['布料', '棉布等，輕便隨興', '絲綢等', '絲綢上飾以金線與彩線刺繡'],
+            ['穿法', '單穿一件', '繫上腰帶穿著', '披在和服外面，下襬長而鋪展']] } },
+        { q: '有哪些顏色和款式？',
+          a: ['我們備有紅色、金色等色彩華麗的「色打褂」，以及純白的「白無垢」打褂。',
+              '服裝照片可在預約頁面的「查看和服外褂」中瀏覽。'] }
+      ] },
+      { title: '參加條件', items: [
+        { q: '不是日本人、沒有結婚也可以穿嗎？',
+          a: ['當然可以。這是拍照體驗而不是婚禮，無論國籍、是否已婚，都歡迎體驗。'] },
+        { q: '個子高或嬌小也能穿嗎？',
+          a: ['打褂為單一尺寸（Free size），個子高或嬌小的客人都可以穿著。',
+              '如有任何擔心，請在預約時填寫於「需求或問題」欄。'] },
+        { q: '男士和兒童也可以參加嗎？',
+          a: ['可以。男士穿著有家紋的和服搭配袴（正式和服著裝），兒童穿著兒童和服（和服體驗）。',
+              '兒童和服為七五三尺寸，以3至7歲左右為宜。',
+              '同一筆預約中的每位客人可以分別選擇不同的方案。'] },
+        { q: '沒穿過和服、不會說日語也沒關係嗎？',
+          a: ['沒關係。由工作人員為您著裝，第一次穿也可以放心。',
+              '工作人員僅能使用日語，將透過翻譯軟體為您服務。'] }
+      ] },
+      { title: '方案與費用', items: [
+        { q: '兩種方案有什麼不同？',
+          table: { head: ['', '和服體驗', '正式和服著裝'], rows: [
+            ['費用（每人・含稅）', '22,000日圓', '49,500日圓'],
+            ['所需時間', '約30分鐘', '約45分鐘'],
+            ['著裝', '在衣服外披上打褂', '正式穿著和服'],
+            ['髮型', '不含', '含（以您本人的頭髮造型）'],
+            ['適用對象', '成年女性、兒童', '成年女性、男性']] },
+          after: ['接受著裝的客人達3人以上時，總價享9折優惠。'] },
+        { q: '可以做髮型和化妝嗎？',
+          list: ['「正式和服著裝」方案包含髮型設計。',
+                 '如想要日本新娘風格的髮型，可另選附加項目「假髮」（22,000日圓，限成年女性，每筆預約最多2人）。',
+                 '兩種方案均不含化妝，請化好妝後再前來。'] },
+        { q: '可以更改或取消預約嗎？',
+          a: ['請直接回覆確認郵件。取消費用如下。'],
+          list: ['提前7天以上：免費', '提前6～2天：費用的50%', '前一天／當天取消／未聯絡：費用的100%'] }
+      ] },
+      { title: '拍攝與當天', items: [
+        { q: '可以用自己的手機拍照嗎？可以請人幫忙拍嗎？',
+          a: ['可以，請用您自己的手機拍攝。',
+              '拍攝時會有一名工作人員陪同，也可以請工作人員幫您按快門（兩種方案皆可）。',
+              '另備有日式紙傘與模造刀（非真刀）等拍攝道具。'] },
+        { q: '需要帶什麼嗎？',
+          a: ['空手前來即可，也不需準備貼身衣物。',
+              '請於開始時間前10分鐘搭電梯直接前往飯店4樓，無需前往櫃檯。'] },
+        { q: '沒有入住飯店也可以預約嗎？如何付款？',
+          a: ['未入住的客人也可以預約。',
+              '請於當天在4樓美容室 BI-BI 付款，可使用現金或信用卡（VISA、Mastercard、JCB、AMEX、Diners、Discover、銀聯）。'] }
+      ] }
+    ],
+
+    ko: [
+      { title: '우치카케에 대해', items: [
+        { q: '우치카케(打掛)란 무엇인가요?',
+          a: ['일본의 신부가 결혼식에서 가장 바깥에 걸쳐 입는 화려한 기모노입니다. 금실과 화려한 색의 자수로 장식되어 있고, 긴 옷자락이 뒤로 넓게 펼쳐지는 것이 특징입니다.',
+              '원래는 무가(사무라이 가문) 여성의 예복이었으며, 에도 시대에 신부 의상으로 자리 잡았습니다.'] },
+        { q: '유카타나 일반 기모노와 무엇이 다른가요?',
+          a: ['우치카케는 기모노 위 가장 바깥에 걸쳐 입는 혼례 의상으로, 일본 전통 의상 중에서도 가장 격식이 높은 옷 중 하나입니다.'],
+          table: { head: ['', '유카타', '기모노', '우치카케'], rows: [
+            ['입는 자리', '여름 축제 · 불꽃놀이 · 온천', '외출 · 축하 자리', '신부의 결혼식'],
+            ['소재', '면 등. 가볍고 편안함', '실크 등', '실크에 금실 · 색실 자수'],
+            ['입는 법', '한 장으로 입음', '오비(띠)를 매어 입음', '기모노 위에 걸쳐 입음. 옷자락이 길게 펼쳐짐']] } },
+        { q: '어떤 색과 디자인이 있나요?',
+          a: ['빨강, 금색 등 화려한 색과 무늬의 「이로우치카케」와 순백의 「시로무쿠」 우치카케를 준비해 두었습니다.',
+              '의상 사진은 예약 페이지의 「기모노 겉옷 보기」에서 보실 수 있습니다.'] }
+      ] },
+      { title: '참가 조건', items: [
+        { q: '일본인이 아니어도, 결혼하지 않았어도 입을 수 있나요?',
+          a: ['물론입니다. 결혼식이 아닌 촬영 체험이므로 국적이나 결혼 여부와 관계없이 누구나 즐기실 수 있습니다.'] },
+        { q: '키가 크거나 작아도 입을 수 있나요?',
+          a: ['우치카케는 프리 사이즈라 키가 크신 분도, 작으신 분도 입으실 수 있습니다.',
+              '걱정되시는 점이 있으면 예약 시 「요청 사항 · 문의」란에 적어 주세요.'] },
+        { q: '남성이나 어린이도 참가할 수 있나요?',
+          a: ['네. 남성은 가문이 들어간 기모노와 하카마(정통 기모노 착장), 어린이는 어린이용 기모노(기모노 체험)로 안내해 드립니다.',
+              '어린이 기모노는 시치고산 사이즈로 3세에서 7세 정도가 기준입니다.',
+              '같은 예약 안에서 한 분씩 다른 플랜을 선택하실 수도 있습니다.'] },
+        { q: '기모노를 입어 본 적이 없고, 일본어를 못해도 괜찮나요?',
+          a: ['괜찮습니다. 착장은 직원이 해 드리므로 처음이신 분도 안심하세요.',
+              '직원은 일본어만 가능하며, 번역 앱으로 안내해 드립니다.'] }
+      ] },
+      { title: '플랜과 요금', items: [
+        { q: '두 플랜은 무엇이 다른가요?',
+          table: { head: ['', '기모노 체험', '정통 기모노 착장'], rows: [
+            ['요금 (1인 · 세금 포함)', '22,000엔', '49,500엔'],
+            ['소요 시간', '약 30분', '약 45분'],
+            ['착장', '옷 위에 우치카케를 걸칩니다', '정식으로 기모노를 입혀 드립니다'],
+            ['헤어 세팅', '없음', '있음 (본인 머리로 세팅)'],
+            ['대상', '성인 여성 · 어린이', '성인 여성 · 남성']] },
+          after: ['착장을 받으시는 분이 3명 이상이면 합계에서 10% 할인됩니다.'] },
+        { q: '헤어나 메이크업도 해 주시나요?',
+          list: ['헤어 세팅은 「정통 기모노 착장」에 포함되어 있습니다.',
+                 '일본 신부다운 헤어스타일을 원하시면 추가 옵션 「가발」(22,000엔)을 선택하실 수 있습니다(성인 여성, 1건당 2명까지).',
+                 '메이크업은 두 플랜 모두 포함되어 있지 않습니다. 메이크업을 하고 오시기 바랍니다.'] },
+        { q: '예약을 변경하거나 취소할 수 있나요?',
+          a: ['확인 메일에 그대로 답장해 주세요. 취소 수수료는 다음과 같습니다.'],
+          list: ['7일 전까지: 무료', '6~2일 전: 요금의 50%', '전날 · 당일 · 무단 불참: 요금의 100%'] }
+      ] },
+      { title: '촬영과 당일', items: [
+        { q: '제 스마트폰으로 찍을 수 있나요? 찍어 주실 수도 있나요?',
+          a: ['네, 본인의 스마트폰으로 촬영하실 수 있습니다.',
+              '촬영 중에는 직원 1명이 함께하므로, 셔터를 눌러 달라고 편하게 부탁하세요(두 플랜 모두).',
+              '전통 종이우산과 모조도(진검이 아닙니다) 등 소품도 사용하실 수 있습니다.'] },
+        { q: '무엇을 가져가면 되나요?',
+          a: ['빈손으로 오셔도 됩니다. 속옷 등도 따로 준비하실 필요가 없습니다.',
+              '시작 시간 10분 전까지 엘리베이터로 호텔 4층으로 바로 와 주세요. 프런트에 들르실 필요는 없습니다.'] },
+        { q: '호텔에 묵지 않아도 이용할 수 있나요? 결제는 어떻게 하나요?',
+          a: ['호텔에 숙박하지 않으시는 분도 예약하실 수 있습니다.',
+              '결제는 당일 4층 살롱 BI-BI에서 현금 또는 신용카드(VISA, Mastercard, JCB, AMEX, Diners, Discover, 은련)로 해 주세요.'] }
+      ] }
+    ],
+
+    fr: [
+      { title: 'L’uchikake', items: [
+        { q: 'Qu’est-ce qu’un uchikake ?',
+          a: ['L’uchikake est le somptueux kimono que la mariée japonaise porte en dernière couche le jour de son mariage. Il est orné de fils d’or et de broderies colorées, et sa longue traîne s’étale derrière elle.',
+              'À l’origine tenue de cérémonie des femmes des familles de samouraïs, il s’est imposé comme tenue de mariée à l’époque d’Edo.'] },
+        { q: 'Quelle différence avec un yukata ou un kimono ordinaire ?',
+          a: ['L’uchikake se porte en dernière couche, par-dessus un kimono. C’est l’un des vêtements les plus solennels de la tenue traditionnelle japonaise.'],
+          table: { head: ['', 'Yukata', 'Kimono', 'Uchikake'], rows: [
+            ['Occasion', 'Fêtes d’été, feux d’artifice, onsen', 'Sorties, fêtes', 'Le mariage'],
+            ['Tissu', 'Coton ; léger et décontracté', 'Soie, entre autres', 'Soie brodée de fils d’or et de couleur'],
+            ['Façon de le porter', 'Une seule couche', 'Fermé par une ceinture obi', 'Posé sur un kimono, avec une longue traîne']] } },
+        { q: 'Quelles couleurs et quels motifs sont proposés ?',
+          a: ['Nous proposons des « iro-uchikake » aux couleurs éclatantes, rouge ou or par exemple, et des uchikake d’un blanc pur, appelés « shiromuku ».',
+              'Vous pouvez voir nos tenues sur la page de réservation, avec le bouton « Voir les kimonos ».'] }
+      ] },
+      { title: 'Qui peut participer', items: [
+        { q: 'Puis-je le porter si je ne suis pas japonais(e) ou pas marié(e) ?',
+          a: ['Bien sûr. Il s’agit d’une séance photo, pas d’un mariage : tout le monde est le bienvenu, quelle que soit sa nationalité, marié(e) ou non.'] },
+        { q: 'Puis-je le porter si je suis grand(e) ou menu(e) ?',
+          a: ['L’uchikake est en taille unique : il convient aux personnes grandes comme menues.',
+              'En cas de doute, indiquez-le dans le champ « Demandes ou questions » lors de la réservation.'] },
+        { q: 'Les hommes et les enfants peuvent-ils participer ?',
+          a: ['Oui. Les hommes portent un kimono à blasons avec hakama (Habillage Kimono Complet), et les enfants un kimono pour enfant (Expérience Kimono).',
+              'Les kimonos enfants sont des tailles Shichi-Go-San, soit de 3 à 7 ans environ.',
+              'Dans une même réservation, chacun peut suivre une formule différente.'] },
+        { q: 'Je n’ai jamais porté de kimono et je ne parle pas japonais. Est-ce un problème ?',
+          a: ['Aucun problème. C’est notre personnel qui vous habille : même pour une première fois, vous pouvez être tranquille.',
+              'Notre personnel parle uniquement japonais et utilise des applications de traduction pour vous guider.'] }
+      ] },
+      { title: 'Formules et tarifs', items: [
+        { q: 'Quelle différence entre les deux formules ?',
+          table: { head: ['', 'Expérience Kimono', 'Habillage Kimono Complet'], rows: [
+            ['Tarif (par personne, TTC)', '22 000 JPY', '49 500 JPY'],
+            ['Durée', 'Environ 30 min', 'Environ 45 min'],
+            ['Habillage', 'L’uchikake est posé sur vos vêtements', 'Habillage kimono complet et formel'],
+            ['Coiffure', 'Non incluse', 'Incluse (avec vos propres cheveux)'],
+            ['Pour qui', 'Femmes adultes et enfants', 'Femmes et hommes adultes']] },
+          after: ['À partir de 3 personnes habillées, 10 % de réduction sur le total.'] },
+        { q: 'Pouvez-vous me coiffer ou me maquiller ?',
+          list: ['La coiffure est incluse dans la formule Habillage Kimono Complet.',
+                 'Pour un look de mariée traditionnel, vous pouvez ajouter une perruque en option (22 000 JPY ; femmes adultes, 2 par réservation au maximum).',
+                 'Le maquillage n’est inclus dans aucune formule. Merci d’arriver déjà maquillé(e).'] },
+        { q: 'Puis-je modifier ou annuler ma réservation ?',
+          a: ['Il suffit de répondre à votre e-mail de confirmation. Les frais d’annulation sont les suivants.'],
+          list: ['7 jours avant ou plus : gratuit', 'De 6 à 2 jours avant : 50 % du prix', 'La veille / le jour même / absence : 100 % du prix'] }
+      ] },
+      { title: 'Photos et déroulement', items: [
+        { q: 'Puis-je prendre les photos avec mon téléphone ? Quelqu’un peut-il les prendre pour moi ?',
+          a: ['Oui, vous utilisez votre propre smartphone.',
+              'Un membre du personnel vous accompagne pendant la séance : n’hésitez pas à lui demander d’appuyer sur le déclencheur (pour les deux formules).',
+              'Des accessoires sont aussi à votre disposition : une ombrelle japonaise et un sabre factice (ce n’est pas une vraie lame).'] },
+        { q: 'Que dois-je apporter ?',
+          a: ['Rien : venez les mains libres. Aucun sous-vêtement particulier n’est nécessaire.',
+              'Montez directement au 4e étage de l’hôtel par l’ascenseur, 10 minutes avant l’heure de début. Inutile de passer par la réception.'] },
+        { q: 'Faut-il séjourner à l’hôtel ? Comment payer ?',
+          a: ['Non, les personnes qui ne séjournent pas à l’hôtel sont aussi les bienvenues.',
+              'Le paiement se fait le jour même au salon BI-BI, au 4e étage, en espèces ou par carte (VISA, Mastercard, JCB, AMEX, Diners, Discover, UnionPay).'] }
+      ] }
+    ]
+  };
+
+  /** 画面の決まった文言（見出し・ボタンなど） */
+  var I18N = {
+    ja: {
+      title: 'よくある質問｜和装体験 KKRホテル大阪',
+      h1: 'よくある質問',
+      sub: '美容室 BI-BI｜KKRホテル大阪 4階',
+      intro: '打掛とはどんな衣装か、普通の着物と何が違うのか、当日はどう過ごすのか。よくいただくご質問にお答えします。',
+      bookCta: 'ご予約はこちら',
+      moreTitle: 'このほかのご質問',
+      moreBody: 'このほかのご質問は、お電話でお問い合わせください。',
+      phoneLabelFront: 'KKRホテルフロント',
+      accessLink: 'アクセス・地図を見る',
+      contactTitle: 'お問い合わせ',
+      officialSiteLink: '公式サイトで詳しく見る：大阪の着物体験・和装撮影（ブライド・イノベーション）'
+    },
+    en: {
+      title: 'FAQ | Kimono Experience, KKR Hotel Osaka',
+      h1: 'Frequently Asked Questions',
+      sub: 'Salon BI-BI | 4F, KKR Hotel Osaka',
+      intro: 'What is an uchikake, how is it different from a regular kimono, and what happens on the day? Here are the answers to the questions we hear most often.',
+      bookCta: 'Book your experience',
+      moreTitle: 'Other questions',
+      moreBody: 'If you have any other questions, please call us.',
+      phoneLabelFront: 'KKR Hotel front desk',
+      accessLink: 'View access and map',
+      contactTitle: 'Contact',
+      officialSiteLink: 'Official site: Bride Innovation, Kimono Experience in Osaka'
+    },
+    'zh-CN': {
+      title: '常见问题｜和服体验 KKR大阪酒店',
+      h1: '常见问题',
+      sub: '美容室 BI-BI｜KKR大阪酒店 4楼',
+      intro: '什么是打褂？和普通和服有什么不同？当天如何进行？这里汇总了大家最常问的问题。',
+      bookCta: '立即预约',
+      moreTitle: '其他问题',
+      moreBody: '如有其他问题，欢迎来电咨询。',
+      phoneLabelFront: 'KKR大阪酒店前台',
+      accessLink: '查看交通指南和地图',
+      contactTitle: '咨询',
+      officialSiteLink: '官方网站：Bride Innovation 大阪和服体验介绍'
+    },
+    'zh-TW': {
+      title: '常見問題｜和服體驗 KKR大阪飯店',
+      h1: '常見問題',
+      sub: '美容室 BI-BI｜KKR大阪飯店 4樓',
+      intro: '什麼是打褂？和一般和服有什麼不同？當天如何進行？這裡整理了大家最常問的問題。',
+      bookCta: '立即預約',
+      moreTitle: '其他問題',
+      moreBody: '如有其他問題，歡迎來電洽詢。',
+      phoneLabelFront: 'KKR大阪飯店櫃檯',
+      accessLink: '查看交通指南與地圖',
+      contactTitle: '聯絡我們',
+      officialSiteLink: '官方網站：Bride Innovation 大阪和服體驗介紹'
+    },
+    ko: {
+      title: '자주 묻는 질문｜기모노 체험 KKR 호텔 오사카',
+      h1: '자주 묻는 질문',
+      sub: '살롱 BI-BI | KKR 호텔 오사카 4층',
+      intro: '우치카케는 어떤 의상인지, 일반 기모노와 무엇이 다른지, 당일에는 어떻게 진행되는지 자주 묻는 질문에 답해 드립니다.',
+      bookCta: '예약하기',
+      moreTitle: '그 밖의 질문',
+      moreBody: '그 밖에 궁금하신 점은 전화로 문의해 주세요.',
+      phoneLabelFront: 'KKR 호텔 프런트',
+      accessLink: '오시는 길・지도 보기',
+      contactTitle: '문의',
+      officialSiteLink: '공식 사이트: Bride Innovation 오사카 기모노 체험 안내'
+    },
+    fr: {
+      title: 'FAQ | Expérience Kimono, KKR Hotel Osaka',
+      h1: 'Questions fréquentes',
+      sub: 'Salon BI-BI | 4e étage, KKR Hotel Osaka',
+      intro: 'Qu’est-ce qu’un uchikake ? En quoi diffère-t-il d’un kimono ordinaire ? Comment se passe la séance ? Voici les réponses aux questions qu’on nous pose le plus souvent.',
+      bookCta: 'Réserver',
+      moreTitle: 'Autres questions',
+      moreBody: 'Pour toute autre question, appelez-nous.',
+      phoneLabelFront: 'réception du KKR Hotel',
+      accessLink: 'Voir l’accès et le plan',
+      contactTitle: 'Contact',
+      officialSiteLink: 'Site officiel : Bride Innovation, expérience kimono à Osaka'
+    }
+  };
+
+  var LANG_LABELS = { ja: '日本語', en: 'English', 'zh-CN': '简体', 'zh-TW': '繁體', ko: '한국어', fr: 'Français' };
+  var SUPPORTED_LANGS = ['ja', 'en', 'zh-CN', 'zh-TW', 'ko', 'fr'];
+
+  // 予約ページ・アクセスページと同じ番号（ホテルのフロント）。GASを叩かずに済むよう直接持つ
+  var SALON_PHONE = '06-6941-1122';
+
+  var state = { lang: detectInitialLang() };
+
+  function detectInitialLang() {
+    // 予約ページから ?lang= で渡ってきたらそれを優先する
+    var m = /[?&]lang=([\w-]+)/.exec(location.search);
+    if (m && SUPPORTED_LANGS.indexOf(m[1]) !== -1) return m[1];
+    var nav = (navigator.language || 'en');
+    if (SUPPORTED_LANGS.indexOf(nav) !== -1) return nav;
+    var base = nav.split('-')[0];
+    for (var i = 0; i < SUPPORTED_LANGS.length; i++) {
+      if (SUPPORTED_LANGS[i].split('-')[0] === base) return SUPPORTED_LANGS[i];
+    }
+    return 'en';
+  }
+
+  function t(key) {
+    var d = I18N[state.lang] || I18N.en;
+    return d[key] || I18N.en[key] || key;
+  }
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text !== undefined) n.textContent = text;
+    return n;
+  }
+
+  function renderTable(tb) {
+    var wrap = el('div', 'faq-table-wrap');
+    var table = el('table', 'faq-table');
+    var thead = el('thead');
+    var hr = el('tr');
+    tb.head.forEach(function (h) { hr.appendChild(el('th', '', h)); });
+    thead.appendChild(hr);
+    table.appendChild(thead);
+    var tbody = el('tbody');
+    tb.rows.forEach(function (r) {
+      var tr = el('tr');
+      r.forEach(function (c, i) { tr.appendChild(el(i === 0 ? 'th' : 'td', '', c)); });
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    wrap.appendChild(table);
+    return wrap;
+  }
+
+  function renderFaq() {
+    var box = document.getElementById('faqList');
+    box.innerHTML = '';
+    var groups = FAQ[state.lang] || FAQ.en;
+    groups.forEach(function (g) {
+      var card = el('section', 'card faq-group');
+      card.appendChild(el('h2', '', g.title));
+      g.items.forEach(function (it) {
+        var d = el('details', 'faq');
+        d.appendChild(el('summary', '', it.q));
+        var body = el('div', 'faq-a');
+        (it.a || []).forEach(function (p) { body.appendChild(el('p', '', p)); });
+        if (it.table) body.appendChild(renderTable(it.table));
+        if (it.list) {
+          var ul = el('ul');
+          it.list.forEach(function (li) { ul.appendChild(el('li', '', li)); });
+          body.appendChild(ul);
+        }
+        (it.after || []).forEach(function (p) { body.appendChild(el('p', '', p)); });
+        d.appendChild(body);
+        card.appendChild(d);
+      });
+      box.appendChild(card);
+    });
+  }
+
+  function applyI18n() {
+    document.documentElement.lang = state.lang;
+    document.title = t('title');
+    var nodes = document.querySelectorAll('[data-i18n]');
+    for (var i = 0; i < nodes.length; i++) {
+      nodes[i].textContent = t(nodes[i].getAttribute('data-i18n'));
+    }
+    // ホテルのフロントにつながる番号なので、その旨を添える
+    var phoneText = SALON_PHONE + '（' + t('phoneLabelFront') + '）';
+    document.getElementById('phoneOut').textContent = phoneText;
+    document.getElementById('footerPhone').textContent = phoneText;
+    // 予約ページ・アクセスページへ、いまの言語を引き継ぐ
+    var q = '?lang=' + encodeURIComponent(state.lang);
+    var books = document.querySelectorAll('.book-link');
+    for (var j = 0; j < books.length; j++) books[j].href = './' + q;
+    document.getElementById('accessLink').href = './access.html' + q;
+    renderFaq();
+  }
+
+  function renderLangSwitch() {
+    var box = document.getElementById('langSwitch');
+    box.innerHTML = '';
+    SUPPORTED_LANGS.forEach(function (lang) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = LANG_LABELS[lang];
+      if (lang === state.lang) btn.classList.add('active');
+      btn.addEventListener('click', function () {
+        state.lang = lang;
+        renderLangSwitch();
+        applyI18n();
+      });
+      box.appendChild(btn);
+    });
+  }
+
+  renderLangSwitch();
+  applyI18n();
+})();
+</script>
+</body>
+</html>
