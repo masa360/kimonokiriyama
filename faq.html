@@ -764,6 +764,8 @@
   }
   .faq-table thead th { background: var(--color-bg); font-weight: 600; }
   .faq-table tbody th { font-weight: 600; }
+  /* 日本語・中国語・韓国語の行の見出しは短いので、折り返さない（「着る/もの」のように割れるのを防ぐ） */
+  html:lang(ja) .faq-table tbody th, html:lang(zh) .faq-table tbody th, html:lang(ko) .faq-table tbody th { white-space: nowrap; }
 
   .book-link { margin-top: 12px; }
 </style>
@@ -825,16 +827,30 @@
       { title: '打掛について', items: [
         { q: '打掛（うちかけ）とは何ですか？',
           a: ['日本の花嫁が結婚式で羽織る、特別に豪華な着物です。金糸や色鮮やかな刺繍が施され、裾が長く広がるのが特徴です。',
+              'ウェディングドレスにあたる、日本の伝統的な花嫁衣装と考えるとイメージしやすいです。',
               'もとは武家の女性の礼装で、江戸時代に婚礼の衣装として定着しました。'] },
         { q: '浴衣や普通の着物とは何が違いますか？',
-          a: ['打掛は、着物のいちばん外側に羽織る婚礼用の衣装で、日本の衣装の中でも最も格式の高いもののひとつです。'],
+          a: ['打掛は着物の一種で、花嫁のために仕立てられたものです。',
+              '打掛は、着物のいちばん外側に羽織る婚礼用の衣装で、日本の衣装の中でも最も格式の高いもののひとつです。'],
           table: { head: ['', '浴衣', '着物', '打掛'], rows: [
+            ['格式', 'カジュアル', 'フォーマル', '最上級のフォーマル（花嫁）'],
             ['着る場面', '夏祭り・花火・温泉', '外出・お祝いの席', '花嫁の婚礼'],
             ['生地', '木綿など。軽く気軽', '絹など', '絹に、金糸や色糸の刺繍'],
             ['着方', '1枚で着る', '帯を締めて着る', '着物の上に羽織る。裾が長く広がる']] } },
         { q: 'どんな色やデザインがありますか？',
           a: ['赤や金など華やかな色柄の「色打掛」と、純白の「白無垢（しろむく）」の打掛をご用意しています。',
-              'お衣装の写真は、予約ページの「お衣装（打掛）を見る」からご覧いただけます。'] }
+              'お衣装の写真は、予約ページの「お衣装（打掛）を見る」からご覧いただけます。'] },
+        { q: '街で着物をレンタルして歩くのと、何が違いますか？',
+          a: ['多くのレンタル店では、着物や浴衣を着て街を歩き、その日のうちに返却します。こちらは、花嫁衣装の打掛を、ホテルの中で着て撮影を楽しむ体験です。'],
+          table: { head: ['', '一般的な着物レンタル', 'この体験'], rows: [
+            ['着るもの', '着物・浴衣', '花嫁衣装の打掛'],
+            ['楽しむ場所', '街や観光地を歩く', 'ホテルの中（大阪城を望む場所）'],
+            ['所要時間', '数時間〜1日。あとで返却', '約30〜45分。その場で完結'],
+            ['写真', '屋外で撮る', '屋内なので雨でも安心。スタッフがシャッターも押せます']] },
+          after: ['ホテルの外へのお出かけはできません。街を歩く体験ではなく、特別な一着を着て撮影するための体験です。'] },
+        { q: '普通の着物より、着るのは大変ですか？',
+          a: ['いいえ。和装体験では、お洋服の上に打掛を羽織るだけなので、複雑な着付けはなく、着物の知識も要りません。',
+              '和装本格着付けでは、スタッフが最初から丁寧にお着付けします。どちらも、初めての方でも安心です。'] }
       ] },
       { title: 'ご参加について', items: [
         { q: '日本人でなくても、結婚していなくても着られますか？',
@@ -885,16 +901,30 @@
       { title: 'About the uchikake', items: [
         { q: 'What is an uchikake?',
           a: ['An uchikake is the lavish outer kimono that a Japanese bride wears at her wedding. It is decorated with gold thread and colorful embroidery, and its long hem spreads out behind her.',
+              'Think of it as Japan’s traditional wedding gown.',
               'It began as formal wear for women of samurai families and became established as bridal wear in the Edo period.'] },
         { q: 'How is it different from a yukata or a regular kimono?',
-          a: ['The uchikake is worn as the outermost layer, over a kimono. It is one of the most formal garments in traditional Japanese dress.'],
+          a: ['An uchikake is a kind of kimono — the one made for brides.',
+              'The uchikake is worn as the outermost layer, over a kimono. It is one of the most formal garments in traditional Japanese dress.'],
           table: { head: ['', 'Yukata', 'Kimono', 'Uchikake'], rows: [
+            ['Formality', 'Casual', 'Formal', 'The most formal of all'],
             ['When it is worn', 'Summer festivals, fireworks, hot springs', 'Outings, special occasions', 'A bride’s wedding'],
             ['Fabric', 'Cotton; light and casual', 'Silk and other fabrics', 'Silk with gold and color embroidery'],
             ['How it is worn', 'A single layer', 'Tied with an obi sash', 'Draped over a kimono, with a long, flowing hem']] } },
         { q: 'What colors and designs are available?',
           a: ['We have colorful “iro-uchikake” in vivid shades such as red and gold, and pure white “shiromuku” uchikake.',
-              'You can see photos of our robes on the booking page under “See the kimono robes”.'] }
+              'You can see photos of our robes on the booking page under “See the kimono robes”.'] },
+        { q: 'How is this different from renting a kimono and walking around town?',
+          a: ['Many rental shops let you wear a kimono or yukata around town and return it the same day. Here, you wear a bridal uchikake inside the hotel and enjoy a photo session.'],
+          table: { head: ['', 'Typical kimono rental', 'This experience'], rows: [
+            ['What you wear', 'Kimono or yukata', 'A bridal uchikake'],
+            ['Where', 'Walking around town', 'Inside the hotel, with a view of Osaka Castle'],
+            ['Time', 'Several hours to a day, then you return it', 'About 30 to 45 minutes, all in one place'],
+            ['Photos', 'Outdoors', 'Indoors, rain or shine; staff can press the shutter']] },
+          after: ['You cannot leave the hotel in the robe. This is not a sightseeing walk; it is a photo experience in one special outfit.'] },
+        { q: 'Is it harder to wear than a regular kimono?',
+          a: ['No. With the Kimono Experience plan, the uchikake is simply draped over your own clothes, so there is nothing complicated to put on and no kimono knowledge is needed.',
+              'With the Full Kimono Dressing plan, our staff dress you step by step in a full kimono. Either way, first-timers are welcome.'] }
       ] },
       { title: 'Who can join', items: [
         { q: 'Can I wear one if I am not Japanese, or not married?',
@@ -945,16 +975,30 @@
       { title: '关于打褂', items: [
         { q: '什么是打褂（Uchikake）？',
           a: ['打褂是日本新娘在婚礼上披在最外层的华丽和服。上面饰有金线和色彩鲜艳的刺绣，长长的下摆向后铺展开来。',
+              '可以把它想象成日本传统的婚纱。',
               '它最初是武家女性的礼服，到江户时代成为新娘礼服并流传下来。'] },
         { q: '和浴衣、普通和服有什么不同？',
-          a: ['打褂是披在和服最外层的婚礼服装，是日本传统服饰中规格最高的服装之一。'],
+          a: ['打褂是和服的一种，是专为新娘准备的和服。',
+              '打褂是披在和服最外层的婚礼服装，是日本传统服饰中规格最高的服装之一。'],
           table: { head: ['', '浴衣', '和服', '打褂'], rows: [
+            ['格式', '休闲', '正式', '最为隆重（新娘）'],
             ['穿着场合', '夏日祭典、烟火大会、温泉', '外出、喜庆场合', '新娘的婚礼'],
             ['面料', '棉布等，轻便随意', '丝绸等', '丝绸上饰以金线和彩线刺绣'],
             ['穿法', '单穿一件', '系上腰带穿着', '披在和服外面，下摆长而铺展']] } },
         { q: '有哪些颜色和款式？',
           a: ['我们备有红色、金色等色彩华丽的“色打褂”，以及纯白的“白无垢”打褂。',
-              '服装照片可在预约页面的“查看和服外褂”中浏览。'] }
+              '服装照片可在预约页面的“查看和服外褂”中浏览。'] },
+        { q: '和在街上租和服逛街相比，有什么不同？',
+          a: ['很多租赁店提供和服或浴衣，让您穿着在街上游览，当天归还。这里则是在酒店内穿着新娘礼服打褂，享受拍照体验。'],
+          table: { head: ['', '一般的和服租赁', '本体验'], rows: [
+            ['穿着', '和服、浴衣', '新娘礼服打褂'],
+            ['地点', '穿着在街上游览', '酒店内（可眺望大阪城的场地）'],
+            ['所需时间', '数小时至一整天，之后归还', '约30～45分钟，在同一处完成'],
+            ['拍照', '在户外拍摄', '在室内拍摄，雨天也不受影响；工作人员可帮您按快门']] },
+          after: ['穿着打褂无法离开酒店。这不是穿着游览街区，而是穿上特别的一套礼服拍照留念的体验。'] },
+        { q: '比普通和服更难穿吗？',
+          a: ['不会。“和服体验”套餐只需将打褂披在您自己的衣服外面，没有复杂的穿法，也不需要了解和服知识。',
+              '“正式和服着装”套餐由工作人员从头开始一步步为您穿好。无论哪种，第一次穿的客人都可以放心。'] }
       ] },
       { title: '参加条件', items: [
         { q: '不是日本人、没有结婚也可以穿吗？',
@@ -1005,16 +1049,30 @@
       { title: '關於打褂', items: [
         { q: '什麼是打褂（Uchikake）？',
           a: ['打褂是日本新娘在婚禮上披在最外層的華麗和服。上面飾有金線與色彩鮮豔的刺繡，長長的下襬向後鋪展開來。',
+              '可以把它想像成日本傳統的婚紗。',
               '它最初是武家女性的禮服，到了江戶時代成為新娘禮服並流傳至今。'] },
         { q: '和浴衣、一般和服有什麼不同？',
-          a: ['打褂是披在和服最外層的婚禮服裝，是日本傳統服飾中規格最高的服裝之一。'],
+          a: ['打褂是和服的一種，是專為新娘準備的和服。',
+              '打褂是披在和服最外層的婚禮服裝，是日本傳統服飾中規格最高的服裝之一。'],
           table: { head: ['', '浴衣', '和服', '打褂'], rows: [
+            ['格式', '休閒', '正式', '最為隆重（新娘）'],
             ['穿著場合', '夏日祭典、煙火大會、溫泉', '外出、喜慶場合', '新娘的婚禮'],
             ['布料', '棉布等，輕便隨興', '絲綢等', '絲綢上飾以金線與彩線刺繡'],
             ['穿法', '單穿一件', '繫上腰帶穿著', '披在和服外面，下襬長而鋪展']] } },
         { q: '有哪些顏色和款式？',
           a: ['我們備有紅色、金色等色彩華麗的「色打褂」，以及純白的「白無垢」打褂。',
-              '服裝照片可在預約頁面的「查看和服外褂」中瀏覽。'] }
+              '服裝照片可在預約頁面的「查看和服外褂」中瀏覽。'] },
+        { q: '和在街上租和服逛街相比，有什麼不同？',
+          a: ['很多租借店提供和服或浴衣，讓您穿著在街上遊覽，當天歸還。這裡則是在飯店內穿著新娘禮服打褂，享受拍照體驗。'],
+          table: { head: ['', '一般的和服租借', '本體驗'], rows: [
+            ['穿著', '和服、浴衣', '新娘禮服打褂'],
+            ['地點', '穿著在街上遊覽', '飯店內（可眺望大阪城的場地）'],
+            ['所需時間', '數小時至一整天，之後歸還', '約30～45分鐘，在同一處完成'],
+            ['拍照', '在戶外拍攝', '在室內拍攝，雨天也不受影響；工作人員可幫您按快門']] },
+          after: ['穿著打褂無法離開飯店。這不是穿著遊覽街區，而是穿上特別的一套禮服拍照留念的體驗。'] },
+        { q: '比一般和服更難穿嗎？',
+          a: ['不會。「和服體驗」方案只需將打褂披在您自己的衣服外面，沒有複雜的穿法，也不需要了解和服知識。',
+              '「正式和服著裝」方案由工作人員從頭開始一步步為您穿好。無論哪種，第一次穿的客人都可以放心。'] }
       ] },
       { title: '參加條件', items: [
         { q: '不是日本人、沒有結婚也可以穿嗎？',
@@ -1065,16 +1123,30 @@
       { title: '우치카케에 대해', items: [
         { q: '우치카케(打掛)란 무엇인가요?',
           a: ['일본의 신부가 결혼식에서 가장 바깥에 걸쳐 입는 화려한 기모노입니다. 금실과 화려한 색의 자수로 장식되어 있고, 긴 옷자락이 뒤로 넓게 펼쳐지는 것이 특징입니다.',
+              '일본의 전통 웨딩드레스라고 생각하시면 이해하기 쉽습니다.',
               '원래는 무가(사무라이 가문) 여성의 예복이었으며, 에도 시대에 신부 의상으로 자리 잡았습니다.'] },
         { q: '유카타나 일반 기모노와 무엇이 다른가요?',
-          a: ['우치카케는 기모노 위 가장 바깥에 걸쳐 입는 혼례 의상으로, 일본 전통 의상 중에서도 가장 격식이 높은 옷 중 하나입니다.'],
+          a: ['우치카케는 기모노의 한 종류로, 신부를 위한 기모노입니다.',
+              '우치카케는 기모노 위 가장 바깥에 걸쳐 입는 혼례 의상으로, 일본 전통 의상 중에서도 가장 격식이 높은 옷 중 하나입니다.'],
           table: { head: ['', '유카타', '기모노', '우치카케'], rows: [
+            ['격식', '캐주얼', '정장', '가장 격식이 높음 (신부)'],
             ['입는 자리', '여름 축제 · 불꽃놀이 · 온천', '외출 · 축하 자리', '신부의 결혼식'],
             ['소재', '면 등. 가볍고 편안함', '실크 등', '실크에 금실 · 색실 자수'],
             ['입는 법', '한 장으로 입음', '오비(띠)를 매어 입음', '기모노 위에 걸쳐 입음. 옷자락이 길게 펼쳐짐']] } },
         { q: '어떤 색과 디자인이 있나요?',
           a: ['빨강, 금색 등 화려한 색과 무늬의 「이로우치카케」와 순백의 「시로무쿠」 우치카케를 준비해 두었습니다.',
-              '의상 사진은 예약 페이지의 「기모노 겉옷 보기」에서 보실 수 있습니다.'] }
+              '의상 사진은 예약 페이지의 「기모노 겉옷 보기」에서 보실 수 있습니다.'] },
+        { q: '거리에서 기모노를 대여해 돌아다니는 것과 무엇이 다른가요?',
+          a: ['많은 대여점에서는 기모노나 유카타를 입고 거리를 다니다가 당일에 반납합니다. 이곳에서는 호텔 안에서 신부 예복인 우치카케를 입고 촬영을 즐기실 수 있습니다.'],
+          table: { head: ['', '일반적인 기모노 대여', '이 체험'], rows: [
+            ['입는 옷', '기모노 · 유카타', '신부 예복 우치카케'],
+            ['장소', '거리와 관광지를 걸어 다님', '호텔 안 (오사카성이 보이는 공간)'],
+            ['소요 시간', '몇 시간~하루, 이후 반납', '약 30~45분, 한 곳에서 마무리'],
+            ['사진', '야외에서 촬영', '실내 촬영이라 비가 와도 걱정 없음. 직원이 셔터도 눌러 드립니다']] },
+          after: ['우치카케를 입고 호텔 밖으로 나가실 수는 없습니다. 거리를 걷는 체험이 아니라, 특별한 한 벌을 입고 촬영하는 체험입니다.'] },
+        { q: '일반 기모노보다 입기 어렵나요?',
+          a: ['아니요. 「기모노 체험」 플랜은 평상복 위에 우치카케를 걸치기만 하면 되므로 복잡한 착장이 없고, 기모노에 대한 지식도 필요 없습니다.',
+              '「정통 기모노 착장」 플랜은 직원이 처음부터 차근차근 입혀 드립니다. 어느 쪽이든 처음이신 분도 안심하세요.'] }
       ] },
       { title: '참가 조건', items: [
         { q: '일본인이 아니어도, 결혼하지 않았어도 입을 수 있나요?',
@@ -1125,16 +1197,30 @@
       { title: 'L’uchikake', items: [
         { q: 'Qu’est-ce qu’un uchikake ?',
           a: ['L’uchikake est le somptueux kimono que la mariée japonaise porte en dernière couche le jour de son mariage. Il est orné de fils d’or et de broderies colorées, et sa longue traîne s’étale derrière elle.',
+              'Imaginez-le comme la robe de mariée traditionnelle du Japon.',
               'À l’origine tenue de cérémonie des femmes des familles de samouraïs, il s’est imposé comme tenue de mariée à l’époque d’Edo.'] },
         { q: 'Quelle différence avec un yukata ou un kimono ordinaire ?',
-          a: ['L’uchikake se porte en dernière couche, par-dessus un kimono. C’est l’un des vêtements les plus solennels de la tenue traditionnelle japonaise.'],
+          a: ['L’uchikake est un type de kimono : celui des mariées.',
+              'L’uchikake se porte en dernière couche, par-dessus un kimono. C’est l’un des vêtements les plus solennels de la tenue traditionnelle japonaise.'],
           table: { head: ['', 'Yukata', 'Kimono', 'Uchikake'], rows: [
+            ['Formalité', 'Décontracté', 'Cérémonie', 'Le plus solennel (la mariée)'],
             ['Occasion', 'Fêtes d’été, feux d’artifice, onsen', 'Sorties, fêtes', 'Le mariage'],
             ['Tissu', 'Coton ; léger et décontracté', 'Soie, entre autres', 'Soie brodée de fils d’or et de couleur'],
             ['Façon de le porter', 'Une seule couche', 'Fermé par une ceinture obi', 'Posé sur un kimono, avec une longue traîne']] } },
         { q: 'Quelles couleurs et quels motifs sont proposés ?',
           a: ['Nous proposons des « iro-uchikake » aux couleurs éclatantes, rouge ou or par exemple, et des uchikake d’un blanc pur, appelés « shiromuku ».',
-              'Vous pouvez voir nos tenues sur la page de réservation, avec le bouton « Voir les kimonos ».'] }
+              'Vous pouvez voir nos tenues sur la page de réservation, avec le bouton « Voir les kimonos ».'] },
+        { q: 'Quelle différence avec la location d’un kimono pour se promener en ville ?',
+          a: ['Beaucoup de boutiques de location permettent de se promener en ville en kimono ou en yukata, puis de le rendre le jour même. Ici, vous portez un uchikake de mariée à l’intérieur de l’hôtel, pour une séance photo.'],
+          table: { head: ['', 'Location de kimono classique', 'Cette expérience'], rows: [
+            ['Ce que vous portez', 'Kimono ou yukata', 'Un uchikake de mariée'],
+            ['Où', 'Promenade en ville', 'Dans l’hôtel, avec vue sur le château d’Osaka'],
+            ['Durée', 'Quelques heures à une journée, puis restitution', 'Environ 30 à 45 minutes, au même endroit'],
+            ['Photos', 'En extérieur', 'À l’intérieur, par tous les temps ; le personnel peut déclencher pour vous']] },
+          after: ['Il n’est pas possible de quitter l’hôtel avec la tenue. Ce n’est pas une promenade touristique, mais une séance photo dans une tenue d’exception.'] },
+        { q: 'Est-ce plus difficile à porter qu’un kimono ordinaire ?',
+          a: ['Non. Avec la formule Expérience Kimono, l’uchikake est simplement posé sur vos vêtements : rien de compliqué à enfiler, et aucune connaissance du kimono n’est nécessaire.',
+              'Avec la formule Habillage Kimono Complet, notre personnel vous habille pas à pas d’un kimono complet. Dans les deux cas, les débutants sont les bienvenus.'] }
       ] },
       { title: 'Qui peut participer', items: [
         { q: 'Puis-je le porter si je ne suis pas japonais(e) ou pas marié(e) ?',

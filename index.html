@@ -6,9 +6,9 @@
 <!-- 最初のHTMLの文言は英語。lang もそれに合わせる（開いたあと、言語に応じて JS が書き換える）。
      タイトルも言語ごとに pageTitle で差し替える -->
 <title>Kimono Experience Booking | Salon BI-BI, KKR Hotel Osaka</title>
-<meta name="description" content="Book a kimono experience at Salon BI-BI, KKR Hotel Osaka. Dress in a traditional Japanese kimono and take photos in a room overlooking Osaka Castle. Booking page available in 6 languages.">
+<meta name="description" content="Wear an uchikake, the gorgeous Japanese bridal kimono, and take your own photos in a hotel overlooking Osaka Castle. Book a kimono experience at Salon BI-BI, KKR Hotel Osaka. Booking page available in 6 languages.">
 <meta property="og:title" content="Kimono Experience Booking | Salon BI-BI, KKR Hotel Osaka">
-<meta property="og:description" content="Dress in a traditional Japanese kimono and take photos in a room overlooking Osaka Castle.">
+<meta property="og:description" content="Wear an uchikake, the Japanese bridal kimono, and take your own photos in a hotel overlooking Osaka Castle.">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#f7f3ec">
@@ -1133,6 +1133,44 @@
     font-size: 1rem;
     letter-spacing: 0.06em;
   }
+
+  /* ===========================================================
+     最初のカード「打掛とは？」（2026-11-10）
+     浴衣・着物・打掛を3行で見比べる。打掛の行だけ、蘇芳の線と濃い文字で目立たせる
+     =========================================================== */
+  /* 韓国語は語（띄어쓰기の単位）の途中で折り返さない */
+  html:lang(ko) body { word-break: keep-all; overflow-wrap: break-word; }
+  .intro-summary { font-size: 1.02rem; line-height: 1.75; margin: 0 0 18px; }
+  .kimono-compare { margin: 0 0 18px; padding: 0; }
+  .kimono-compare .row {
+    display: grid;
+    grid-template-columns: 5.6em 1fr;
+    column-gap: 12px;
+    padding: 11px 0;
+    border-top: 1px solid var(--color-border);
+  }
+  .kimono-compare .row:last-child { border-bottom: 1px solid var(--color-border); }
+  .kimono-compare dt { margin: 0; font-weight: 600; color: var(--color-muted); }
+  .kimono-compare dd { margin: 0; font-size: 0.92rem; line-height: 1.6; color: var(--color-muted); }
+  .kimono-compare .is-us {
+    padding-left: 12px;
+    margin-left: -12px;
+    border-left: 3px solid var(--color-accent);
+    background: rgba(122, 46, 66, 0.05);
+  }
+  .kimono-compare .is-us dt { color: var(--color-accent); }
+  .kimono-compare .is-us dd { color: var(--color-text); }
+  .intro-points { list-style: none; margin: 0 0 6px; padding: 0; }
+  .intro-points li { position: relative; padding-left: 1.4em; margin-bottom: 8px; line-height: 1.6; }
+  .intro-points li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.85em;
+    width: 0.8em;
+    height: 1px;
+    background: var(--color-brass);
+  }
 </style>
 </head>
 <body>
@@ -1140,7 +1178,7 @@
 <header class="hero">
   <!-- 扇の線画（ファビコンと同じ意匠）。文字の上に1つだけ置く -->
   <svg class="hero-emblem" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M50 88 22 34a40 40 0 0 1 56 0Z"/><path d="M50 88 32 40M50 88 41 36M50 88 59 36M50 88 68 40"/></g><circle cx="50" cy="88" r="3.5" fill="currentColor"/></svg>
-  <h1 data-i18n="heroTitle">Kimono Experience</h1>
+  <h1 data-i18n="heroTitle">Japanese Bridal Kimono Experience</h1>
   <p data-i18n="heroSubtitle">KKR Hotel Osaka</p>
   <div class="lang-switch" id="langSwitch"></div>
 </header>
@@ -1154,8 +1192,23 @@
 <main>
 
   <div class="card" id="introCard">
-    <h2 data-i18n="introTitle">About this experience</h2>
-    <p data-i18n="introBody">Wear a traditional Japanese kimono and take your own photos in a space overlooking Osaka Castle. Photos are taken indoors, so the weather never gets in the way — and on a fine day you can also step out into the garden, which looks onto the castle.</p>
+    <!--
+      最初のカード（2026-11-10）。「着物？浴衣？打掛って何？」に、最初に答える。
+      ①打掛の一言 ②浴衣・着物・打掛の3行の見比べ（打掛の行だけ目立たせる） ③短い3点。
+      文言は言語ごとに I18N（introLead・cmp*・introPoint*）で差し替える。
+    -->
+    <h2 data-i18n="introTitle">What is an uchikake?</h2>
+    <p class="intro-summary" data-i18n="introLead">The uchikake is the gorgeous robe a Japanese bride wears at her wedding — Japan’s traditional wedding gown. Wear it for photos in a hotel overlooking Osaka Castle.</p>
+    <dl class="kimono-compare">
+      <div class="row"><dt data-i18n="cmpYukata">Yukata</dt><dd data-i18n="cmpYukataDesc">A light cotton robe for summer festivals</dd></div>
+      <div class="row"><dt data-i18n="cmpKimono">Kimono</dt><dd data-i18n="cmpKimonoDesc">Formal wear for outings and celebrations</dd></div>
+      <div class="row is-us"><dt data-i18n="cmpUchikake">Uchikake</dt><dd data-i18n="cmpUchikakeDesc">The bride’s kimono, worn over another kimono. Gold embroidery and a long, flowing hem. The most formal of all</dd></div>
+    </dl>
+    <ul class="intro-points">
+      <li data-i18n="introPoint1">Take photos with your own smartphone. Our staff can press the shutter for you</li>
+      <li data-i18n="introPoint2">Indoors, so rain or shine. On a fine day, the garden with its castle view too</li>
+      <li data-i18n="introPoint3">Men’s hakama and children’s kimono are available too</li>
+    </ul>
     <!-- 打掛ギャラリー。画像が1枚も無ければ JS が丸ごと消す -->
     <div id="gallerySlot"></div>
     <!-- よくある質問（別ページ。2026-11-09）。打掛を知らない方が、予約の前に読めるように -->
@@ -1457,12 +1510,21 @@
 
   var I18N = {
     ja: {
-      heroTitle: '和装体験',
+      heroTitle: '花嫁衣装「打掛」体験',
       heroSubtitle: '美容室 BI-BI｜KKRホテル大阪 4階',
       pageTitle: '着物体験・和装体験の予約｜美容室 BI-BI｜KKRホテル大阪',
       officialSiteLink: '公式サイトで詳しく見る：大阪の着物体験・和装撮影（ブライド・イノベーション）',
-      introTitle: 'サービスについて',
-      introBody: '大阪城を望むホテル内のスペースで、日本の伝統衣装を着用し、ご自身のスマートフォンで自撮り撮影をお楽しみいただけます。撮影は屋内で行うため天候に左右されず、お天気がよければ大阪城を望むお庭でも撮影いただけます。',
+      introTitle: '打掛とは？',
+      introLead: '打掛は、日本の花嫁が結婚式で羽織る豪華な衣装。日本版のウェディングドレスです。大阪城を望むホテルで、この衣装をまとって撮影できます。',
+      cmpYukata: '浴衣',
+      cmpYukataDesc: '夏祭りで着る、木綿の軽い着物',
+      cmpKimono: '着物',
+      cmpKimonoDesc: '外出やお祝いの席で着る正装',
+      cmpUchikake: '打掛',
+      cmpUchikakeDesc: '花嫁の着物。着物の上に羽織ります。金糸の刺繍と、長く広がる裾が特徴で、いちばん格式の高い衣装です',
+      introPoint1: 'ご自身のスマートフォンで撮影します。スタッフがシャッターを押すこともできます',
+      introPoint2: '屋内なので雨でも安心。お天気がよければ、大阪城を望むお庭でも撮影できます',
+      introPoint3: '男性の紋付袴、お子様のお着物もご用意しています',
       loading: '空き状況を読み込んでいます…',
       peopleTitle: '1. ご利用人数',
       menuTitle: '2. プランを選択',
@@ -1506,7 +1568,7 @@
       galleryBtn: 'お衣装（打掛）を見る',
       introSkip: 'スキップ',
       introLead1: '大阪城が見える、特別なホテルで',
-      introLead2: '特別な和装体験をしてみませんか？',
+      introLead2: '日本の花嫁衣装を、着てみませんか？',
       galleryNote: 'お衣装は当日、ご用意のある中からお選びいただけます。写真は一例で、在庫により異なる場合があります。女性の大人用です。',
       galleryAlt: 'お衣装の例（{n}枚目）',
       photoClose: '閉じる',
@@ -1567,11 +1629,11 @@
       policyPaymentBody: 'お支払いは当日、4階の美容室 BI-BI にてお願いいたします。現金・クレジットカード（VISA、Mastercard、JCB、AMEX、ダイナース、Discover、銀聯）がご利用いただけます。',
       policyNotesTitle: 'ご注意',
       noteArrive: '開始時刻の10分前までに、4階の美容室 BI-BI へ直接お越しください（エレベーターで4階へ）。',
-      notePhoto: '撮影はお客様ご自身のスマートフォンでの自撮りとなります。',
+      notePhoto: '撮影はご自身のスマートフォンで行います。スタッフがシャッターを押すこともできます。',
       noteProps: '撮影用の小道具として、番傘と模造刀（本物ではありません）をご用意しております。',
       noteStaff: 'スタッフは日本語のみ対応です。翻訳アプリを使ってご案内いたします。',
       noteChildHeight: 'お子様のお衣装は七五三用のため、3歳〜7歳程度が目安です。サイズが合うかご不安な場合は、事前にご相談ください。',
-      noteSize: '大きめのサイズをご希望の場合は、事前にご相談ください。',
+      noteSize: '打掛はフリーサイズです。サイズのご心配があれば、「ご要望」欄にお書きください。',
       policyPrivacyTitle: '個人情報の取り扱い',
       policyPrivacyBody: 'ご入力いただいた情報は、株式会社ブライド・イノベーションが管理し、ご予約の確認・当日のご案内・お客様へのご連絡（ご来店後のお礼と、口コミのお願いを含みます）にのみ使用します。法令に基づく場合を除き、ご本人の同意なく第三者に提供することはありません。また、ページを開いた回数やプランを選んだ回数を、日付と言語ごとに数えています。個人を特定する情報やCookieは使いません。',
       policyPrivacyContact: '内容の確認・訂正・削除をご希望の場合は、確認メールへのご返信でお知らせください。',
@@ -1618,12 +1680,21 @@
       err_GENERIC: '送信できませんでした。しばらくしてから再度お試しいただくか、お電話にてご連絡ください。',
     },
     en: {
-      heroTitle: 'Kimono Experience',
+      heroTitle: 'Japanese Bridal Kimono Experience',
       heroSubtitle: 'Salon BI-BI | KKR Hotel Osaka, 4F',
       pageTitle: 'Kimono Experience Booking | Salon BI-BI, KKR Hotel Osaka',
       officialSiteLink: 'Official site: Bride Innovation, Kimono Experience in Osaka',
-      introTitle: 'About this experience',
-      introBody: 'Wear a traditional Japanese kimono and take your own photos in a space overlooking Osaka Castle. Photos are taken indoors, so the weather never gets in the way — and on a fine day you can also step out into the garden, which looks onto the castle.',
+      introTitle: 'What is an uchikake?',
+      introLead: 'The uchikake is the gorgeous robe a Japanese bride wears at her wedding — Japan’s traditional wedding gown. Wear it for photos in a hotel overlooking Osaka Castle.',
+      cmpYukata: 'Yukata',
+      cmpYukataDesc: 'A light cotton robe for summer festivals',
+      cmpKimono: 'Kimono',
+      cmpKimonoDesc: 'Formal wear for outings and celebrations',
+      cmpUchikake: 'Uchikake',
+      cmpUchikakeDesc: 'The bride\u2019s kimono, worn over another kimono. Gold embroidery and a long, flowing hem. The most formal of all',
+      introPoint1: 'Take photos with your own smartphone. Our staff can press the shutter for you',
+      introPoint2: 'Indoors, so rain or shine. On a fine day, the garden with its castle view too',
+      introPoint3: 'Men\u2019s hakama and children\u2019s kimono are available too',
       loading: 'Loading availability…',
       peopleTitle: '1. Who is coming',
       menuTitle: '2. Choose your plan',
@@ -1667,7 +1738,7 @@
       galleryBtn: 'See the kimono robes',
       introSkip: 'Skip',
       introLead1: 'At a hotel with a view of Osaka Castle',
-      introLead2: 'Shall we try a kimono experience?',
+      introLead2: 'Shall we try on a Japanese bride\u2019s robe?',
       galleryNote: 'On the day you choose from the robes available. Photos are examples and the selection may differ. These are for adult women.',
       galleryAlt: 'Kimono robe, example {n}',
       photoClose: 'Close',
@@ -1728,11 +1799,11 @@
       policyPaymentBody: 'Payment is made at Salon BI-BI on the day. Cash and credit cards (VISA, Mastercard, JCB, AMEX, Diners, Discover, UnionPay) are accepted.',
       policyNotesTitle: 'Please note',
       noteArrive: 'Please come directly to Salon BI-BI on the 4th floor, 10 minutes before your start time (take the elevator to 4F).',
-      notePhoto: 'Photos are taken with your own smartphone (self-portrait style).',
+      notePhoto: 'Photos are taken with your own smartphone. Our staff can press the shutter for you.',
       noteProps: 'Props are available for your photos: a traditional paper umbrella and a replica sword (not a real blade).',
       noteStaff: 'Our staff speak Japanese only. We use translation apps to assist you.',
       noteChildHeight: "Children's kimonos are Shichi-Go-San sizes, so ages 3 to 7 are the guide. Please contact us in advance if you are unsure about the fit.",
-      noteSize: 'Please contact us in advance if you need a larger size.',
+      noteSize: 'The uchikake is one size fits all. If you have any concerns about fit, please write them in the request field.',
       policyPrivacyTitle: 'Your personal information',
       policyPrivacyBody: 'The information you provide is held by Bride Innovation Co., Ltd. and used only to confirm your booking, prepare for your visit, and contact you (including a thank-you note after your visit with a request for a review). We do not share it with third parties without your consent, except where required by law. This page also counts how often it is opened and how far visitors get, by date and language only. No personal information or cookies are used for this.',
       policyPrivacyContact: 'To check, correct, or delete your information, simply reply to your confirmation email.',
@@ -1779,12 +1850,21 @@
       err_GENERIC: 'Something went wrong. Please try again later or contact us by phone.',
     },
     'zh-CN': {
-      heroTitle: '和服体验',
+      heroTitle: '日本新娘和服「打褂」体验',
       heroSubtitle: '美容室 BI-BI｜KKR大阪酒店 4楼',
       pageTitle: '大阪和服体验预约｜美容室 BI-BI｜KKR大阪酒店',
       officialSiteLink: '官方网站：Bride Innovation 大阪和服体验介绍',
-      introTitle: '关于本服务',
-      introBody: '在酒店内可眺望大阪城的场地穿着日本传统和服，并用您自己的手机自拍留念。拍摄在室内进行，不受天气影响；天气好时，也可在可眺望大阪城的庭园拍摄。',
+      introTitle: '什么是打褂？',
+      introLead: '打褂是日本新娘在婚礼上穿的华丽礼服，相当于日本传统的婚纱。在可眺望大阪城的酒店里，穿上它拍照留念。',
+      cmpYukata: '浴衣',
+      cmpYukataDesc: '夏日祭典穿的轻便棉质和服',
+      cmpKimono: '和服',
+      cmpKimonoDesc: '外出或喜庆场合穿的正装',
+      cmpUchikake: '打褂',
+      cmpUchikakeDesc: '新娘的和服，披在和服外面。饰有金线刺绣，下摆长而铺展，是格式最高的服装',
+      introPoint1: '用您自己的手机拍摄，也可以请工作人员帮您按快门',
+      introPoint2: '在室内拍摄，雨天也不受影响；天气好时还可到可眺望大阪城的庭园',
+      introPoint3: '也备有男士的纹付袴和儿童和服',
       loading: '正在加载空余时段…',
       peopleTitle: '1. 参加人数',
       menuTitle: '2. 选择套餐',
@@ -1828,7 +1908,7 @@
       galleryBtn: '查看和服外褂',
       introSkip: '跳过',
       introLead1: '在可眺望大阪城的特别酒店',
-      introLead2: '体验一次特别的和服之旅',
+      introLead2: '来试穿一次日本新娘的礼服吧？',
       galleryNote: '当天可从现有的和服中挑选。照片仅为示例，实际可选款式可能不同。为成人女性用。',
       galleryAlt: '和服示例（第{n}张）',
       photoClose: '关闭',
@@ -1889,11 +1969,11 @@
       policyPaymentBody: '费用请于当天在4楼美容室 BI-BI 支付。可使用现金或信用卡（VISA、Mastercard、JCB、AMEX、大来、Discover、银联）。',
       policyNotesTitle: '注意事项',
       noteArrive: '请于开始时间前10分钟直接前往4楼美容室 BI-BI（乘电梯至4楼）。',
-      notePhoto: '拍摄为使用您自己的手机自拍。',
+      notePhoto: '拍摄使用您自己的手机，也可以请工作人员帮您按快门。',
       noteProps: '备有拍摄用道具：日式纸伞与模造刀（非真刀）。',
       noteStaff: '工作人员仅能使用日语，将通过翻译软件为您服务。',
       noteChildHeight: '儿童和服为七五三尺寸，以3至7岁左右为宜。如担心尺寸是否合适，请事先与我们联系。',
-      noteSize: '如需较大尺寸，请提前咨询。',
+      noteSize: '打褂为均码。如担心尺寸，请填写在“需求或问题”栏中。',
       policyPrivacyTitle: '个人信息的处理',
       policyPrivacyBody: '您填写的信息由株式会社Bride Innovation管理，仅用于确认预约、当天的接待安排以及与您联系（包括到店后的感谢与评价邀请）。除法律要求外，未经本人同意不会提供给第三方。本页面还会按日期和语言统计页面被打开的次数以及访客进行到哪一步，不使用任何个人信息，也不使用Cookie。',
       policyPrivacyContact: '如需查询、更正或删除您的信息，请回复确认邮件告知我们。',
@@ -1940,12 +2020,21 @@
       err_GENERIC: '提交失败，请稍后重试或电话联系我们。',
     },
     'zh-TW': {
-      heroTitle: '和服體驗',
+      heroTitle: '日本新娘和服「打褂」體驗',
       heroSubtitle: '美容室 BI-BI｜KKR大阪飯店 4樓',
       pageTitle: '大阪和服體驗預約｜美容室 BI-BI｜KKR大阪飯店',
       officialSiteLink: '官方網站：Bride Innovation 大阪和服體驗介紹',
-      introTitle: '關於本服務',
-      introBody: '在飯店內可眺望大阪城的場地穿著日本傳統和服，並用您自己的手機自拍留念。拍攝於室內進行，不受天氣影響；天氣好時，也可在可眺望大阪城的庭園拍攝。',
+      introTitle: '什麼是打褂？',
+      introLead: '打褂是日本新娘在婚禮上穿的華麗禮服，相當於日本傳統的婚紗。在可眺望大阪城的飯店裡，穿上它拍照留念。',
+      cmpYukata: '浴衣',
+      cmpYukataDesc: '夏日祭典穿的輕便棉質和服',
+      cmpKimono: '和服',
+      cmpKimonoDesc: '外出或喜慶場合穿的正裝',
+      cmpUchikake: '打褂',
+      cmpUchikakeDesc: '新娘的和服，披在和服外面。飾有金線刺繡，下襬長而鋪展，是格式最高的服裝',
+      introPoint1: '用您自己的手機拍攝，也可以請工作人員幫您按快門',
+      introPoint2: '在室內拍攝，雨天也不受影響；天氣好時還可到可眺望大阪城的庭園',
+      introPoint3: '也備有男士的紋付袴與兒童和服',
       loading: '正在載入空餘時段…',
       peopleTitle: '1. 參加人數',
       menuTitle: '2. 選擇方案',
@@ -1989,7 +2078,7 @@
       galleryBtn: '查看和服外褂',
       introSkip: '略過',
       introLead1: '在可眺望大阪城的特別飯店',
-      introLead2: '體驗一次特別的和服之旅',
+      introLead2: '來試穿一次日本新娘的禮服吧？',
       galleryNote: '當天可從現有的和服中挑選。照片僅為範例，實際可選款式可能不同。為成人女性用。',
       galleryAlt: '和服範例（第{n}張）',
       photoClose: '關閉',
@@ -2050,11 +2139,11 @@
       policyPaymentBody: '費用請於當天在4樓美容室 BI-BI 支付。可使用現金或信用卡（VISA、Mastercard、JCB、AMEX、大來、Discover、銀聯）。',
       policyNotesTitle: '注意事項',
       noteArrive: '請於開始時間前10分鐘直接前往4樓美容室 BI-BI（搭電梯至4樓）。',
-      notePhoto: '拍攝為使用您自己的手機自拍。',
+      notePhoto: '拍攝使用您自己的手機，也可以請工作人員幫您按快門。',
       noteProps: '備有拍攝用道具：日式紙傘與模造刀（非真刀）。',
       noteStaff: '工作人員僅能使用日語，將透過翻譯軟體為您服務。',
       noteChildHeight: '兒童和服為七五三尺寸，以3至7歲左右為宜。如擔心尺寸是否合適，請事先與我們聯絡。',
-      noteSize: '如需較大尺寸，請提前洽詢。',
+      noteSize: '打褂為單一尺寸（Free size）。如擔心尺寸，請填寫於「需求或問題」欄。',
       policyPrivacyTitle: '個人資料的處理',
       policyPrivacyBody: '您填寫的資料由株式會社Bride Innovation管理，僅用於確認預約、當天的接待安排以及與您聯絡（包括到店後的感謝與評論邀請）。除法律要求外，未經本人同意不會提供給第三方。本頁面也會依日期與語言統計頁面被開啟的次數，以及訪客進行到哪一步，不使用任何個人資訊，也不使用Cookie。',
       policyPrivacyContact: '如需查詢、更正或刪除您的資料，請回覆確認郵件告知我們。',
@@ -2101,12 +2190,21 @@
       err_GENERIC: '送出失敗，請稍後重試或電話聯絡我們。',
     },
     ko: {
-      heroTitle: '기모노 체험',
+      heroTitle: '일본 신부 기모노 「우치카케」 체험',
       heroSubtitle: '살롱 BI-BI | KKR 호텔 오사카 4층',
       pageTitle: '오사카 기모노 체험 예약｜살롱 BI-BI｜KKR 호텔 오사카',
       officialSiteLink: '공식 사이트: Bride Innovation 오사카 기모노 체험 안내',
-      introTitle: '서비스 소개',
-      introBody: '오사카성이 보이는 호텔 내 공간에서 일본 전통 기모노를 입고 본인의 스마트폰으로 셀프 촬영을 즐기실 수 있습니다. 촬영은 실내에서 진행되어 날씨의 영향을 받지 않으며, 날씨가 좋으면 오사카성이 보이는 정원에서도 촬영하실 수 있습니다.',
+      introTitle: '우치카케란?',
+      introLead: '우치카케는 일본 신부가 결혼식에서 입는 화려한 예복으로, 일본의 전통 웨딩드레스에 해당합니다. 오사카성이 보이는 호텔에서 이 의상을 입고 촬영해 보세요.',
+      cmpYukata: '유카타',
+      cmpYukataDesc: '여름 축제에 입는 가벼운 면 기모노',
+      cmpKimono: '기모노',
+      cmpKimonoDesc: '외출이나 축하 자리에서 입는 정장',
+      cmpUchikake: '우치카케',
+      cmpUchikakeDesc: '신부의 기모노로, 기모노 위에 걸쳐 입습니다. 금실 자수와 길게 펼쳐지는 옷자락이 특징이며, 가장 격식이 높은 의상입니다',
+      introPoint1: '본인의 스마트폰으로 촬영하며, 직원에게 셔터를 부탁하실 수도 있습니다',
+      introPoint2: '실내 촬영이라 비가 와도 걱정 없고, 날씨가 좋으면 오사카성이 보이는 정원에서도 촬영할 수 있습니다',
+      introPoint3: '남성용 하카마 차림과 어린이용 기모노도 준비되어 있습니다',
       loading: '예약 가능 시간을 불러오는 중…',
       peopleTitle: '1. 이용 인원',
       menuTitle: '2. 플랜 선택',
@@ -2150,7 +2248,7 @@
       galleryBtn: '기모노 겉옷 보기',
       introSkip: '건너뛰기',
       introLead1: '오사카성이 보이는 특별한 호텔에서',
-      introLead2: '특별한 기모노 체험을 해보시겠어요?',
+      introLead2: '일본 신부의 예복을 입어 보시겠어요?',
       galleryNote: '당일 준비된 것 중에서 고르실 수 있습니다. 사진은 예시이며 실제 선택 가능한 것은 다를 수 있습니다. 성인 여성용입니다.',
       galleryAlt: '기모노 예시 ({n}번째)',
       photoClose: '닫기',
@@ -2211,11 +2309,11 @@
       policyPaymentBody: '요금은 당일 4층 살롱 BI-BI에서 결제해 주세요. 현금 및 신용카드(VISA, Mastercard, JCB, AMEX, Diners, Discover, UnionPay)를 이용하실 수 있습니다.',
       policyNotesTitle: '유의사항',
       noteArrive: '시작 시간 10분 전까지 4층 살롱 BI-BI로 직접 와 주세요 (엘리베이터로 4층).',
-      notePhoto: '촬영은 본인의 스마트폰으로 셀프 촬영입니다.',
+      notePhoto: '촬영은 본인의 스마트폰으로 하며, 직원에게 셔터를 부탁하실 수도 있습니다.',
       noteProps: '촬영용 소품으로 전통 종이우산과 모조도(진검이 아닙니다)를 준비해 두었습니다.',
       noteStaff: '직원은 일본어만 가능하며, 번역 앱으로 안내해 드립니다.',
       noteChildHeight: '어린이 기모노는 시치고산 사이즈이므로 3세에서 7세 정도가 기준입니다. 사이즈가 맞을지 걱정되시면 미리 문의해 주세요.',
-      noteSize: '큰 사이즈가 필요하신 경우 미리 문의해 주세요.',
+      noteSize: '우치카케는 프리 사이즈입니다. 사이즈가 걱정되시면 「요청 사항 · 문의」란에 적어 주세요.',
       policyPrivacyTitle: '개인정보의 취급',
       policyPrivacyBody: '입력하신 정보는 주식회사 브라이드 이노베이션이 관리하며, 예약 확인, 당일 안내, 고객님께 연락드리는 목적(방문 후 감사 인사와 후기 요청 포함)으로만 사용합니다. 법령에 근거한 경우를 제외하고 본인의 동의 없이 제3자에게 제공하지 않습니다. 또한 이 페이지는 날짜와 언어별로 페이지를 연 횟수와 이용 단계를 집계하며, 개인 정보나 쿠키는 사용하지 않습니다.',
       policyPrivacyContact: '내용의 확인·정정·삭제를 원하시는 경우 확인 메일에 회신하여 알려 주세요.',
@@ -2262,12 +2360,21 @@
       err_GENERIC: '전송에 실패했습니다. 잠시 후 다시 시도하거나 전화로 문의해 주세요.',
     },
     fr: {
-      heroTitle: 'Expérience Kimono',
+      heroTitle: 'Expérience Kimono de mariée japonaise',
       heroSubtitle: 'Salon BI-BI | KKR Hotel Osaka, 4e étage',
       pageTitle: 'Réservation expérience kimono | Salon BI-BI, KKR Hotel Osaka',
       officialSiteLink: 'Site officiel : Bride Innovation, expérience kimono à Osaka',
-      introTitle: 'À propos de cette expérience',
-      introBody: "Portez un kimono traditionnel japonais et prenez vos propres photos dans un espace avec vue sur le château d'Osaka. Les photos se prennent à l'intérieur, sans contrainte météo ; par beau temps, vous pouvez aussi photographier dans le jardin, face au château.",
+      introTitle: 'Qu\u2019est-ce qu\u2019un uchikake ?',
+      introLead: 'L’uchikake est la somptueuse tenue de la mariée japonaise, l’équivalent de la robe de mariée. Portez-le pour vos photos, dans un hôtel avec vue sur le château d’Osaka.',
+      cmpYukata: 'Yukata',
+      cmpYukataDesc: 'Un kimono de coton léger, pour les fêtes d\u2019été',
+      cmpKimono: 'Kimono',
+      cmpKimonoDesc: 'La tenue de cérémonie pour les sorties et les célébrations',
+      cmpUchikake: 'Uchikake',
+      cmpUchikakeDesc: 'Le kimono de la mariée, porté par-dessus un autre kimono. Broderies d\u2019or et longue traîne : la tenue la plus solennelle',
+      introPoint1: 'Photos avec votre propre smartphone ; notre personnel peut déclencher pour vous',
+      introPoint2: 'À l\u2019intérieur, donc par tous les temps ; par beau temps, le jardin avec vue sur le château aussi',
+      introPoint3: 'Hakama pour hommes et kimonos pour enfants également disponibles',
       loading: 'Chargement des disponibilités…',
       peopleTitle: '1. Qui participe',
       menuTitle: '2. Choisissez votre formule',
@@ -2311,7 +2418,7 @@
       galleryBtn: 'Voir les kimonos',
       introSkip: 'Passer',
       introLead1: "Dans un hôtel avec vue sur le château d'Osaka",
-      introLead2: 'Et si vous essayiez le kimono ?',
+      introLead2: 'Et si vous portiez la tenue d\u2019une mariée japonaise ?',
       galleryNote: "Le jour même, vous choisissez parmi les modèles disponibles. Photos données à titre d'exemple ; la sélection peut différer. Réservé aux femmes adultes.",
       galleryAlt: 'Kimono, exemple {n}',
       photoClose: 'Fermer',
@@ -2372,11 +2479,11 @@
       policyPaymentBody: 'Le règlement se fait au salon BI-BI le jour même. Espèces et cartes bancaires (VISA, Mastercard, JCB, AMEX, Diners, Discover, UnionPay) acceptées.',
       policyNotesTitle: 'À noter',
       noteArrive: "Merci de vous rendre directement au salon BI-BI, au 4e étage, 10 minutes avant l'heure de début (ascenseur jusqu'au 4e).",
-      notePhoto: 'Les photos se prennent avec votre propre smartphone (en autoportrait).',
+      notePhoto: 'Les photos se prennent avec votre propre smartphone ; notre personnel peut aussi déclencher pour vous.',
       noteProps: "Des accessoires sont à votre disposition pour les photos : une ombrelle japonaise et un sabre factice (ce n'est pas une vraie lame).",
       noteStaff: 'Notre personnel parle uniquement japonais. Nous utilisons des applications de traduction.',
       noteChildHeight: "Les kimonos enfants sont des tailles Shichi-Go-San, soit de 3 à 7 ans environ. Merci de nous contacter à l'avance en cas de doute sur la taille.",
-      noteSize: "Merci de nous contacter à l'avance si vous avez besoin d'une grande taille.",
+      noteSize: 'L’uchikake est en taille unique. En cas de doute sur la taille, indiquez-le dans le champ « Demandes ou questions ».',
       policyPrivacyTitle: 'Vos données personnelles',
       policyPrivacyBody: 'Les informations que vous fournissez sont conservées par Bride Innovation Co., Ltd. et servent uniquement à confirmer votre réservation, à préparer votre visite et à vous contacter (y compris un message de remerciement après votre visite, avec une invitation à laisser un avis). Elles ne sont pas transmises à des tiers sans votre accord, sauf obligation légale. Cette page compte aussi, par date et par langue uniquement, le nombre d’ouvertures et les étapes atteintes par les visiteurs, sans données personnelles ni cookies.',
       policyPrivacyContact: 'Pour consulter, corriger ou supprimer vos informations, répondez simplement à votre e-mail de confirmation.',
