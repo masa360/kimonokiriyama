@@ -6,9 +6,9 @@
 <!-- 最初のHTMLの文言は英語。lang もそれに合わせる（開いたあと、言語に応じて JS が書き換える）。
      タイトルも言語ごとに pageTitle で差し替える -->
 <title>Kimono Experience Booking | Salon BI-BI, KKR Hotel Osaka</title>
-<meta name="description" content="Wear an uchikake, the gorgeous Japanese bridal kimono, and take your own photos in a hotel overlooking Osaka Castle. Book a kimono experience at Salon BI-BI, KKR Hotel Osaka. Booking page available in 6 languages.">
+<meta name="description" content="Wear an uchikake, the gorgeous Japanese bridal kimono, and take your own photos in a hotel overlooking Osaka Castle. Couples can pair it with the groom’s montsuki hakama, the most formal Japanese attire. Book at Salon BI-BI, KKR Hotel Osaka. Booking page available in 6 languages.">
 <meta property="og:title" content="Kimono Experience Booking | Salon BI-BI, KKR Hotel Osaka">
-<meta property="og:description" content="Wear an uchikake, the Japanese bridal kimono, and take your own photos in a hotel overlooking Osaka Castle.">
+<meta property="og:description" content="Wear an uchikake, the Japanese bridal kimono, and take your own photos in a hotel overlooking Osaka Castle. Couples can wear the montsuki hakama together.">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#f7f3ec">
@@ -1160,6 +1160,23 @@
   }
   .kimono-compare .is-us dt { color: var(--color-accent); }
   .kimono-compare .is-us dd { color: var(--color-text); }
+  /* ご夫婦・カップルの枠（2026-11-10）。真鍮色の細い囲みと淡い地色で、打掛の行（蘇芳の線）とは別の目立たせ方にする */
+  .couple-note {
+    margin: 0 0 18px;
+    padding: 16px 16px 15px;
+    border: 1px solid var(--color-brass);
+    border-left-width: 4px;
+    background: rgba(176, 141, 87, 0.12);
+  }
+  .couple-note .couple-title {
+    margin: 0 0 8px;
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 1.12rem;
+    letter-spacing: 0.04em;
+    color: var(--color-accent);
+  }
+  .couple-note .couple-body { margin: 0; line-height: 1.7; }
   .intro-points { list-style: none; margin: 0 0 6px; padding: 0; }
   .intro-points li { position: relative; padding-left: 1.4em; margin-bottom: 8px; line-height: 1.6; }
   .intro-points li::before {
@@ -1204,10 +1221,15 @@
       <div class="row"><dt data-i18n="cmpKimono">Kimono</dt><dd data-i18n="cmpKimonoDesc">Formal wear for outings and celebrations</dd></div>
       <div class="row is-us"><dt data-i18n="cmpUchikake">Uchikake</dt><dd data-i18n="cmpUchikakeDesc">The bride’s kimono, worn over another kimono. Gold embroidery and a long, flowing hem. The most formal of all</dd></div>
     </dl>
+    <!-- ご夫婦・カップル（2026-11-10）。男性の紋付袴も受けられること、和装で最も格式の高い正装を一緒に楽しめることを、目立たせる -->
+    <div class="couple-note">
+      <p class="couple-title" data-i18n="coupleTitle">For couples</p>
+      <p class="couple-body" data-i18n="coupleBody">Women wear the uchikake; men wear the montsuki hakama, a formal crested kimono with hakama trousers. Couples can wear Japan’s most formal traditional attire together.</p>
+    </div>
     <ul class="intro-points">
       <li data-i18n="introPoint1">Take photos with your own smartphone. Our staff can press the shutter for you</li>
       <li data-i18n="introPoint2">Indoors, so rain or shine. On a fine day, the garden with its castle view too</li>
-      <li data-i18n="introPoint3">Men’s hakama and children’s kimono are available too</li>
+      <li data-i18n="introPoint3">Children’s kimonos are available too</li>
     </ul>
     <!-- 打掛ギャラリー。画像が1枚も無ければ JS が丸ごと消す -->
     <div id="gallerySlot"></div>
@@ -1524,7 +1546,9 @@
       cmpUchikakeDesc: '花嫁の着物。着物の上に羽織ります。金糸の刺繍と、長く広がる裾が特徴で、いちばん格式の高い衣装です',
       introPoint1: 'ご自身のスマートフォンで撮影します。スタッフがシャッターを押すこともできます',
       introPoint2: '屋内なので雨でも安心。お天気がよければ、大阪城を望むお庭でも撮影できます',
-      introPoint3: '男性の紋付袴、お子様のお着物もご用意しています',
+      introPoint3: 'お子様のお着物もご用意しています',
+      coupleTitle: 'ご夫婦・カップルで',
+      coupleBody: '女性は打掛、男性は紋付袴。和装の中でも最も格式の高い正装を、ご夫婦・カップルでご一緒に楽しめます。',
       loading: '空き状況を読み込んでいます…',
       peopleTitle: '1. ご利用人数',
       menuTitle: '2. プランを選択',
@@ -1535,7 +1559,7 @@
       featNoHair: 'ヘアセットなし',
       featNoMakeup: 'メイクなし',
       featWomenOnly: '大人は女性のみ（お子様は男女とも可）',
-      featAllWelcome: '男女ともご利用いただけます',
+      featAllWelcome: '男女ともご利用いただけます（男性は紋付袴。ご夫婦・カップルも）',
       errMaleNeedsFull: '大人の男性は「和装本格着付け」をお選びください。「和装体験」は大人の女性とお子様が対象です。',
       attrAdultMNote: '大人の男性は「和装本格着付け」のみご利用いただけます。',
       menuOnlyFull: '大人の男性がいらっしゃるため、本格着付けのみお選びいただけます。',
@@ -1694,7 +1718,9 @@
       cmpUchikakeDesc: 'The bride\u2019s kimono, worn over another kimono. Gold embroidery and a long, flowing hem. The most formal of all',
       introPoint1: 'Take photos with your own smartphone. Our staff can press the shutter for you',
       introPoint2: 'Indoors, so rain or shine. On a fine day, the garden with its castle view too',
-      introPoint3: 'Men\u2019s hakama and children\u2019s kimono are available too',
+      introPoint3: 'Children’s kimonos are available too',
+      coupleTitle: 'For couples',
+      coupleBody: 'Women wear the uchikake; men wear the montsuki hakama, a formal crested kimono with hakama trousers. Couples can wear Japan’s most formal traditional attire together.',
       loading: 'Loading availability…',
       peopleTitle: '1. Who is coming',
       menuTitle: '2. Choose your plan',
@@ -1705,7 +1731,7 @@
       featNoHair: 'No hair styling',
       featNoMakeup: 'No makeup',
       featWomenOnly: 'Adults: women only (children of any gender welcome)',
-      featAllWelcome: 'Open to all genders',
+      featAllWelcome: 'Open to all genders (men wear the montsuki hakama; couples welcome)',
       errMaleNeedsFull: 'Adult men are welcome on the Full Kimono Dressing plan. The Kimono Experience plan is for adult women and children.',
       attrAdultMNote: 'Adult men can book the Full Kimono Dressing plan.',
       menuOnlyFull: 'Because an adult man is joining, only the Full Kimono Dressing plan is available.',
@@ -1864,7 +1890,9 @@
       cmpUchikakeDesc: '新娘的和服，披在和服外面。饰有金线刺绣，下摆长而铺展，是格式最高的服装',
       introPoint1: '用您自己的手机拍摄，也可以请工作人员帮您按快门',
       introPoint2: '在室内拍摄，雨天也不受影响；天气好时还可到可眺望大阪城的庭园',
-      introPoint3: '也备有男士的纹付袴和儿童和服',
+      introPoint3: '也备有儿童和服',
+      coupleTitle: '夫妻・情侣同行',
+      coupleBody: '女士穿打褂，男士穿纹付袴（带家纹的正式和服配袴）。夫妻、情侣可以一起穿上和服中规格最高的正装。',
       loading: '正在加载空余时段…',
       peopleTitle: '1. 参加人数',
       menuTitle: '2. 选择套餐',
@@ -1875,7 +1903,7 @@
       featNoHair: '不含发型设计',
       featNoMakeup: '不含化妆',
       featWomenOnly: '成人限女性（儿童不限性别）',
-      featAllWelcome: '男女均可参加',
+      featAllWelcome: '男女均可参加（男士穿纹付袴，欢迎夫妻、情侣）',
       errMaleNeedsFull: '成年男性请选择「正式和服着装」。「和服体验」的对象为成年女性与儿童。',
       attrAdultMNote: '成年男性仅可选择「正式和服着装」。',
       menuOnlyFull: '由于有成年男性参加，仅可选择正式和服着装。',
@@ -2034,7 +2062,9 @@
       cmpUchikakeDesc: '新娘的和服，披在和服外面。飾有金線刺繡，下襬長而鋪展，是格式最高的服裝',
       introPoint1: '用您自己的手機拍攝，也可以請工作人員幫您按快門',
       introPoint2: '在室內拍攝，雨天也不受影響；天氣好時還可到可眺望大阪城的庭園',
-      introPoint3: '也備有男士的紋付袴與兒童和服',
+      introPoint3: '也備有兒童和服',
+      coupleTitle: '夫妻・情侶同行',
+      coupleBody: '女士穿打褂，男士穿紋付袴（帶家紋的正式和服配袴）。夫妻、情侶可以一起穿上和服中規格最高的正裝。',
       loading: '正在載入空餘時段…',
       peopleTitle: '1. 參加人數',
       menuTitle: '2. 選擇方案',
@@ -2045,7 +2075,7 @@
       featNoHair: '不含髮型設計',
       featNoMakeup: '不含化妝',
       featWomenOnly: '成人限女性（兒童不限性別）',
-      featAllWelcome: '男女均可參加',
+      featAllWelcome: '男女均可參加（男士穿紋付袴，歡迎夫妻、情侶）',
       errMaleNeedsFull: '成年男性請選擇「正式和服著裝」。「和服體驗」的對象為成年女性與兒童。',
       attrAdultMNote: '成年男性僅可選擇「正式和服著裝」。',
       menuOnlyFull: '由於有成年男性參加，僅可選擇正式和服著裝。',
@@ -2204,7 +2234,9 @@
       cmpUchikakeDesc: '신부의 기모노로, 기모노 위에 걸쳐 입습니다. 금실 자수와 길게 펼쳐지는 옷자락이 특징이며, 가장 격식이 높은 의상입니다',
       introPoint1: '본인의 스마트폰으로 촬영하며, 직원에게 셔터를 부탁하실 수도 있습니다',
       introPoint2: '실내 촬영이라 비가 와도 걱정 없고, 날씨가 좋으면 오사카성이 보이는 정원에서도 촬영할 수 있습니다',
-      introPoint3: '남성용 하카마 차림과 어린이용 기모노도 준비되어 있습니다',
+      introPoint3: '어린이용 기모노도 준비되어 있습니다',
+      coupleTitle: '부부・커플이 함께',
+      coupleBody: '여성은 우치카케, 남성은 몬쓰키 하카마(가문이 들어간 정장 기모노와 하카마). 부부와 커플이 일본 전통 의상 중 가장 격식 높은 정장을 함께 입어 보실 수 있습니다.',
       loading: '예약 가능 시간을 불러오는 중…',
       peopleTitle: '1. 이용 인원',
       menuTitle: '2. 플랜 선택',
@@ -2215,7 +2247,7 @@
       featNoHair: '헤어 스타일링 없음',
       featNoMakeup: '메이크업 없음',
       featWomenOnly: '성인은 여성만 (어린이는 성별 무관)',
-      featAllWelcome: '남녀 모두 이용하실 수 있습니다',
+      featAllWelcome: '남녀 모두 이용 가능 (남성은 몬쓰키 하카마, 부부・커플 환영)',
       errMaleNeedsFull: '성인 남성은 「정통 기모노 착장」을 선택해 주세요. 「기모노 체험」은 성인 여성과 어린이가 대상입니다.',
       attrAdultMNote: '성인 남성은 「정통 기모노 착장」만 이용하실 수 있습니다.',
       menuOnlyFull: '성인 남성이 참여하시므로 정통 기모노 착장만 선택하실 수 있습니다.',
@@ -2374,7 +2406,9 @@
       cmpUchikakeDesc: 'Le kimono de la mariée, porté par-dessus un autre kimono. Broderies d\u2019or et longue traîne : la tenue la plus solennelle',
       introPoint1: 'Photos avec votre propre smartphone ; notre personnel peut déclencher pour vous',
       introPoint2: 'À l\u2019intérieur, donc par tous les temps ; par beau temps, le jardin avec vue sur le château aussi',
-      introPoint3: 'Hakama pour hommes et kimonos pour enfants également disponibles',
+      introPoint3: 'Des kimonos pour enfants sont également disponibles',
+      coupleTitle: 'En couple',
+      coupleBody: 'Elle porte l’uchikake, lui le montsuki hakama (kimono à blasons et hakama). En couple, portez ensemble la tenue japonaise la plus solennelle.',
       loading: 'Chargement des disponibilités…',
       peopleTitle: '1. Qui participe',
       menuTitle: '2. Choisissez votre formule',
@@ -2385,7 +2419,7 @@
       featNoHair: 'Sans coiffure',
       featNoMakeup: 'Sans maquillage',
       featWomenOnly: 'Adultes : femmes uniquement (enfants de tout genre)',
-      featAllWelcome: 'Ouvert à toutes et à tous',
+      featAllWelcome: 'Ouvert à toutes et à tous (hakama pour les hommes ; couples bienvenus)',
       errMaleNeedsFull: "Les hommes adultes sont accueillis sur la formule Habillage Kimono Complet. La formule Expérience Kimono s'adresse aux femmes adultes et aux enfants.",
       attrAdultMNote: 'Les hommes adultes peuvent réserver la formule Habillage Kimono Complet.',
       menuOnlyFull: 'Un homme adulte participant, seule la formule Habillage Kimono Complet est disponible.',
