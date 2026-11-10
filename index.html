@@ -1234,6 +1234,7 @@
     <!-- 打掛ギャラリー。画像が1枚も無ければ JS が丸ごと消す -->
     <div id="gallerySlot"></div>
     <!-- よくある質問（別ページ。2026-11-09）。打掛を知らない方が、予約の前に読めるように -->
+    <p><a class="access-link" href="./uchikake.html" id="storyLink" data-i18n="storyLink">The story of the uchikake and montsuki hakama (2-min read)</a></p>
     <p><a class="access-link" href="./faq.html" id="faqLink" data-i18n="faqLink">FAQ: What is an uchikake? Prices and what to expect</a></p>
   </div>
 
@@ -1599,6 +1600,7 @@
       photoNote: '写真は一例です。お衣装は当日、ご用意のある中からお選びいただけます。',
       accessLink: 'アクセス・地図を見る',
       faqLink: 'よくある質問（打掛とは？・料金・当日のこと）',
+      storyLink: '打掛と紋付袴の物語（約2分で読めます）',
       accessTitle: 'アクセス',
       accessSummary: '美容室 BI-BI（KKRホテル大阪 4階／〒540-0007 大阪市中央区馬場町2-24）',
       emailNote: 'ご予約の確定メールをこちらにお送りします。',
@@ -1771,6 +1773,7 @@
       photoNote: 'Photos are examples. On the day you choose from the robes available.',
       accessLink: 'View access and map',
       faqLink: 'FAQ: What is an uchikake? Prices and what to expect',
+      storyLink: 'The story of the uchikake and montsuki hakama (2-min read)',
       accessTitle: 'Access',
       accessSummary: 'Salon BI-BI (4F, KKR Hotel Osaka, 2-24 Babacho, Chuo-ku, Osaka)',
       emailNote: 'We will send your booking confirmation to this address.',
@@ -1943,6 +1946,7 @@
       photoNote: '照片仅为示例。当天可从现有的和服中挑选。',
       accessLink: '查看交通指南和地图',
       faqLink: '常见问题（什么是打褂？费用・当天流程）',
+      storyLink: '打褂与纹付袴的故事（约2分钟读完）',
       accessTitle: '交通指南',
       accessSummary: '美容室 BI-BI（KKR大阪酒店 4楼／大阪市中央区马场町2-24）',
       emailNote: '我们会将预约确认邮件发送至此邮箱。',
@@ -2115,6 +2119,7 @@
       photoNote: '照片僅為範例。當天可從現有的和服中挑選。',
       accessLink: '查看交通指南與地圖',
       faqLink: '常見問題（什麼是打褂？費用・當天流程）',
+      storyLink: '打褂與紋付袴的故事（約2分鐘讀完）',
       accessTitle: '交通指南',
       accessSummary: '美容室 BI-BI（KKR大阪飯店 4樓／大阪市中央區馬場町2-24）',
       emailNote: '我們會將預約確認信寄送至此信箱。',
@@ -2287,6 +2292,7 @@
       photoNote: '사진은 예시입니다. 당일 준비된 것 중에서 고르실 수 있습니다.',
       accessLink: '오시는 길・지도 보기',
       faqLink: '자주 묻는 질문 (우치카케란? 요금・당일 안내)',
+      storyLink: '우치카케와 몬쓰키 하카마 이야기 (읽는 데 약 2분)',
       accessTitle: '오시는 길',
       accessSummary: '살롱 BI-BI (KKR 호텔 오사카 4층 / 오사카시 주오구 바바초 2-24)',
       emailNote: '예약 확정 메일을 이 주소로 보내드립니다.',
@@ -2459,6 +2465,7 @@
       photoNote: "Photos données à titre d'exemple. Le jour même, vous choisissez parmi les modèles disponibles.",
       accessLink: "Voir l'accès et le plan",
       faqLink: "FAQ : qu'est-ce qu'un uchikake ? Tarifs et déroulement",
+      storyLink: 'L’histoire de l’uchikake et du montsuki hakama (2 min de lecture)',
       accessTitle: 'Accès',
       accessSummary: 'Salon BI-BI (4e étage, KKR Hotel Osaka, 2-24 Babacho, Chuo-ku, Osaka)',
       emailNote: 'Nous enverrons votre confirmation de réservation à cette adresse.',
@@ -2935,6 +2942,8 @@
     });
     var faq = document.getElementById('faqLink');
     if (faq) faq.href = './faq.html' + q;
+    var story = document.getElementById('storyLink');
+    if (story) story.href = './uchikake.html' + q;
   }
 
   /**

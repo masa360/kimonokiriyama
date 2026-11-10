@@ -1,0 +1,1205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Story of the Uchikake and Montsuki Hakama | KKR Hotel Osaka</title>
+<meta name="description" content="What is an uchikake, a Japanese bride’s robe, and what is a montsuki hakama? A 2-minute story of Japan’s most formal wedding attire, from the samurai era to today. Try them at Salon BI-BI, KKR Hotel Osaka, with Osaka Castle in view.">
+<meta property="og:title" content="The Story of the Uchikake and Montsuki Hakama | KKR Hotel Osaka">
+<meta property="og:description" content="The story of the uchikake, the Japanese bride’s robe, and the montsuki hakama, the groom’s crested formal wear.">
+<meta property="og:type" content="article">
+<style>
+
+  :root {
+    /* 配色は案A「深い蘇芳と生成り」（2026-10-16）。考え方は <style> 最後の「意匠：案A」のコメント */
+    --color-bg: #f7f3ec;           /* 生成り */
+    --color-card: #fffdf9;
+    --color-accent: #7a2e42;       /* 深い蘇芳 */
+    --color-accent-dark: #5e2132;
+    --color-brass: #b08d57;        /* くすんだ真鍮色。線と小さな飾りだけに使う（文字には使わない。生成りの上では読みにくい） */
+    --color-text: #2a2320;
+    --color-muted: #6e6259;        /* 文字として読める濃さ（生成りの上で 5:1 以上） */
+    --color-border: #e3dacb;
+    --color-error: #c0392b;
+    --color-success: #2f7d4f;
+    --radius: 2px;
+    font-family: "Hiragino Sans", "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.6;
+  }
+  header.hero {
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-dark));
+    color: #fff;
+    padding: 28px 20px 24px;
+    text-align: center;
+  }
+  header.hero h1 {
+    margin: 0 0 6px;
+    font-size: 1.5rem;
+    letter-spacing: 0.02em;
+  }
+  header.hero p {
+    margin: 0;
+    opacity: 0.9;
+    font-size: 0.9rem;
+  }
+  .lang-switch {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 16px;
+  }
+  .lang-switch button {
+    border: 1px solid rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    cursor: pointer;
+  }
+  .lang-switch button.active {
+    background: #fff;
+    color: var(--color-accent-dark);
+    font-weight: bold;
+  }
+  main {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 20px 16px 60px;
+  }
+  .card {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .card h2 {
+    margin-top: 0;
+    font-size: 1.1rem;
+    color: var(--color-accent-dark);
+  }
+  .menu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 480px) {
+    .menu-grid { grid-template-columns: 1fr; }
+  }
+  .menu-option {
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 14px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .menu-option.selected {
+    border-color: var(--color-accent);
+    background: #fdf1f3;
+  }
+  .menu-option .name {
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+  .menu-option .price {
+    color: var(--color-accent-dark);
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+  .menu-option .duration {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+  }
+  .menu-features {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0;
+    font-size: 0.8rem;
+    color: var(--color-text);
+    line-height: 1.7;
+  }
+  .menu-features li {
+    padding-left: 1.2em;
+    position: relative;
+  }
+  .menu-features li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent);
+    font-weight: bold;
+  }
+  /* 「〜なし」の項目は控えめに見せ、含まれないことが一目で分かるようにする */
+  .menu-features li.is-absent {
+    color: var(--color-muted);
+  }
+  .menu-features li.is-absent::before {
+    content: '—';
+    color: var(--color-muted);
+    font-weight: normal;
+  }
+  .menu-option .lead-note {
+    font-size: 0.75rem;
+    color: var(--color-accent-dark);
+    background: #f6ecef;
+    border-radius: 4px;
+    padding: 2px 6px;
+    margin-top: 6px;
+    display: inline-block;
+  }
+  label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin: 14px 0 6px;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="date"],
+  select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-size: 1rem;
+    background: #fff;
+    color: var(--color-text);
+  }
+  .slot-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+    max-height: 220px;
+    overflow-y: auto;
+    padding: 4px;
+  }
+  .slot-btn {
+    border: 1px solid var(--color-border);
+    background: #fff;
+    border-radius: 8px;
+    padding: 8px 4px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    text-align: center;
+  }
+  .slot-btn.selected {
+    background: var(--color-accent);
+    color: #fff;
+    border-color: var(--color-accent);
+  }
+  .slot-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    text-decoration: line-through;
+  }
+  .field-hint {
+    font-size: 0.78rem;
+    color: var(--color-muted);
+    margin: 4px 0 0;
+  }
+  .policy-card summary {
+    font-weight: bold;
+    font-size: 1.05rem;
+    color: var(--color-accent-dark);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .policy-card summary::-webkit-details-marker { display: none; }
+  .policy-card summary::before {
+    content: '▸';
+    transition: transform 0.15s;
+    display: inline-block;
+  }
+  .policy-card[open] summary::before { transform: rotate(90deg); }
+  .policy-card h3 {
+    font-size: 0.9rem;
+    margin: 18px 0 6px;
+    color: var(--color-text);
+  }
+  .policy-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+  .policy-table td {
+    padding: 6px 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .policy-table td:last-child {
+    text-align: right;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+  .policy-note,
+  .policy-list {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+  }
+  .policy-list { padding-left: 1.2em; margin: 6px 0 0; }
+  .policy-list li { margin-bottom: 4px; }
+  /* 施術を受ける方の内訳。ラベルとselectを横並びにして縦の圧迫感を減らす */
+  .attr-group {
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 0.9rem 1rem 0.6rem;
+    margin: 0.4rem 0 1rem;
+  }
+  .attr-group legend {
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0 0.4rem;
+  }
+  .attr-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+  .attr-row label {
+    margin: 0;
+    font-weight: 400;
+    font-size: 0.95rem;
+    flex: 1 1 auto;
+  }
+  .attr-row select {
+    flex: 0 0 5.5rem;
+    margin: 0;
+  }
+  /* 合計が一致しないときだけ赤くする。既定は控えめな注記 */
+  .attr-total { margin-top: 0.5rem; }
+  .attr-total.is-error { color: var(--color-error); font-weight: 600; }
+
+  /* 料金が1名分であることを価格の直後に必ず出す。
+     人数分を掛けた総額と誤解されると当日の会計でもめる */
+  .menu-option .per-person {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--color-muted);
+    white-space: nowrap;
+  }
+
+  /* 国番号と番号本体を横並びに。国番号は内容に応じて幅を取る */
+  .phone-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: stretch;
+  }
+  .phone-row select {
+    flex: 0 0 auto;
+    max-width: 45%;
+    margin: 0;
+  }
+  .phone-row input {
+    flex: 1 1 auto;
+    min-width: 0;   /* flex内でinputが縮まずはみ出すのを防ぐ */
+    margin: 0;
+  }
+
+  /* 同意チェック。タップ範囲を文言全体に広げる */
+  .agree-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    margin: 1rem 0 0.5rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-weight: 400;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+  .agree-row input {
+    flex: 0 0 auto;
+    width: 1.15rem;
+    height: 1.15rem;
+    margin: 0.1rem 0 0;
+    accent-color: var(--color-accent, #7a2f3a);
+    cursor: pointer;
+  }
+  /* 未同意で送信しようとしたときだけ強調する */
+  .agree-row.is-error {
+    border-color: var(--color-error);
+    background: rgba(192, 57, 43, 0.05);
+  }
+
+  .honeypot {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    opacity: 0;
+    height: 0;
+    width: 0;
+  }
+  .submit-btn {
+    width: 100%;
+    background: var(--color-accent);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 14px;
+    font-size: 1.05rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  .submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .msg {
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin-top: 12px;
+  }
+  .msg.error {
+    background: #fdecea;
+    color: var(--color-error);
+    border: 1px solid #f5c6cb;
+  }
+  .msg.success {
+    background: #eaf6ee;
+    color: var(--color-success);
+    border: 1px solid #c3e6cb;
+  }
+  .hidden { display: none !important; }
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    padding: 4px 0;
+  }
+  .summary-row.total {
+    font-weight: bold;
+    font-size: 1.05rem;
+    border-top: 1px solid var(--color-border);
+    margin-top: 6px;
+    padding-top: 8px;
+  }
+  .complete-box {
+    text-align: center;
+    padding: 30px 20px;
+  }
+  .complete-box .big-check {
+    font-size: 3rem;
+    color: var(--color-success);
+  }
+  footer {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    padding: 20px;
+  }
+  footer .official-link { margin: 10px 0 0; }
+  footer .official-link a { color: inherit; text-decoration: underline; }
+  .spinner {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 3px solid rgba(255,255,255,0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+
+  /* 地図。高さを固定しつつ、幅は端末に合わせる */
+  .map-wrap {
+    position: relative;
+    width: 100%;
+    height: 320px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    margin-bottom: 12px;
+  }
+  .map-wrap iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+  /* 経路ボタン。現地で押されるので、指で押しやすい大きさにする */
+  .map-btn {
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-dark));
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .addr-line { font-size: 1.05rem; font-weight: 600; margin: 0 0 4px; }
+  /* 本文中のリンク。経路ボタンほど強くせず、押せることは分かるようにする */
+  .access-link {
+    display: inline-block;
+    color: var(--color-accent-dark);
+    font-weight: 600;
+    text-decoration: underline;
+    padding: 4px 0;
+  }
+  .access-list { padding-left: 1.2em; margin: 6px 0 0; }
+  .access-list li { margin-bottom: 6px; }
+  .back-link { display: inline-block; margin-top: 8px; }
+
+  /* ===========================================================
+     意匠：案A「深い蘇芳と生成り」（2026-10-16）
+
+     【考え方】足すより引く。
+     ・余白を広く、色を絞る（墨・生成り・蘇芳・細い真鍮色の線）
+     ・濃いグラデーション、太い枠、大きな角丸、丸いボタンをやめる
+     ・見出しと価格は明朝体。本文は読みやすいゴシックのまま
+     ・動作・文言・構造は変えない（色と形と書体だけ）
+
+     【守っていること】
+     ・文字色と背景のコントラストは 4.5:1 以上（真鍮色は線だけに使う）
+     ・外部の書体は読み込まない（端末に入っている明朝体を指定。表示を重くしない）
+     ・言語ごとに書体を分ける（日本語・中国語・韓国語は別の明朝系）
+     =========================================================== */
+  :root { --font-serif: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "Noto Serif JP", "MS PMincho", serif; }
+  :root:lang(en), :root:lang(fr) { --font-serif: "Palatino Linotype", "Book Antiqua", Palatino, Georgia, "Times New Roman", serif; }
+  :root:lang(zh-CN) { --font-serif: "Songti SC", "STSong", "SimSun", "Noto Serif SC", serif; }
+  :root:lang(zh-TW) { --font-serif: "Songti TC", "PMingLiU", "MingLiU", "Noto Serif TC", serif; }
+  :root:lang(ko) { --font-serif: "AppleMyungjo", "Batang", "Noto Serif KR", serif; }
+
+  ::selection { background: rgba(176, 141, 87, 0.3); }
+  body { -webkit-font-smoothing: antialiased; }
+
+  /* ヘッダー：濃い帯をやめ、生成りの上に文字と細い線だけにする */
+  header.hero {
+    background: none;
+    color: var(--color-text);
+    padding: 40px 20px 18px;
+  }
+  .hero-emblem {
+    display: block;
+    width: 36px;
+    height: 36px;
+    margin: 0 auto 16px;
+    color: var(--color-brass);
+  }
+  header.hero h1 {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(1.45rem, 6vw, 1.9rem);
+    letter-spacing: 0.16em;
+    /* 字間を空けると、最後の文字の右にも空きが付いて中央からずれて見える */
+    padding-left: 0.16em;
+  }
+  header.hero p {
+    margin: 10px 0 0;
+    opacity: 1;
+    color: var(--color-muted);
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+  }
+  header.hero p::after {
+    content: '';
+    display: block;
+    width: 44px;
+    height: 1px;
+    margin: 20px auto 0;
+    background: var(--color-brass);
+  }
+  /* 言語の切り替え：丸いボタンをやめ、細い縦線で区切った文字にする。
+     狭い画面は3つずつ2段にする（折り返しで区切り線が行頭に残るのを避ける）。 */
+  .lang-switch {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-content: center;
+    gap: 2px 0;
+    margin-top: 12px;
+  }
+  .lang-switch button {
+    position: relative;
+    border: 0;
+    background: none;
+    color: var(--color-muted);
+    padding: 6px 12px;
+    border-radius: 0;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+  }
+  .lang-switch button + button::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 1px;
+    height: 12px;
+    background: var(--color-border);
+    transform: translateY(-50%);
+  }
+  .lang-switch button:nth-child(3n+1)::before { display: none; }
+  .lang-switch button.active {
+    background: none;
+    color: var(--color-accent);
+    font-weight: 600;
+    box-shadow: inset 0 -1px 0 var(--color-brass);
+  }
+  @media (min-width: 560px) {
+    .lang-switch { display: flex; }
+    .lang-switch button + button:nth-child(3n+1)::before { display: block; }
+  }
+
+  /* 区画：角を落とし、余白を広げる。見出しの下に短い真鍮色の線 */
+  .card {
+    border-radius: 2px;
+    padding: 26px 22px;
+    margin-bottom: 22px;
+  }
+  .card h2 {
+    position: relative;
+    margin: 0 0 18px;
+    padding-bottom: 12px;
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.15rem;
+    letter-spacing: 0.06em;
+    color: var(--color-text);
+  }
+  .card h2::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 28px;
+    height: 1px;
+    background: var(--color-brass);
+  }
+  .policy-card summary {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--color-text);
+  }
+
+  /* プラン：選んだ状態は、ピンクの塗りではなく細い二重線で示す */
+  .menu-option {
+    border: 1px solid var(--color-border);
+    border-radius: 2px;
+    padding: 18px 16px;
+    transition: border-color 0.25s, box-shadow 0.25s;
+  }
+  .menu-option:hover { border-color: #cdbfa8; }
+  .menu-option.selected {
+    border-color: var(--color-accent);
+    background: var(--color-card);
+    box-shadow: inset 0 0 0 1px var(--color-accent);
+  }
+  .menu-option .name {
+    margin-bottom: 6px;
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.05rem;
+    letter-spacing: 0.06em;
+  }
+  .menu-option .price {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.25rem;
+    line-height: 1.4;
+    letter-spacing: 0.03em;
+    color: var(--color-accent);
+  }
+  .menu-option .duration { letter-spacing: 0.06em; }
+  .menu-features li::before { font-weight: normal; }
+  .menu-option .lead-note { background: #f3ece0; border-radius: 2px; }
+
+  /* 入力欄：角を小さく、枠を細く。選んだとき（フォーカス）は蘇芳の線と淡い縁取り */
+  label {
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="date"],
+  select,
+  textarea {
+    border-radius: 2px;
+    border-color: #d8ccb9;
+    background: #fffefb;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(122, 46, 66, 0.12);
+  }
+  .attr-group, .agree-row { border-radius: 2px; border-color: #d8ccb9; }
+  .attr-row select:disabled { background: #efe9df; }
+  .hotel-box { border-radius: 2px; background: #fbf8f2; }
+  .constraint-note { background: #f6efe3; border-left-width: 2px; }
+
+  /* 時間の枠 */
+  .slot-btn {
+    border-radius: 2px;
+    background: #fffefb;
+    letter-spacing: 0.04em;
+    transition: border-color 0.2s;
+  }
+  .slot-btn:hover:not(:disabled):not(.selected) { border-color: var(--color-accent); }
+
+  /* ボタン：ほぼ直角。英語・フランス語は大文字にして字間を広げる */
+  .submit-btn {
+    border-radius: 2px;
+    /* 直後に区画が続くので、くっつかないよう下に余白 */
+    margin-bottom: 22px;
+    padding: 16px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    transition: background 0.25s;
+  }
+  .submit-btn:hover:not(:disabled) { background: var(--color-accent-dark); }
+  :root:lang(en) .submit-btn, :root:lang(fr) .submit-btn {
+    font-size: 0.95rem;
+    text-transform: uppercase;
+  }
+  .photo-btn, .gallery-btn, .switch-btn, .cancel-link {
+    border-radius: 2px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+
+  /* メッセージ・合計・完了 */
+  .msg { border-radius: 2px; }
+  .msg.error { background: #fbefec; border-color: #ecc9c2; }
+  .msg.success { background: #f1f5ee; border-color: #d5e0cc; }
+  .summary-row.total {
+    margin-top: 10px;
+    padding-top: 12px;
+    border-top-color: var(--color-brass);
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.15rem;
+  }
+  .policy-table td:last-child { font-weight: 500; }
+  .complete-box .big-check { color: var(--color-accent); font-weight: 300; }
+  .complete-box h2::after { left: 50%; transform: translateX(-50%); }
+
+  /* フッター：細い線で本文と区切り、明朝体で静かに */
+  footer {
+    max-width: 608px;
+    margin: 8px auto 0;
+    padding: 28px 16px 44px;
+    border-top: 1px solid var(--color-border);
+    font-family: var(--font-serif);
+    letter-spacing: 0.08em;
+  }
+
+  .map-wrap { border-radius: 2px; }
+  .map-btn {
+    border-radius: 2px;
+    background: var(--color-accent);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    transition: background 0.25s;
+  }
+  .map-btn:hover { background: var(--color-accent-dark); }
+  .addr-line {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+  }
+
+
+  /* ===========================================================
+     打掛と紋付袴の物語（2026-11-10）
+     読み物として、行間を広く、章ごとに区切る。写真は章の合間に置く
+     =========================================================== */
+  .story-open { padding-top: 0; overflow: hidden; }
+  .story-hero-fig { margin: 0 -22px 20px; }
+  .story-hero-fig img { display: block; width: 100%; height: 400px; object-fit: cover; object-position: 50% 14%; }
+  .story-read {
+    margin: 0 0 10px;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    color: var(--color-muted);
+  }
+  .story-lead { margin: 0; font-size: 1.05rem; line-height: 1.9; }
+
+  .glance { margin: 0; padding: 0; }
+  .glance > div { padding: 14px 0; border-top: 1px solid var(--color-border); }
+  .glance > div:last-child { border-bottom: 1px solid var(--color-border); }
+  .glance dt { margin: 0 0 4px; font-family: var(--font-serif); font-size: 1.12rem; font-weight: 700; color: var(--color-accent); letter-spacing: 0.03em; }
+  .glance dd { margin: 0; line-height: 1.75; }
+
+  .story-chapter .chapter-no {
+    margin: 0 0 6px;
+    font-family: var(--font-serif);
+    font-size: 0.85rem;
+    letter-spacing: 0.18em;
+    color: var(--color-brass);
+  }
+  .story-chapter h2 { line-height: 1.5; }
+  .story-chapter p { line-height: 1.9; margin: 0 0 14px; }
+  .story-chapter.is-climax { border-top: 3px solid var(--color-brass); }
+  .story-chapter.is-climax p:not(.chapter-no) { font-size: 1.04rem; }
+
+  .story-figs { margin: 20px 0 4px; }
+  .story-figs figure { margin: 0; }
+  /* img の height 属性（縦横比のための数字）が高さとして効かないよう、height:auto を明示する */
+  .story-figs img { display: block; width: 100%; height: auto; border-radius: 2px; }
+  .story-figs.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .story-figs figure { min-width: 0; }
+  .story-figs.two img { aspect-ratio: 4 / 5; object-fit: cover; }
+  .story-figs.one img { max-height: 480px; object-fit: cover; object-position: 50% 20%; }
+  .story-figs figcaption { margin-top: 6px; font-size: 0.8rem; color: var(--color-muted); text-align: center; letter-spacing: 0.05em; }
+
+  .story-cta { text-align: center; }
+  .story-cta h2 { text-align: center; }
+  .story-cta h2::after { left: 50%; transform: translateX(-50%); }
+  .story-cta .map-btn { margin-top: 6px; }
+  html:lang(ko) body { word-break: keep-all; overflow-wrap: break-word; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <!-- 扇の線画（ファビコンと同じ意匠）。文字の上に1つだけ置く -->
+  <svg class="hero-emblem" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M50 88 22 34a40 40 0 0 1 56 0Z"/><path d="M50 88 32 40M50 88 41 36M50 88 59 36M50 88 68 40"/></g><circle cx="50" cy="88" r="3.5" fill="currentColor"/></svg>
+  <h1 data-i18n="h1">A Bride’s Robe, a Groom’s Crest</h1>
+  <p data-i18n="sub">The story of Japan’s most formal wedding attire</p>
+  <div class="lang-switch" id="langSwitch"></div>
+</header>
+
+<main>
+
+  <article class="card story-open">
+    <figure class="story-hero-fig"><img src="images/kimono-13.jpg" width="821" height="1200" fetchpriority="high" data-alt="alt1" alt="A woman in a colorful uchikake, with Osaka Castle behind her"></figure>
+    <p class="story-read" data-i18n="read">A 2-minute read</p>
+    <p class="story-lead" data-i18n="lead">Why does a Japanese bride wear such a lavish robe? And why does the man beside her wear his family’s crest? Here are the stories behind two of Japan’s most formal garments.</p>
+  </article>
+
+  <section class="card">
+    <h2 data-i18n="glanceTitle">In a nutshell</h2>
+    <dl class="glance">
+      <div><dt data-i18n="gName1">Uchikake</dt><dd data-i18n="gText1">A bride’s robe worn over a kimono, with gold-thread embroidery and a long, flowing hem.</dd></div>
+      <div><dt data-i18n="gName2">Montsuki hakama</dt><dd data-i18n="gText2">Formal wear for Japanese men, worn by grooms at weddings: a black kimono and haori jacket with five family crests, and striped hakama trousers.</dd></div>
+    </dl>
+  </section>
+
+  <section class="card story-chapter">
+    <p class="chapter-no">01</p>
+    <h2 data-i18n="c1h">Born in the age of the samurai</h2>
+    <p data-i18n="c1p1">The uchikake began as formal wear for women of samurai families. Its name comes from a verb meaning “to drape over”: it is not tied with a sash, but worn like a coat over a kimono.</p>
+    <p data-i18n="c1p2">By the Edo period it had become established as bridal wear, and it is still the emblem of the Japanese bride today. The samurai world that nurtured it is the same world that built Osaka Castle.</p>
+  </section>
+
+  <section class="card story-chapter">
+    <p class="chapter-no">02</p>
+    <h2 data-i18n="c2h">A wish in every thread</h2>
+    <p data-i18n="c2p1">Look closely and you will see silk embroidered with gold and colored thread. Cranes mean long life and a happy marriage; pine, bamboo and plum wish for long life and abundance. Every motif is a blessing for the bride.</p>
+    <p data-i18n="c2p2">There are two classic styles. The pure white shiromuku, a color of purity, is worn at the ceremony itself. The colorful iro-uchikake, in reds and golds, is often worn at the reception.</p>
+    <div class="story-figs two">
+      <figure><img src="images/kimono-7.jpg" width="1200" height="1099" loading="lazy" data-alt="alt2" alt="An uchikake embroidered with cranes and gold thread"><figcaption data-i18n="capIro">Iro-uchikake</figcaption></figure>
+      <figure><img src="images/kimono-6.jpg" width="1115" height="1200" loading="lazy" data-alt="alt3" alt="A pure white shiromuku uchikake"><figcaption data-i18n="capShiro">Shiromuku</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="card story-chapter">
+    <p class="chapter-no">03</p>
+    <h2 data-i18n="c3h">What is a montsuki hakama? A family name, worn</h2>
+    <p data-i18n="c3p1">The montsuki hakama is the formal wear of Japanese men. A black kimono and haori jacket carry five family crests: one on the back, one on each sleeve and one on each side of the chest. Striped hakama trousers complete the look.</p>
+    <p data-i18n="c3p2">Crests are said to have begun with Heian-period nobles, who marked their carriages with them. Later, samurai used crests to tell friend from foe on the battlefield. To wear a crest is to carry your family’s name, and crested clothing has long been the dress for the most formal occasions.</p>
+    <div class="story-figs one">
+      <figure><img src="images/kimono-15.jpg" width="900" height="1200" loading="lazy" data-alt="alt4" alt="A man in montsuki hakama, with Osaka Castle behind him"></figure>
+    </div>
+  </section>
+
+  <section class="card story-chapter is-climax">
+    <p class="chapter-no">04</p>
+    <h2 data-i18n="c4h">Side by side: the formal wear of a Japanese wedding</h2>
+    <p data-i18n="c4p1">The uchikake is the most formal attire for a bride, and the montsuki hakama is the most formal for a groom. Side by side, they make up the formal dress of a traditional Japanese wedding.</p>
+    <p data-i18n="c4p2">Even after Western clothes became official formal wear in the Meiji era, the montsuki haori hakama kept its place at weddings and ceremonies.</p>
+  </section>
+
+  <section class="card story-chapter">
+    <p class="chapter-no">05</p>
+    <h2 data-i18n="c5h">Wear it with the castle in view</h2>
+    <p data-i18n="c5p1">KKR Hotel Osaka stands just south of Osaka Castle Park. Here you can wear the uchikake or the montsuki hakama, alone or as a couple, and take your photos with the castle in view.</p>
+    <p data-i18n="c5p2">You do not need to be getting married. Come and wear Japan’s wedding attire as a memory of your trip.</p>
+    <div class="story-figs one">
+      <figure><img src="images/kimono-14.jpg" width="983" height="1200" loading="lazy" data-alt="alt5" alt="The back of an uchikake, with Osaka Castle in the distance"></figure>
+    </div>
+  </section>
+
+  <section class="card story-cta">
+    <h2 data-i18n="ctaTitle">Try it yourself</h2>
+    <p data-i18n="ctaBody">Book a time at the salon on the 4th floor of the hotel.</p>
+    <a class="map-btn book-link" href="./" data-i18n="bookCta">Book your experience</a>
+    <p><a class="access-link" id="faqLink" href="./faq.html" data-i18n="faqLink">Read the FAQ</a></p>
+    <p><a class="access-link" id="accessLink" href="./access.html" data-i18n="accessLink">View access and map</a></p>
+  </section>
+
+</main>
+
+<footer>
+  <span data-i18n="contactTitle">Contact</span>: <span id="footerPhone"></span>
+  <p class="official-link"><a id="officialSiteLink" href="https://bride-innovation.com/inbound-kimono-experience" target="_blank" rel="noopener" data-i18n="officialSiteLink">Official site: Bride Innovation, Kimono Experience in Osaka</a></p>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /*
+   * 文言は言語ごとの I18N。最初のHTMLは英語の全文で、言語を切り替えると data-i18n の文字を差し替える。
+   * 文字は textContent で入れる（HTMLとして解釈させない）。
+   * 約2分で読める長さに保つこと。長くするときは、章を足すより先に、今ある文を削る。
+   */
+  var I18N = {
+  "ja": {
+    "title": "打掛と紋付袴の物語｜和装体験 KKRホテル大阪",
+    "h1": "花嫁の打掛、新郎の紋付袴",
+    "sub": "日本の婚礼の正装の物語",
+    "read": "約2分で読めます",
+    "lead": "日本の花嫁は、なぜあの豪華な着物を羽織るのでしょう。そして、その隣に立つ男性は、なぜ家の紋を身につけるのでしょう。日本でもっとも格式の高い2つの正装の物語を、ご案内します。",
+    "glanceTitle": "まずは、ひとことで",
+    "gName1": "打掛（うちかけ）",
+    "gText1": "花嫁が着物の上に羽織る、豪華な衣装。金糸の刺繍と、長く広がる裾が特徴です。",
+    "gName2": "紋付袴（もんつきはかま）",
+    "gText2": "日本の男性の正装で、新郎の婚礼衣装。家紋を5つ入れた黒の着物と羽織に、縞の袴を合わせます。",
+    "c1h": "武士の世に生まれた衣装",
+    "c1p1": "打掛は、もとは武家の女性の礼装でした。名前は「打ち掛ける」から。帯を締めず、着物の上にふわりと掛けて羽織ります。",
+    "c1p2": "江戸時代に婚礼の衣装として定着し、いまも日本の花嫁衣装の代表です。この衣装を育てた武士の世は、大阪城を築いた世でもあります。",
+    "c2h": "糸の一本一本に、願いを込めて",
+    "c2p1": "よく見ると、絹の生地に金糸や色糸で刺繍が施されています。鶴は長寿と夫婦円満、松竹梅は不老長寿の願い。どの模様も、花嫁の幸せを祈る縁起ものです。",
+    "c2p2": "代表的な形は2つ。純白の「白無垢」は清らかさを表し、挙式で着ます。赤や金など華やかな「色打掛」は、披露宴でよく着られます。",
+    "capIro": "色打掛",
+    "capShiro": "白無垢",
+    "c3h": "紋付袴とは？ 家の名を背負う正装",
+    "c3p1": "紋付袴は、日本の男性の正装です。黒の着物と羽織に、家の紋を5つ入れます。背中に1つ、両袖に1つずつ、両胸に1つずつ。そこに縞の袴を合わせます。",
+    "c3p2": "家紋は、平安時代の貴族が牛車の目印にしたのが始まりといわれます。のちに武士が、戦で敵味方を見分けるために使いました。紋を身につけることは、家の名を背負うこと。だから紋付は、もっとも改まった場の装いとされてきました。",
+    "c4h": "ふたつ並んで、日本の婚礼の正装",
+    "c4p1": "打掛は花嫁の、紋付袴は新郎の、もっとも格式の高い正装です。ふたつが並んだ姿が、日本の伝統的な婚礼の正装です。",
+    "c4p2": "明治時代に洋服が公式の礼服になってからも、紋付羽織袴は、婚礼や式典の正装として着られ続けました。",
+    "c5h": "大阪城を望む場所で",
+    "c5p1": "KKRホテル大阪は、大阪城公園のすぐ南にあります。ここでは、打掛も紋付袴も、おひとりでも、ご夫婦・カップルでも、大阪城を望みながら着て、撮影できます。",
+    "c5p2": "結婚式でなくて大丈夫です。日本の婚礼の正装を、旅の思い出に。",
+    "ctaTitle": "着てみませんか？",
+    "ctaBody": "ホテル4階の美容室で、お時間をご予約いただけます。",
+    "bookCta": "ご予約はこちら",
+    "faqLink": "よくある質問を見る",
+    "accessLink": "アクセス・地図を見る",
+    "alt1": "色鮮やかな打掛を着た女性。後ろに大阪城が見える",
+    "alt2": "鶴と金糸の刺繍が施された色打掛",
+    "alt3": "純白の白無垢の打掛",
+    "alt4": "紋付袴を着た男性。後ろに大阪城が見える",
+    "alt5": "打掛の後ろ姿。遠くに大阪城が見える",
+    "phoneLabelFront": "KKRホテルフロント",
+    "contactTitle": "お問い合わせ",
+    "officialSiteLink": "公式サイトで詳しく見る：大阪の着物体験・和装撮影（ブライド・イノベーション）"
+  },
+  "en": {
+    "title": "The Story of the Uchikake and Montsuki Hakama | KKR Hotel Osaka",
+    "h1": "A Bride’s Robe, a Groom’s Crest",
+    "sub": "The story of Japan’s most formal wedding attire",
+    "read": "A 2-minute read",
+    "lead": "Why does a Japanese bride wear such a lavish robe? And why does the man beside her wear his family’s crest? Here are the stories behind two of Japan’s most formal garments.",
+    "glanceTitle": "In a nutshell",
+    "gName1": "Uchikake",
+    "gText1": "A bride’s robe worn over a kimono, with gold-thread embroidery and a long, flowing hem.",
+    "gName2": "Montsuki hakama",
+    "gText2": "Formal wear for Japanese men, worn by grooms at weddings: a black kimono and haori jacket with five family crests, and striped hakama trousers.",
+    "c1h": "Born in the age of the samurai",
+    "c1p1": "The uchikake began as formal wear for women of samurai families. Its name comes from a verb meaning “to drape over”: it is not tied with a sash, but worn like a coat over a kimono.",
+    "c1p2": "By the Edo period it had become established as bridal wear, and it is still the emblem of the Japanese bride today. The samurai world that nurtured it is the same world that built Osaka Castle.",
+    "c2h": "A wish in every thread",
+    "c2p1": "Look closely and you will see silk embroidered with gold and colored thread. Cranes mean long life and a happy marriage; pine, bamboo and plum wish for long life and abundance. Every motif is a blessing for the bride.",
+    "c2p2": "There are two classic styles. The pure white shiromuku, a color of purity, is worn at the ceremony itself. The colorful iro-uchikake, in reds and golds, is often worn at the reception.",
+    "capIro": "Iro-uchikake",
+    "capShiro": "Shiromuku",
+    "c3h": "What is a montsuki hakama? A family name, worn",
+    "c3p1": "The montsuki hakama is the formal wear of Japanese men. A black kimono and haori jacket carry five family crests: one on the back, one on each sleeve and one on each side of the chest. Striped hakama trousers complete the look.",
+    "c3p2": "Crests are said to have begun with Heian-period nobles, who marked their carriages with them. Later, samurai used crests to tell friend from foe on the battlefield. To wear a crest is to carry your family’s name, and crested clothing has long been the dress for the most formal occasions.",
+    "c4h": "Side by side: the formal wear of a Japanese wedding",
+    "c4p1": "The uchikake is the most formal attire for a bride, and the montsuki hakama is the most formal for a groom. Side by side, they make up the formal dress of a traditional Japanese wedding.",
+    "c4p2": "Even after Western clothes became official formal wear in the Meiji era, the montsuki haori hakama kept its place at weddings and ceremonies.",
+    "c5h": "Wear it with the castle in view",
+    "c5p1": "KKR Hotel Osaka stands just south of Osaka Castle Park. Here you can wear the uchikake or the montsuki hakama, alone or as a couple, and take your photos with the castle in view.",
+    "c5p2": "You do not need to be getting married. Come and wear Japan’s wedding attire as a memory of your trip.",
+    "ctaTitle": "Try it yourself",
+    "ctaBody": "Book a time at the salon on the 4th floor of the hotel.",
+    "bookCta": "Book your experience",
+    "faqLink": "Read the FAQ",
+    "accessLink": "View access and map",
+    "alt1": "A woman in a colorful uchikake, with Osaka Castle behind her",
+    "alt2": "An uchikake embroidered with cranes and gold thread",
+    "alt3": "A pure white shiromuku uchikake",
+    "alt4": "A man in montsuki hakama, with Osaka Castle behind him",
+    "alt5": "The back of an uchikake, with Osaka Castle in the distance",
+    "phoneLabelFront": "KKR Hotel front desk",
+    "contactTitle": "Contact",
+    "officialSiteLink": "Official site: Bride Innovation, Kimono Experience in Osaka"
+  },
+  "zh-CN": {
+    "title": "打褂与纹付袴的故事｜和服体验 KKR大阪酒店",
+    "h1": "新娘的打褂，新郎的纹付袴",
+    "sub": "日本婚礼正装的故事",
+    "read": "约2分钟读完",
+    "lead": "日本新娘为什么要披上那件华丽的和服？站在她身边的男士，为什么要把家纹穿在身上？下面带您了解日本规格最高的这两件正装背后的故事。",
+    "glanceTitle": "先用一句话了解",
+    "gName1": "打褂",
+    "gText1": "新娘披在和服外面的华丽礼服，饰有金线刺绣，下摆长而铺展。",
+    "gName2": "纹付袴",
+    "gText2": "日本男士的正装，也是新郎的婚礼服装：绣有五个家纹的黑色和服与羽织，搭配条纹袴。",
+    "c1h": "诞生于武士的时代",
+    "c1p1": "打褂最初是武家女性的礼服。它的名字来自“披挂在外”的意思：不系腰带，像外套一样披在和服外面。",
+    "c1p2": "到了江户时代，它成为新娘礼服并流传下来，至今仍是日本新娘的象征。孕育它的武士世界，也正是建造大阪城的那个世界。",
+    "c2h": "每一针一线，都是祝福",
+    "c2p1": "仔细看，丝绸上用金线和彩线绣着图案。仙鹤象征长寿与夫妻和美，松竹梅寄托着长寿与丰饶的愿望。每一种图案，都是对新娘的祝福。",
+    "c2p2": "经典款式有两种。纯白的“白无垢”象征纯洁，在仪式上穿着。红色、金色等华丽的“色打褂”，常在婚宴上穿着。",
+    "capIro": "色打褂",
+    "capShiro": "白无垢",
+    "c3h": "什么是纹付袴？把家名穿在身上",
+    "c3p1": "纹付袴是日本男士的正装。黑色的和服和羽织上绣有五个家纹：背后一个，两袖各一个，胸前左右各一个，再搭配条纹袴。",
+    "c3p2": "据说家纹起源于平安时代的贵族，他们用纹样标记自己的牛车。后来武士在战场上用家纹分辨敌我。穿上家纹，就是把家名带在身上，因此带家纹的服装长期用于最郑重的场合。",
+    "c4h": "并肩而立，就是日本婚礼的正装",
+    "c4p1": "打褂是新娘规格最高的正装，纹付袴是新郎规格最高的正装。两者并肩而立，就是传统日本婚礼的正装。",
+    "c4p2": "即使在明治时代西服成为官方礼服之后，纹付羽织袴依然作为婚礼和仪式的正装被穿着。",
+    "c5h": "在可眺望大阪城的地方穿上它",
+    "c5p1": "KKR大阪酒店紧邻大阪城公园南侧。在这里，您可以独自或与伴侣一起穿上打褂或纹付袴，在能看到大阪城的地方拍照。",
+    "c5p2": "无需结婚也可以。请穿上日本婚礼的正装，为旅行留下一份回忆。",
+    "ctaTitle": "亲自穿穿看",
+    "ctaBody": "请预约酒店4楼美容室的时间。",
+    "bookCta": "立即预约",
+    "faqLink": "查看常见问题",
+    "accessLink": "查看交通指南和地图",
+    "alt1": "身穿华丽打褂的女士，背后是大阪城",
+    "alt2": "绣有仙鹤与金线的色打褂",
+    "alt3": "纯白的白无垢打褂",
+    "alt4": "身穿纹付袴的男士，背后是大阪城",
+    "alt5": "打褂的背影，远处是大阪城",
+    "phoneLabelFront": "KKR大阪酒店前台",
+    "contactTitle": "咨询",
+    "officialSiteLink": "官方网站：Bride Innovation 大阪和服体验介绍"
+  },
+  "zh-TW": {
+    "title": "打褂與紋付袴的故事｜和服體驗 KKR大阪飯店",
+    "h1": "新娘的打褂，新郎的紋付袴",
+    "sub": "日本婚禮正裝的故事",
+    "read": "約2分鐘讀完",
+    "lead": "日本新娘為什麼要披上那件華麗的和服？站在她身邊的男士，為什麼要把家紋穿在身上？以下帶您了解日本規格最高的這兩件正裝背後的故事。",
+    "glanceTitle": "先用一句話了解",
+    "gName1": "打褂",
+    "gText1": "新娘披在和服外面的華麗禮服，飾有金線刺繡，下襬長而鋪展。",
+    "gName2": "紋付袴",
+    "gText2": "日本男士的正裝，也是新郎的婚禮服裝：繡有五個家紋的黑色和服與羽織，搭配條紋袴。",
+    "c1h": "誕生於武士的時代",
+    "c1p1": "打褂最初是武家女性的禮服。它的名字來自「披掛在外」的意思：不繫腰帶，像外套一樣披在和服外面。",
+    "c1p2": "到了江戶時代，它成為新娘禮服並流傳下來，至今仍是日本新娘的象徵。孕育它的武士世界，也正是建造大阪城的那個世界。",
+    "c2h": "每一針一線，都是祝福",
+    "c2p1": "仔細看，絲綢上用金線和彩線繡著圖案。仙鶴象徵長壽與夫妻和美，松竹梅寄託著長壽與豐饒的願望。每一種圖案，都是對新娘的祝福。",
+    "c2p2": "經典款式有兩種。純白的「白無垢」象徵純潔，在儀式上穿著。紅色、金色等華麗的「色打褂」，常在婚宴上穿著。",
+    "capIro": "色打褂",
+    "capShiro": "白無垢",
+    "c3h": "什麼是紋付袴？把家名穿在身上",
+    "c3p1": "紋付袴是日本男士的正裝。黑色的和服和羽織上繡有五個家紋：背後一個，兩袖各一個，胸前左右各一個，再搭配條紋袴。",
+    "c3p2": "據說家紋起源於平安時代的貴族，他們用紋樣標記自己的牛車。後來武士在戰場上用家紋分辨敵我。穿上家紋，就是把家名帶在身上，因此帶家紋的服裝長期用於最鄭重的場合。",
+    "c4h": "並肩而立，就是日本婚禮的正裝",
+    "c4p1": "打褂是新娘規格最高的正裝，紋付袴是新郎規格最高的正裝。兩者並肩而立，就是傳統日本婚禮的正裝。",
+    "c4p2": "即使在明治時代西服成為官方禮服之後，紋付羽織袴依然作為婚禮和儀式的正裝被穿著。",
+    "c5h": "在可眺望大阪城的地方穿上它",
+    "c5p1": "KKR大阪飯店緊鄰大阪城公園南側。在這裡，您可以獨自或與伴侶一起穿上打褂或紋付袴，在看得到大阪城的地方拍照。",
+    "c5p2": "無須結婚也可以。請穿上日本婚禮的正裝，為旅行留下一份回憶。",
+    "ctaTitle": "親自穿穿看",
+    "ctaBody": "請預約飯店4樓美容室的時間。",
+    "bookCta": "立即預約",
+    "faqLink": "查看常見問題",
+    "accessLink": "查看交通指南與地圖",
+    "alt1": "身穿華麗打褂的女士，背後是大阪城",
+    "alt2": "繡有仙鶴與金線的色打褂",
+    "alt3": "純白的白無垢打褂",
+    "alt4": "身穿紋付袴的男士，背後是大阪城",
+    "alt5": "打褂的背影，遠處是大阪城",
+    "phoneLabelFront": "KKR大阪飯店櫃檯",
+    "contactTitle": "聯絡我們",
+    "officialSiteLink": "官方網站：Bride Innovation 大阪和服體驗介紹"
+  },
+  "ko": {
+    "title": "우치카케와 몬쓰키 하카마 이야기｜기모노 체험 KKR 호텔 오사카",
+    "h1": "신부의 우치카케, 신랑의 몬쓰키 하카마",
+    "sub": "일본 혼례 정장 이야기",
+    "read": "읽는 데 약 2분",
+    "lead": "일본의 신부는 왜 그렇게 화려한 기모노를 걸칠까요? 그 곁에 선 남성은 왜 가문의 문장을 몸에 두를까요? 일본에서 가장 격식 높은 두 가지 정장의 이야기를 소개합니다.",
+    "glanceTitle": "먼저 한 줄로",
+    "gName1": "우치카케(打掛)",
+    "gText1": "신부가 기모노 위에 걸쳐 입는 화려한 예복. 금실 자수와 길게 펼쳐지는 옷자락이 특징입니다.",
+    "gName2": "몬쓰키 하카마(紋付袴)",
+    "gText2": "일본 남성의 정장이자 신랑의 혼례 복장. 가문의 문장 5개를 넣은 검은 기모노와 하오리에 줄무늬 하카마를 맞춰 입습니다.",
+    "c1h": "무사의 시대에 태어난 의상",
+    "c1p1": "우치카케는 원래 무가(사무라이 가문) 여성의 예복이었습니다. 이름은 「걸치다」라는 뜻의 동사에서 왔으며, 띠를 매지 않고 코트처럼 기모노 위에 걸쳐 입습니다.",
+    "c1p2": "에도 시대에 신부 의상으로 자리 잡아 지금도 일본 신부의 상징입니다. 이 의상을 키운 무사의 세상은 오사카성을 쌓은 세상이기도 합니다.",
+    "c2h": "한 올 한 올에 담긴 소원",
+    "c2p1": "자세히 보면 비단 위에 금실과 색실로 자수가 놓여 있습니다. 학은 장수와 부부 화합, 소나무・대나무・매화는 장수와 풍요를 뜻합니다. 모든 무늬가 신부를 위한 축복입니다.",
+    "c2p2": "대표적인 형태는 두 가지입니다. 순백의 「시로무쿠」는 순결을 뜻하며 혼례 의식에서 입습니다. 빨강과 금색 등 화려한 「이로우치카케」는 피로연에서 자주 입습니다.",
+    "capIro": "이로우치카케",
+    "capShiro": "시로무쿠",
+    "c3h": "몬쓰키 하카마란? 가문의 이름을 입다",
+    "c3p1": "몬쓰키 하카마는 일본 남성의 정장입니다. 검은 기모노와 하오리에 가문의 문장 5개를 넣습니다. 등에 하나, 양 소매에 하나씩, 양 가슴에 하나씩이며, 줄무늬 하카마를 맞춰 입습니다.",
+    "c3p2": "문장은 헤이안 시대 귀족이 우마차를 구별하려고 문양을 붙인 데서 시작되었다고 합니다. 이후 무사가 전장에서 적과 아군을 가리는 데 썼습니다. 문장을 입는다는 것은 가문의 이름을 짊어진다는 뜻이며, 그래서 문장이 들어간 옷은 오래도록 가장 격식 있는 자리의 복장이었습니다.",
+    "c4h": "나란히 서면, 일본 혼례의 정장",
+    "c4p1": "우치카케는 신부의, 몬쓰키 하카마는 신랑의 가장 격식 높은 정장입니다. 둘이 나란히 선 모습이 일본 전통 혼례의 정장입니다.",
+    "c4p2": "메이지 시대에 양복이 공식 예복이 된 뒤에도, 몬쓰키 하오리 하카마는 혼례와 의식의 정장으로 계속 입혀졌습니다.",
+    "c5h": "오사카성이 보이는 곳에서",
+    "c5p1": "KKR 호텔 오사카는 오사카성 공원 바로 남쪽에 있습니다. 이곳에서는 혼자서도, 부부・커플이 함께도 우치카케나 몬쓰키 하카마를 입고 오사카성을 바라보며 촬영하실 수 있습니다.",
+    "c5p2": "결혼식이 아니어도 괜찮습니다. 일본 혼례의 정장을 여행의 추억으로 남겨 보세요.",
+    "ctaTitle": "직접 입어 보세요",
+    "ctaBody": "호텔 4층 살롱에서 시간을 예약해 주세요.",
+    "bookCta": "예약하기",
+    "faqLink": "자주 묻는 질문 보기",
+    "accessLink": "오시는 길・지도 보기",
+    "alt1": "화려한 우치카케를 입은 여성, 뒤로 오사카성이 보임",
+    "alt2": "학과 금실 자수가 놓인 이로우치카케",
+    "alt3": "순백의 시로무쿠 우치카케",
+    "alt4": "몬쓰키 하카마를 입은 남성, 뒤로 오사카성이 보임",
+    "alt5": "우치카케의 뒷모습, 멀리 오사카성이 보임",
+    "phoneLabelFront": "KKR 호텔 프런트",
+    "contactTitle": "문의",
+    "officialSiteLink": "공식 사이트: Bride Innovation 오사카 기모노 체험 안내"
+  },
+  "fr": {
+    "title": "L’histoire de l’uchikake et du montsuki hakama | KKR Hotel Osaka",
+    "h1": "La robe de la mariée, le blason du marié",
+    "sub": "L’histoire de la tenue de mariage japonaise",
+    "read": "Lecture : environ 2 minutes",
+    "lead": "Pourquoi la mariée japonaise porte-t-elle une robe aussi somptueuse ? Et pourquoi l’homme à ses côtés porte-t-il le blason de sa famille ? Voici l’histoire de deux des tenues les plus solennelles du Japon.",
+    "glanceTitle": "En bref",
+    "gName1": "Uchikake",
+    "gText1": "La robe de la mariée, portée par-dessus un kimono : broderies de fils d’or et longue traîne.",
+    "gName2": "Montsuki hakama",
+    "gText2": "La tenue de cérémonie des hommes japonais, celle du marié : kimono et veste haori noirs ornés de cinq blasons familiaux, avec un hakama rayé.",
+    "c1h": "Née à l’époque des samouraïs",
+    "c1p1": "L’uchikake était à l’origine la tenue de cérémonie des femmes des familles de samouraïs. Son nom vient d’un verbe qui signifie « poser par-dessus » : on ne le noue pas, on le porte comme un manteau sur un kimono.",
+    "c1p2": "À l’époque d’Edo, il s’est imposé comme tenue de mariée et reste aujourd’hui son emblème. Le monde des samouraïs qui l’a vu naître est aussi celui qui a bâti le château d’Osaka.",
+    "c2h": "Un vœu dans chaque fil",
+    "c2p1": "Regardez de près : la soie est brodée de fils d’or et de couleur. La grue évoque la longévité et un mariage heureux ; le pin, le bambou et le prunier, une longue vie et l’abondance. Chaque motif est une bénédiction pour la mariée.",
+    "c2p2": "Deux styles classiques : le « shiromuku », d’un blanc pur symbole de pureté, porté pendant la cérémonie, et l’« iro-uchikake », aux rouges et aux ors éclatants, souvent porté à la réception.",
+    "capIro": "Iro-uchikake",
+    "capShiro": "Shiromuku",
+    "c3h": "Qu’est-ce que le montsuki hakama ? Un nom de famille que l’on porte",
+    "c3p1": "Le montsuki hakama est la tenue de cérémonie des hommes japonais. Le kimono et la veste haori noirs portent cinq blasons familiaux : un dans le dos, un sur chaque manche et un de chaque côté de la poitrine. Un hakama rayé complète la tenue.",
+    "c3p2": "On dit que les blasons sont nés chez les nobles de l’époque de Heian, qui les apposaient sur leurs chars. Plus tard, les samouraïs s’en servirent sur le champ de bataille pour distinguer amis et ennemis. Porter un blason, c’est porter le nom de sa famille : les vêtements à blasons sont depuis longtemps ceux des grandes occasions.",
+    "c4h": "Côte à côte, la tenue d’un mariage japonais",
+    "c4p1": "L’uchikake est la tenue la plus solennelle de la mariée, et le montsuki hakama celle du marié. Ensemble, ils forment la tenue de cérémonie d’un mariage japonais traditionnel.",
+    "c4p2": "Même quand les vêtements occidentaux sont devenus la tenue officielle à l’époque de Meiji, le montsuki haori hakama est resté de rigueur aux mariages et cérémonies.",
+    "c5h": "À porter avec le château en vue",
+    "c5p1": "Le KKR Hotel Osaka se trouve juste au sud du parc du château d’Osaka. Ici, vous pouvez porter l’uchikake ou le montsuki hakama, seul(e) ou en couple, avec le château en vue.",
+    "c5p2": "Nul besoin de se marier. Venez porter la tenue de mariage japonaise comme souvenir de voyage.",
+    "ctaTitle": "Essayez-le vous-même",
+    "ctaBody": "Réservez un créneau au salon, au 4e étage de l’hôtel.",
+    "bookCta": "Réserver",
+    "faqLink": "Lire la FAQ",
+    "accessLink": "Voir l’accès et le plan",
+    "alt1": "Une femme en uchikake coloré, devant le château d’Osaka",
+    "alt2": "Un uchikake brodé de grues et de fils d’or",
+    "alt3": "Un uchikake shiromuku d’un blanc pur",
+    "alt4": "Un homme en montsuki hakama, devant le château d’Osaka",
+    "alt5": "Le dos d’un uchikake, avec le château d’Osaka au loin",
+    "phoneLabelFront": "réception du KKR Hotel",
+    "contactTitle": "Contact",
+    "officialSiteLink": "Site officiel : Bride Innovation, expérience kimono à Osaka"
+  }
+};
+
+  var LANG_LABELS = { ja: '日本語', en: 'English', 'zh-CN': '简体', 'zh-TW': '繁體', ko: '한국어', fr: 'Français' };
+  var SUPPORTED_LANGS = ['ja', 'en', 'zh-CN', 'zh-TW', 'ko', 'fr'];
+
+  // 予約ページ・アクセスページと同じ番号（ホテルのフロント）。GASを叩かずに済むよう直接持つ
+  var SALON_PHONE = '06-6941-1122';
+
+  var state = { lang: detectInitialLang() };
+
+  function detectInitialLang() {
+    // 予約ページなどから ?lang= で渡ってきたらそれを優先する
+    var m = /[?&]lang=([\w-]+)/.exec(location.search);
+    if (m && SUPPORTED_LANGS.indexOf(m[1]) !== -1) return m[1];
+    var nav = (navigator.language || 'en');
+    if (SUPPORTED_LANGS.indexOf(nav) !== -1) return nav;
+    var base = nav.split('-')[0];
+    for (var i = 0; i < SUPPORTED_LANGS.length; i++) {
+      if (SUPPORTED_LANGS[i].split('-')[0] === base) return SUPPORTED_LANGS[i];
+    }
+    return 'en';
+  }
+
+  function t(key) {
+    var d = I18N[state.lang] || I18N.en;
+    return d[key] || I18N.en[key] || key;
+  }
+
+  function applyI18n() {
+    document.documentElement.lang = state.lang;
+    document.title = t('title');
+    var nodes = document.querySelectorAll('[data-i18n]');
+    for (var i = 0; i < nodes.length; i++) {
+      nodes[i].textContent = t(nodes[i].getAttribute('data-i18n'));
+    }
+    var imgs = document.querySelectorAll('img[data-alt]');
+    for (var k = 0; k < imgs.length; k++) imgs[k].alt = t(imgs[k].getAttribute('data-alt'));
+    // ホテルのフロントにつながる番号なので、その旨を添える
+    document.getElementById('footerPhone').textContent = SALON_PHONE + '（' + t('phoneLabelFront') + '）';
+    // 予約ページ・よくある質問・アクセスへ、いまの言語を引き継ぐ
+    var q = '?lang=' + encodeURIComponent(state.lang);
+    var books = document.querySelectorAll('.book-link');
+    for (var j = 0; j < books.length; j++) books[j].href = './' + q;
+    document.getElementById('faqLink').href = './faq.html' + q;
+    document.getElementById('accessLink').href = './access.html' + q;
+  }
+
+  function renderLangSwitch() {
+    var box = document.getElementById('langSwitch');
+    box.innerHTML = '';
+    SUPPORTED_LANGS.forEach(function (lang) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = LANG_LABELS[lang];
+      if (lang === state.lang) btn.classList.add('active');
+      btn.addEventListener('click', function () {
+        state.lang = lang;
+        renderLangSwitch();
+        applyI18n();
+      });
+      box.appendChild(btn);
+    });
+  }
+
+  // 写真が無いとき（まだ用意できていない・差し替え中）は、その写真の枠ごと消す
+  function dropFigure(img) {
+    var fig = img.closest('figure');
+    var wrap = fig && fig.parentNode;
+    if (fig) fig.remove();
+    if (wrap && wrap.classList.contains('story-figs') && !wrap.querySelector('figure')) wrap.remove();
+    else if (wrap && wrap.classList.contains('two')) wrap.classList.remove('two'), wrap.classList.add('one');
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('.story-chapter img, .story-open img'), function (img) {
+    img.addEventListener('error', function () { dropFigure(img); });
+    if (img.complete && img.naturalWidth === 0 && img.getAttribute('src')) dropFigure(img);
+  });
+
+  renderLangSwitch();
+  applyI18n();
+})();
+</script>
+</body>
+</html>
