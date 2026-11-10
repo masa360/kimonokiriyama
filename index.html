@@ -1176,10 +1176,18 @@
     letter-spacing: 0.04em;
     color: var(--color-accent);
   }
+  /* 見出しは、読点や空白のところだけで折り返す（「ファミリ／ーでも」のように語の途中で割れないように） */
+  .couple-note .couple-title { word-break: keep-all; text-wrap: balance; }
   .couple-note .couple-body { margin: 0; line-height: 1.7; }
-  /* 打掛と紋付袴の物語への案内（2026-11-10）。リンクではなくボタンで、流れで誘う */
-  .story-invite { margin: 0 0 22px; text-align: center; }
-  .story-invite p { margin: 0 0 10px; line-height: 1.7; }
+  /* もっと知る（2026-11-10）。読み物（上）と、押すところ（下）を分ける。下はぜんぶボタンの形 */
+  .intro-actions { margin: 28px 0 4px; }
+  .actions-head {
+    display: flex; align-items: center; gap: 12px; margin: 0 0 16px;
+    font-size: 0.78rem; letter-spacing: 0.22em; color: var(--color-muted);
+  }
+  .actions-head::before, .actions-head::after { content: ''; flex: 1; height: 1px; background: var(--color-border); }
+  :root:lang(en) .actions-head, :root:lang(fr) .actions-head { text-transform: uppercase; }
+  .actions-label { margin: 0 0 10px; text-align: center; line-height: 1.7; }
   .story-btn {
     display: block; padding: 14px 16px; border-radius: 2px;
     background: var(--color-accent); color: #fff; text-align: center; text-decoration: none;
@@ -1187,6 +1195,16 @@
     transition: background 0.25s;
   }
   .story-btn:hover, .story-btn:focus-visible { background: var(--color-accent-dark); }
+  .story-btn::after { content: '→'; margin-left: 10px; }
+  /* 枠線のボタン（お衣装の写真・よくある質問）。同じ形にそろえる */
+  .sub-btn, .intro-actions .gallery-btn {
+    display: block; width: 100%; margin: 10px 0 0; padding: 13px 16px;
+    border: 1px solid var(--color-accent); border-radius: 2px; background: #fff;
+    color: var(--color-accent-dark); text-align: center; text-decoration: none;
+    font-size: 0.92rem; font-weight: 600; letter-spacing: 0.04em; line-height: 1.5; cursor: pointer;
+  }
+  .sub-btn:hover, .intro-actions .gallery-btn:hover { background: #fbf4f5; }
+  .sub-btn::after, .intro-actions .gallery-btn::after { content: '›'; margin-left: 10px; }
   .intro-points { list-style: none; margin: 0 0 6px; padding: 0; }
   .intro-points li { position: relative; padding-left: 1.4em; margin-bottom: 8px; line-height: 1.6; }
   .intro-points li::before {
@@ -1233,23 +1251,26 @@
     </dl>
     <!-- ご夫婦・カップル（2026-11-10）。男性の紋付袴も受けられること、和装で最も格式の高い正装を一緒に楽しめることを、目立たせる -->
     <div class="couple-note">
-      <p class="couple-title" data-i18n="coupleTitle">For couples</p>
-      <p class="couple-body" data-i18n="coupleBody">Women wear the uchikake; men wear the montsuki hakama, a formal crested kimono with hakama trousers. Couples can wear Japan’s most formal traditional attire together.</p>
-    </div>
-    <!-- 打掛と紋付袴の物語ページへ（2026-11-10）。「まずはこちらを」と、ボタンで誘う -->
-    <div class="story-invite">
-      <p data-i18n="storyInvite">Please start here. It tells the story and traditions of the uchikake and the montsuki hakama.</p>
-      <a class="story-btn" href="./uchikake.html" id="storyLink" data-i18n="storyLink">Read the story of the uchikake and montsuki hakama</a>
+      <p class="couple-title" data-i18n="coupleTitle">For couples, and for families</p>
+      <p class="couple-body" data-i18n="coupleBody">Women wear the uchikake; men wear the montsuki hakama, a formal crested kimono with hakama trousers. Couples and families can wear Japan’s most formal traditional attire together.</p>
     </div>
     <ul class="intro-points">
       <li data-i18n="introPoint1">Take photos with your own smartphone. Our staff can press the shutter for you</li>
       <li data-i18n="introPoint2">Indoors, so rain or shine. On a fine day, the garden with its castle view too</li>
       <li data-i18n="introPoint3">Children’s kimonos are available too</li>
     </ul>
-    <!-- 打掛ギャラリー。画像が1枚も無ければ JS が丸ごと消す -->
-    <div id="gallerySlot"></div>
-    <!-- よくある質問（別ページ。2026-11-09）。打掛を知らない方が、予約の前に読めるように -->
-    <p><a class="access-link" href="./faq.html" id="faqLink" data-i18n="faqLink">FAQ: What is an uchikake? Prices and what to expect</a></p>
+    <!--
+      もっと知る（2026-11-10）。ここから下は、押すところ。ぜんぶボタンの形にして、上の読み物と見分けがつくようにする。
+      ①塗りつぶしの大きなボタン＝まず読んでほしい物語 ②枠線のボタン＝お衣装の写真 ③枠線のボタン＝よくある質問
+    -->
+    <div class="intro-actions">
+      <p class="actions-head" data-i18n="moreLabel">Learn more</p>
+      <p class="actions-label" data-i18n="storyInvite">Please start here. It tells the story and traditions of the uchikake and the montsuki hakama.</p>
+      <a class="story-btn" href="./uchikake.html" id="storyLink" data-i18n="storyLink">Read the story of the uchikake and montsuki hakama</a>
+      <!-- 打掛ギャラリー。画像が1枚も無ければ JS が丸ごと消す -->
+      <div id="gallerySlot"></div>
+      <a class="sub-btn" href="./faq.html" id="faqLink" data-i18n="faqLink">FAQ: What is an uchikake? Prices and what to expect</a>
+    </div>
   </div>
 
   <div class="card" id="loadingCard">
@@ -1562,8 +1583,8 @@
       introPoint1: 'ご自身のスマートフォンで撮影します。スタッフがシャッターを押すこともできます',
       introPoint2: '屋内なので雨でも安心。お天気がよければ、大阪城を望むお庭でも撮影できます',
       introPoint3: 'お子様のお着物もご用意しています',
-      coupleTitle: 'ご夫婦・カップルで',
-      coupleBody: '女性は打掛、男性は紋付袴。和装の中でも最も格式の高い正装を、ご夫婦・カップルでご一緒に楽しめます。',
+      coupleTitle: 'ご夫婦・カップルで、ファミリーでも。',
+      coupleBody: '女性は打掛、男性は紋付袴。和装の中でも最も格式の高い正装を、ご夫婦・カップル、ご家族でご一緒に楽しめます。',
       loading: '空き状況を読み込んでいます…',
       peopleTitle: '1. ご利用人数',
       menuTitle: '2. プランを選択',
@@ -1615,6 +1636,7 @@
       accessLink: 'アクセス・地図を見る',
       faqLink: 'よくある質問（打掛とは？・料金・当日のこと）',
       storyInvite: 'まずはこちらをお読みください。打掛と紋付袴の伝統を記しております。',
+      moreLabel: 'もっと知る',
       storyLink: '打掛と紋付袴の伝統を読む',
       accessTitle: 'アクセス',
       accessSummary: '美容室 BI-BI（KKRホテル大阪 4階／〒540-0007 大阪市中央区馬場町2-24）',
@@ -1736,8 +1758,8 @@
       introPoint1: 'Take photos with your own smartphone. Our staff can press the shutter for you',
       introPoint2: 'Indoors, so rain or shine. On a fine day, the garden with its castle view too',
       introPoint3: 'Children’s kimonos are available too',
-      coupleTitle: 'For couples',
-      coupleBody: 'Women wear the uchikake; men wear the montsuki hakama, a formal crested kimono with hakama trousers. Couples can wear Japan’s most formal traditional attire together.',
+      coupleTitle: 'For couples, and for families',
+      coupleBody: 'Women wear the uchikake; men wear the montsuki hakama, a formal crested kimono with hakama trousers. Couples and families can wear Japan’s most formal traditional attire together.',
       loading: 'Loading availability…',
       peopleTitle: '1. Who is coming',
       menuTitle: '2. Choose your plan',
@@ -1789,6 +1811,7 @@
       accessLink: 'View access and map',
       faqLink: 'FAQ: What is an uchikake? Prices and what to expect',
       storyInvite: 'Please start here. It tells the story and traditions of the uchikake and the montsuki hakama.',
+      moreLabel: 'Learn more',
       storyLink: 'Read the story of the uchikake and montsuki hakama',
       accessTitle: 'Access',
       accessSummary: 'Salon BI-BI (4F, KKR Hotel Osaka, 2-24 Babacho, Chuo-ku, Osaka)',
@@ -1910,8 +1933,8 @@
       introPoint1: '用您自己的手机拍摄，也可以请工作人员帮您按快门',
       introPoint2: '在室内拍摄，雨天也不受影响；天气好时还可到可眺望大阪城的庭园',
       introPoint3: '也备有儿童和服',
-      coupleTitle: '夫妻・情侣同行',
-      coupleBody: '女士穿打褂，男士穿纹付袴（带家纹的正式和服配袴）。夫妻、情侣可以一起穿上和服中规格最高的正装。',
+      coupleTitle: '夫妻・情侣，也欢迎全家同行',
+      coupleBody: '女士穿打褂，男士穿纹付袴（带家纹的正式和服配袴）。夫妻、情侣和家人都可以一起穿上和服中规格最高的正装。',
       loading: '正在加载空余时段…',
       peopleTitle: '1. 参加人数',
       menuTitle: '2. 选择套餐',
@@ -1963,6 +1986,7 @@
       accessLink: '查看交通指南和地图',
       faqLink: '常见问题（什么是打褂？费用・当天流程）',
       storyInvite: '请先阅读这里。这里记述了打褂与纹付袴的传统。',
+      moreLabel: '了解更多',
       storyLink: '阅读打褂与纹付袴的传统',
       accessTitle: '交通指南',
       accessSummary: '美容室 BI-BI（KKR大阪酒店 4楼／大阪市中央区马场町2-24）',
@@ -2084,8 +2108,8 @@
       introPoint1: '用您自己的手機拍攝，也可以請工作人員幫您按快門',
       introPoint2: '在室內拍攝，雨天也不受影響；天氣好時還可到可眺望大阪城的庭園',
       introPoint3: '也備有兒童和服',
-      coupleTitle: '夫妻・情侶同行',
-      coupleBody: '女士穿打褂，男士穿紋付袴（帶家紋的正式和服配袴）。夫妻、情侶可以一起穿上和服中規格最高的正裝。',
+      coupleTitle: '夫妻・情侶，也歡迎全家同行',
+      coupleBody: '女士穿打褂，男士穿紋付袴（帶家紋的正式和服配袴）。夫妻、情侶和家人都可以一起穿上和服中規格最高的正裝。',
       loading: '正在載入空餘時段…',
       peopleTitle: '1. 參加人數',
       menuTitle: '2. 選擇方案',
@@ -2137,6 +2161,7 @@
       accessLink: '查看交通指南與地圖',
       faqLink: '常見問題（什麼是打褂？費用・當天流程）',
       storyInvite: '請先閱讀這裡。這裡記述了打褂與紋付袴的傳統。',
+      moreLabel: '了解更多',
       storyLink: '閱讀打褂與紋付袴的傳統',
       accessTitle: '交通指南',
       accessSummary: '美容室 BI-BI（KKR大阪飯店 4樓／大阪市中央區馬場町2-24）',
@@ -2258,8 +2283,8 @@
       introPoint1: '본인의 스마트폰으로 촬영하며, 직원에게 셔터를 부탁하실 수도 있습니다',
       introPoint2: '실내 촬영이라 비가 와도 걱정 없고, 날씨가 좋으면 오사카성이 보이는 정원에서도 촬영할 수 있습니다',
       introPoint3: '어린이용 기모노도 준비되어 있습니다',
-      coupleTitle: '부부・커플이 함께',
-      coupleBody: '여성은 우치카케, 남성은 몬쓰키 하카마(가문이 들어간 정장 기모노와 하카마). 부부와 커플이 일본 전통 의상 중 가장 격식 높은 정장을 함께 입어 보실 수 있습니다.',
+      coupleTitle: '부부・커플도, 가족도 함께',
+      coupleBody: '여성은 우치카케, 남성은 몬쓰키 하카마(가문이 들어간 정장 기모노와 하카마). 부부・커플・가족이 일본 전통 의상 중 가장 격식 높은 정장을 함께 입어 보실 수 있습니다.',
       loading: '예약 가능 시간을 불러오는 중…',
       peopleTitle: '1. 이용 인원',
       menuTitle: '2. 플랜 선택',
@@ -2311,6 +2336,7 @@
       accessLink: '오시는 길・지도 보기',
       faqLink: '자주 묻는 질문 (우치카케란? 요금・당일 안내)',
       storyInvite: '먼저 이 페이지를 읽어 보세요. 우치카케와 몬쓰키 하카마의 전통을 소개합니다.',
+      moreLabel: '더 알아보기',
       storyLink: '우치카케와 몬쓰키 하카마의 전통 읽기',
       accessTitle: '오시는 길',
       accessSummary: '살롱 BI-BI (KKR 호텔 오사카 4층 / 오사카시 주오구 바바초 2-24)',
@@ -2432,8 +2458,8 @@
       introPoint1: 'Photos avec votre propre smartphone ; notre personnel peut déclencher pour vous',
       introPoint2: 'À l\u2019intérieur, donc par tous les temps ; par beau temps, le jardin avec vue sur le château aussi',
       introPoint3: 'Des kimonos pour enfants sont également disponibles',
-      coupleTitle: 'En couple',
-      coupleBody: 'Elle porte l’uchikake, lui le montsuki hakama (kimono à blasons et hakama). En couple, portez ensemble la tenue japonaise la plus solennelle.',
+      coupleTitle: 'En couple, en famille',
+      coupleBody: 'Elle porte l’uchikake, lui le montsuki hakama (kimono à blasons et hakama). En couple ou en famille, portez ensemble la tenue japonaise la plus solennelle.',
       loading: 'Chargement des disponibilités…',
       peopleTitle: '1. Qui participe',
       menuTitle: '2. Choisissez votre formule',
@@ -2485,6 +2511,7 @@
       accessLink: "Voir l'accès et le plan",
       faqLink: "FAQ : qu'est-ce qu'un uchikake ? Tarifs et déroulement",
       storyInvite: 'Commencez ici. Cette page raconte les traditions de l’uchikake et du montsuki hakama.',
+      moreLabel: 'En savoir plus',
       storyLink: 'Lire l’histoire de l’uchikake et du montsuki hakama',
       accessTitle: 'Accès',
       accessSummary: 'Salon BI-BI (4e étage, KKR Hotel Osaka, 2-24 Babacho, Chuo-ku, Osaka)',
