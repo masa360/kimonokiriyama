@@ -164,7 +164,22 @@
   @media (prefers-reduced-motion: reduce) {
     .js-reveal .reveal { opacity: 1; transform: none; transition: none; }
   }
+
+  /* ===========================================================
+     改行（2026-11-11）。スマホで、語の途中や、1〜2文字・1語だけの行で折り返さない
+       ・日本語・中国語：文節の切れ目で折り返す。js/linebreak.js が折り返してよい所に <wbr> を入れ、
+         その要素に .bx を付ける。ここで、それ以外の所（語の途中）での折り返しを止める
+       ・韓国語：語（띄어쓰기の単位）の途中で折り返さない
+       ・見出し・ボタン・ラベル・中央寄せの短い文：行の長さをそろえる（最後の行に1語だけ残らない）
+       ・本文：最後の行が1〜2文字・1語だけにならないようにする（対応している端末だけ。未対応でも崩れない）
+     =========================================================== */
+  html:lang(ja) .bx, html:lang(zh) .bx { word-break: keep-all; overflow-wrap: break-word; }
+  h1, h2, h3, h4, summary, button, label, legend, dt, th, figcaption, caption, .hero-sub, .kicker, .story-lead, .glance dd, .is-climax p, .story-cta p, .book-link { text-wrap: balance; }
+  p, li, dd, td, blockquote, footer { text-wrap: pretty; }
+  p:has(> a:only-child) { text-wrap: balance; }
 </style>
+<!-- 日本語・中国語の改行を文節の切れ目にそろえる（2026-11-11）。読めなくてもページはふつうに動く -->
+<script src="./js/linebreak.js" defer></script>
 </head>
 <body>
 
@@ -304,7 +319,7 @@
     "c2p2": "代表的な形は2つ。純白の「白無垢」は清らかさを表し、挙式で着ます。赤や金など華やかな「色打掛」は、披露宴でよく着られます。",
     "capIro": "色打掛",
     "capShiro": "白無垢",
-    "c3h": "紋付袴とは？ 家の名を背負う正装",
+    "c3h": "紋付袴とは？ 家名を背負う正装",
     "c3p1": "紋付袴は、日本の男性の正装です。黒の着物と羽織に、家の紋を5つ入れます。背中に1つ、両袖に1つずつ、両胸に1つずつ。そこに縞の袴を合わせます。",
     "c3p2": "家紋は、平安時代の貴族が牛車の目印にしたのが始まりといわれます。のちに武士が、戦で敵味方を見分けるために使いました。紋を身につけることは、家の名を背負うこと。だから紋付は、もっとも改まった場の装いとされてきました。",
     "c4h": "ふたつ並んで、日本の婚礼の正装",
@@ -495,23 +510,23 @@
     "title": "L’histoire de l’uchikake et du montsuki hakama | KKR Hotel Osaka",
     "h1": "La robe de la mariée, le blason du marié",
     "sub": "L’histoire de la tenue de mariage japonaise",
-    "lead": "Pourquoi la mariée japonaise porte-t-elle une robe aussi somptueuse ? Et pourquoi l’homme à ses côtés porte-t-il le blason de sa famille ? Voici l’histoire de deux des tenues les plus solennelles du Japon.",
+    "lead": "Pourquoi la mariée japonaise porte-t-elle une robe aussi somptueuse ? Et pourquoi l’homme à ses côtés porte-t-il le blason de sa famille ? Voici l’histoire de deux des tenues les plus solennelles du Japon.",
     "glanceTitle": "En bref",
     "gName1": "Uchikake",
-    "gText1": "La robe de la mariée, portée par-dessus un kimono : broderies de fils d’or et longue traîne.",
+    "gText1": "La robe de la mariée, portée par-dessus un kimono : broderies de fils d’or et longue traîne.",
     "gName2": "Montsuki hakama",
-    "gText2": "La tenue de cérémonie des hommes japonais, celle du marié : kimono et veste haori noirs ornés de cinq blasons familiaux, avec un hakama rayé.",
+    "gText2": "La tenue de cérémonie des hommes japonais, celle du marié : kimono et veste haori noirs ornés de cinq blasons familiaux, avec un hakama rayé.",
     "c1h": "Née à l’époque des samouraïs",
-    "c1p1": "L’uchikake était à l’origine la tenue de cérémonie des femmes des familles de samouraïs. Son nom vient d’un verbe qui signifie « poser par-dessus » : on ne le noue pas, on le porte comme un manteau sur un kimono.",
+    "c1p1": "L’uchikake était à l’origine la tenue de cérémonie des femmes des familles de samouraïs. Son nom vient d’un verbe qui signifie « poser par-dessus » : on ne le noue pas, on le porte comme un manteau sur un kimono.",
     "c1p2": "À l’époque d’Edo, il s’est imposé comme tenue de mariée et reste aujourd’hui son emblème. Le monde des samouraïs qui l’a vu naître est aussi celui qui a bâti le château d’Osaka.",
     "c2h": "Un vœu dans chaque fil",
-    "c2p1": "Regardez de près : la soie est brodée de fils d’or et de couleur. La grue évoque la longévité et un mariage heureux ; le pin, le bambou et le prunier, une longue vie et l’abondance. Chaque motif est une bénédiction pour la mariée.",
-    "c2p2": "Deux styles classiques : le « shiromuku », d’un blanc pur symbole de pureté, porté pendant la cérémonie, et l’« iro-uchikake », aux rouges et aux ors éclatants, souvent porté à la réception.",
+    "c2p1": "Regardez de près : la soie est brodée de fils d’or et de couleur. La grue évoque la longévité et un mariage heureux ; le pin, le bambou et le prunier, une longue vie et l’abondance. Chaque motif est une bénédiction pour la mariée.",
+    "c2p2": "Deux styles classiques : le « shiromuku », d’un blanc pur symbole de pureté, porté pendant la cérémonie, et l’« iro-uchikake », aux rouges et aux ors éclatants, souvent porté à la réception.",
     "capIro": "Iro-uchikake",
     "capShiro": "Shiromuku",
-    "c3h": "Qu’est-ce que le montsuki hakama ? Un nom de famille que l’on porte",
-    "c3p1": "Le montsuki hakama est la tenue de cérémonie des hommes japonais. Le kimono et la veste haori noirs portent cinq blasons familiaux : un dans le dos, un sur chaque manche et un de chaque côté de la poitrine. Un hakama rayé complète la tenue.",
-    "c3p2": "On dit que les blasons sont nés chez les nobles de l’époque de Heian, qui les apposaient sur leurs chars. Plus tard, les samouraïs s’en servirent sur le champ de bataille pour distinguer amis et ennemis. Porter un blason, c’est porter le nom de sa famille : les vêtements à blasons sont depuis longtemps ceux des grandes occasions.",
+    "c3h": "Qu’est-ce que le montsuki hakama ? Un nom de famille que l’on porte",
+    "c3p1": "Le montsuki hakama est la tenue de cérémonie des hommes japonais. Le kimono et la veste haori noirs portent cinq blasons familiaux : un dans le dos, un sur chaque manche et un de chaque côté de la poitrine. Un hakama rayé complète la tenue.",
+    "c3p2": "On dit que les blasons sont nés chez les nobles de l’époque de Heian, qui les apposaient sur leurs chars. Plus tard, les samouraïs s’en servirent sur le champ de bataille pour distinguer amis et ennemis. Porter un blason, c’est porter le nom de sa famille : les vêtements à blasons sont depuis longtemps ceux des grandes occasions.",
     "c4h": "Côte à côte, la tenue d’un mariage japonais",
     "c4p1": "L’uchikake est la tenue la plus solennelle de la mariée, et le montsuki hakama celle du marié. Ensemble, ils forment la tenue de cérémonie d’un mariage japonais traditionnel.",
     "c4p2": "Même quand les vêtements occidentaux sont devenus la tenue officielle à l’époque de Meiji, le montsuki haori hakama est resté de rigueur aux mariages et cérémonies.",
@@ -530,7 +545,7 @@
     "alt5": "Le dos d’un uchikake, avec le château d’Osaka au loin",
     "phoneLabelFront": "réception du KKR Hotel",
     "contactTitle": "Contact",
-    "officialSiteLink": "Site officiel : Bride Innovation, expérience kimono à Osaka"
+    "officialSiteLink": "Site officiel : Bride Innovation, expérience kimono à Osaka"
   }
 };
 

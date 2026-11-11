@@ -768,7 +768,23 @@
   html:lang(ja) .faq-table tbody th, html:lang(zh) .faq-table tbody th, html:lang(ko) .faq-table tbody th { white-space: nowrap; }
 
   .book-link { margin-top: 12px; }
+
+  /* ===========================================================
+     改行（2026-11-11）。スマホで、語の途中や、1〜2文字・1語だけの行で折り返さない
+       ・日本語・中国語：文節の切れ目で折り返す。js/linebreak.js が折り返してよい所に <wbr> を入れ、
+         その要素に .bx を付ける。ここで、それ以外の所（語の途中）での折り返しを止める
+       ・韓国語：語（띄어쓰기の単位）の途中で折り返さない
+       ・見出し・ボタン・ラベル・中央寄せの短い文：行の長さをそろえる（最後の行に1語だけ残らない）
+       ・本文：最後の行が1〜2文字・1語だけにならないようにする（対応している端末だけ。未対応でも崩れない）
+     =========================================================== */
+  html:lang(ja) .bx, html:lang(zh) .bx { word-break: keep-all; overflow-wrap: break-word; }
+  html:lang(ko) body { word-break: keep-all; overflow-wrap: break-word; }
+  h1, h2, h3, h4, summary, button, label, legend, dt, th, figcaption, caption, .book-link, .hero p { text-wrap: balance; }
+  p, li, dd, td, blockquote, footer { text-wrap: pretty; }
+  p:has(> a:only-child) { text-wrap: balance; }
 </style>
+<!-- 日本語・中国語の改行を文節の切れ目にそろえる（2026-11-11）。読めなくてもページはふつうに動く -->
+<script src="./js/linebreak.js" defer></script>
 </head>
 <body>
 
@@ -1225,54 +1241,54 @@
 
     fr: [
       { title: 'L’uchikake', items: [
-        { q: 'Qu’est-ce qu’un uchikake ?',
+        { q: 'Qu’est-ce qu’un uchikake\u00a0?',
           a: ['L’uchikake est le somptueux kimono que la mariée japonaise porte en dernière couche le jour de son mariage. Il est orné de fils d’or et de broderies colorées, et sa longue traîne s’étale derrière elle.',
               'Imaginez-le comme la robe de mariée traditionnelle du Japon.',
               'À l’origine tenue de cérémonie des femmes des familles de samouraïs, il s’est imposé comme tenue de mariée à l’époque d’Edo.'] },
-        { q: 'Quelle différence avec un yukata ou un kimono ordinaire ?',
-          a: ['L’uchikake est un type de kimono : celui des mariées.',
+        { q: 'Quelle différence avec un yukata ou un kimono ordinaire\u00a0?',
+          a: ['L’uchikake est un type de kimono\u00a0: celui des mariées.',
               'L’uchikake se porte en dernière couche, par-dessus un kimono. C’est l’un des vêtements les plus solennels de la tenue traditionnelle japonaise.'],
           table: { head: ['', 'Yukata', 'Kimono', 'Uchikake'], rows: [
             ['Formalité', 'Décontracté', 'Cérémonie', 'Le plus solennel (la mariée)'],
             ['Occasion', 'Fêtes d’été, feux d’artifice, onsen', 'Sorties, fêtes', 'Le mariage'],
-            ['Tissu', 'Coton ; léger et décontracté', 'Soie, entre autres', 'Soie brodée de fils d’or et de couleur'],
+            ['Tissu', 'Coton\u00a0; léger et décontracté', 'Soie, entre autres', 'Soie brodée de fils d’or et de couleur'],
             ['Façon de le porter', 'Une seule couche', 'Fermé par une ceinture obi', 'Posé sur un kimono, avec une longue traîne']] } },
-        { q: 'Quelles couleurs et quels motifs sont proposés ?',
-          a: ['Nous proposons des « iro-uchikake » aux couleurs éclatantes, rouge ou or par exemple, et des uchikake d’un blanc pur, appelés « shiromuku ».',
-              'Vous pouvez voir nos tenues sur la page de réservation, avec le bouton « Voir nos uchikake ».'] },
-        { q: 'Quelle différence avec la location d’un kimono pour se promener en ville ?',
+        { q: 'Quelles couleurs et quels motifs sont proposés\u00a0?',
+          a: ['Nous proposons des «\u00a0iro-uchikake\u00a0» aux couleurs éclatantes, rouge ou or par exemple, et des uchikake d’un blanc pur, appelés «\u00a0shiromuku\u00a0».',
+              'Vous pouvez voir nos tenues sur la page de réservation, avec le bouton «\u00a0Voir nos uchikake\u00a0».'] },
+        { q: 'Quelle différence avec la location d’un kimono pour se promener en ville\u00a0?',
           a: ['Beaucoup de boutiques de location permettent de se promener en ville en kimono ou en yukata, puis de le rendre le jour même. Ici, vous portez un uchikake de mariée à l’intérieur de l’hôtel, pour une séance photo.'],
           table: { head: ['', 'Location de kimono classique', 'Cette expérience'], rows: [
             ['Ce que vous portez', 'Kimono ou yukata', 'Un uchikake de mariée'],
             ['Où', 'Promenade en ville', 'Dans l’hôtel, avec vue sur le château d’Osaka'],
             ['Durée', 'Quelques heures à une journée, puis restitution', 'Environ 30 à 45 minutes, au même endroit'],
-            ['Photos', 'En extérieur', 'À l’intérieur, par tous les temps ; le personnel peut déclencher pour vous']] },
+            ['Photos', 'En extérieur', 'À l’intérieur, par tous les temps\u00a0; le personnel peut déclencher pour vous']] },
           after: ['Il n’est pas possible de quitter l’hôtel avec la tenue. Ce n’est pas une promenade touristique, mais une séance photo dans une tenue d’exception.'] },
-        { q: 'Est-ce plus difficile à porter qu’un kimono ordinaire ?',
-          a: ['Non. Avec la formule Expérience Kimono, l’uchikake est simplement posé sur vos vêtements : rien de compliqué à enfiler, et aucune connaissance du kimono n’est nécessaire.',
+        { q: 'Est-ce plus difficile à porter qu’un kimono ordinaire\u00a0?',
+          a: ['Non. Avec la formule Expérience Kimono, l’uchikake est simplement posé sur vos vêtements\u00a0: rien de compliqué à enfiler, et aucune connaissance du kimono n’est nécessaire.',
               'Avec la formule Habillage Kimono Complet, notre personnel vous habille pas à pas d’un kimono complet. Dans les deux cas, les débutants sont les bienvenus.'] }
       ] },
       { title: 'Qui peut participer', items: [
-        { q: 'Puis-je le porter si je ne suis pas japonais(e) ou pas marié(e) ?',
-          a: ['Bien sûr. Il s’agit d’une séance photo, pas d’un mariage : tout le monde est le bienvenu, quelle que soit sa nationalité, marié(e) ou non.'] },
-        { q: 'Puis-je le porter si je suis grand(e) ou menu(e) ?',
-          a: ['L’uchikake est en taille unique : il convient aux personnes grandes comme menues.',
-              'En cas de doute, indiquez-le dans le champ « Demandes ou questions » lors de la réservation.'] },
-        { q: 'Les hommes et les enfants peuvent-ils participer ?',
+        { q: 'Puis-je le porter si je ne suis pas japonais(e) ou pas marié(e)\u00a0?',
+          a: ['Bien sûr. Il s’agit d’une séance photo, pas d’un mariage\u00a0: tout le monde est le bienvenu, quelle que soit sa nationalité, marié(e) ou non.'] },
+        { q: 'Puis-je le porter si je suis grand(e) ou menu(e)\u00a0?',
+          a: ['L’uchikake est en taille unique\u00a0: il convient aux personnes grandes comme menues.',
+              'En cas de doute, indiquez-le dans le champ «\u00a0Demandes ou questions\u00a0» lors de la réservation.'] },
+        { q: 'Les hommes et les enfants peuvent-ils participer\u00a0?',
           a: ['Oui. Les hommes portent un kimono à blasons avec hakama (Habillage Kimono Complet), et les enfants un kimono pour enfant (Expérience Kimono).',
               'Les kimonos enfants sont des tailles Shichi-Go-San, soit de 3 à 7 ans environ.',
               'Dans une même réservation, chacun peut suivre une formule différente.'] },
-        { q: 'Un couple peut-il le porter ensemble ?',
+        { q: 'Un couple peut-il le porter ensemble\u00a0?',
           a: ['Oui. Les femmes portent l’uchikake et les hommes le montsuki hakama, un kimono à blasons avec hakama, et vous pouvez vous photographier ensemble.',
               'L’uchikake est la tenue la plus solennelle de la mariée japonaise, et le montsuki hakama celle du marié. Ensemble, c’est la tenue de cérémonie d’un mariage japonais.',
               'Les hommes suivent la formule Habillage Kimono Complet. Les femmes choisissent l’une ou l’autre formule, et chacun peut avoir sa propre formule dans une même réservation.',
               'L’habillage peut se faire en même temps, chacun dans une pièce séparée.'] },
-        { q: 'Je n’ai jamais porté de kimono et je ne parle pas japonais. Est-ce un problème ?',
-          a: ['Aucun problème. C’est notre personnel qui vous habille : même pour une première fois, vous pouvez être tranquille.',
+        { q: 'Je n’ai jamais porté de kimono et je ne parle pas japonais. Est-ce un problème\u00a0?',
+          a: ['Aucun problème. C’est notre personnel qui vous habille\u00a0: même pour une première fois, vous pouvez être tranquille.',
               'Notre personnel parle uniquement japonais et utilise des applications de traduction pour vous guider.'] }
       ] },
       { title: 'Formules et tarifs', items: [
-        { q: 'Quelle différence entre les deux formules ?',
+        { q: 'Quelle différence entre les deux formules\u00a0?',
           table: { head: ['', 'Expérience Kimono', 'Habillage Kimono Complet'], rows: [
             ['Tarif (par personne, TTC)', '22 000 JPY', '49 500 JPY'],
             ['Durée', 'Environ 30 min', 'Environ 45 min'],
@@ -1280,23 +1296,23 @@
             ['Coiffure', 'Non incluse', 'Incluse (avec vos propres cheveux)'],
             ['Pour qui', 'Femmes adultes et enfants', 'Femmes et hommes adultes']] },
           after: ['À partir de 3 personnes habillées, 10 % de réduction sur le total.'] },
-        { q: 'Pouvez-vous me coiffer ou me maquiller ?',
+        { q: 'Pouvez-vous me coiffer ou me maquiller\u00a0?',
           list: ['La coiffure est incluse dans la formule Habillage Kimono Complet.',
-                 'Pour un look de mariée traditionnel, vous pouvez ajouter une perruque en option (22 000 JPY ; femmes adultes, 2 par réservation au maximum).',
+                 'Pour un look de mariée traditionnel, vous pouvez ajouter une perruque en option (22 000 JPY\u00a0; femmes adultes, 2 par réservation au maximum).',
                  'Le maquillage n’est inclus dans aucune formule. Merci d’arriver déjà maquillé(e).'] },
-        { q: 'Puis-je modifier ou annuler ma réservation ?',
+        { q: 'Puis-je modifier ou annuler ma réservation\u00a0?',
           a: ['Il suffit de répondre à votre e-mail de confirmation. Les frais d’annulation sont les suivants.'],
-          list: ['7 jours avant ou plus : gratuit', 'De 6 à 2 jours avant : 50 % du prix', 'La veille / le jour même / absence : 100 % du prix'] }
+          list: ['7 jours avant ou plus\u00a0: gratuit', 'De 6 à 2 jours avant\u00a0: 50 % du prix', 'La veille / le jour même / absence\u00a0: 100 % du prix'] }
       ] },
       { title: 'Photos et déroulement', items: [
-        { q: 'Puis-je prendre les photos avec mon téléphone ? Quelqu’un peut-il les prendre pour moi ?',
+        { q: 'Puis-je prendre les photos avec mon téléphone\u00a0? Quelqu’un peut-il les prendre pour moi\u00a0?',
           a: ['Oui, vous utilisez votre propre smartphone.',
-              'Un membre du personnel vous accompagne pendant la séance : n’hésitez pas à lui demander d’appuyer sur le déclencheur (pour les deux formules).',
-              'Des accessoires sont aussi à votre disposition : une ombrelle japonaise et un sabre factice (ce n’est pas une vraie lame).'] },
-        { q: 'Que dois-je apporter ?',
-          a: ['Rien : venez les mains libres. Aucun sous-vêtement particulier n’est nécessaire.',
+              'Un membre du personnel vous accompagne pendant la séance\u00a0: n’hésitez pas à lui demander d’appuyer sur le déclencheur (pour les deux formules).',
+              'Des accessoires sont aussi à votre disposition\u00a0: une ombrelle japonaise et un sabre factice (ce n’est pas une vraie lame).'] },
+        { q: 'Que dois-je apporter\u00a0?',
+          a: ['Rien\u00a0: venez les mains libres. Aucun sous-vêtement particulier n’est nécessaire.',
               'Montez directement au 4e étage de l’hôtel par l’ascenseur, 10 minutes avant l’heure de début. Inutile de passer par la réception.'] },
-        { q: 'Faut-il séjourner à l’hôtel ? Comment payer ?',
+        { q: 'Faut-il séjourner à l’hôtel\u00a0? Comment payer\u00a0?',
           a: ['Non, les personnes qui ne séjournent pas à l’hôtel sont aussi les bienvenues.',
               'Le paiement se fait le jour même au salon BI-BI, au 4e étage, en espèces ou par carte (VISA, Mastercard, JCB, AMEX, Diners, Discover, UnionPay).'] }
       ] }
@@ -1379,7 +1395,7 @@
       title: 'FAQ | Expérience Kimono, KKR Hotel Osaka',
       h1: 'Questions fréquentes',
       sub: 'Salon BI-BI | 4e étage, KKR Hotel Osaka',
-      intro: 'Qu’est-ce qu’un uchikake ? En quoi diffère-t-il d’un kimono ordinaire ? Comment se passe la séance ? Voici les réponses aux questions qu’on nous pose le plus souvent.',
+      intro: 'Qu’est-ce qu’un uchikake\u00a0? En quoi diffère-t-il d’un kimono ordinaire\u00a0? Comment se passe la séance\u00a0? Voici les réponses aux questions qu’on nous pose le plus souvent.',
       bookCta: 'Réserver',
       moreTitle: 'Autres questions',
       moreBody: 'Pour toute autre question, appelez-nous.',
@@ -1387,7 +1403,7 @@
       accessLink: 'Voir l’accès et le plan',
       storyLink: 'Lire l’histoire de l’uchikake et du montsuki hakama',
       contactTitle: 'Contact',
-      officialSiteLink: 'Site officiel : Bride Innovation, expérience kimono à Osaka'
+      officialSiteLink: 'Site officiel\u00a0: Bride Innovation, expérience kimono à Osaka'
     }
   };
 

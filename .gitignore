@@ -1,5 +1,6 @@
 # このリポジトリは GitHub Pages で一般公開される。
-# 公開してよいのは予約ページ（index.html）とアクセスページ（access.html）だけ。
+# 公開してよいのは、ページ（index.html・access.html・faq.html・uchikake.html）と、
+# 写真（images/）、ページが読むスクリプト（js/）だけ。
 #
 # ドキュメント類には美容室の連絡先や社内の検討経緯が含まれるため、
 # 公開せず Google ドライブ側に留める。

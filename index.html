@@ -1187,7 +1187,7 @@
   }
   .actions-head::before, .actions-head::after { content: ''; flex: 1; height: 1px; background: var(--color-border); }
   :root:lang(en) .actions-head, :root:lang(fr) .actions-head { text-transform: uppercase; }
-  .actions-label { margin: 0 0 10px; text-align: center; line-height: 1.7; }
+  .actions-label { margin: 0 0 10px; text-align: center; line-height: 1.7; font-size: 0.95rem; }
   .story-btn {
     display: block; padding: 14px 16px; border-radius: 2px;
     background: var(--color-accent); color: #fff; text-align: center; text-decoration: none;
@@ -1216,7 +1216,22 @@
     height: 1px;
     background: var(--color-brass);
   }
+
+  /* ===========================================================
+     改行（2026-11-11）。スマホで、語の途中や、1〜2文字・1語だけの行で折り返さない
+       ・日本語・中国語：文節の切れ目で折り返す。js/linebreak.js が折り返してよい所に <wbr> を入れ、
+         その要素に .bx を付ける。ここで、それ以外の所（語の途中）での折り返しを止める
+       ・韓国語：語（띄어쓰기の単位）の途中で折り返さない
+       ・見出し・ボタン・ラベル・中央寄せの短い文：行の長さをそろえる（最後の行に1語だけ残らない）
+       ・本文：最後の行が1〜2文字・1語だけにならないようにする（対応している端末だけ。未対応でも崩れない）
+     =========================================================== */
+  html:lang(ja) .bx, html:lang(zh) .bx { word-break: keep-all; overflow-wrap: break-word; }
+  h1, h2, h3, h4, summary, button, label, legend, dt, th, figcaption, caption, .story-btn, .sub-btn, .actions-label, .lead-note, .menu-option .name, .intro-lead span, .hero p, .kimono-compare dd { text-wrap: balance; }
+  p, li, dd, td, blockquote, footer { text-wrap: pretty; }
+  p:has(> a:only-child) { text-wrap: balance; }
 </style>
+<!-- 日本語・中国語の改行を文節の切れ目にそろえる（2026-11-11）。読めなくてもページはふつうに動く -->
+<script src="./js/linebreak.js" defer></script>
 </head>
 <body>
 
@@ -2446,17 +2461,17 @@
       heroTitle: 'Expérience Kimono de mariée japonaise',
       heroSubtitle: 'Salon BI-BI | KKR Hotel Osaka, 4e étage',
       pageTitle: 'Réservation expérience kimono | Salon BI-BI, KKR Hotel Osaka',
-      officialSiteLink: 'Site officiel : Bride Innovation, expérience kimono à Osaka',
-      introTitle: 'Qu\u2019est-ce qu\u2019un uchikake ?',
+      officialSiteLink: 'Site officiel\u00a0: Bride Innovation, expérience kimono à Osaka',
+      introTitle: 'Qu\u2019est-ce qu\u2019un uchikake\u00a0?',
       introLead: 'L’uchikake est la somptueuse tenue de la mariée japonaise, l’équivalent de la robe de mariée. Portez-le pour vos photos, dans un hôtel avec vue sur le château d’Osaka.',
       cmpYukata: 'Yukata',
       cmpYukataDesc: 'Un kimono de coton léger, pour les fêtes d\u2019été',
       cmpKimono: 'Kimono',
       cmpKimonoDesc: 'La tenue de cérémonie pour les sorties et les célébrations',
       cmpUchikake: 'Uchikake',
-      cmpUchikakeDesc: 'Le kimono de la mariée, porté par-dessus un autre kimono. Broderies d\u2019or et longue traîne : la tenue la plus solennelle',
-      introPoint1: 'Photos avec votre propre smartphone ; notre personnel peut déclencher pour vous',
-      introPoint2: 'À l\u2019intérieur, donc par tous les temps ; par beau temps, le jardin avec vue sur le château aussi',
+      cmpUchikakeDesc: 'Le kimono de la mariée, porté par-dessus un autre kimono. Broderies d\u2019or et longue traîne\u00a0: la tenue la plus solennelle',
+      introPoint1: 'Photos avec votre propre smartphone\u00a0; notre personnel peut déclencher pour vous',
+      introPoint2: 'À l\u2019intérieur, donc par tous les temps\u00a0; par beau temps, le jardin avec vue sur le château aussi',
       introPoint3: 'Des kimonos pour enfants sont également disponibles',
       coupleTitle: 'En couple, en famille',
       coupleBody: 'Elle porte l’uchikake, lui le montsuki hakama (kimono à blasons et hakama). En couple ou en famille, portez ensemble la tenue japonaise la plus solennelle.',
@@ -2469,8 +2484,8 @@
       featHair: 'Coiffure incluse',
       featNoHair: 'Sans coiffure',
       featNoMakeup: 'Sans maquillage',
-      featWomenOnly: 'Adultes : femmes uniquement (enfants de tout genre)',
-      featAllWelcome: 'Ouvert à toutes et à tous (hakama pour les hommes ; couples bienvenus)',
+      featWomenOnly: 'Adultes\u00a0: femmes uniquement (enfants de tout genre)',
+      featAllWelcome: 'Ouvert à toutes et à tous (hakama pour les hommes\u00a0; couples bienvenus)',
       errMaleNeedsFull: "Les hommes adultes sont accueillis sur la formule Habillage Kimono Complet. La formule Expérience Kimono s'adresse aux femmes adultes et aux enfants.",
       attrAdultMNote: 'Les hommes adultes peuvent réserver la formule Habillage Kimono Complet.',
       menuOnlyFull: 'Un homme adulte participant, seule la formule Habillage Kimono Complet est disponible.',
@@ -2488,7 +2503,7 @@
       noSlot: 'Aucun horaire disponible à cette date.',
       noSlotClosed: 'Nous sommes fermés ce jour-là. Merci de choisir une autre date.',
       noSlotHoliday: 'Nous sommes fermés pour un jour férié. Merci de choisir une autre date.',
-      noSlotTooEarly: 'Pour cette formule, nous faisons appel a une habilleuse et a un coiffeur ; la date la plus proche est le {date}.',
+      noSlotTooEarly: 'Pour cette formule, nous faisons appel a une habilleuse et a un coiffeur\u00a0; la date la plus proche est le {date}.',
       sameDayOk: 'Réservation le jour même possible',
       leadDays: "Reservez au moins {days} jours a l'avance (nous faisons appel a une habilleuse et a un coiffeur)",
       detailsTitle: '4. Vos coordonnées',
@@ -2503,13 +2518,13 @@
       galleryBtn: 'Voir nos uchikake',
       introSkip: 'Passer',
       introLead1: "Dans un hôtel avec vue sur le château d'Osaka",
-      introLead2: 'Et si vous portiez la tenue d\u2019une mariée japonaise ?',
-      galleryNote: "Le jour même, vous choisissez parmi les modèles disponibles. Photos données à titre d'exemple ; la sélection peut différer. Réservé aux femmes adultes.",
+      introLead2: 'Et si vous portiez la tenue d\u2019une mariée japonaise\u00a0?',
+      galleryNote: "Le jour même, vous choisissez parmi les modèles disponibles. Photos données à titre d'exemple\u00a0; la sélection peut différer. Réservé aux femmes adultes.",
       galleryAlt: 'Kimono, exemple {n}',
       photoClose: 'Fermer',
       photoNote: "Photos données à titre d'exemple. Le jour même, vous choisissez parmi les modèles disponibles.",
       accessLink: "Voir l'accès et le plan",
-      faqLink: "FAQ : qu'est-ce qu'un uchikake ? Tarifs et déroulement",
+      faqLink: "FAQ\u00a0: qu'est-ce qu'un uchikake\u00a0? Tarifs et déroulement",
       storyInvite: 'Commencez ici. Cette page raconte les traditions de l’uchikake et du montsuki hakama.',
       moreLabel: 'En savoir plus',
       storyLink: 'Lire l’histoire de l’uchikake et du montsuki hakama',
@@ -2544,7 +2559,7 @@
       nailNote: 'Photos d\'échantillons. Le jour même, vous choisissez le modèle parmi ceux disponibles.',
       nailAlt: 'Échantillon de faux ongles ({n})',
       waitNote: "Seules les personnes habillées peuvent entrer dans le salon. Les accompagnants patientent dans l'espace d'attente près de la réception (5 places).",
-      hotelGuestLabel: 'Séjournez-vous au KKR Hotel Osaka ?',
+      hotelGuestLabel: 'Séjournez-vous au KKR Hotel Osaka\u00a0?',
       hotelGuestNote: 'Si oui, nous aurons quelque chose à vous indiquer le jour même. Votre numéro de chambre peut attendre.',
       hotelRoomLabel: 'Numéro de chambre (si vous le connaissez)',
       hotelRoomHint: "Laissez vide si vous n'avez pas encore fait votre arrivée.",
@@ -2567,11 +2582,11 @@
       policyPaymentBody: 'Le règlement se fait au salon BI-BI le jour même. Espèces et cartes bancaires (VISA, Mastercard, JCB, AMEX, Diners, Discover, UnionPay) acceptées.',
       policyNotesTitle: 'À noter',
       noteArrive: "Merci de vous rendre directement au salon BI-BI, au 4e étage, 10 minutes avant l'heure de début (ascenseur jusqu'au 4e).",
-      notePhoto: 'Les photos se prennent avec votre propre smartphone ; notre personnel peut aussi déclencher pour vous.',
-      noteProps: "Des accessoires sont à votre disposition pour les photos : une ombrelle japonaise et un sabre factice (ce n'est pas une vraie lame).",
+      notePhoto: 'Les photos se prennent avec votre propre smartphone\u00a0; notre personnel peut aussi déclencher pour vous.',
+      noteProps: "Des accessoires sont à votre disposition pour les photos\u00a0: une ombrelle japonaise et un sabre factice (ce n'est pas une vraie lame).",
       noteStaff: 'Notre personnel parle uniquement japonais. Nous utilisons des applications de traduction.',
       noteChildHeight: "Les kimonos enfants sont des tailles Shichi-Go-San, soit de 3 à 7 ans environ. Merci de nous contacter à l'avance en cas de doute sur la taille.",
-      noteSize: 'L’uchikake est en taille unique. En cas de doute sur la taille, indiquez-le dans le champ « Demandes ou questions ».',
+      noteSize: 'L’uchikake est en taille unique. En cas de doute sur la taille, indiquez-le dans le champ «\u00a0Demandes ou questions\u00a0».',
       policyPrivacyTitle: 'Vos données personnelles',
       policyPrivacyBody: 'Les informations que vous fournissez sont conservées par Bride Innovation Co., Ltd. et servent uniquement à confirmer votre réservation, à préparer votre visite et à vous contacter (y compris un message de remerciement après votre visite, avec une invitation à laisser un avis). Elles ne sont pas transmises à des tiers sans votre accord, sauf obligation légale. Cette page compte aussi, par date et par langue uniquement, le nombre d’ouvertures et les étapes atteintes par les visiteurs, sans données personnelles ni cookies.',
       policyPrivacyContact: 'Pour consulter, corriger ou supprimer vos informations, répondez simplement à votre e-mail de confirmation.',
@@ -2586,7 +2601,7 @@
       cancelMailBtn: 'Annuler ou modifier par e-mail',
       cancelMailHint: 'Vous pouvez aussi simplement repondre a votre e-mail de confirmation.',
       cancelSubject: "Demande d'annulation / modification (reservation n° {id})",
-      cancelBody: 'Bonjour,\n\nJe souhaite annuler ou modifier la reservation suivante.\n\nNumero de reservation : {id}\nDemande : (indiquez "annulation" ou la nouvelle date et heure souhaitees)\n\nNom : \n',
+      cancelBody: 'Bonjour,\n\nJe souhaite annuler ou modifier la reservation suivante.\n\nNumero de reservation\u00a0: {id}\nDemande\u00a0: (indiquez "annulation" ou la nouvelle date et heure souhaitees)\n\nNom\u00a0: \n',
       mailFailed: "Nous n'avons pas pu envoyer l'e-mail de confirmation, mais votre réservation est bien enregistrée. Merci de nous contacter par téléphone si besoin.",
       loadError: 'Impossible de charger les disponibilités. Merci de nous contacter par téléphone.',
       footerContact: 'Contact',
@@ -2636,7 +2651,7 @@
     wig: {
       ja: '色は焦げ茶色です（1種類）', en: 'One color: dark brown',
       'zh-CN': '仅有深棕色一种', 'zh-TW': '僅有深棕色一種',
-      ko: '색상은 짙은 갈색 1종류입니다', fr: 'Une seule couleur : brun foncé',
+      ko: '색상은 짙은 갈색 1종류입니다', fr: 'Une seule couleur\u00a0: brun foncé',
     },
     nailTip: {
       ja: 'デザインは当日、見本からお選びいただけます', en: 'Choose your design from the samples on the day',
