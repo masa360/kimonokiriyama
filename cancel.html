@@ -1,0 +1,1336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 検索に出さない。リンクに合言葉が付いているので、ほかのサイトへ「どこから来たか」を送らない -->
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Cancel your booking | Kimono Experience, KKR Hotel Osaka</title>
+<style>
+
+  :root {
+    /* 配色は案A「深い蘇芳と生成り」（2026-10-16）。考え方は <style> 最後の「意匠：案A」のコメント */
+    --color-bg: #f7f3ec;           /* 生成り */
+    --color-card: #fffdf9;
+    --color-accent: #7a2e42;       /* 深い蘇芳 */
+    --color-accent-dark: #5e2132;
+    --color-brass: #b08d57;        /* くすんだ真鍮色。線と小さな飾りだけに使う（文字には使わない。生成りの上では読みにくい） */
+    --color-text: #2a2320;
+    --color-muted: #6e6259;        /* 文字として読める濃さ（生成りの上で 5:1 以上） */
+    --color-border: #e3dacb;
+    --color-error: #c0392b;
+    --color-success: #2f7d4f;
+    --radius: 2px;
+    font-family: "Hiragino Sans", "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.6;
+  }
+  header.hero {
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-dark));
+    color: #fff;
+    padding: 28px 20px 24px;
+    text-align: center;
+  }
+  header.hero h1 {
+    margin: 0 0 6px;
+    font-size: 1.5rem;
+    letter-spacing: 0.02em;
+  }
+  header.hero p {
+    margin: 0;
+    opacity: 0.9;
+    font-size: 0.9rem;
+  }
+  .lang-switch {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 16px;
+  }
+  .lang-switch button {
+    border: 1px solid rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    cursor: pointer;
+  }
+  .lang-switch button.active {
+    background: #fff;
+    color: var(--color-accent-dark);
+    font-weight: bold;
+  }
+  main {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 20px 16px 60px;
+  }
+  .card {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .card h2 {
+    margin-top: 0;
+    font-size: 1.1rem;
+    color: var(--color-accent-dark);
+  }
+  .menu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 480px) {
+    .menu-grid { grid-template-columns: 1fr; }
+  }
+  .menu-option {
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 14px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .menu-option.selected {
+    border-color: var(--color-accent);
+    background: #fdf1f3;
+  }
+  .menu-option .name {
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+  .menu-option .price {
+    color: var(--color-accent-dark);
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+  .menu-option .duration {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+  }
+  .menu-features {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0;
+    font-size: 0.8rem;
+    color: var(--color-text);
+    line-height: 1.7;
+  }
+  .menu-features li {
+    padding-left: 1.2em;
+    position: relative;
+  }
+  .menu-features li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent);
+    font-weight: bold;
+  }
+  /* 「〜なし」の項目は控えめに見せ、含まれないことが一目で分かるようにする */
+  .menu-features li.is-absent {
+    color: var(--color-muted);
+  }
+  .menu-features li.is-absent::before {
+    content: '—';
+    color: var(--color-muted);
+    font-weight: normal;
+  }
+  .menu-option .lead-note {
+    font-size: 0.75rem;
+    color: var(--color-accent-dark);
+    background: #f6ecef;
+    border-radius: 4px;
+    padding: 2px 6px;
+    margin-top: 6px;
+    display: inline-block;
+  }
+  label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin: 14px 0 6px;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="date"],
+  select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-size: 1rem;
+    background: #fff;
+    color: var(--color-text);
+  }
+  .slot-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+    max-height: 220px;
+    overflow-y: auto;
+    padding: 4px;
+  }
+  .slot-btn {
+    border: 1px solid var(--color-border);
+    background: #fff;
+    border-radius: 8px;
+    padding: 8px 4px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    text-align: center;
+  }
+  .slot-btn.selected {
+    background: var(--color-accent);
+    color: #fff;
+    border-color: var(--color-accent);
+  }
+  .slot-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    text-decoration: line-through;
+  }
+  .field-hint {
+    font-size: 0.78rem;
+    color: var(--color-muted);
+    margin: 4px 0 0;
+  }
+  .policy-card summary {
+    font-weight: bold;
+    font-size: 1.05rem;
+    color: var(--color-accent-dark);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .policy-card summary::-webkit-details-marker { display: none; }
+  .policy-card summary::before {
+    content: '▸';
+    transition: transform 0.15s;
+    display: inline-block;
+  }
+  .policy-card[open] summary::before { transform: rotate(90deg); }
+  .policy-card h3 {
+    font-size: 0.9rem;
+    margin: 18px 0 6px;
+    color: var(--color-text);
+  }
+  .policy-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+  .policy-table td {
+    padding: 6px 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .policy-table td:last-child {
+    text-align: right;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+  .policy-note,
+  .policy-list {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+  }
+  .policy-list { padding-left: 1.2em; margin: 6px 0 0; }
+  .policy-list li { margin-bottom: 4px; }
+  /* 施術を受ける方の内訳。ラベルとselectを横並びにして縦の圧迫感を減らす */
+  .attr-group {
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 0.9rem 1rem 0.6rem;
+    margin: 0.4rem 0 1rem;
+  }
+  .attr-group legend {
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0 0.4rem;
+  }
+  .attr-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+  .attr-row label {
+    margin: 0;
+    font-weight: 400;
+    font-size: 0.95rem;
+    flex: 1 1 auto;
+  }
+  .attr-row select {
+    flex: 0 0 5.5rem;
+    margin: 0;
+  }
+  /* 合計が一致しないときだけ赤くする。既定は控えめな注記 */
+  .attr-total { margin-top: 0.5rem; }
+  .attr-total.is-error { color: var(--color-error); font-weight: 600; }
+
+  /* 料金が1名分であることを価格の直後に必ず出す。
+     人数分を掛けた総額と誤解されると当日の会計でもめる */
+  .menu-option .per-person {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--color-muted);
+    white-space: nowrap;
+  }
+
+  /* 国番号と番号本体を横並びに。国番号は内容に応じて幅を取る */
+  .phone-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: stretch;
+  }
+  .phone-row select {
+    flex: 0 0 auto;
+    max-width: 45%;
+    margin: 0;
+  }
+  .phone-row input {
+    flex: 1 1 auto;
+    min-width: 0;   /* flex内でinputが縮まずはみ出すのを防ぐ */
+    margin: 0;
+  }
+
+  /* 同意チェック。タップ範囲を文言全体に広げる */
+  .agree-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    margin: 1rem 0 0.5rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-weight: 400;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+  .agree-row input {
+    flex: 0 0 auto;
+    width: 1.15rem;
+    height: 1.15rem;
+    margin: 0.1rem 0 0;
+    accent-color: var(--color-accent, #7a2f3a);
+    cursor: pointer;
+  }
+  /* 未同意で送信しようとしたときだけ強調する */
+  .agree-row.is-error {
+    border-color: var(--color-error);
+    background: rgba(192, 57, 43, 0.05);
+  }
+
+  .honeypot {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    opacity: 0;
+    height: 0;
+    width: 0;
+  }
+  .submit-btn {
+    width: 100%;
+    background: var(--color-accent);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 14px;
+    font-size: 1.05rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  .submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .msg {
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin-top: 12px;
+  }
+  .msg.error {
+    background: #fdecea;
+    color: var(--color-error);
+    border: 1px solid #f5c6cb;
+  }
+  .msg.success {
+    background: #eaf6ee;
+    color: var(--color-success);
+    border: 1px solid #c3e6cb;
+  }
+  .hidden { display: none !important; }
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    padding: 4px 0;
+  }
+  .summary-row.total {
+    font-weight: bold;
+    font-size: 1.05rem;
+    border-top: 1px solid var(--color-border);
+    margin-top: 6px;
+    padding-top: 8px;
+  }
+  .complete-box {
+    text-align: center;
+    padding: 30px 20px;
+  }
+  .complete-box .big-check {
+    font-size: 3rem;
+    color: var(--color-success);
+  }
+  footer {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    padding: 20px;
+  }
+  footer .official-link { margin: 10px 0 0; }
+  footer .official-link a { color: inherit; text-decoration: underline; }
+  .spinner {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 3px solid rgba(255,255,255,0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+
+  /* 地図。高さを固定しつつ、幅は端末に合わせる */
+  .map-wrap {
+    position: relative;
+    width: 100%;
+    height: 320px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    margin-bottom: 12px;
+  }
+  .map-wrap iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+  /* 経路ボタン。現地で押されるので、指で押しやすい大きさにする */
+  .map-btn {
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-dark));
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .addr-line { font-size: 1.05rem; font-weight: 600; margin: 0 0 4px; }
+  /* 本文中のリンク。経路ボタンほど強くせず、押せることは分かるようにする */
+  .access-link {
+    display: inline-block;
+    color: var(--color-accent-dark);
+    font-weight: 600;
+    text-decoration: underline;
+    padding: 4px 0;
+  }
+  .access-list { padding-left: 1.2em; margin: 6px 0 0; }
+  .access-list li { margin-bottom: 6px; }
+  .back-link { display: inline-block; margin-top: 8px; }
+
+  /* ===========================================================
+     意匠：案A「深い蘇芳と生成り」（2026-10-16）
+
+     【考え方】足すより引く。
+     ・余白を広く、色を絞る（墨・生成り・蘇芳・細い真鍮色の線）
+     ・濃いグラデーション、太い枠、大きな角丸、丸いボタンをやめる
+     ・見出しと価格は明朝体。本文は読みやすいゴシックのまま
+     ・動作・文言・構造は変えない（色と形と書体だけ）
+
+     【守っていること】
+     ・文字色と背景のコントラストは 4.5:1 以上（真鍮色は線だけに使う）
+     ・外部の書体は読み込まない（端末に入っている明朝体を指定。表示を重くしない）
+     ・言語ごとに書体を分ける（日本語・中国語・韓国語は別の明朝系）
+     =========================================================== */
+  :root { --font-serif: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "Noto Serif JP", "MS PMincho", serif; }
+  :root:lang(en), :root:lang(fr) { --font-serif: "Palatino Linotype", "Book Antiqua", Palatino, Georgia, "Times New Roman", serif; }
+  :root:lang(zh-CN) { --font-serif: "Songti SC", "STSong", "SimSun", "Noto Serif SC", serif; }
+  :root:lang(zh-TW) { --font-serif: "Songti TC", "PMingLiU", "MingLiU", "Noto Serif TC", serif; }
+  :root:lang(ko) { --font-serif: "AppleMyungjo", "Batang", "Noto Serif KR", serif; }
+
+  ::selection { background: rgba(176, 141, 87, 0.3); }
+  body { -webkit-font-smoothing: antialiased; }
+
+  /* ヘッダー：濃い帯をやめ、生成りの上に文字と細い線だけにする */
+  header.hero {
+    background: none;
+    color: var(--color-text);
+    padding: 40px 20px 18px;
+  }
+  .hero-emblem {
+    display: block;
+    width: 36px;
+    height: 36px;
+    margin: 0 auto 16px;
+    color: var(--color-brass);
+  }
+  header.hero h1 {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(1.45rem, 6vw, 1.9rem);
+    letter-spacing: 0.16em;
+    /* 字間を空けると、最後の文字の右にも空きが付いて中央からずれて見える */
+    padding-left: 0.16em;
+  }
+  header.hero p {
+    margin: 10px 0 0;
+    opacity: 1;
+    color: var(--color-muted);
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+  }
+  header.hero p::after {
+    content: '';
+    display: block;
+    width: 44px;
+    height: 1px;
+    margin: 20px auto 0;
+    background: var(--color-brass);
+  }
+  /* 言語の切り替え：丸いボタンをやめ、細い縦線で区切った文字にする。
+     狭い画面は3つずつ2段にする（折り返しで区切り線が行頭に残るのを避ける）。 */
+  .lang-switch {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-content: center;
+    gap: 2px 0;
+    margin-top: 12px;
+  }
+  .lang-switch button {
+    position: relative;
+    border: 0;
+    background: none;
+    color: var(--color-muted);
+    padding: 6px 12px;
+    border-radius: 0;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+  }
+  .lang-switch button + button::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 1px;
+    height: 12px;
+    background: var(--color-border);
+    transform: translateY(-50%);
+  }
+  .lang-switch button:nth-child(3n+1)::before { display: none; }
+  .lang-switch button.active {
+    background: none;
+    color: var(--color-accent);
+    font-weight: 600;
+    box-shadow: inset 0 -1px 0 var(--color-brass);
+  }
+  @media (min-width: 560px) {
+    .lang-switch { display: flex; }
+    .lang-switch button + button:nth-child(3n+1)::before { display: block; }
+  }
+
+  /* 区画：角を落とし、余白を広げる。見出しの下に短い真鍮色の線 */
+  .card {
+    border-radius: 2px;
+    padding: 26px 22px;
+    margin-bottom: 22px;
+  }
+  .card h2 {
+    position: relative;
+    margin: 0 0 18px;
+    padding-bottom: 12px;
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.15rem;
+    letter-spacing: 0.06em;
+    color: var(--color-text);
+  }
+  .card h2::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 28px;
+    height: 1px;
+    background: var(--color-brass);
+  }
+  .policy-card summary {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--color-text);
+  }
+
+  /* プラン：選んだ状態は、ピンクの塗りではなく細い二重線で示す */
+  .menu-option {
+    border: 1px solid var(--color-border);
+    border-radius: 2px;
+    padding: 18px 16px;
+    transition: border-color 0.25s, box-shadow 0.25s;
+  }
+  .menu-option:hover { border-color: #cdbfa8; }
+  .menu-option.selected {
+    border-color: var(--color-accent);
+    background: var(--color-card);
+    box-shadow: inset 0 0 0 1px var(--color-accent);
+  }
+  .menu-option .name {
+    margin-bottom: 6px;
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.05rem;
+    letter-spacing: 0.06em;
+  }
+  .menu-option .price {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.25rem;
+    line-height: 1.4;
+    letter-spacing: 0.03em;
+    color: var(--color-accent);
+  }
+  .menu-option .duration { letter-spacing: 0.06em; }
+  .menu-features li::before { font-weight: normal; }
+  .menu-option .lead-note { background: #f3ece0; border-radius: 2px; }
+
+  /* 入力欄：角を小さく、枠を細く。選んだとき（フォーカス）は蘇芳の線と淡い縁取り */
+  label {
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="date"],
+  select,
+  textarea {
+    border-radius: 2px;
+    border-color: #d8ccb9;
+    background: #fffefb;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(122, 46, 66, 0.12);
+  }
+  .attr-group, .agree-row { border-radius: 2px; border-color: #d8ccb9; }
+  .attr-row select:disabled { background: #efe9df; }
+  .hotel-box { border-radius: 2px; background: #fbf8f2; }
+  .constraint-note { background: #f6efe3; border-left-width: 2px; }
+
+  /* 時間の枠 */
+  .slot-btn {
+    border-radius: 2px;
+    background: #fffefb;
+    letter-spacing: 0.04em;
+    transition: border-color 0.2s;
+  }
+  .slot-btn:hover:not(:disabled):not(.selected) { border-color: var(--color-accent); }
+
+  /* ボタン：ほぼ直角。英語・フランス語は大文字にして字間を広げる */
+  .submit-btn {
+    border-radius: 2px;
+    /* 直後に区画が続くので、くっつかないよう下に余白 */
+    margin-bottom: 22px;
+    padding: 16px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    transition: background 0.25s;
+  }
+  .submit-btn:hover:not(:disabled) { background: var(--color-accent-dark); }
+  :root:lang(en) .submit-btn, :root:lang(fr) .submit-btn {
+    font-size: 0.95rem;
+    text-transform: uppercase;
+  }
+  .photo-btn, .gallery-btn, .switch-btn, .cancel-link {
+    border-radius: 2px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+
+  /* メッセージ・合計・完了 */
+  .msg { border-radius: 2px; }
+  .msg.error { background: #fbefec; border-color: #ecc9c2; }
+  .msg.success { background: #f1f5ee; border-color: #d5e0cc; }
+  .summary-row.total {
+    margin-top: 10px;
+    padding-top: 12px;
+    border-top-color: var(--color-brass);
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.15rem;
+  }
+  .policy-table td:last-child { font-weight: 500; }
+  .complete-box .big-check { color: var(--color-accent); font-weight: 300; }
+  .complete-box h2::after { left: 50%; transform: translateX(-50%); }
+
+  /* フッター：細い線で本文と区切り、明朝体で静かに */
+  footer {
+    max-width: 608px;
+    margin: 8px auto 0;
+    padding: 28px 16px 44px;
+    border-top: 1px solid var(--color-border);
+    font-family: var(--font-serif);
+    letter-spacing: 0.08em;
+  }
+
+  .map-wrap { border-radius: 2px; }
+  .map-btn {
+    border-radius: 2px;
+    background: var(--color-accent);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    transition: background 0.25s;
+  }
+  .map-btn:hover { background: var(--color-accent-dark); }
+  .addr-line {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+  }
+
+
+  /* ===========================================================
+     改行（2026-11-11）。スマホで、語の途中や、1〜2文字・1語だけの行で折り返さない
+       ・日本語・中国語：文節の切れ目で折り返す。js/linebreak.js が折り返してよい所に <wbr> を入れ、
+         その要素に .bx を付ける。ここで、それ以外の所（語の途中）での折り返しを止める
+       ・韓国語：語（띄어쓰기の単位）の途中で折り返さない
+       ・見出し・ボタン・ラベル・中央寄せの短い文：行の長さをそろえる（最後の行に1語だけ残らない）
+       ・本文：最後の行が1〜2文字・1語だけにならないようにする（対応している端末だけ。未対応でも崩れない）
+     =========================================================== */
+  html:lang(ja) .bx, html:lang(zh) .bx { word-break: keep-all; overflow-wrap: break-word; }
+  html:lang(ko) body { word-break: keep-all; overflow-wrap: break-word; }
+  h1, h2, h3, h4, summary, button, label, legend, dt, th, figcaption, caption, .hero p, .map-btn, .addr-line, [data-i18n="addr"] { text-wrap: balance; }
+  p, li, dd, td, blockquote, footer { text-wrap: pretty; }
+  p:has(> a:only-child) { text-wrap: balance; }
+
+  /* ---------- キャンセルのページ（2026-11-12） ---------- */
+  .cancel-dl { margin: 0 0 14px; padding: 0; }
+  .cancel-dl .row {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 14px;
+    padding: 9px 0; border-top: 1px solid var(--color-border);
+  }
+  .cancel-dl .row:last-child { border-bottom: 1px solid var(--color-border); }
+  .cancel-dl dt { margin: 0; flex: 0 0 auto; max-width: 42%; color: var(--color-muted); }
+  .cancel-dl dd { margin: 0; flex: 1 1 0; min-width: 0; text-align: right; font-weight: 500; text-wrap: balance; }
+  #outId { letter-spacing: 0.1em; }
+  .constraint-note { margin: 0 0 4px; font-size: 0.9rem; line-height: 1.7; }
+  .constraint-note #feeNote { display: block; margin-top: 6px; color: var(--color-muted); font-size: 0.85rem; }
+  .agree-row span { line-height: 1.6; }
+  .constraint-note, #feeNote { text-wrap: pretty; }   /* 最後の行に1語だけ残さない */
+  #cancelBtn { margin-bottom: 14px; }
+  .complete-box p { margin: 8px 0; }
+  #infoCard p { margin: 8px 0; }
+  .back-link { display: inline-block; margin-top: 10px; color: var(--color-accent); }
+  .back-link:hover { color: var(--color-accent-dark); }
+  #mailOut a { color: var(--color-accent); }
+</style>
+<!-- 日本語・中国語の改行を文節の切れ目にそろえる（2026-11-11）。読めなくてもページはふつうに動く -->
+<script src="./js/linebreak.js" defer></script>
+</head>
+<body>
+
+<header class="hero">
+  <!-- 扇の線画（ファビコンと同じ意匠）。文字の上に1つだけ置く -->
+  <svg class="hero-emblem" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M50 88 22 34a40 40 0 0 1 56 0Z"/><path d="M50 88 32 40M50 88 41 36M50 88 59 36M50 88 68 40"/></g><circle cx="50" cy="88" r="3.5" fill="currentColor"/></svg>
+  <h1 data-i18n="h1">Cancel your booking</h1>
+  <p data-i18n="sub">Salon BI-BI | 4F, KKR Hotel Osaka</p>
+  <div class="lang-switch" id="langSwitch"></div>
+</header>
+
+<main>
+
+  <!-- 読み込み中 -->
+  <div class="card" id="loadingCard">
+    <p data-i18n="loading">Checking your booking…</p>
+    <noscript><p>JavaScript is required. Please reply to your confirmation email to cancel.</p></noscript>
+  </div>
+
+  <!-- キャンセルできる予約：内容・キャンセル料・ボタン -->
+  <div class="card hidden" id="openCard">
+    <h2 data-i18n="detailsTitle">Your booking</h2>
+    <dl class="cancel-dl">
+      <div class="row"><dt data-i18n="labelId">Booking No.</dt><dd id="outId"></dd></div>
+      <div class="row"><dt data-i18n="labelDate">Date &amp; time</dt><dd id="outDate"></dd></div>
+      <div class="row"><dt data-i18n="labelTreat">Guests being dressed</dt><dd id="outTreat"></dd></div>
+      <div class="row"><dt data-i18n="labelPrice">Price</dt><dd id="outPrice"></dd></div>
+    </dl>
+    <div class="constraint-note hidden" id="feeBox"><span id="feeText"></span><span id="feeNote" data-i18n="feeNote">The salon will contact you about how to pay the fee.</span></div>
+    <label class="agree-row hidden" id="agreeRow"><input type="checkbox" id="agreeInput"><span data-i18n="agreeFee">I understand that a cancellation fee applies</span></label>
+    <button type="button" class="submit-btn" id="cancelBtn" data-i18n="cancelBtn">Cancel this booking</button>
+    <p class="msg error hidden" id="errBox" role="alert"></p>
+    <p class="field-hint" data-i18n="changeHint">To change the date, please cancel and make a new booking.</p>
+  </div>
+
+  <!-- キャンセルできた -->
+  <div class="card complete-box hidden" id="doneCard">
+    <div class="big-check" aria-hidden="true">&#10003;</div>
+    <h2 data-i18n="doneTitle">Your booking is cancelled</h2>
+    <p data-i18n="doneBody">We have sent you a confirmation email. We hope to welcome you another time.</p>
+    <p class="msg error hidden" id="doneMailFailed" data-i18n="doneMailFailed">Your booking is cancelled, but we could not send the confirmation email.</p>
+    <p class="field-hint hidden" id="doneFee" data-i18n="feeNote">The salon will contact you about how to pay the fee.</p>
+    <a class="back-link" id="bookLink" href="./" data-i18n="bookAgain">Go to the booking page</a>
+  </div>
+
+  <!-- そのほか（すでに済み・当日・リンクが違う・見つからない・いま手続きできない） -->
+  <div class="card hidden" id="infoCard">
+    <h2 id="infoTitle"></h2>
+    <p id="infoBody"></p>
+  </div>
+
+  <div class="card">
+    <h2 data-i18n="contactTitle">Contact</h2>
+    <p id="phoneOut"></p>
+    <p id="mailOut" class="hidden"></p>
+    <a class="back-link" id="bookLink2" href="./" data-i18n="bookAgain">Go to the booking page</a>
+  </div>
+
+</main>
+
+<footer>
+  <span data-i18n="contactTitle">Contact</span>: <span id="footerPhone"></span>
+  <p class="official-link"><a id="officialSiteLink" href="https://bride-innovation.com/inbound-kimono-experience" target="_blank" rel="noopener" data-i18n="officialSiteLink">Official site: Bride Innovation, Kimono Experience in Osaka</a></p>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  // 予約ページ（index.html）と同じ GAS。ここを変えるときは、index.html の GAS_URL も同じにする
+  var GAS_URL = 'https://script.google.com/macros/s/AKfycbzVEvnI5_In7_s1IZyMWR92FMGs1ZKqoOmsctqKaVL6g1DAGpIvXUlCMHnusHR31fLlLA/exec';
+  var SALON_PHONE = '06-6941-1122';
+
+  var I18N = {
+  "ja": {
+    "title": "ご予約のキャンセル｜和装体験 KKRホテル大阪",
+    "h1": "ご予約のキャンセル",
+    "sub": "美容室 BI-BI｜KKRホテル大阪 4階",
+    "loading": "ご予約の内容を確認しています…",
+    "detailsTitle": "ご予約の内容",
+    "labelId": "予約番号",
+    "labelDate": "日時",
+    "labelTreat": "着付けをされる人数",
+    "labelPrice": "料金",
+    "peopleFmt": "{n}名",
+    "priceFmt": "{n}円（税込）",
+    "moneyFmt": "{n}円",
+    "feeFree": "この日程でのキャンセルには、キャンセル料はかかりません。",
+    "fee50": "ご予約日の6日前〜2日前のキャンセルのため、キャンセル料（料金の50%・{amount}）がかかります。",
+    "fee100": "ご予約日の前日のキャンセルのため、キャンセル料（料金の100%・{amount}）がかかります。",
+    "feeNote": "キャンセル料のお支払いの方法は、美容室よりあらためてご連絡します。",
+    "agreeFee": "キャンセル料がかかることに同意します",
+    "cancelBtn": "このご予約をキャンセルする",
+    "cancelling": "処理しています…",
+    "confirmAsk": "このご予約をキャンセルします。よろしいですか？",
+    "doneTitle": "キャンセルを承りました",
+    "doneBody": "確認のメールをお送りしました。またのご利用を心よりお待ちしております。",
+    "doneMailFailed": "キャンセルは完了しましたが、確認のメールをお送りできませんでした。",
+    "alreadyTitle": "すでにキャンセル済みです",
+    "alreadyBody": "このご予約は、すでにキャンセルされています。",
+    "closedTitle": "このページではキャンセルできません",
+    "closedBody": "ご予約の当日（または日時を過ぎたご予約）は、このページではキャンセルできません。お手数ですが、お電話かメールでご連絡ください。",
+    "invalidTitle": "リンクが正しくありません",
+    "invalidBody": "このリンクは正しくないか、有効ではありません。確認メールに書かれたリンクを、もう一度お開きください。",
+    "notfoundTitle": "ご予約が見つかりません",
+    "notfoundBody": "このご予約は、すでにキャンセルされているか、日時が変更されている可能性があります。お手数ですが、お電話かメールでご確認ください。",
+    "unavailableTitle": "ただいま手続きできません",
+    "unavailableBody": "このページでは、いま手続きできません。お手数ですが、確認メールにそのままご返信ください。",
+    "errNetwork": "通信できませんでした。電波のよい場所で、もう一度お試しください。",
+    "errBusy": "混み合っています。少し時間をおいて、もう一度お試しください。",
+    "errGeneric": "処理できませんでした。お手数ですが、お電話かメールでご連絡ください。",
+    "errAgree": "キャンセル料がかかることへの同意が必要です。",
+    "changeHint": "日時を変更したい場合は、いったんキャンセルのうえ、あらためてご予約ください。",
+    "bookAgain": "予約ページへ",
+    "contactTitle": "お問い合わせ",
+    "phoneLabelFront": "KKRホテルフロント",
+    "contactMail": "メール",
+    "officialSiteLink": "公式サイトで詳しく見る：大阪の着物体験・和装撮影（ブライド・イノベーション）"
+  },
+  "en": {
+    "title": "Cancel your booking | Kimono Experience, KKR Hotel Osaka",
+    "h1": "Cancel your booking",
+    "sub": "Salon BI-BI | 4F, KKR Hotel Osaka",
+    "loading": "Checking your booking…",
+    "detailsTitle": "Your booking",
+    "labelId": "Booking No.",
+    "labelDate": "Date & time",
+    "labelTreat": "Guests being dressed",
+    "labelPrice": "Price",
+    "peopleFmt": "{n}",
+    "priceFmt": "JPY {n} (tax included)",
+    "moneyFmt": "JPY {n}",
+    "feeFree": "There is no cancellation fee for this date.",
+    "fee50": "Your booking is 6 to 2 days away, so a cancellation fee applies (50% of the price: {amount}).",
+    "fee100": "Your booking is tomorrow, so a cancellation fee applies (100% of the price: {amount}).",
+    "feeNote": "The salon will contact you about how to pay the fee.",
+    "agreeFee": "I understand that a cancellation fee applies",
+    "cancelBtn": "Cancel this booking",
+    "cancelling": "Cancelling…",
+    "confirmAsk": "Cancel this booking. Are you sure?",
+    "doneTitle": "Your booking is cancelled",
+    "doneBody": "We have sent you a confirmation email. We hope to welcome you another time.",
+    "doneMailFailed": "Your booking is cancelled, but we could not send the confirmation email.",
+    "alreadyTitle": "Already cancelled",
+    "alreadyBody": "This booking has already been cancelled.",
+    "closedTitle": "This booking cannot be cancelled here",
+    "closedBody": "Bookings cannot be cancelled on this page on the day itself or after the start time. Please contact us by phone or email.",
+    "invalidTitle": "This link does not work",
+    "invalidBody": "This link is not valid. Please open the link in your confirmation email again.",
+    "notfoundTitle": "Booking not found",
+    "notfoundBody": "This booking may already be cancelled, or its date may have been changed. Please contact us by phone or email.",
+    "unavailableTitle": "Not available right now",
+    "unavailableBody": "We cannot process this online at the moment. Please simply reply to your confirmation email.",
+    "errNetwork": "Could not connect. Please try again where you have a better signal.",
+    "errBusy": "The system is busy. Please try again in a moment.",
+    "errGeneric": "Something went wrong. Please contact us by phone or email.",
+    "errAgree": "Please confirm that you understand the cancellation fee.",
+    "changeHint": "To change the date, please cancel and make a new booking.",
+    "bookAgain": "Go to the booking page",
+    "contactTitle": "Contact",
+    "phoneLabelFront": "KKR Hotel front desk",
+    "contactMail": "Email",
+    "officialSiteLink": "Official site: Bride Innovation, Kimono Experience in Osaka"
+  },
+  "zh-CN": {
+    "title": "取消预约｜和服体验 KKR大阪酒店",
+    "h1": "取消预约",
+    "sub": "美容室 BI-BI｜KKR大阪酒店 4楼",
+    "loading": "正在确认预约内容…",
+    "detailsTitle": "预约内容",
+    "labelId": "预约编号",
+    "labelDate": "日期时间",
+    "labelTreat": "穿和服的人数",
+    "labelPrice": "费用",
+    "peopleFmt": "{n}人",
+    "priceFmt": "{n}日元（含税）",
+    "moneyFmt": "{n}日元",
+    "feeFree": "此日期取消，不收取取消费用。",
+    "fee50": "由于是在预约日期前6天至2天取消，需收取取消费用（费用的50%：{amount}）。",
+    "fee100": "由于是在预约日期的前一天取消，需收取取消费用（费用的100%：{amount}）。",
+    "feeNote": "取消费用的支付方式，美容室将另行与您联系。",
+    "agreeFee": "我了解需要支付取消费用",
+    "cancelBtn": "取消此预约",
+    "cancelling": "正在处理…",
+    "confirmAsk": "即将取消此预约，确定吗？",
+    "doneTitle": "已受理取消",
+    "doneBody": "确认邮件已发送。期待您日后再次光临。",
+    "doneMailFailed": "预约已取消，但确认邮件未能发送。",
+    "alreadyTitle": "已取消",
+    "alreadyBody": "此预约已被取消。",
+    "closedTitle": "无法在此页面取消",
+    "closedBody": "预约当天（或已过开始时间）无法在此页面取消。请通过电话或邮件联系我们。",
+    "invalidTitle": "链接无效",
+    "invalidBody": "此链接不正确或已失效。请重新打开确认邮件中的链接。",
+    "notfoundTitle": "找不到预约",
+    "notfoundBody": "此预约可能已被取消，或日期已变更。请通过电话或邮件向我们确认。",
+    "unavailableTitle": "暂时无法办理",
+    "unavailableBody": "目前无法在线办理。请直接回复确认邮件。",
+    "errNetwork": "无法连接。请在信号较好的地方再试一次。",
+    "errBusy": "系统繁忙，请稍后再试。",
+    "errGeneric": "处理失败。请通过电话或邮件联系我们。",
+    "errAgree": "请确认您了解需要支付取消费用。",
+    "changeHint": "如需更改日期，请先取消，再重新预约。",
+    "bookAgain": "前往预约页面",
+    "contactTitle": "咨询方式",
+    "phoneLabelFront": "KKR大阪酒店前台",
+    "contactMail": "邮箱",
+    "officialSiteLink": "官方网站：Bride Innovation 大阪和服体验介绍"
+  },
+  "zh-TW": {
+    "title": "取消預約｜和服體驗 KKR大阪飯店",
+    "h1": "取消預約",
+    "sub": "美容室 BI-BI｜KKR大阪飯店 4樓",
+    "loading": "正在確認預約內容…",
+    "detailsTitle": "預約內容",
+    "labelId": "預約編號",
+    "labelDate": "日期時間",
+    "labelTreat": "穿和服的人數",
+    "labelPrice": "費用",
+    "peopleFmt": "{n}人",
+    "priceFmt": "{n}日圓（含稅）",
+    "moneyFmt": "{n}日圓",
+    "feeFree": "此日期取消，不收取取消費用。",
+    "fee50": "由於是在預約日期前6天至2天取消，須收取取消費用（費用的50%：{amount}）。",
+    "fee100": "由於是在預約日期的前一天取消，須收取取消費用（費用的100%：{amount}）。",
+    "feeNote": "取消費用的付款方式，美容室將另行與您聯絡。",
+    "agreeFee": "我了解須支付取消費用",
+    "cancelBtn": "取消此預約",
+    "cancelling": "處理中…",
+    "confirmAsk": "即將取消此預約，確定嗎？",
+    "doneTitle": "已受理取消",
+    "doneBody": "確認郵件已寄出。期待您日後再次光臨。",
+    "doneMailFailed": "預約已取消，但確認郵件未能寄出。",
+    "alreadyTitle": "已取消",
+    "alreadyBody": "此預約已被取消。",
+    "closedTitle": "無法在此頁面取消",
+    "closedBody": "預約當天（或已過開始時間）無法在此頁面取消。請透過電話或郵件與我們聯絡。",
+    "invalidTitle": "連結無效",
+    "invalidBody": "此連結不正確或已失效。請重新開啟確認郵件中的連結。",
+    "notfoundTitle": "找不到預約",
+    "notfoundBody": "此預約可能已被取消，或日期已變更。請透過電話或郵件向我們確認。",
+    "unavailableTitle": "暫時無法辦理",
+    "unavailableBody": "目前無法線上辦理。請直接回覆確認郵件。",
+    "errNetwork": "無法連線。請在訊號較好的地方再試一次。",
+    "errBusy": "系統忙碌中，請稍後再試。",
+    "errGeneric": "處理失敗。請透過電話或郵件與我們聯絡。",
+    "errAgree": "請確認您了解須支付取消費用。",
+    "changeHint": "如需更改日期，請先取消，再重新預約。",
+    "bookAgain": "前往預約頁面",
+    "contactTitle": "聯絡方式",
+    "phoneLabelFront": "KKR大阪飯店櫃檯",
+    "contactMail": "電子郵件",
+    "officialSiteLink": "官方網站：Bride Innovation 大阪和服體驗介紹"
+  },
+  "ko": {
+    "title": "예약 취소｜기모노 체험 KKR 호텔 오사카",
+    "h1": "예약 취소",
+    "sub": "살롱 BI-BI | KKR 호텔 오사카 4층",
+    "loading": "예약 내용을 확인하고 있습니다…",
+    "detailsTitle": "예약 내용",
+    "labelId": "예약 번호",
+    "labelDate": "일시",
+    "labelTreat": "기모노를 입는 인원",
+    "labelPrice": "요금",
+    "peopleFmt": "{n}명",
+    "priceFmt": "{n}엔 (세금 포함)",
+    "moneyFmt": "{n}엔",
+    "feeFree": "이 일정의 취소에는 취소 수수료가 없습니다.",
+    "fee50": "예약일 6일 전~2일 전 취소이므로 취소 수수료(요금의 50%: {amount})가 부과됩니다.",
+    "fee100": "예약일 전날 취소이므로 취소 수수료(요금의 100%: {amount})가 부과됩니다.",
+    "feeNote": "취소 수수료의 결제 방법은 살롱에서 따로 연락드리겠습니다.",
+    "agreeFee": "취소 수수료가 부과되는 것에 동의합니다",
+    "cancelBtn": "이 예약 취소하기",
+    "cancelling": "처리 중…",
+    "confirmAsk": "이 예약을 취소합니다. 계속하시겠습니까?",
+    "doneTitle": "취소가 접수되었습니다",
+    "doneBody": "확인 메일을 보내드렸습니다. 다음에 또 뵙기를 기대하겠습니다.",
+    "doneMailFailed": "예약은 취소되었지만 확인 메일을 보내지 못했습니다.",
+    "alreadyTitle": "이미 취소되었습니다",
+    "alreadyBody": "이 예약은 이미 취소되었습니다.",
+    "closedTitle": "이 페이지에서는 취소할 수 없습니다",
+    "closedBody": "예약 당일(또는 시작 시간이 지난 예약)에는 이 페이지에서 취소할 수 없습니다. 전화나 이메일로 연락해 주세요.",
+    "invalidTitle": "링크가 올바르지 않습니다",
+    "invalidBody": "이 링크가 올바르지 않거나 유효하지 않습니다. 확인 메일에 있는 링크를 다시 열어 주세요.",
+    "notfoundTitle": "예약을 찾을 수 없습니다",
+    "notfoundBody": "이 예약은 이미 취소되었거나 일시가 변경되었을 수 있습니다. 전화나 이메일로 문의해 주세요.",
+    "unavailableTitle": "지금은 처리할 수 없습니다",
+    "unavailableBody": "현재 온라인으로 처리할 수 없습니다. 확인 메일에 그대로 답장해 주세요.",
+    "errNetwork": "연결할 수 없습니다. 신호가 좋은 곳에서 다시 시도해 주세요.",
+    "errBusy": "시스템이 혼잡합니다. 잠시 후 다시 시도해 주세요.",
+    "errGeneric": "처리하지 못했습니다. 전화나 이메일로 연락해 주세요.",
+    "errAgree": "취소 수수료가 부과되는 것에 동의해 주세요.",
+    "changeHint": "일시를 바꾸시려면 먼저 취소한 뒤 다시 예약해 주세요.",
+    "bookAgain": "예약 페이지로",
+    "contactTitle": "문의",
+    "phoneLabelFront": "KKR 호텔 프런트",
+    "contactMail": "이메일",
+    "officialSiteLink": "공식 사이트: Bride Innovation 오사카 기모노 체험 안내"
+  },
+  "fr": {
+    "title": "Annuler votre réservation | Expérience Kimono, KKR Hotel Osaka",
+    "h1": "Annuler votre réservation",
+    "sub": "Salon BI-BI | 4e étage, KKR Hotel Osaka",
+    "loading": "Vérification de votre réservation…",
+    "detailsTitle": "Votre réservation",
+    "labelId": "N° de réservation",
+    "labelDate": "Date et heure",
+    "labelTreat": "Personnes habillées",
+    "labelPrice": "Tarif",
+    "peopleFmt": "{n}",
+    "priceFmt": "{n} JPY (taxes comprises)",
+    "moneyFmt": "{n} JPY",
+    "feeFree": "Aucun frais d'annulation ne s'applique pour cette date.",
+    "fee50": "Votre réservation a lieu dans 2 à 6 jours\u00a0: des frais d'annulation s'appliquent (50\u00a0% du prix\u00a0: {amount}).",
+    "fee100": "Votre réservation a lieu demain\u00a0: des frais d'annulation s'appliquent (100\u00a0% du prix\u00a0: {amount}).",
+    "feeNote": "Le salon vous contactera pour convenir du paiement des frais.",
+    "agreeFee": "Je comprends que des frais d'annulation s'appliquent",
+    "cancelBtn": "Annuler cette réservation",
+    "cancelling": "Annulation en cours…",
+    "confirmAsk": "Cette réservation va être annulée. Confirmer\u00a0?",
+    "doneTitle": "Votre réservation est annulée",
+    "doneBody": "Un e-mail de confirmation vous a été envoyé. Au plaisir de vous accueillir une prochaine fois.",
+    "doneMailFailed": "Votre réservation est annulée, mais nous n'avons pas pu envoyer l'e-mail de confirmation.",
+    "alreadyTitle": "Déjà annulée",
+    "alreadyBody": "Cette réservation a déjà été annulée.",
+    "closedTitle": "Annulation impossible sur cette page",
+    "closedBody": "Le jour même (ou une fois l'heure de début passée), l'annulation n'est plus possible sur cette page. Merci de nous contacter par téléphone ou par e-mail.",
+    "invalidTitle": "Lien invalide",
+    "invalidBody": "Ce lien n'est pas valide. Merci de rouvrir le lien figurant dans votre e-mail de confirmation.",
+    "notfoundTitle": "Réservation introuvable",
+    "notfoundBody": "Cette réservation a peut-être déjà été annulée, ou sa date a été modifiée. Merci de nous contacter par téléphone ou par e-mail.",
+    "unavailableTitle": "Indisponible pour le moment",
+    "unavailableBody": "Nous ne pouvons pas traiter cette demande en ligne pour le moment. Il suffit de répondre à votre e-mail de confirmation.",
+    "errNetwork": "Connexion impossible. Merci de réessayer avec un meilleur signal.",
+    "errBusy": "Le système est occupé. Merci de réessayer dans un instant.",
+    "errGeneric": "Une erreur est survenue. Merci de nous contacter par téléphone ou par e-mail.",
+    "errAgree": "Merci de confirmer que vous comprenez les frais d'annulation.",
+    "changeHint": "Pour changer la date, annulez puis faites une nouvelle réservation.",
+    "bookAgain": "Aller à la page de réservation",
+    "contactTitle": "Contact",
+    "phoneLabelFront": "Réception du KKR Hotel",
+    "contactMail": "E-mail",
+    "officialSiteLink": "Site officiel\u00a0: Bride Innovation, expérience kimono à Osaka"
+  }
+};
+
+  var LANG_LABELS = { ja: '日本語', en: 'English', 'zh-CN': '简体', 'zh-TW': '繁體', ko: '한국어', fr: 'Français' };
+  var SUPPORTED_LANGS = ['ja', 'en', 'zh-CN', 'zh-TW', 'ko', 'fr'];
+  // 曜日と月の名前（日時は、メールと同じ書き方にする）
+  var WEEKDAYS = {
+    ja: ['日', '月', '火', '水', '木', '金', '土'],
+    en: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    fr: ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi']
+  };
+  var MONTHS = {
+    en: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    fr: ['janvier', 'f\u00e9vrier', 'mars', 'avril', 'mai', 'juin', 'juillet', 'ao\u00fbt', 'septembre', 'octobre', 'novembre', 'd\u00e9cembre']
+  };
+
+  // メールのリンクの ?id=…&t=…&lang=…
+  function readParam(name, re) {
+    var m = new RegExp('[?&]' + name + '=([^&#]*)').exec(location.search);
+    if (!m) return '';
+    var v = '';
+    try { v = decodeURIComponent(m[1]); } catch (e) { return ''; }
+    return re.test(v) ? v : '';
+  }
+  var params = {
+    id: readParam('id', /^[0-9A-Fa-f]{8}$/).toUpperCase(),
+    t: readParam('t', /^[0-9a-f]{24}$/)
+  };
+
+  var state = {
+    lang: detectInitialLang(),
+    view: 'loading',     // loading | open | done | info
+    info: '',            // info のとき：already | closed | invalid | notfound | unavailable | neterr
+    data: null,          // GET の答えの cancel
+    contact: null,
+    err: '',             // 画面に出すエラーの文言のキー
+    done: null,          // 実行したあとの答え
+    busy: false
+  };
+
+  function detectInitialLang() {
+    var m = /[?&]lang=([\w-]+)/.exec(location.search);
+    if (m && SUPPORTED_LANGS.indexOf(m[1]) !== -1) return m[1];
+    var nav = (navigator.language || 'en');
+    if (SUPPORTED_LANGS.indexOf(nav) !== -1) return nav;
+    var base = nav.split('-')[0];
+    for (var i = 0; i < SUPPORTED_LANGS.length; i++) {
+      if (SUPPORTED_LANGS[i].split('-')[0] === base) return SUPPORTED_LANGS[i];
+    }
+    return 'en';
+  }
+
+  function t(key) {
+    var d = I18N[state.lang] || I18N.en;
+    return d[key] || I18N.en[key] || key;
+  }
+  function $(id) { return document.getElementById(id); }
+  function show(id, on) { $(id).classList.toggle('hidden', !on); }
+
+  function num(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+  function money(n) { return t('moneyFmt').replace('{n}', num(n)); }
+
+  // "2026-11-21T10:00:00+09:00" → 言語ごとの書き方（見ている人の端末の時刻設定に左右されない。日本時間のまま）
+  function fmtDate(iso) {
+    var m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(iso || '');
+    if (!m) return '';
+    var y = Number(m[1]), mo = Number(m[2]), d = Number(m[3]), time = m[4] + ':' + m[5];
+    var wd = new Date(Date.UTC(y, mo - 1, d)).getUTCDay();
+    var lang = state.lang;
+    if (lang === 'ja') return y + '\u5e74' + m[2] + '\u6708' + m[3] + '\u65e5(' + WEEKDAYS.ja[wd] + ') ' + time;
+    if (lang === 'zh-CN' || lang === 'zh-TW') return y + '\u5e74' + m[2] + '\u6708' + m[3] + '\u65e5 ' + time;
+    if (lang === 'ko') return y + '\ub144 ' + m[2] + '\uc6d4 ' + m[3] + '\uc77c ' + time;
+    if (lang === 'fr') return WEEKDAYS.fr[wd] + ' ' + d + ' ' + MONTHS.fr[mo - 1] + ' ' + y + ', ' + time;
+    return WEEKDAYS.en[wd] + ', ' + MONTHS.en[mo - 1] + ' ' + d + ', ' + y + ', ' + time;
+  }
+
+  // ---------- 画面 ----------
+  function render() {
+    document.documentElement.lang = state.lang;
+    document.title = t('title');
+    var nodes = document.querySelectorAll('[data-i18n]');
+    for (var i = 0; i < nodes.length; i++) nodes[i].textContent = t(nodes[i].getAttribute('data-i18n'));
+
+    show('loadingCard', state.view === 'loading');
+    show('openCard', state.view === 'open');
+    show('doneCard', state.view === 'done');
+    show('infoCard', state.view === 'info');
+
+    // 予約の内容
+    if (state.view === 'open' && state.data) {
+      var c = state.data;
+      $('outId').textContent = c.id;
+      $('outDate').textContent = fmtDate(c.start);
+      $('outTreat').textContent = t('peopleFmt').replace('{n}', c.treat);
+      $('outPrice').textContent = t('priceFmt').replace('{n}', num(c.total));
+      // キャンセル料：null＝案内しない（ホテルにご宿泊の方）／0＝無料／50・100＝かかる
+      var p = c.feePercent;
+      var hasFee = p === 50 || p === 100;
+      show('feeBox', p === 0 || hasFee);
+      $('feeText').textContent = p === 0 ? t('feeFree')
+        : t(p === 100 ? 'fee100' : 'fee50').replace('{amount}', money(Math.round(c.total * p / 100)));
+      show('feeNote', hasFee);
+      show('agreeRow', hasFee);
+      var b = $('cancelBtn');
+      b.disabled = state.busy;
+      b.textContent = state.busy ? t('cancelling') : t('cancelBtn');
+      var eb = $('errBox');
+      eb.textContent = state.err ? t(state.err) : '';
+      show('errBox', !!state.err);
+    }
+
+    if (state.view === 'done') {
+      show('doneMailFailed', !!(state.done && state.done.mailSent === false));
+      show('doneFee', !!(state.done && (state.done.feePercent === 50 || state.done.feePercent === 100)));
+    }
+
+    if (state.view === 'info') {
+      $('infoTitle').textContent = t(state.info === 'neterr' ? 'unavailableTitle' : state.info + 'Title');
+      $('infoBody').textContent = t(state.info === 'neterr' ? 'errNetwork' : state.info + 'Body');
+    }
+
+    // 連絡先（ホテルのフロントにつながる番号なので、その旨を添える）
+    var phone = SALON_PHONE + '\uff08' + t('phoneLabelFront') + '\uff09';
+    $('phoneOut').textContent = phone;
+    $('footerPhone').textContent = phone;
+    var addr = state.contact && state.contact.email;
+    var mo = $('mailOut');
+    mo.textContent = '';
+    if (addr && /^[^\s@<>"]+@[^\s@<>"]+$/.test(addr)) {
+      var a = document.createElement('a');
+      a.href = 'mailto:' + addr;
+      a.textContent = addr;
+      mo.appendChild(document.createTextNode(t('contactMail') + ': '));
+      mo.appendChild(a);
+      show('mailOut', true);
+    } else {
+      show('mailOut', false);
+    }
+    var book = './?lang=' + encodeURIComponent(state.lang);
+    $('bookLink').href = book;
+    $('bookLink2').href = book;
+  }
+
+  function go(view, info) {
+    state.view = view;
+    state.info = info || '';
+    state.err = '';
+    render();
+  }
+
+  function renderLangSwitch() {
+    var box = $('langSwitch');
+    box.innerHTML = '';
+    SUPPORTED_LANGS.forEach(function (lang) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = LANG_LABELS[lang];
+      if (lang === state.lang) btn.classList.add('active');
+      btn.addEventListener('click', function () {
+        state.lang = lang;
+        renderLangSwitch();
+        render();
+      });
+      box.appendChild(btn);
+    });
+  }
+
+  // ---------- GAS との通信 ----------
+  // 見るだけ（GET）。何も変えない
+  function load() {
+    if (!params.id || !params.t) { go('info', 'invalid'); return; }
+    fetch(GAS_URL + '?a=cancel&id=' + encodeURIComponent(params.id) + '&t=' + encodeURIComponent(params.t))
+      .then(function (res) { return res.json(); })
+      .then(function (json) {
+        if (json && json.status === 'error' && json.code === 'INVALID') { go('info', 'invalid'); return; }
+        // 答えに cancel が無い＝GAS がまだこの機能に対応していない（古い版）
+        if (!json || json.status !== 'ok' || !json.cancel) { go('info', json && json.status === 'ok' ? 'unavailable' : 'neterr'); return; }
+        var c = json.cancel;
+        state.contact = c.contact || null;
+        if (c.state === 'open') { state.data = c; go('open'); return; }
+        go('info', c.state === 'cancelled' ? 'already' : (c.state === 'closed' ? 'closed' : (c.state === 'notfound' ? 'notfound' : 'unavailable')));
+      })
+      .catch(function () { go('info', 'neterr'); });
+  }
+
+  // 実行（POST）。ボタンを押したときだけ
+  function submit() {
+    if (state.busy || state.view !== 'open') return;
+    var need = state.data.feePercent === 50 || state.data.feePercent === 100;
+    var agreed = $('agreeInput').checked;
+    if (need && !agreed) { state.err = 'errAgree'; render(); return; }
+    if (!window.confirm(t('confirmAsk'))) return;
+    state.busy = true;
+    state.err = '';
+    render();
+    fetch(GAS_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ a: 'cancel', id: params.id, t: params.t, agree: agreed, lang: state.lang })
+    })
+      .then(function (res) { return res.json(); })
+      .then(function (json) {
+        state.busy = false;
+        if (json && json.status === 'ok') {
+          if (json.already) { go('info', 'already'); return; }
+          state.done = { feePercent: json.feePercent, mailSent: json.mailSent };
+          go('done');
+          return;
+        }
+        var code = json && json.code;
+        if (code === 'INVALID') { go('info', 'invalid'); return; }
+        if (code === 'TOO_LATE') { go('info', 'closed'); return; }
+        if (code === 'NOT_FOUND') { go('info', 'notfound'); return; }
+        state.err = code === 'NEED_AGREE' ? 'errAgree' : (code === 'BUSY' ? 'errBusy' : 'errGeneric');
+        render();
+      })
+      .catch(function () {
+        state.busy = false;
+        state.err = 'errNetwork';
+        render();
+      });
+  }
+
+  $('cancelBtn').addEventListener('click', submit);
+  $('agreeInput').addEventListener('change', function () { if (state.err === 'errAgree') { state.err = ''; render(); } });
+
+  renderLangSwitch();
+  render();
+  load();
+})();
+</script>
+</body>
+</html>
