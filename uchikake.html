@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Story of the Uchikake and Montsuki Hakama | KKR Hotel Osaka</title>
-<meta name="description" content="What is an uchikake, a Japanese bride’s robe, and what is a montsuki hakama? The story of Japan’s most formal wedding attire, from the samurai era to today. Wear them at Salon BI-BI, KKR Hotel Osaka, with Osaka Castle in view.">
+<meta name="description" content="What is an uchikake, a Japanese bride’s robe, and what is a montsuki hakama? Their story, from Sengoku warlords and Edo shoguns to today’s weddings. Wear them at Salon BI-BI, KKR Hotel Osaka, with Osaka Castle in view.">
 <meta property="og:title" content="The Story of the Uchikake and Montsuki Hakama | KKR Hotel Osaka">
-<meta property="og:description" content="The story of the uchikake, the Japanese bride’s robe, and the montsuki hakama, the groom’s crested formal wear.">
+<meta property="og:description" content="The uchikake and the montsuki hakama, Japan’s wedding formal wear, born in the age of the samurai: warlords, shoguns and Osaka Castle.">
 <meta property="og:type" content="article">
 <meta name="theme-color" content="#1c1714">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%237a2e42'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='4.5' stroke-linecap='round'%3E%3Cpath d='M50 88 22 34a40 40 0 0 1 56 0Z'/%3E%3Cpath d='M50 88 32 40M50 88 41 36M50 88 59 36M50 88 68 40'/%3E%3C/g%3E%3Ccircle cx='50' cy='88' r='4' fill='%23fff'/%3E%3C/svg%3E">
@@ -19,6 +19,7 @@
     --gold: #b08d57;
     --gold-light: #d6bb82;
     --gold-deep: #8c6d3a;       /* 生成りの上で読める濃さの金色（文字用） */
+    --gold-ink: #7d5f2d;        /* 太字・下線で目立たせる時代の文字（生成りの上で 5:1 ほど） */
     --line: #e3dacb;
     --text: #2a2320;
     --muted: #6e6259;
@@ -30,6 +31,8 @@
   :root:lang(ko) { --font-serif: "AppleMyungjo", "Batang", "Noto Serif KR", serif; }
 
   * { box-sizing: border-box; }
+  /* 目次から章へ移るとき、ゆっくり動く（動きを減らす設定の端末では、すぐ移る） */
+  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
   body {
     margin: 0;
     background: var(--ivory);
@@ -115,6 +118,77 @@
   .story-chapter h2 { margin: 0 0 24px; text-align: center; font-weight: 500; font-size: 1.35rem; line-height: 1.7; letter-spacing: 0.1em; }
   .story-chapter p { margin: 0 0 18px; font-size: 1rem; line-height: 2.05; }
 
+  /* ---------- 強調（2026-11-13）：外国のお客様に響く所と、時代の裏付けを、読み流しても目に入るように ----------
+       **太字**＝大事な言葉・人名／__時代__＝金色の太字と下線（いつの話か）／==蛍光ペン風==＝戦国の武将・将軍（いちばん響く所） */
+  .story-lead strong, .glance strong, .story-chapter strong { font-weight: 700; color: var(--suou); }
+  .story-lead .era, .glance .era, .story-chapter .era {
+    font-weight: 700; color: var(--gold-ink); white-space: normal;
+    text-decoration: underline; text-decoration-color: var(--gold); text-decoration-thickness: 2px;
+    text-underline-offset: 0.3em; text-decoration-skip-ink: none;
+  }
+  mark.hl {
+    color: var(--suou-deep); font-weight: 700; padding: 0 0.12em;
+    background: linear-gradient(transparent 50%, rgba(214, 187, 130, 0.66) 50%);
+    -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  }
+
+  /* ---------- 目次（導入の下）と、各章の終わりの「次の章へ」 ---------- */
+  .story-chapter, .story-cta { scroll-margin-top: 0; }
+  .toc-list { list-style: none; margin: 0 auto; padding: 0; max-width: 30em; }
+  .toc-list li + li { border-top: 1px solid var(--line); }
+  .toc-list a {
+    display: grid; grid-template-columns: 2.7em minmax(0, 1fr); align-items: baseline;
+    padding: 13px 4px; color: var(--text); text-decoration: none;
+  }
+  .toc-list a:hover, .toc-list a:focus-visible { color: var(--suou); outline: none; }
+  .toc-no { color: var(--gold-ink); font-size: 0.85rem; letter-spacing: 0.12em; }
+  .toc-t { font-size: 1rem; line-height: 1.7; letter-spacing: 0.06em; }
+  .next-link {
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    margin: 36px auto 0; padding: 10px 12px 6px; text-align: center; text-decoration: none; color: var(--gold-ink);
+  }
+  .next-label { font-size: 0.74rem; letter-spacing: 0.3em; }
+  :root:lang(en) .next-label, :root:lang(fr) .next-label { text-transform: uppercase; }
+  .next-t { font-size: 0.95rem; line-height: 1.7; letter-spacing: 0.08em; color: var(--text); }
+  .next-link::after {
+    content: ''; width: 9px; height: 9px; margin-top: 6px;
+    border-right: 1px solid var(--gold); border-bottom: 1px solid var(--gold); transform: rotate(45deg);
+  }
+  .next-link:hover .next-t, .next-link:focus-visible .next-t { color: var(--suou); }
+  .next-link:focus-visible { outline: 1px solid var(--gold); outline-offset: 2px; }
+
+  /* ---------- 目次バー（最初の画面を過ぎたら、上に出る） ---------- */
+  .toc-bar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 20;
+    padding-top: env(safe-area-inset-top);
+    background: rgba(28, 23, 20, 0.95); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    border-bottom: 1px solid rgba(214, 187, 130, 0.28);
+    transform: translateY(-101%); visibility: hidden;
+    transition: transform 0.3s ease, visibility 0s linear 0.3s;
+  }
+  .toc-bar.show { transform: none; visibility: visible; transition: transform 0.3s ease; }
+  .toc-bar-in { max-width: 600px; margin: 0 auto; padding: 6px 12px; display: flex; align-items: center; gap: 10px; }
+  .toc-bar nav { display: flex; flex: none; gap: 2px; }
+  .toc-bar nav a {
+    display: inline-flex; align-items: center; justify-content: center; min-width: 36px; height: 36px; padding: 0 4px;
+    border-radius: 18px; color: rgba(255, 255, 255, 0.66); text-decoration: none; font-size: 0.78rem; letter-spacing: 0.06em; line-height: 1;
+  }
+  .toc-bar nav a.on { background: var(--gold-light); color: var(--ink); }
+  .toc-bar nav a:focus-visible { outline: 1px solid var(--gold-light); outline-offset: 1px; }
+  .toc-bar-t { flex: 1; min-width: 0; font-size: 0.78rem; letter-spacing: 0.06em; color: var(--gold-light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .toc-progress { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--gold-light); transform-origin: 0 50%; transform: scaleX(0); }
+  @media (prefers-reduced-motion: reduce) { .toc-bar, .toc-bar.show { transition: none; } }
+
+  /* ---------- 年表（5章） ---------- */
+  .timeline { list-style: none; margin: 26px 0 30px; padding: 0 0 0 4px; }
+  .timeline li {
+    position: relative; display: grid; grid-template-columns: 4.7em minmax(0, 1fr); column-gap: 10px;
+    padding: 0 0 16px 18px; border-left: 1px solid var(--gold); font-size: 0.95rem; line-height: 1.75;
+  }
+  .timeline li::before { content: ''; position: absolute; left: -4px; top: 0.78em; width: 7px; height: 7px; background: var(--gold); transform: rotate(45deg); }
+  .timeline li:last-child { padding-bottom: 0; border-left-color: transparent; }
+  .tl-y { font-weight: 700; color: var(--gold-ink); letter-spacing: 0.04em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
   /* 画面いっぱいの写真。内側に金色の細い枠を1本 */
   .bleed { max-width: 820px; margin: 34px auto 6px; }
   .bleed figure { position: relative; margin: 0; }
@@ -139,6 +213,13 @@
   .is-climax h2 { color: #fff; }
   .is-climax p { text-align: center; font-size: 1.06rem; }
   .is-climax p:last-child { margin-bottom: 0; }
+  .is-climax strong { color: var(--gold-light); }
+  .is-climax .era { color: var(--gold-light); text-decoration-color: rgba(214, 187, 130, 0.7); }
+  .is-climax mark.hl { color: #fff; background: linear-gradient(transparent 50%, rgba(214, 187, 130, 0.4) 50%); }
+  .is-climax .next-link { color: var(--gold-light); }
+  .is-climax .next-t { color: #f3ebe0; }
+  .is-climax .next-link::after { border-color: var(--gold-light); }
+  .is-climax .next-link:hover .next-t, .is-climax .next-link:focus-visible .next-t { color: #fff; }
 
   /* ---------- 結び ---------- */
   .story-cta { margin-top: 56px; padding: 66px 0 58px; text-align: center; background: var(--ink); color: #efe7da; }
@@ -174,7 +255,7 @@
        ・本文：最後の行が1〜2文字・1語だけにならないようにする（対応している端末だけ。未対応でも崩れない）
      =========================================================== */
   html:lang(ja) .bx, html:lang(zh) .bx { word-break: keep-all; overflow-wrap: break-word; }
-  h1, h2, h3, h4, summary, button, label, legend, dt, th, figcaption, caption, .hero-sub, .kicker, .story-lead, .glance dd, .is-climax p, .story-cta p, .book-link { text-wrap: balance; }
+  h1, h2, h3, h4, summary, button, label, legend, dt, th, figcaption, caption, .hero-sub, .kicker, .story-lead, .glance dd, .is-climax p, .story-cta p, .book-link, .toc-t, .next-t, .tl-t { text-wrap: balance; }
   p, li, dd, td, blockquote, footer { text-wrap: pretty; }
   p:has(> a:only-child) { text-wrap: balance; }
 </style>
@@ -192,17 +273,28 @@
     <!-- 扇の線画（ファビコンと同じ意匠） -->
     <svg class="hero-emblem" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M50 88 22 34a40 40 0 0 1 56 0Z"/><path d="M50 88 32 40M50 88 41 36M50 88 59 36M50 88 68 40"/></g><circle cx="50" cy="88" r="3.5" fill="currentColor"/></svg>
     <h1 data-i18n="h1">A Bride’s Robe, a Groom’s Crest</h1>
-    <p class="hero-sub" data-i18n="sub">The story of Japan’s most formal wedding attire</p>
+    <p class="hero-sub" data-i18n="sub">Japan’s wedding formal wear, from the age of the samurai</p>
     <span class="hero-rule" aria-hidden="true"></span>
   </div>
 </header>
+
+<!-- 目次バー：最初の画面を過ぎたら上に出る。章の番号を押すと、その章へ。JSが使えないときは出ない（本文の目次と「次の章へ」で移れる） -->
+<div class="toc-bar" id="tocBar">
+  <div class="toc-bar-in">
+    <nav id="tocBarNav" aria-label="Contents">
+      <a href="#ch1" data-n="1">I</a><a href="#ch2" data-n="2">II</a><a href="#ch3" data-n="3">III</a><a href="#ch4" data-n="4">IV</a><a href="#ch5" data-n="5">V</a>
+    </nav>
+    <span class="toc-bar-t" id="tocBarTitle"></span>
+  </div>
+  <span class="toc-progress" id="tocProgress"></span>
+</div>
 
 <main>
 
   <section class="story-open">
     <div class="wrap reveal">
       <div class="orn" aria-hidden="true"><i></i></div>
-      <p class="story-lead" data-i18n="lead">Why does a Japanese bride wear such a lavish robe? And why does the man beside her wear his family’s crest? Here are the stories behind two of Japan’s most formal garments.</p>
+      <p class="story-lead" data-i18n="lead">From Sengoku warlords to the shoguns of Edo: two garments born in the <strong>age of the samurai</strong> still grace Japanese weddings today.</p>
     </div>
   </section>
 
@@ -210,61 +302,94 @@
     <div class="wrap reveal">
       <h2 class="kicker" data-i18n="glanceTitle">In a nutshell</h2>
       <dl class="glance">
-        <div><dt data-i18n="gName1">Uchikake</dt><dd data-i18n="gText1">A bride’s robe worn over a kimono, with gold-thread embroidery and a long, flowing hem.</dd></div>
-        <div><dt data-i18n="gName2">Montsuki hakama</dt><dd data-i18n="gText2">Formal wear for Japanese men, worn by grooms at weddings: a black kimono and haori jacket with five family crests, and striped hakama trousers.</dd></div>
+        <div><dt data-i18n="gName1">Uchikake</dt><dd data-i18n="gText1">A bride’s robe worn over a kimono, with gold-thread embroidery. Originally the <strong>formal wear of samurai women</strong>.</dd></div>
+        <div><dt data-i18n="gName2">Montsuki hakama</dt><dd data-i18n="gText2">A groom’s wedding attire and Japan’s <strong>most formal menswear</strong>, in black with five family crests.</dd></div>
       </dl>
     </div>
   </section>
 
-  <section class="story-chapter">
+  <!-- 目次：押すと、その章へ移る（スマホで読みやすいように） -->
+  <section class="toc-section">
     <div class="wrap reveal">
-      <p class="chapter-no">I</p>
-      <h2 data-i18n="c1h">Born in the age of the samurai</h2>
-      <p data-i18n="c1p1">The uchikake began as formal wear for women of samurai families. Its name comes from a verb meaning “to drape over”: it is not tied with a sash, but worn like a coat over a kimono.</p>
-      <p data-i18n="c1p2">By the Edo period it had become established as bridal wear, and it is still the emblem of the Japanese bride today. The samurai world that nurtured it is the same world that built Osaka Castle.</p>
+      <h2 class="kicker" id="tocTitle" data-i18n="tocTitle">Contents</h2>
+      <nav aria-labelledby="tocTitle">
+        <ol class="toc-list">
+          <li><a href="#ch1"><span class="toc-no">I</span><span class="toc-t" data-i18n="c1h">Born in the age of the samurai</span></a></li>
+          <li><a href="#ch2"><span class="toc-no">II</span><span class="toc-t" data-i18n="c2h">A wish in every thread</span></a></li>
+          <li><a href="#ch3"><span class="toc-no">III</span><span class="toc-t" data-i18n="c3h">What is a montsuki hakama? Wearing the samurai’s crest</span></a></li>
+          <li><a href="#ch4"><span class="toc-no">IV</span><span class="toc-t" data-i18n="c4h">Side by side: the formal wear of a Japanese wedding</span></a></li>
+          <li><a href="#ch5"><span class="toc-no">V</span><span class="toc-t" data-i18n="c5h">Wear it with the castle in view</span></a></li>
+        </ol>
+      </nav>
     </div>
   </section>
 
-  <section class="story-chapter">
+  <section class="story-chapter" id="ch1">
+    <div class="wrap reveal">
+      <p class="chapter-no">I</p>
+      <h2 data-i18n="c1h">Born in the age of the samurai</h2>
+      <p data-i18n="c1p1">The uchikake began as <strong>formal wear for women of samurai families</strong>. Its name means “draped over”: it is not tied with a sash, but worn like a coat over a kimono.</p>
+      <p data-i18n="c1p2">In the <span class="era">Azuchi-Momoyama period</span>, when <strong>Toyotomi Hideyoshi</strong> ruled Japan, high-ranking samurai women began to wear it. In the <span class="era">Edo period</span> it became the <strong>formal dress</strong> of samurai wives, then spread to wealthy townspeople and was established as bridal wear.</p>
+      <a class="next-link" href="#ch2"><span class="next-label" data-i18n="tocNext">Next chapter</span><span class="next-t" data-i18n="c2h">A wish in every thread</span></a>
+    </div>
+  </section>
+
+  <section class="story-chapter" id="ch2">
     <div class="wrap reveal">
       <p class="chapter-no">II</p>
       <h2 data-i18n="c2h">A wish in every thread</h2>
-      <p data-i18n="c2p1">Look closely and you will see silk embroidered with gold and colored thread. Cranes mean long life and a happy marriage; pine, bamboo and plum wish for long life and abundance. Every motif is a blessing for the bride.</p>
-      <p data-i18n="c2p2">There are two classic styles. The pure white shiromuku, a color of purity, is worn at the ceremony itself. The colorful iro-uchikake, in reds and golds, is often worn at the reception.</p>
+      <p data-i18n="c2p1">Silk is embroidered with gold and colored thread. The <strong>crane</strong> means long life and a happy marriage; <strong>pine, bamboo and plum</strong> wish for long life and abundance. Every motif is a blessing for the bride.</p>
+      <p data-i18n="c2p2">There are two classic styles: the pure white <strong>shiromuku</strong>, a symbol of purity, worn at the ceremony, and the colorful <strong>iro-uchikake</strong> in reds and golds, often worn at the reception.</p>
     </div>
     <div class="bleed two reveal">
       <figure><img src="images/kimono-7.jpg" width="1200" height="1099" loading="lazy" data-alt="alt2" alt="An uchikake embroidered with cranes and gold thread"><figcaption data-i18n="capIro">Iro-uchikake</figcaption></figure>
       <figure><img src="images/kimono-6.jpg" width="1115" height="1200" loading="lazy" data-alt="alt3" alt="A pure white shiromuku uchikake"><figcaption data-i18n="capShiro">Shiromuku</figcaption></figure>
     </div>
+    <div class="wrap">
+      <a class="next-link" href="#ch3"><span class="next-label" data-i18n="tocNext">Next chapter</span><span class="next-t" data-i18n="c3h">What is a montsuki hakama? Wearing the samurai’s crest</span></a>
+    </div>
   </section>
 
-  <section class="story-chapter">
+  <section class="story-chapter" id="ch3">
     <div class="wrap reveal">
       <p class="chapter-no">III</p>
-      <h2 data-i18n="c3h">What is a montsuki hakama? A family name, worn</h2>
-      <p data-i18n="c3p1">The montsuki hakama is the formal wear of Japanese men. A black kimono and haori jacket carry five family crests: one on the back, one on each sleeve and one on each side of the chest. Striped hakama trousers complete the look.</p>
-      <p data-i18n="c3p2">Crests are said to have begun with Heian-period nobles, who marked their carriages with them. Later, samurai used crests to tell friend from foe on the battlefield. To wear a crest is to carry your family’s name, and crested clothing has long been the dress for the most formal occasions.</p>
+      <h2 data-i18n="c3h">What is a montsuki hakama? Wearing the samurai’s crest</h2>
+      <p data-i18n="c3p1">The montsuki hakama is the <strong>most formal dress for Japanese men</strong>. A black kimono and haori jacket carry <strong>five family crests</strong>: one on the back, one on each sleeve and one on each side of the chest. Striped hakama trousers complete the look.</p>
+      <p data-i18n="c3p2">Crests are said to have begun with Heian-period nobles, who marked their carriages with them. Later, <mark class="hl">Sengoku warlords</mark> flew them on banners to tell friend from foe. <strong>Toyotomi Hideyoshi</strong> bore the <strong>paulownia</strong>; <mark class="hl">Tokugawa Ieyasu</mark>, founder of the Edo shogunate, bore the <strong>triple hollyhock</strong>. To wear a crest is to carry your family’s name.</p>
     </div>
     <div class="bleed one reveal">
       <figure><img src="images/kimono-15.jpg" width="900" height="1200" loading="lazy" data-alt="alt4" alt="A man in montsuki hakama, with Osaka Castle behind him"></figure>
     </div>
-  </section>
-
-  <section class="story-chapter is-climax">
-    <div class="wrap reveal">
-      <p class="chapter-no">IV</p>
-      <h2 data-i18n="c4h">Side by side: the formal wear of a Japanese wedding</h2>
-      <p data-i18n="c4p1">The uchikake is the most formal attire for a bride, and the montsuki hakama is the most formal for a groom. Side by side, they make up the formal dress of a traditional Japanese wedding.</p>
-      <p data-i18n="c4p2">Even after Western clothes became official formal wear in the Meiji era, the montsuki haori hakama kept its place at weddings and ceremonies.</p>
+    <div class="wrap">
+      <a class="next-link" href="#ch4"><span class="next-label" data-i18n="tocNext">Next chapter</span><span class="next-t" data-i18n="c4h">Side by side: the formal wear of a Japanese wedding</span></a>
     </div>
   </section>
 
-  <section class="story-chapter">
+  <section class="story-chapter is-climax" id="ch4">
+    <div class="wrap reveal">
+      <p class="chapter-no">IV</p>
+      <h2 data-i18n="c4h">Side by side: the formal wear of a Japanese wedding</h2>
+      <p data-i18n="c4p1">The bride in <strong>uchikake</strong>, the groom in <strong>montsuki hakama</strong>: the most formal attire for each, both born in the age of the samurai.</p>
+      <p data-i18n="c4p2">The montsuki spread to townsmen in the <span class="era">Edo period</span>, and even after Western clothes became official formal wear in the <span class="era">Meiji era</span>, it kept its place at weddings and ceremonies. It has endured for <strong>centuries</strong>.</p>
+      <a class="next-link" href="#ch5"><span class="next-label" data-i18n="tocNext">Next chapter</span><span class="next-t" data-i18n="c5h">Wear it with the castle in view</span></a>
+    </div>
+  </section>
+
+  <section class="story-chapter" id="ch5">
     <div class="wrap reveal">
       <p class="chapter-no">V</p>
       <h2 data-i18n="c5h">Wear it with the castle in view</h2>
-      <p data-i18n="c5p1">KKR Hotel Osaka stands just south of Osaka Castle Park. Here you can wear the uchikake or the montsuki hakama, alone or as a couple, and take your photos with the castle in view.</p>
-      <p data-i18n="c5p2">You do not need to be getting married. Come and wear Japan’s wedding attire as a memory of your trip.</p>
+      <p data-i18n="c5p1">Osaka Castle was built by <strong>Toyotomi Hideyoshi</strong>. The <strong>Tokugawa shogunate</strong> later rebuilt it, and most of the stone walls you see today date from that era.</p>
+      <!-- 年表：大阪城と、武士の世の流れ（1583〜1868） -->
+      <ol class="timeline">
+        <li><b class="tl-y" data-i18n="tlY1">1583</b><span class="tl-t" data-i18n="tlT1">Toyotomi Hideyoshi begins building Osaka Castle</span></li>
+        <li><b class="tl-y" data-i18n="tlY2">1600</b><span class="tl-t" data-i18n="tlT2">Battle of Sekigahara: Tokugawa Ieyasu wins</span></li>
+        <li><b class="tl-y" data-i18n="tlY3">1603</b><span class="tl-t" data-i18n="tlT3">Tokugawa Ieyasu becomes shogun and founds the Edo shogunate</span></li>
+        <li><b class="tl-y" data-i18n="tlY4">1615</b><span class="tl-t" data-i18n="tlT4">Summer Siege of Osaka: the castle falls and the Toyotomi clan perishes</span></li>
+        <li><b class="tl-y" data-i18n="tlY5">1620–29</b><span class="tl-t" data-i18n="tlT5">The Tokugawa shogunate rebuilds the castle</span></li>
+        <li><b class="tl-y" data-i18n="tlY6">1868</b><span class="tl-t" data-i18n="tlT6">The Edo period, some 260 years long, ends; the Meiji era begins</span></li>
+      </ol>
+      <p data-i18n="c5p2">KKR Hotel Osaka stands just south of Osaka Castle Park. Here you can wear the uchikake or the montsuki hakama, alone or as a couple, with the castle in view. You need not be getting married: come and wear the formal dress of the samurai age as a memory of your trip.</p>
     </div>
     <div class="bleed one reveal">
       <figure><img src="images/kimono-14.jpg" width="983" height="1200" loading="lazy" data-alt="alt5" alt="The back of an uchikake, with Osaka Castle in the distance"></figure>
@@ -296,7 +421,8 @@
 
   /*
    * 文言は言語ごとの I18N。最初のHTMLは英語の全文で、言語を切り替えると data-i18n の文字を差し替える。
-   * 文字は textContent で入れる（HTMLとして解釈させない）。
+   * 文字は、HTMLとして解釈させない（setRich が、文字ノードと <strong>・<span class="era">・<mark class="hl"> だけを作る）。
+   * 強調のしるし：**太字**／__時代（金色の太字と下線）__／==蛍光ペン風==（入れ子にしない）。
    * 読み物の長さには上限がある（story_test.js が見る）。読み時間は、ページには書かない。
    * 長くするときは、章を足すより先に、今ある文を削る。
    */
@@ -304,30 +430,44 @@
   "ja": {
     "title": "打掛と紋付袴の物語｜和装体験 KKRホテル大阪",
     "h1": "花嫁の打掛、新郎の紋付袴",
-    "sub": "日本の婚礼の正装の物語",
-    "lead": "日本の花嫁は、なぜあの豪華な着物を羽織るのでしょう。そして、その隣に立つ男性は、なぜ家の紋を身につけるのでしょう。日本でもっとも格式の高い2つの正装の物語を、ご案内します。",
+    "sub": "武士の世から続く、日本の婚礼の正装",
+    "lead": "戦国の武将から、江戸の将軍へ。**武士の世**に育った2つの正装が、いまも日本の婚礼を飾っています。",
     "glanceTitle": "まずは、ひとことで",
     "gName1": "打掛（うちかけ）",
-    "gText1": "花嫁が着物の上に羽織る、豪華な衣装。金糸の刺繍と、長く広がる裾が特徴です。",
+    "gText1": "花嫁が着物の上に羽織る、金糸の刺繍の礼装。もとは**武家の女性の正装**でした。",
     "gName2": "紋付袴（もんつきはかま）",
-    "gText2": "日本の男性の正装で、新郎の婚礼衣装。家紋を5つ入れた黒の着物と羽織に、縞の袴を合わせます。",
+    "gText2": "新郎の婚礼衣装で、日本の男性の**第一礼装**。黒の着物と羽織に、家紋を5つ入れます。",
+    "tocTitle": "目次",
+    "tocNext": "次の章へ",
     "c1h": "武士の世に生まれた衣装",
-    "c1p1": "打掛は、もとは武家の女性の礼装でした。名前は「打ち掛ける」から。帯を締めず、着物の上にふわりと掛けて羽織ります。",
-    "c1p2": "江戸時代に婚礼の衣装として定着し、いまも日本の花嫁衣装の代表です。この衣装を育てた武士の世は、大阪城を築いた世でもあります。",
+    "c1p1": "打掛は、もとは**武家の女性の礼装**でした。名前は「打ち掛ける」から。帯を締めず、着物の上にふわりと羽織ります。",
+    "c1p2": "**豊臣秀吉**が天下を治めた__安土桃山時代__には、身分の高い武家の女性が着るようになり、__江戸時代__には、武家の夫人たちの**正装**に。やがて裕福な町人にも広まり、花嫁衣装の定番になりました。",
     "c2h": "糸の一本一本に、願いを込めて",
-    "c2p1": "よく見ると、絹の生地に金糸や色糸で刺繍が施されています。鶴は長寿と夫婦円満、松竹梅は不老長寿の願い。どの模様も、花嫁の幸せを祈る縁起ものです。",
-    "c2p2": "代表的な形は2つ。純白の「白無垢」は清らかさを表し、挙式で着ます。赤や金など華やかな「色打掛」は、披露宴でよく着られます。",
+    "c2p1": "絹の生地に、金糸と色糸の刺繍。**鶴**は長寿と夫婦円満、**松竹梅**は不老長寿の願い。どの模様も、花嫁の幸せを祈る縁起ものです。",
+    "c2p2": "形は2つ。純白の**白無垢**は清らかさを表し、挙式で着ます。赤や金の華やかな**色打掛**は、披露宴でよく着られます。",
     "capIro": "色打掛",
     "capShiro": "白無垢",
-    "c3h": "紋付袴とは？ 家名を背負う正装",
-    "c3p1": "紋付袴は、日本の男性の正装です。黒の着物と羽織に、家の紋を5つ入れます。背中に1つ、両袖に1つずつ、両胸に1つずつ。そこに縞の袴を合わせます。",
-    "c3p2": "家紋は、平安時代の貴族が牛車の目印にしたのが始まりといわれます。のちに武士が、戦で敵味方を見分けるために使いました。紋を身につけることは、家の名を背負うこと。だから紋付は、もっとも改まった場の装いとされてきました。",
+    "c3h": "紋付袴とは？ 武士の紋を背負う正装",
+    "c3p1": "紋付袴は、日本の男性の**第一礼装**。黒の着物と羽織に、**家紋を5つ**入れます。背中に1つ、両袖に1つずつ、両胸に1つずつ。そこに縞の袴を合わせます。",
+    "c3p2": "家紋は、平安時代の貴族が牛車の目印にしたのが始まりといわれます。やがて==戦国の武将==たちは、これを旗や陣幕に掲げて、戦場で敵味方を見分けました。**豊臣秀吉**の紋は**桐**、江戸幕府を開いた==将軍・徳川家康==の紋は**三つ葉葵**。紋を身につけることは、家の名を背負うことでした。",
     "c4h": "ふたつ並んで、日本の婚礼の正装",
-    "c4p1": "打掛は花嫁の、紋付袴は新郎の、もっとも格式の高い正装です。ふたつが並んだ姿が、日本の伝統的な婚礼の正装です。",
-    "c4p2": "明治時代に洋服が公式の礼服になってからも、紋付羽織袴は、婚礼や式典の正装として着られ続けました。",
+    "c4p1": "花嫁は**打掛**、新郎は**紋付袴**。どちらも、武士の世に育った、もっとも格式の高い正装です。",
+    "c4p2": "紋付は__江戸時代__に町人の男性にも広まり、__明治時代__に洋服が公式の礼服になってからも、婚礼や式典の正装であり続けました。**数百年**の時を超えて、いまも受け継がれる装いです。",
     "c5h": "大阪城を望む場所で",
-    "c5p1": "KKRホテル大阪は、大阪城公園のすぐ南にあります。ここでは、打掛も紋付袴も、おひとりでも、ご夫婦・カップルでも、大阪城を望みながら着て、撮影できます。",
-    "c5p2": "結婚式でなくて大丈夫です。日本の婚礼の正装を、旅の思い出に。",
+    "c5p1": "大阪城は、天下人・**豊臣秀吉**が築いた城。のちに**徳川幕府**が再建し、いま見える石垣の多くは、その徳川の時代のものです。",
+    "c5p2": "KKRホテル大阪は、その大阪城公園のすぐ南。打掛も紋付袴も、おひとりでも、ご夫婦・カップルでも、お城を望みながら着て、撮影できます。結婚式でなくて大丈夫です。武士の世の正装を、旅の思い出に。",
+    "tlY1": "1583",
+    "tlT1": "豊臣秀吉が、大阪城を築きはじめる",
+    "tlY2": "1600",
+    "tlT2": "関ヶ原の戦い。徳川家康が勝つ",
+    "tlY3": "1603",
+    "tlT3": "徳川家康が将軍となり、江戸幕府を開く",
+    "tlY4": "1615",
+    "tlT4": "大坂夏の陣。大阪城が落城し、豊臣家が滅びる",
+    "tlY5": "1620–29",
+    "tlT5": "徳川幕府が、大阪城を再建する",
+    "tlY6": "1868",
+    "tlT6": "約260年続いた江戸の世が終わり、明治時代へ",
     "ctaTitle": "着てみませんか？",
     "ctaBody": "ホテル4階の美容室で、お時間をご予約いただけます。",
     "bookCta": "ご予約はこちら",
@@ -345,30 +485,44 @@
   "en": {
     "title": "The Story of the Uchikake and Montsuki Hakama | KKR Hotel Osaka",
     "h1": "A Bride’s Robe, a Groom’s Crest",
-    "sub": "The story of Japan’s most formal wedding attire",
-    "lead": "Why does a Japanese bride wear such a lavish robe? And why does the man beside her wear his family’s crest? Here are the stories behind two of Japan’s most formal garments.",
+    "sub": "Japan’s wedding formal wear, from the age of the samurai",
+    "lead": "From Sengoku warlords to the shoguns of Edo: two garments born in the **age of the samurai** still grace Japanese weddings today.",
     "glanceTitle": "In a nutshell",
     "gName1": "Uchikake",
-    "gText1": "A bride’s robe worn over a kimono, with gold-thread embroidery and a long, flowing hem.",
+    "gText1": "A bride’s robe worn over a kimono, with gold-thread embroidery. Originally the **formal wear of samurai women**.",
     "gName2": "Montsuki hakama",
-    "gText2": "Formal wear for Japanese men, worn by grooms at weddings: a black kimono and haori jacket with five family crests, and striped hakama trousers.",
+    "gText2": "A groom’s wedding attire and Japan’s **most formal menswear**, in black with five family crests.",
+    "tocTitle": "Contents",
+    "tocNext": "Next chapter",
     "c1h": "Born in the age of the samurai",
-    "c1p1": "The uchikake began as formal wear for women of samurai families. Its name comes from a verb meaning “to drape over”: it is not tied with a sash, but worn like a coat over a kimono.",
-    "c1p2": "By the Edo period it had become established as bridal wear, and it is still the emblem of the Japanese bride today. The samurai world that nurtured it is the same world that built Osaka Castle.",
+    "c1p1": "The uchikake began as **formal wear for women of samurai families**. Its name means “draped over”: it is not tied with a sash, but worn like a coat over a kimono.",
+    "c1p2": "In the __Azuchi-Momoyama period__, when **Toyotomi Hideyoshi** ruled Japan, high-ranking samurai women began to wear it. In the __Edo period__ it became the **formal dress** of samurai wives, then spread to wealthy townspeople and was established as bridal wear.",
     "c2h": "A wish in every thread",
-    "c2p1": "Look closely and you will see silk embroidered with gold and colored thread. Cranes mean long life and a happy marriage; pine, bamboo and plum wish for long life and abundance. Every motif is a blessing for the bride.",
-    "c2p2": "There are two classic styles. The pure white shiromuku, a color of purity, is worn at the ceremony itself. The colorful iro-uchikake, in reds and golds, is often worn at the reception.",
+    "c2p1": "Silk is embroidered with gold and colored thread. The **crane** means long life and a happy marriage; **pine, bamboo and plum** wish for long life and abundance. Every motif is a blessing for the bride.",
+    "c2p2": "There are two classic styles: the pure white **shiromuku**, a symbol of purity, worn at the ceremony, and the colorful **iro-uchikake** in reds and golds, often worn at the reception.",
     "capIro": "Iro-uchikake",
     "capShiro": "Shiromuku",
-    "c3h": "What is a montsuki hakama? A family name, worn",
-    "c3p1": "The montsuki hakama is the formal wear of Japanese men. A black kimono and haori jacket carry five family crests: one on the back, one on each sleeve and one on each side of the chest. Striped hakama trousers complete the look.",
-    "c3p2": "Crests are said to have begun with Heian-period nobles, who marked their carriages with them. Later, samurai used crests to tell friend from foe on the battlefield. To wear a crest is to carry your family’s name, and crested clothing has long been the dress for the most formal occasions.",
+    "c3h": "What is a montsuki hakama? Wearing the samurai’s crest",
+    "c3p1": "The montsuki hakama is the **most formal dress for Japanese men**. A black kimono and haori jacket carry **five family crests**: one on the back, one on each sleeve and one on each side of the chest. Striped hakama trousers complete the look.",
+    "c3p2": "Crests are said to have begun with Heian-period nobles, who marked their carriages with them. Later, ==Sengoku warlords== flew them on banners to tell friend from foe. **Toyotomi Hideyoshi** bore the **paulownia**; ==Tokugawa Ieyasu==, founder of the Edo shogunate, bore the **triple hollyhock**. To wear a crest is to carry your family’s name.",
     "c4h": "Side by side: the formal wear of a Japanese wedding",
-    "c4p1": "The uchikake is the most formal attire for a bride, and the montsuki hakama is the most formal for a groom. Side by side, they make up the formal dress of a traditional Japanese wedding.",
-    "c4p2": "Even after Western clothes became official formal wear in the Meiji era, the montsuki haori hakama kept its place at weddings and ceremonies.",
+    "c4p1": "The bride in **uchikake**, the groom in **montsuki hakama**: the most formal attire for each, both born in the age of the samurai.",
+    "c4p2": "The montsuki spread to townsmen in the __Edo period__, and even after Western clothes became official formal wear in the __Meiji era__, it kept its place at weddings and ceremonies. It has endured for **centuries**.",
     "c5h": "Wear it with the castle in view",
-    "c5p1": "KKR Hotel Osaka stands just south of Osaka Castle Park. Here you can wear the uchikake or the montsuki hakama, alone or as a couple, and take your photos with the castle in view.",
-    "c5p2": "You do not need to be getting married. Come and wear Japan’s wedding attire as a memory of your trip.",
+    "c5p1": "Osaka Castle was built by **Toyotomi Hideyoshi**. The **Tokugawa shogunate** later rebuilt it, and most of the stone walls you see today date from that era.",
+    "c5p2": "KKR Hotel Osaka stands just south of Osaka Castle Park. Here you can wear the uchikake or the montsuki hakama, alone or as a couple, with the castle in view. You need not be getting married: come and wear the formal dress of the samurai age as a memory of your trip.",
+    "tlY1": "1583",
+    "tlT1": "Toyotomi Hideyoshi begins building Osaka Castle",
+    "tlY2": "1600",
+    "tlT2": "Battle of Sekigahara: Tokugawa Ieyasu wins",
+    "tlY3": "1603",
+    "tlT3": "Tokugawa Ieyasu becomes shogun and founds the Edo shogunate",
+    "tlY4": "1615",
+    "tlT4": "Summer Siege of Osaka: the castle falls and the Toyotomi clan perishes",
+    "tlY5": "1620–29",
+    "tlT5": "The Tokugawa shogunate rebuilds the castle",
+    "tlY6": "1868",
+    "tlT6": "The Edo period, some 260 years long, ends; the Meiji era begins",
     "ctaTitle": "Try it yourself",
     "ctaBody": "Book a time at the salon on the 4th floor of the hotel.",
     "bookCta": "Book your experience",
@@ -386,30 +540,44 @@
   "zh-CN": {
     "title": "打褂与纹付袴的故事｜和服体验 KKR大阪酒店",
     "h1": "新娘的打褂，新郎的纹付袴",
-    "sub": "日本婚礼正装的故事",
-    "lead": "日本新娘为什么要披上那件华丽的和服？站在她身边的男士，为什么要把家纹穿在身上？下面带您了解日本规格最高的这两件正装背后的故事。",
+    "sub": "从武士时代传承至今的日本婚礼正装",
+    "lead": "从战国的武将，到江户的将军。诞生于**武士时代**的两件正装，至今仍点缀着日本的婚礼。",
     "glanceTitle": "先用一句话了解",
     "gName1": "打褂",
-    "gText1": "新娘披在和服外面的华丽礼服，饰有金线刺绣，下摆长而铺展。",
+    "gText1": "新娘披在和服外面的礼服，饰有金线刺绣。最初是**武家女性的正装**。",
     "gName2": "纹付袴",
-    "gText2": "日本男士的正装，也是新郎的婚礼服装：带有五个家纹的黑色和服与羽织，搭配条纹袴。",
+    "gText2": "新郎的婚礼服装，也是日本男士**规格最高的礼服**，黑色，带有五个家纹。",
+    "tocTitle": "目录",
+    "tocNext": "下一章",
     "c1h": "诞生于武士的时代",
-    "c1p1": "打褂最初是武家女性的礼服。它的名字来自“披挂在外”的意思：不系腰带，像外套一样披在和服外面。",
-    "c1p2": "到了江户时代，它成为新娘礼服并流传下来，至今仍是日本新娘的象征。孕育它的武士世界，也正是建造大阪城的那个世界。",
+    "c1p1": "打褂最初是**武家女性的礼服**。它的名字来自“披挂在外”的意思：不系腰带，像外套一样披在和服外面。",
+    "c1p2": "在**丰臣秀吉**执掌天下的__安土桃山时代__，身份高贵的武家女性开始穿着打褂；到了__江户时代__，它成为武家夫人的**正装**，后来传到富裕的市民之家，并作为新娘礼服固定下来。",
     "c2h": "每一针一线，都是祝福",
-    "c2p1": "仔细看，丝绸上用金线和彩线绣着图案。仙鹤象征长寿与夫妻和美，松竹梅寄托着长寿与丰饶的愿望。每一种图案，都是对新娘的祝福。",
-    "c2p2": "经典款式有两种。纯白的“白无垢”象征纯洁，在仪式上穿着。红色、金色等华丽的“色打褂”，常在婚宴上穿着。",
+    "c2p1": "丝绸上用金线和彩线绣着图案。**仙鹤**象征长寿与夫妻和美，**松竹梅**寄托着长寿与丰饶的愿望。每一种图案，都是对新娘的祝福。",
+    "c2p2": "经典款式有两种：纯白的“**白无垢**”象征纯洁，在仪式上穿着；红色、金色等华丽的“**色打褂**”，常在婚宴上穿着。",
     "capIro": "色打褂",
     "capShiro": "白无垢",
-    "c3h": "什么是纹付袴？把家名穿在身上",
-    "c3p1": "纹付袴是日本男士的正装。黑色的和服和羽织上有五个家纹：背后一个，两袖各一个，胸前左右各一个，再搭配条纹袴。",
-    "c3p2": "据说家纹起源于平安时代的贵族，他们用纹样标记自己的牛车。后来武士在战场上用家纹分辨敌我。穿上家纹，就是把家名带在身上，因此带家纹的服装长期用于最郑重的场合。",
+    "c3h": "什么是纹付袴？背负武士的家纹",
+    "c3p1": "纹付袴是日本男士**规格最高的礼服**。黑色的和服和羽织上有**五个家纹**：背后一个，两袖各一个，胸前左右各一个，再搭配条纹袴。",
+    "c3p2": "据说家纹起源于平安时代的贵族，他们用纹样标记自己的牛车。后来，==战国的武将==把家纹绘在旗帜和阵幕上，在战场上分辨敌我。**丰臣秀吉**的家纹是**桐**，开创江户幕府的==德川家康==的家纹是**三叶葵**。穿上家纹，就是背负起整个家族的名字。",
     "c4h": "并肩而立，就是日本婚礼的正装",
-    "c4p1": "打褂是新娘规格最高的正装，纹付袴是新郎规格最高的正装。两者并肩而立，就是传统日本婚礼的正装。",
-    "c4p2": "即使在明治时代西服成为官方礼服之后，纹付羽织袴依然作为婚礼和仪式的正装被穿着。",
+    "c4p1": "新娘穿**打褂**，新郎穿**纹付袴**：各自规格最高的正装，都诞生于武士的时代。",
+    "c4p2": "纹付在__江户时代__传到了市民男性之间；即使在__明治时代__西服成为官方礼服之后，它依然作为婚礼和仪式的正装被穿着。**数百年**来，一直传承至今。",
     "c5h": "在可眺望大阪城的地方穿上它",
-    "c5p1": "KKR大阪酒店紧邻大阪城公园南侧。在这里，您可以独自或与伴侣一起穿上打褂或纹付袴，在能看到大阪城的地方拍照。",
-    "c5p2": "无需结婚也可以。请穿上日本婚礼的正装，为旅行留下一份回忆。",
+    "c5p1": "大阪城由**丰臣秀吉**修建。后来，**德川幕府**重建了它，如今能看到的石墙，大多出自德川时代。",
+    "c5p2": "KKR大阪酒店紧邻大阪城公园南侧。在这里，您可以独自或与伴侣一起穿上打褂或纹付袴，在能看到大阪城的地方拍照。无需结婚也可以：请穿上武士时代的正装，为旅行留下一份回忆。",
+    "tlY1": "1583",
+    "tlT1": "丰臣秀吉开始修建大阪城",
+    "tlY2": "1600",
+    "tlT2": "关原之战，德川家康获胜",
+    "tlY3": "1603",
+    "tlT3": "德川家康成为将军，开创江户幕府",
+    "tlY4": "1615",
+    "tlT4": "大坂夏之阵，大阪城陷落，丰臣家灭亡",
+    "tlY5": "1620–29",
+    "tlT5": "德川幕府重建大阪城",
+    "tlY6": "1868",
+    "tlT6": "延续约260年的江户时代结束，进入明治时代",
     "ctaTitle": "亲自穿穿看",
     "ctaBody": "请预约酒店4楼美容室的时间。",
     "bookCta": "立即预约",
@@ -427,30 +595,44 @@
   "zh-TW": {
     "title": "打褂與紋付袴的故事｜和服體驗 KKR大阪飯店",
     "h1": "新娘的打褂，新郎的紋付袴",
-    "sub": "日本婚禮正裝的故事",
-    "lead": "日本新娘為什麼要披上那件華麗的和服？站在她身邊的男士，為什麼要把家紋穿在身上？以下帶您了解日本規格最高的這兩件正裝背後的故事。",
+    "sub": "從武士時代傳承至今的日本婚禮正裝",
+    "lead": "從戰國的武將，到江戶的將軍。誕生於**武士時代**的兩件正裝，至今仍點綴著日本的婚禮。",
     "glanceTitle": "先用一句話了解",
     "gName1": "打褂",
-    "gText1": "新娘披在和服外面的華麗禮服，飾有金線刺繡，下襬長而鋪展。",
+    "gText1": "新娘披在和服外面的禮服，飾有金線刺繡。最初是**武家女性的正裝**。",
     "gName2": "紋付袴",
-    "gText2": "日本男士的正裝，也是新郎的婚禮服裝：帶有五個家紋的黑色和服與羽織，搭配條紋袴。",
+    "gText2": "新郎的婚禮服裝，也是日本男士**規格最高的禮服**，黑色，帶有五個家紋。",
+    "tocTitle": "目錄",
+    "tocNext": "下一章",
     "c1h": "誕生於武士的時代",
-    "c1p1": "打褂最初是武家女性的禮服。它的名字來自「披掛在外」的意思：不繫腰帶，像外套一樣披在和服外面。",
-    "c1p2": "到了江戶時代，它成為新娘禮服並流傳下來，至今仍是日本新娘的象徵。孕育它的武士世界，也正是建造大阪城的那個世界。",
+    "c1p1": "打褂最初是**武家女性的禮服**。它的名字來自「披掛在外」的意思：不繫腰帶，像外套一樣披在和服外面。",
+    "c1p2": "在**豐臣秀吉**執掌天下的__安土桃山時代__，身分高貴的武家女性開始穿著打褂；到了__江戶時代__，它成為武家夫人的**正裝**，後來傳到富裕的市民之家，並作為新娘禮服固定下來。",
     "c2h": "每一針一線，都是祝福",
-    "c2p1": "仔細看，絲綢上用金線和彩線繡著圖案。仙鶴象徵長壽與夫妻和美，松竹梅寄託著長壽與豐饒的願望。每一種圖案，都是對新娘的祝福。",
-    "c2p2": "經典款式有兩種。純白的「白無垢」象徵純潔，在儀式上穿著。紅色、金色等華麗的「色打褂」，常在婚宴上穿著。",
+    "c2p1": "絲綢上用金線和彩線繡著圖案。**仙鶴**象徵長壽與夫妻和美，**松竹梅**寄託著長壽與豐饒的願望。每一種圖案，都是對新娘的祝福。",
+    "c2p2": "經典款式有兩種：純白的「**白無垢**」象徵純潔，在儀式上穿著；紅色、金色等華麗的「**色打褂**」，常在婚宴上穿著。",
     "capIro": "色打褂",
     "capShiro": "白無垢",
-    "c3h": "什麼是紋付袴？把家名穿在身上",
-    "c3p1": "紋付袴是日本男士的正裝。黑色的和服和羽織上有五個家紋：背後一個，兩袖各一個，胸前左右各一個，再搭配條紋袴。",
-    "c3p2": "據說家紋起源於平安時代的貴族，他們用紋樣標記自己的牛車。後來武士在戰場上用家紋分辨敵我。穿上家紋，就是把家名帶在身上，因此帶家紋的服裝長期用於最鄭重的場合。",
+    "c3h": "什麼是紋付袴？背負武士的家紋",
+    "c3p1": "紋付袴是日本男士**規格最高的禮服**。黑色的和服和羽織上有**五個家紋**：背後一個，兩袖各一個，胸前左右各一個，再搭配條紋袴。",
+    "c3p2": "據說家紋起源於平安時代的貴族，他們用紋樣標記自己的牛車。後來，==戰國的武將==把家紋繪在旗幟與陣幕上，在戰場上分辨敵我。**豐臣秀吉**的家紋是**桐**，開創江戶幕府的==德川家康==的家紋是**三葉葵**。穿上家紋，就是背負起整個家族的名字。",
     "c4h": "並肩而立，就是日本婚禮的正裝",
-    "c4p1": "打褂是新娘規格最高的正裝，紋付袴是新郎規格最高的正裝。兩者並肩而立，就是傳統日本婚禮的正裝。",
-    "c4p2": "即使在明治時代西服成為官方禮服之後，紋付羽織袴依然作為婚禮和儀式的正裝被穿著。",
+    "c4p1": "新娘穿**打褂**，新郎穿**紋付袴**：各自規格最高的正裝，都誕生於武士的時代。",
+    "c4p2": "紋付在__江戶時代__傳到了市民男性之間；即使在__明治時代__西服成為官方禮服之後，它依然作為婚禮和儀式的正裝被穿著。**數百年**來，一直傳承至今。",
     "c5h": "在可眺望大阪城的地方穿上它",
-    "c5p1": "KKR大阪飯店緊鄰大阪城公園南側。在這裡，您可以獨自或與伴侶一起穿上打褂或紋付袴，在看得到大阪城的地方拍照。",
-    "c5p2": "無須結婚也可以。請穿上日本婚禮的正裝，為旅行留下一份回憶。",
+    "c5p1": "大阪城由**豐臣秀吉**興建。後來，**德川幕府**重建了它，如今能看到的石牆，大多出自德川時代。",
+    "c5p2": "KKR大阪飯店緊鄰大阪城公園南側。在這裡，您可以獨自或與伴侶一起穿上打褂或紋付袴，在看得到大阪城的地方拍照。無須結婚也可以：請穿上武士時代的正裝，為旅行留下一份回憶。",
+    "tlY1": "1583",
+    "tlT1": "豐臣秀吉開始興建大阪城",
+    "tlY2": "1600",
+    "tlT2": "關原之戰，德川家康獲勝",
+    "tlY3": "1603",
+    "tlT3": "德川家康成為將軍，開創江戶幕府",
+    "tlY4": "1615",
+    "tlT4": "大坂夏之陣，大阪城陷落，豐臣家滅亡",
+    "tlY5": "1620–29",
+    "tlT5": "德川幕府重建大阪城",
+    "tlY6": "1868",
+    "tlT6": "延續約260年的江戶時代結束，進入明治時代",
     "ctaTitle": "親自穿穿看",
     "ctaBody": "請預約飯店4樓美容室的時間。",
     "bookCta": "立即預約",
@@ -468,30 +650,44 @@
   "ko": {
     "title": "우치카케와 몬쓰키 하카마 이야기｜기모노 체험 KKR 호텔 오사카",
     "h1": "신부의 우치카케, 신랑의 몬쓰키 하카마",
-    "sub": "일본 혼례 정장 이야기",
-    "lead": "일본의 신부는 왜 그렇게 화려한 기모노를 걸칠까요? 그 곁에 선 남성은 왜 가문의 문장을 몸에 두를까요? 일본에서 가장 격식 높은 두 가지 정장의 이야기를 소개합니다.",
+    "sub": "무사의 시대부터 이어진 일본 혼례의 정장",
+    "lead": "전국 시대의 무장부터 에도의 쇼군까지. **무사의 시대**에 태어난 두 가지 정장이 지금도 일본의 혼례를 장식합니다.",
     "glanceTitle": "먼저 한 줄로",
     "gName1": "우치카케(打掛)",
-    "gText1": "신부가 기모노 위에 걸쳐 입는 화려한 예복. 금실 자수와 길게 펼쳐지는 옷자락이 특징입니다.",
+    "gText1": "신부가 기모노 위에 걸쳐 입는, 금실 자수의 예복. 원래는 **무가 여성의 정장**이었습니다.",
     "gName2": "몬쓰키 하카마(紋付袴)",
-    "gText2": "일본 남성의 정장이자 신랑의 혼례 복장. 가문의 문장 5개를 넣은 검은 기모노와 하오리에 줄무늬 하카마를 맞춰 입습니다.",
+    "gText2": "신랑의 혼례 복장이자 일본 남성의 **가장 격식 높은 정장**. 가문의 문장 5개를 넣은 검은 기모노와 하오리입니다.",
+    "tocTitle": "목차",
+    "tocNext": "다음 장",
     "c1h": "무사의 시대에 태어난 의상",
-    "c1p1": "우치카케는 원래 무가(사무라이 가문) 여성의 예복이었습니다. 이름은 ‘걸치다’라는 뜻의 동사에서 왔으며, 띠를 매지 않고 코트처럼 기모노 위에 걸쳐 입습니다.",
-    "c1p2": "에도 시대에 신부 의상으로 자리 잡아 지금도 일본 신부의 상징입니다. 이 의상을 키운 무사의 세상은 오사카성을 쌓은 세상이기도 합니다.",
+    "c1p1": "우치카케는 원래 **무가(사무라이 가문) 여성의 예복**이었습니다. 이름은 ‘걸치다’라는 뜻의 동사에서 왔으며, 띠를 매지 않고 코트처럼 기모노 위에 걸쳐 입습니다.",
+    "c1p2": "**도요토미 히데요시**가 천하를 다스리던 __아즈치모모야마 시대__에는 신분 높은 무가 여성이 입기 시작했고, __에도 시대__에는 무가 부인들의 **정장**이 되었습니다. 이후 부유한 조닌(도시의 상공인)에게도 퍼져 신부 의상으로 자리 잡았습니다.",
     "c2h": "한 올 한 올에 담긴 소원",
-    "c2p1": "자세히 보면 비단 위에 금실과 색실로 자수가 놓여 있습니다. 학은 장수와 부부 화합, 소나무·대나무·매화는 장수와 풍요를 뜻합니다. 모든 무늬가 신부를 위한 축복입니다.",
-    "c2p2": "대표적인 형태는 두 가지입니다. 순백의 ‘시로무쿠’는 순결을 뜻하며 혼례 의식에서 입습니다. 빨강과 금색 등 화려한 ‘이로우치카케’는 피로연에서 자주 입습니다.",
+    "c2p1": "비단에 금실과 색실로 자수가 놓여 있습니다. **학**은 장수와 부부 화합, **소나무·대나무·매화**는 장수와 풍요를 뜻합니다. 모든 무늬가 신부를 위한 축복입니다.",
+    "c2p2": "대표적인 형태는 두 가지입니다. 순백의 ‘**시로무쿠**’는 순결을 뜻하며 혼례 의식에서 입고, 빨강과 금색 등 화려한 ‘**이로우치카케**’는 피로연에서 자주 입습니다.",
     "capIro": "이로우치카케",
     "capShiro": "시로무쿠",
-    "c3h": "몬쓰키 하카마란? 가문의 이름을 입다",
-    "c3p1": "몬쓰키 하카마는 일본 남성의 정장입니다. 검은 기모노와 하오리에 가문의 문장 5개를 넣습니다. 등에 하나, 양 소매에 하나씩, 양 가슴에 하나씩이며, 줄무늬 하카마를 맞춰 입습니다.",
-    "c3p2": "문장은 헤이안 시대 귀족이 우마차를 구별하려고 문양을 붙인 데서 시작되었다고 합니다. 이후 무사가 전장에서 적과 아군을 가리는 데 썼습니다. 문장을 입는다는 것은 가문의 이름을 짊어진다는 뜻이며, 그래서 문장이 들어간 옷은 오래도록 가장 격식 있는 자리의 복장이었습니다.",
+    "c3h": "몬쓰키 하카마란? 무사의 문장을 입다",
+    "c3p1": "몬쓰키 하카마는 일본 남성의 **가장 격식 높은 정장**입니다. 검은 기모노와 하오리에 **가문의 문장 5개**를 넣습니다. 등에 하나, 양 소매에 하나씩, 양 가슴에 하나씩이며, 줄무늬 하카마를 맞춰 입습니다.",
+    "c3p2": "문장은 헤이안 시대 귀족이 우마차를 구별하려고 문양을 붙인 데서 시작되었다고 합니다. 이후 ==전국 시대의 무장==들은 문장을 깃발에 달아 전장에서 적과 아군을 가렸습니다. **도요토미 히데요시**의 문장은 **오동**, 에도 막부를 연 ==도쿠가와 이에야스==의 문장은 **세 잎 접시꽃(아오이)**입니다. 가문의 이름을 짊어지는 것, 그것이 문장을 몸에 두른다는 뜻입니다.",
     "c4h": "나란히 서면, 일본 혼례의 정장",
-    "c4p1": "우치카케는 신부의, 몬쓰키 하카마는 신랑의 가장 격식 높은 정장입니다. 둘이 나란히 선 모습이 일본 전통 혼례의 정장입니다.",
-    "c4p2": "메이지 시대에 양복이 공식 예복이 된 뒤에도, 몬쓰키 하오리 하카마는 혼례와 의식의 정장으로 자리를 지켜 왔습니다.",
+    "c4p1": "신부는 **우치카케**, 신랑은 **몬쓰키 하카마**. 각각 가장 격식 높은 정장이며, 둘 다 무사의 시대에 태어났습니다.",
+    "c4p2": "몬쓰키는 __에도 시대__에 조닌 남성에게도 퍼졌고, __메이지 시대__에 양복이 공식 예복이 된 뒤에도 혼례와 의식의 정장으로 자리를 지켜 왔습니다. **수백 년**을 이어 온 복장입니다.",
     "c5h": "오사카성이 보이는 곳에서",
-    "c5p1": "KKR 호텔 오사카는 오사카성 공원 바로 남쪽에 있습니다. 이곳에서는 혼자서도, 부부·커플이 함께도 우치카케나 몬쓰키 하카마를 입고 오사카성을 바라보며 촬영하실 수 있습니다.",
-    "c5p2": "결혼식이 아니어도 괜찮습니다. 일본 혼례의 정장을 여행의 추억으로 남겨 보세요.",
+    "c5p1": "오사카성은 **도요토미 히데요시**가 쌓았습니다. 훗날 **도쿠가와 막부**가 다시 지었고, 지금 보이는 석축 대부분은 그 도쿠가와 시대의 것입니다.",
+    "c5p2": "KKR 호텔 오사카는 오사카성 공원 바로 남쪽에 있습니다. 이곳에서는 혼자서도, 부부·커플이 함께도 우치카케나 몬쓰키 하카마를 입고 오사카성을 바라보며 촬영하실 수 있습니다. 결혼식이 아니어도 괜찮습니다. 무사 시대의 정장을 여행의 추억으로 남겨 보세요.",
+    "tlY1": "1583",
+    "tlT1": "도요토미 히데요시가 오사카성을 쌓기 시작",
+    "tlY2": "1600",
+    "tlT2": "세키가하라 전투, 도쿠가와 이에야스 승리",
+    "tlY3": "1603",
+    "tlT3": "도쿠가와 이에야스가 쇼군이 되어 에도 막부를 엶",
+    "tlY4": "1615",
+    "tlT4": "오사카 여름 전투, 오사카성 함락, 도요토미 가문 멸망",
+    "tlY5": "1620–29",
+    "tlT5": "도쿠가와 막부가 오사카성을 재건",
+    "tlY6": "1868",
+    "tlT6": "약 260년 이어진 에도 시대가 끝나고 메이지 시대 시작",
     "ctaTitle": "직접 입어 보세요",
     "ctaBody": "호텔 4층 살롱에서 시간을 예약해 주세요.",
     "bookCta": "예약하기",
@@ -509,30 +705,44 @@
   "fr": {
     "title": "L’histoire de l’uchikake et du montsuki hakama | KKR Hotel Osaka",
     "h1": "La robe de la mariée, le blason du marié",
-    "sub": "L’histoire de la tenue de mariage japonaise",
-    "lead": "Pourquoi la mariée japonaise porte-t-elle une robe aussi somptueuse ? Et pourquoi l’homme à ses côtés porte-t-il le blason de sa famille ? Voici l’histoire de deux des tenues les plus solennelles du Japon.",
+    "sub": "La tenue de mariage japonaise, héritée de l’époque des samouraïs",
+    "lead": "Des seigneurs de guerre du Sengoku aux shoguns d’Edo : deux tenues nées à l’**époque des samouraïs** ornent encore les mariages japonais.",
     "glanceTitle": "En bref",
     "gName1": "Uchikake",
-    "gText1": "La robe de la mariée, portée par-dessus un kimono : broderies de fils d’or et longue traîne.",
+    "gText1": "La robe de la mariée, portée par-dessus un kimono, brodée de fils d’or. À l’origine, la **tenue de cérémonie des femmes de samouraïs**.",
     "gName2": "Montsuki hakama",
-    "gText2": "La tenue de cérémonie des hommes japonais, celle du marié : kimono et veste haori noirs ornés de cinq blasons familiaux, avec un hakama rayé.",
+    "gText2": "La tenue de mariage du marié et la **tenue la plus solennelle des hommes japonais**, noire, ornée de cinq blasons familiaux.",
+    "tocTitle": "Sommaire",
+    "tocNext": "Chapitre suivant",
     "c1h": "Né à l’époque des samouraïs",
-    "c1p1": "L’uchikake était à l’origine la tenue de cérémonie des femmes des familles de samouraïs. Son nom vient d’un verbe qui signifie « poser par-dessus » : on ne le noue pas, on le porte comme un manteau sur un kimono.",
-    "c1p2": "À l’époque d’Edo, il s’est imposé comme tenue de mariée et reste aujourd’hui son emblème. Le monde des samouraïs qui l’a vu naître est aussi celui qui a bâti le château d’Osaka.",
+    "c1p1": "L’uchikake était à l’origine la **tenue de cérémonie des femmes des familles de samouraïs**. Son nom vient d’un verbe qui signifie « poser par-dessus » : on ne le noue pas, on le porte comme un manteau sur un kimono.",
+    "c1p2": "À l’__époque d’Azuchi-Momoyama__, quand **Toyotomi Hideyoshi** gouvernait le Japon, les femmes de samouraïs de haut rang ont commencé à le porter. À l’__époque d’Edo__, il devient la **tenue de cérémonie** des épouses de samouraïs, puis gagne les riches citadins et s’impose comme tenue de mariée.",
     "c2h": "Un vœu dans chaque fil",
-    "c2p1": "Regardez de près : la soie est brodée de fils d’or et de couleur. La grue évoque la longévité et un mariage heureux ; le pin, le bambou et le prunier, une longue vie et l’abondance. Chaque motif est une bénédiction pour la mariée.",
-    "c2p2": "Deux styles classiques : le « shiromuku », d’un blanc pur symbole de pureté, porté pendant la cérémonie, et l’« iro-uchikake », aux rouges et aux ors éclatants, souvent porté à la réception.",
+    "c2p1": "La soie est brodée de fils d’or et de couleur. La **grue** évoque la longévité et un mariage heureux ; le **pin, le bambou et le prunier**, une longue vie et l’abondance. Chaque motif est une bénédiction pour la mariée.",
+    "c2p2": "Deux styles classiques : le **shiromuku**, d’un blanc pur symbole de pureté, porté pendant la cérémonie, et l’**iro-uchikake**, aux rouges et aux ors éclatants, souvent porté à la réception.",
     "capIro": "Iro-uchikake",
     "capShiro": "Shiromuku",
-    "c3h": "Qu’est-ce que le montsuki hakama ? Un nom de famille que l’on porte",
-    "c3p1": "Le montsuki hakama est la tenue de cérémonie des hommes japonais. Le kimono et la veste haori noirs portent cinq blasons familiaux : un dans le dos, un sur chaque manche et un de chaque côté de la poitrine. Un hakama rayé complète la tenue.",
-    "c3p2": "On dit que les blasons sont nés chez les nobles de l’époque de Heian, qui les apposaient sur leurs chars. Plus tard, les samouraïs s’en servirent sur le champ de bataille pour distinguer amis et ennemis. Porter un blason, c’est porter le nom de sa famille : les vêtements à blasons sont depuis longtemps ceux des grandes occasions.",
+    "c3h": "Qu’est-ce que le montsuki hakama ? Le blason des samouraïs, porté",
+    "c3p1": "Le montsuki hakama est la **tenue la plus solennelle des hommes japonais**. Le kimono et la veste haori noirs portent **cinq blasons familiaux** : un dans le dos, un sur chaque manche et un de chaque côté de la poitrine. Un hakama rayé complète la tenue.",
+    "c3p2": "On dit que les blasons sont nés chez les nobles de l’époque de Heian, qui les apposaient sur leurs chars. Plus tard, les ==seigneurs de guerre du Sengoku== les arboraient sur leurs bannières pour distinguer amis et ennemis. **Toyotomi Hideyoshi** portait la **paulownia** ; ==Tokugawa Ieyasu==, fondateur du shogunat d’Edo, les **trois feuilles d’aoi**. Porter un blason, c’est porter le nom de sa famille.",
     "c4h": "Côte à côte, la tenue d’un mariage japonais",
-    "c4p1": "L’uchikake est la tenue la plus solennelle de la mariée, et le montsuki hakama celle du marié. Ensemble, ils forment la tenue de cérémonie d’un mariage japonais traditionnel.",
-    "c4p2": "Même quand les vêtements occidentaux sont devenus la tenue officielle à l’époque de Meiji, le montsuki haori hakama est resté de rigueur aux mariages et cérémonies.",
+    "c4p1": "La mariée en **uchikake**, le marié en **montsuki hakama** : deux tenues parmi les plus solennelles, nées à l’époque des samouraïs.",
+    "c4p2": "Le montsuki a gagné les citadins à l’__époque d’Edo__, et même quand les vêtements occidentaux sont devenus la tenue officielle à l’__époque de Meiji__, il est resté de rigueur aux mariages et cérémonies. Il traverse les **siècles**.",
     "c5h": "À porter avec le château en vue",
-    "c5p1": "Le KKR Hotel Osaka se trouve juste au sud du parc du château d’Osaka. Ici, vous pouvez porter l’uchikake ou le montsuki hakama, seul(e) ou en couple, avec le château en vue.",
-    "c5p2": "Nul besoin de se marier. Venez porter la tenue de mariage japonaise comme souvenir de voyage.",
+    "c5p1": "Le château d’Osaka a été bâti par **Toyotomi Hideyoshi**. Le **shogunat Tokugawa** l’a ensuite reconstruit, et la plupart des murs de pierre que l’on voit aujourd’hui datent de cette époque.",
+    "c5p2": "Le KKR Hotel Osaka se trouve juste au sud du parc du château d’Osaka. Ici, vous pouvez porter l’uchikake ou le montsuki hakama, seul(e) ou en couple, avec le château en vue. Nul besoin de se marier : venez porter la tenue de l’époque des samouraïs comme souvenir de voyage.",
+    "tlY1": "1583",
+    "tlT1": "Toyotomi Hideyoshi commence à bâtir le château d’Osaka",
+    "tlY2": "1600",
+    "tlT2": "Bataille de Sekigahara : victoire de Tokugawa Ieyasu",
+    "tlY3": "1603",
+    "tlT3": "Tokugawa Ieyasu devient shogun et fonde le shogunat d’Edo",
+    "tlY4": "1615",
+    "tlT4": "Siège d’été d’Osaka : le château tombe, le clan Toyotomi disparaît",
+    "tlY5": "1620–29",
+    "tlT5": "Le shogunat Tokugawa reconstruit le château",
+    "tlY6": "1868",
+    "tlT6": "Fin de l’époque d’Edo, longue d’environ 260 ans ; début de l’ère Meiji",
     "ctaTitle": "Essayez-le vous-même",
     "ctaBody": "Réservez un créneau au salon, au 4e étage de l’hôtel.",
     "bookCta": "Réserver",
@@ -575,12 +785,36 @@
     return d[key] || I18N.en[key] || key;
   }
 
+  // 文字を入れる。強調のしるしだけ、<strong>・<span class="era">・<mark class="hl"> にする（innerHTML は使わない）
+  function setRich(el, s) {
+    while (el.firstChild) el.removeChild(el.firstChild);
+    var re = /(\*\*|__|==)([\s\S]+?)\1/g, last = 0, m;
+    while ((m = re.exec(s))) {
+      if (m.index > last) el.appendChild(document.createTextNode(s.slice(last, m.index)));
+      var n = document.createElement(m[1] === '**' ? 'strong' : (m[1] === '__' ? 'span' : 'mark'));
+      if (m[1] === '__') n.className = 'era';
+      else if (m[1] === '==') n.className = 'hl';
+      n.textContent = m[2];
+      el.appendChild(n);
+      last = m.index + m[0].length;
+    }
+    if (last < s.length) el.appendChild(document.createTextNode(s.slice(last)));
+  }
+
   function applyI18n() {
     document.documentElement.lang = state.lang;
     document.title = t('title');
     var nodes = document.querySelectorAll('[data-i18n]');
     for (var i = 0; i < nodes.length; i++) {
-      nodes[i].textContent = t(nodes[i].getAttribute('data-i18n'));
+      setRich(nodes[i], t(nodes[i].getAttribute('data-i18n')));
+    }
+    // 目次バーの章の番号：読み上げ・長押しで、章の題名が分かるように
+    document.getElementById('tocBarNav').setAttribute('aria-label', t('tocTitle'));
+    var chips = document.querySelectorAll('#tocBarNav a');
+    for (var c = 0; c < chips.length; c++) {
+      var ttl = t('c' + chips[c].getAttribute('data-n') + 'h').replace(/\*\*|__|==/g, '');
+      chips[c].setAttribute('aria-label', ttl);
+      chips[c].setAttribute('title', ttl);
     }
     var imgs = document.querySelectorAll('img[data-alt]');
     for (var k = 0; k < imgs.length; k++) imgs[k].alt = t(imgs[k].getAttribute('data-alt'));
@@ -592,6 +826,7 @@
     for (var j = 0; j < books.length; j++) books[j].href = './' + q;
     document.getElementById('faqLink').href = './faq.html' + q;
     document.getElementById('accessLink').href = './access.html' + q;
+    updateBar(true);
   }
 
   function renderLangSwitch() {
@@ -638,6 +873,64 @@
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
     Array.prototype.forEach.call(document.querySelectorAll('.reveal'), function (el) { io.observe(el); });
   }
+
+  // ---------- 目次 ----------
+  // 目次・目次バー・「次の章へ」のリンクは、押すとその章へ、ゆっくり移る（動きを減らす設定の端末では、すぐ移る）。
+  // JSが使えなくても、リンクそのもの（#ch1〜#ch5）で章へ飛べる。
+  function reducedMotion() {
+    return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('a[href^="#ch"]'), function (a) {
+    a.addEventListener('click', function (e) {
+      var target = document.getElementById(a.getAttribute('href').slice(1));
+      if (!target || !target.scrollIntoView) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'start' });
+    });
+  });
+
+  // 目次バー：最初の画面を過ぎたら上に出す。いま読んでいる章の番号を光らせ、その題名と、どこまで読んだかの線を出す
+  var bar = document.getElementById('tocBar');
+  var barTitle = document.getElementById('tocBarTitle');
+  var progress = document.getElementById('tocProgress');
+  var barChips = Array.prototype.slice.call(document.querySelectorAll('#tocBarNav a'));
+  var chapterEls = [1, 2, 3, 4, 5].map(function (n) { return document.getElementById('ch' + n); });
+  var heroEl = document.querySelector('.hero');
+  var ctaEl = document.querySelector('.story-cta');
+  var shownIdx = -2, ticking = false;
+
+  function updateBar(force) {
+    ticking = false;
+    var vh = window.innerHeight || document.documentElement.clientHeight || 0;
+    var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+    bar.classList.toggle('show', heroEl.getBoundingClientRect().bottom < 48);
+    // 画面の上から4割より上に頭が来ている、いちばん後ろの章が「いま読んでいる章」
+    var idx = -1;
+    for (var i = 0; i < chapterEls.length; i++) {
+      if (chapterEls[i] && chapterEls[i].getBoundingClientRect().top <= vh * 0.4) idx = i;
+    }
+    // 結び（予約のボタン）まで来たら、章の表示は消す
+    if (ctaEl && ctaEl.getBoundingClientRect().top <= vh * 0.5) idx = -1;
+    if (force === true || idx !== shownIdx) {
+      shownIdx = idx;
+      barChips.forEach(function (chip, k) {
+        var on = k === idx;
+        chip.classList.toggle('on', on);
+        if (on) chip.setAttribute('aria-current', 'true'); else chip.removeAttribute('aria-current');
+      });
+      var h2 = idx >= 0 && chapterEls[idx] ? chapterEls[idx].querySelector('h2') : null;
+      barTitle.textContent = h2 ? h2.textContent : '';
+    }
+    var max = Math.max(1, document.documentElement.scrollHeight - vh);
+    progress.style.transform = 'scaleX(' + Math.min(1, Math.max(0, y / max)) + ')';
+  }
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    (window.requestAnimationFrame || function (f) { return setTimeout(f, 16); })(function () { updateBar(false); });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
 
   renderLangSwitch();
   applyI18n();
