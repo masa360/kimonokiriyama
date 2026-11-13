@@ -117,6 +117,10 @@
   .chapter-no::before, .chapter-no::after { content: ''; width: 34px; height: 1px; background: var(--gold); }
   .story-chapter h2 { margin: 0 0 24px; text-align: center; font-weight: 500; font-size: 1.35rem; line-height: 1.7; letter-spacing: 0.1em; }
   .story-chapter p { margin: 0 0 18px; font-size: 1rem; line-height: 2.05; }
+  .glance-wrap { margin-top: 56px; }
+  .pg-photo { padding: 0 0 8px; }
+  .story-cont { padding: 40px 0 8px; }
+  .story-cont p { margin: 0; text-align: center; font-size: 1.06rem; line-height: 2.05; }
 
   /* ---------- 強調（2026-11-13）：外国のお客様に響く所と、時代の裏付けを、読み流しても目に入るように ----------
        **太字**＝大事な言葉・人名／__時代__＝金色の太字と下線（いつの話か）／==蛍光ペン風==＝戦国の武将・将軍（いちばん響く所） */
@@ -222,7 +226,8 @@
   .is-climax .next-link:hover .next-t, .is-climax .next-link:focus-visible .next-t { color: #fff; }
 
   /* ---------- 結び ---------- */
-  .story-cta { margin-top: 56px; padding: 66px 0 58px; text-align: center; background: var(--ink); color: #efe7da; }
+  .story-cta { margin-top: 56px; padding: 66px 0 0; text-align: center; background: var(--ink); color: #efe7da; }
+  .story-cta > .wrap { padding-bottom: 58px; }
   .story-cta h2 { margin: 0 0 14px; font-weight: 400; font-size: 1.35rem; letter-spacing: 0.14em; color: #fff; }
   .story-cta p { margin: 0 0 18px; }
   .story-cta .book-link {
@@ -236,7 +241,7 @@
   .story-cta .links p { margin: 0 0 8px; }
 
   footer { padding: 26px 16px 44px; text-align: center; font-size: 0.8rem; line-height: 1.9; letter-spacing: 0.06em; background: var(--ink); color: #bfb4a5; border-top: 1px solid rgba(214, 187, 130, 0.25); }
-  footer p { margin: 6px 0 0; }
+  footer p, .story-cta footer p { margin: 6px 0 0; }
   footer a { color: var(--gold-light); }
 
   /* ---------- ゆっくり浮かび上がる（JSが使えるときだけ） ---------- */
@@ -244,6 +249,90 @@
   .js-reveal .reveal.in { opacity: 1; transform: none; }
   @media (prefers-reduced-motion: reduce) {
     .js-reveal .reveal { opacity: 1; transform: none; transition: none; }
+  }
+
+  /* ===========================================================
+     本のように、横にめくる（2026-11-13）
+       ・JSが使えて、横の吸いつき（scroll-snap）に対応した端末だけ（html.js-book。head の小さなスクリプトが付ける）。
+         ほかの端末と、URL に ?layout=scroll を付けたときは、これまでどおり縦に読む
+       ・ページ ＝ .pg。1ページ＝画面1枚。横に払うと、次のページへぴたっと止まる（飛ばして2枚先へは行かない）
+       ・ページが縦に長いとき（小さい画面・文字を大きくした端末・フランス語など）は、そのページの中だけ縦に動く
+       ・写真は、切らずに全体を見せる（黒いページに、金色の細い枠）
+     =========================================================== */
+  .book-nav, .swipe-hint { display: none; }
+  html.js-book, html.js-book body { height: 100%; overflow: hidden; }
+  html.js-book .book {
+    position: relative; display: flex; width: 100%;
+    height: 100vh; height: 100dvh;
+    overflow-x: auto; overflow-y: hidden;
+    scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none;
+  }
+  html.js-book .book::-webkit-scrollbar { display: none; }
+  html.js-book .book > main { display: contents; }
+  html.js-book .pg {
+    flex: 0 0 100%; width: 100%; min-width: 0; height: 100%; margin: 0;
+    padding: calc(56px + env(safe-area-inset-top)) 0 96px;
+    display: flex; flex-direction: column;
+    overflow-x: hidden; overflow-y: auto; overscroll-behavior-y: contain;   /* 横は、本へ伝える（contain にすると、横に払ってもめくれない） */
+    scroll-snap-align: start; scroll-snap-stop: always;
+  }
+  html.js-book .pg:focus { outline: none; }
+  html.js-book .pg:focus-visible { outline: 1px solid var(--gold); outline-offset: -6px; }
+  html.js-book .pg > .wrap { margin: auto; width: 100%; }
+  html.js-book .story-chapter.is-climax { margin-top: 0; }
+  html.js-book .story-cta { margin-top: 0; padding-bottom: 0; }
+  html.js-book .story-cta > .wrap { padding-bottom: 36px; }
+  html.js-book .story-cta footer { margin-top: auto; width: 100%; padding-bottom: 88px; }   /* めくるボタンに隠れないように */
+
+  /* 表紙 */
+  html.js-book .hero.pg { padding: 0; min-height: 0; }
+  html.js-book .hero-body { padding-bottom: 112px; }
+  html.js-book .swipe-hint {
+    display: block; position: absolute; left: 0; right: 0; bottom: 78px; z-index: 2; margin: 0; padding: 0 70px;
+    text-align: center; font-size: 0.74rem; line-height: 1.6; letter-spacing: 0.2em; color: rgba(255, 255, 255, 0.86);
+    animation: swipe-nudge 2.4s ease-in-out infinite;
+  }
+  @keyframes swipe-nudge { 0%, 100% { transform: translateX(-4px); opacity: 0.55; } 50% { transform: translateX(6px); opacity: 1; } }
+  html.js-book.book-moved .swipe-hint { display: none; }
+  @media (prefers-reduced-motion: reduce) { html.js-book .swipe-hint { animation: none; } }
+
+  /* 写真のページ：黒い地に、切らずに全体。ふたつあるときは、上下に並べる */
+  html.js-book .pg-photo { background: var(--ink); align-items: center; justify-content: center; padding: calc(56px + env(safe-area-inset-top)) 16px 84px; }
+  html.js-book .pg-photo .bleed { margin: auto; width: 100%; max-width: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; }
+  html.js-book .pg-photo .bleed figure { width: fit-content; max-width: 100%; }
+  html.js-book .pg-photo .bleed img {
+    width: auto; max-width: 100%; height: auto; aspect-ratio: auto; object-fit: contain;
+    max-height: calc(100vh - 172px); max-height: calc(100dvh - 172px);
+  }
+  /* 写真のうえの題名（色打掛・白無垢）：明るい写真でも読めるよう、下に影をかける */
+  html.js-book .pg-photo .bleed figcaption { bottom: 0; padding: 42px 0 24px; background: linear-gradient(to top, rgba(20, 14, 12, 0.66), rgba(20, 14, 12, 0)); }
+  html.js-book .pg-photo .bleed.two img { max-height: calc((100vh - 200px) / 2); max-height: calc((100dvh - 200px) / 2); }
+  html.js-book .pg-photo .next-link { display: none; }
+  /* 年表は、ページに収まりやすいよう少し詰める */
+  html.js-book .timeline { margin: 18px 0 22px; }
+  html.js-book .timeline li { padding-bottom: 11px; font-size: 0.92rem; line-height: 1.7; }
+  html.js-book .next-link { display: none; }
+
+  /* めくるボタン・ページの数 */
+  html.js-book .book-nav {
+    display: flex; position: fixed; left: 0; right: 0; bottom: max(14px, env(safe-area-inset-bottom)); z-index: 19;
+    align-items: center; justify-content: space-between; padding: 0 14px; pointer-events: none;
+  }
+  .book-nav > * { pointer-events: auto; }
+  .bn-btn {
+    display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; padding: 0; cursor: pointer;
+    border: 1px solid rgba(214, 187, 130, 0.7); border-radius: 50%;
+    background: rgba(28, 23, 20, 0.74); color: var(--gold-light);
+    -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  }
+  .bn-btn::before { content: ''; width: 10px; height: 10px; border-top: 1.5px solid currentColor; border-right: 1.5px solid currentColor; }
+  .bn-prev::before { transform: rotate(-135deg); margin-left: 4px; }
+  .bn-next::before { transform: rotate(45deg); margin-right: 4px; }
+  .bn-btn:disabled { visibility: hidden; }
+  .bn-btn:focus-visible { outline: 2px solid var(--gold-light); outline-offset: 2px; }
+  .bn-count {
+    padding: 4px 13px; border-radius: 15px; background: rgba(28, 23, 20, 0.74); color: #efe7da;
+    font-size: 0.72rem; line-height: 1.6; letter-spacing: 0.12em; font-variant-numeric: tabular-nums;
   }
 
   /* ===========================================================
@@ -259,12 +348,17 @@
   p, li, dd, td, blockquote, footer { text-wrap: pretty; }
   p:has(> a:only-child) { text-wrap: balance; }
 </style>
+<!-- 本のように横にめくる形にするか（横の吸いつきに対応していて、?layout=scroll でないとき）。最初の描画の前に決める -->
+<script>try{if(window.CSS&&CSS.supports&&CSS.supports('scroll-snap-type','x mandatory')&&!/[?&]layout=scroll\b/.test(location.search))document.documentElement.classList.add('js-book')}catch(e){}</script>
 <!-- 日本語・中国語の改行を文節の切れ目にそろえる（2026-11-11）。読めなくてもページはふつうに動く -->
 <script src="./js/linebreak.js" defer></script>
 </head>
 <body>
 
-<header class="hero">
+<!-- 本：ページ（.pg）が横に並ぶ。縦に読む形のときは、ふつうに上から下へ -->
+<div class="book" id="book">
+
+<header class="hero pg">
   <!-- 打掛の写真いっぱいの最初の画面。写真が無ければ、深い蘇芳から墨色への濃淡になる -->
   <img class="hero-img" src="images/kimono-13.jpg" width="821" height="1200" fetchpriority="high" data-alt="alt1" alt="A woman in a colorful uchikake, with Osaka Castle behind her">
   <div class="hero-shade"></div>
@@ -276,30 +370,18 @@
     <p class="hero-sub" data-i18n="sub">Japan’s wedding formal wear, from the age of the samurai</p>
     <span class="hero-rule" aria-hidden="true"></span>
   </div>
+  <!-- 本の形のときだけ出る「横にスワイプ」の案内（めくったら消える） -->
+  <p class="swipe-hint" data-i18n="swipeHint">Swipe to turn the page</p>
 </header>
-
-<!-- 目次バー：最初の画面を過ぎたら上に出る。章の番号を押すと、その章へ。JSが使えないときは出ない（本文の目次と「次の章へ」で移れる） -->
-<div class="toc-bar" id="tocBar">
-  <div class="toc-bar-in">
-    <nav id="tocBarNav" aria-label="Contents">
-      <a href="#ch1" data-n="1">I</a><a href="#ch2" data-n="2">II</a><a href="#ch3" data-n="3">III</a><a href="#ch4" data-n="4">IV</a><a href="#ch5" data-n="5">V</a>
-    </nav>
-    <span class="toc-bar-t" id="tocBarTitle"></span>
-  </div>
-  <span class="toc-progress" id="tocProgress"></span>
-</div>
 
 <main>
 
-  <section class="story-open">
+  <section class="story-open pg">
     <div class="wrap reveal">
       <div class="orn" aria-hidden="true"><i></i></div>
       <p class="story-lead" data-i18n="lead">From Sengoku warlords to the shoguns of Edo: two garments born in the <strong>age of the samurai</strong> still grace Japanese weddings today.</p>
     </div>
-  </section>
-
-  <section>
-    <div class="wrap reveal">
+    <div class="wrap glance-wrap reveal">
       <h2 class="kicker" data-i18n="glanceTitle">In a nutshell</h2>
       <dl class="glance">
         <div><dt data-i18n="gName1">Uchikake</dt><dd data-i18n="gText1">A bride’s robe worn over a kimono, with gold-thread embroidery. Originally the <strong>formal wear of samurai women</strong>.</dd></div>
@@ -309,7 +391,7 @@
   </section>
 
   <!-- 目次：押すと、その章へ移る（スマホで読みやすいように） -->
-  <section class="toc-section">
+  <section class="toc-section pg">
     <div class="wrap reveal">
       <h2 class="kicker" id="tocTitle" data-i18n="tocTitle">Contents</h2>
       <nav aria-labelledby="tocTitle">
@@ -324,7 +406,7 @@
     </div>
   </section>
 
-  <section class="story-chapter" id="ch1">
+  <section class="story-chapter pg" id="ch1" data-ch="1">
     <div class="wrap reveal">
       <p class="chapter-no">I</p>
       <h2 data-i18n="c1h">Born in the age of the samurai</h2>
@@ -334,13 +416,17 @@
     </div>
   </section>
 
-  <section class="story-chapter" id="ch2">
+  <section class="story-chapter pg" id="ch2" data-ch="2">
     <div class="wrap reveal">
       <p class="chapter-no">II</p>
       <h2 data-i18n="c2h">A wish in every thread</h2>
       <p data-i18n="c2p1">Silk is embroidered with gold and colored thread. The <strong>crane</strong> means long life and a happy marriage; <strong>pine, bamboo and plum</strong> wish for long life and abundance. Every motif is a blessing for the bride.</p>
       <p data-i18n="c2p2">There are two classic styles: the pure white <strong>shiromuku</strong>, a symbol of purity, worn at the ceremony, and the colorful <strong>iro-uchikake</strong> in reds and golds, often worn at the reception.</p>
     </div>
+  </section>
+
+  <!-- 写真のページ（本の形では、黒い地のページ。縦に読む形では、これまでどおり章のあとに写真） -->
+  <section class="pg pg-photo" data-ch="2">
     <div class="bleed two reveal">
       <figure><img src="images/kimono-7.jpg" width="1200" height="1099" loading="lazy" data-alt="alt2" alt="An uchikake embroidered with cranes and gold thread"><figcaption data-i18n="capIro">Iro-uchikake</figcaption></figure>
       <figure><img src="images/kimono-6.jpg" width="1115" height="1200" loading="lazy" data-alt="alt3" alt="A pure white shiromuku uchikake"><figcaption data-i18n="capShiro">Shiromuku</figcaption></figure>
@@ -350,13 +436,16 @@
     </div>
   </section>
 
-  <section class="story-chapter" id="ch3">
+  <section class="story-chapter pg" id="ch3" data-ch="3">
     <div class="wrap reveal">
       <p class="chapter-no">III</p>
       <h2 data-i18n="c3h">What is a montsuki hakama? Wearing the samurai’s crest</h2>
       <p data-i18n="c3p1">The montsuki hakama is the <strong>most formal dress for Japanese men</strong>. A black kimono and haori jacket carry <strong>five family crests</strong>: one on the back, one on each sleeve and one on each side of the chest. Striped hakama trousers complete the look.</p>
       <p data-i18n="c3p2">Crests are said to have begun with Heian-period nobles, who marked their carriages with them. Later, <mark class="hl">Sengoku warlords</mark> flew them on banners to tell friend from foe. <strong>Toyotomi Hideyoshi</strong> bore the <strong>paulownia</strong>; <mark class="hl">Tokugawa Ieyasu</mark>, founder of the Edo shogunate, bore the <strong>triple hollyhock</strong>. To wear a crest is to carry your family’s name.</p>
     </div>
+  </section>
+
+  <section class="pg pg-photo" data-ch="3">
     <div class="bleed one reveal">
       <figure><img src="images/kimono-15.jpg" width="900" height="1200" loading="lazy" data-alt="alt4" alt="A man in montsuki hakama, with Osaka Castle behind him"></figure>
     </div>
@@ -365,7 +454,7 @@
     </div>
   </section>
 
-  <section class="story-chapter is-climax" id="ch4">
+  <section class="story-chapter is-climax pg" id="ch4" data-ch="4">
     <div class="wrap reveal">
       <p class="chapter-no">IV</p>
       <h2 data-i18n="c4h">Side by side: the formal wear of a Japanese wedding</h2>
@@ -375,7 +464,7 @@
     </div>
   </section>
 
-  <section class="story-chapter" id="ch5">
+  <section class="story-chapter pg" id="ch5" data-ch="5">
     <div class="wrap reveal">
       <p class="chapter-no">V</p>
       <h2 data-i18n="c5h">Wear it with the castle in view</h2>
@@ -389,14 +478,23 @@
         <li><b class="tl-y" data-i18n="tlY5">1620–29</b><span class="tl-t" data-i18n="tlT5">The Tokugawa shogunate rebuilds the castle</span></li>
         <li><b class="tl-y" data-i18n="tlY6">1868</b><span class="tl-t" data-i18n="tlT6">The Edo period, some 260 years long, ends; the Meiji era begins</span></li>
       </ol>
-      <p data-i18n="c5p2">KKR Hotel Osaka stands just south of Osaka Castle Park. Here you can wear the uchikake or the montsuki hakama, alone or as a couple, with the castle in view. You need not be getting married: come and wear the formal dress of the samurai age as a memory of your trip.</p>
     </div>
+  </section>
+
+  <section class="pg pg-photo" data-ch="5">
     <div class="bleed one reveal">
       <figure><img src="images/kimono-14.jpg" width="983" height="1200" loading="lazy" data-alt="alt5" alt="The back of an uchikake, with Osaka Castle in the distance"></figure>
     </div>
   </section>
 
-  <section class="story-cta">
+  <!-- 結びの一文（ホテルの場所と、結婚式でなくてよいこと）。本の形では、予約のページの1つ前の、1ページ -->
+  <section class="story-cont pg" data-ch="5">
+    <div class="wrap reveal">
+      <p data-i18n="c5p2">KKR Hotel Osaka stands just south of Osaka Castle Park. Here you can wear the uchikake or the montsuki hakama, alone or as a couple, with the castle in view. You need not be getting married: come and wear the formal dress of the samurai age as a memory of your trip.</p>
+    </div>
+  </section>
+
+  <section class="story-cta pg">
     <div class="wrap reveal">
       <h2 data-i18n="ctaTitle">Try it yourself</h2>
       <p data-i18n="ctaBody">Book a time at the salon on the 4th floor of the hotel.</p>
@@ -406,14 +504,33 @@
         <p><a class="access-link" id="accessLink" href="./access.html" data-i18n="accessLink">View access and map</a></p>
       </div>
     </div>
+    <footer>
+      <span data-i18n="contactTitle">Contact</span>: <span id="footerPhone"></span>
+      <p class="official-link"><a id="officialSiteLink" href="https://bride-innovation.com/inbound-kimono-experience" target="_blank" rel="noopener" data-i18n="officialSiteLink">Official site: Bride Innovation, Kimono Experience in Osaka</a></p>
+    </footer>
   </section>
 
 </main>
 
-<footer>
-  <span data-i18n="contactTitle">Contact</span>: <span id="footerPhone"></span>
-  <p class="official-link"><a id="officialSiteLink" href="https://bride-innovation.com/inbound-kimono-experience" target="_blank" rel="noopener" data-i18n="officialSiteLink">Official site: Bride Innovation, Kimono Experience in Osaka</a></p>
-</footer>
+</div><!-- /book -->
+
+<!-- 目次バー：最初の画面を過ぎたら上に出る。章の番号を押すと、その章へ。JSが使えないときは出ない（本文の目次と「次の章へ」で移れる） -->
+<div class="toc-bar" id="tocBar">
+  <div class="toc-bar-in">
+    <nav id="tocBarNav" aria-label="Contents">
+      <a href="#ch1" data-n="1">I</a><a href="#ch2" data-n="2">II</a><a href="#ch3" data-n="3">III</a><a href="#ch4" data-n="4">IV</a><a href="#ch5" data-n="5">V</a>
+    </nav>
+    <span class="toc-bar-t" id="tocBarTitle"></span>
+  </div>
+  <span class="toc-progress" id="tocProgress"></span>
+</div>
+
+<!-- めくるボタンとページの数（本の形のときだけ出る） -->
+<div class="book-nav" id="bookNav">
+  <button type="button" class="bn-btn bn-prev" id="bnPrev" aria-label="Previous page" disabled></button>
+  <span class="bn-count" id="bnCount" aria-hidden="true"></span>
+  <button type="button" class="bn-btn bn-next" id="bnNext" aria-label="Next page"></button>
+</div>
 
 <script>
 (function () {
@@ -439,6 +556,9 @@
     "gText2": "新郎の婚礼衣装で、日本の男性の**第一礼装**。黒の着物と羽織に、家紋を5つ入れます。",
     "tocTitle": "目次",
     "tocNext": "次の章へ",
+    "swipeHint": "横にスワイプして、ページをめくる",
+    "prevPage": "前のページ",
+    "nextPage": "次のページ",
     "c1h": "武士の世に生まれた衣装",
     "c1p1": "打掛は、もとは**武家の女性の礼装**でした。名前は「打ち掛ける」から。帯を締めず、着物の上にふわりと羽織ります。",
     "c1p2": "**豊臣秀吉**が天下を治めた__安土桃山時代__には、身分の高い武家の女性が着るようになり、__江戸時代__には、武家の夫人たちの**正装**に。やがて裕福な町人にも広まり、花嫁衣装の定番になりました。",
@@ -494,6 +614,9 @@
     "gText2": "A groom’s wedding attire and Japan’s **most formal menswear**, in black with five family crests.",
     "tocTitle": "Contents",
     "tocNext": "Next chapter",
+    "swipeHint": "Swipe to turn the page",
+    "prevPage": "Previous page",
+    "nextPage": "Next page",
     "c1h": "Born in the age of the samurai",
     "c1p1": "The uchikake began as **formal wear for women of samurai families**. Its name means “draped over”: it is not tied with a sash, but worn like a coat over a kimono.",
     "c1p2": "In the __Azuchi-Momoyama period__, when **Toyotomi Hideyoshi** ruled Japan, high-ranking samurai women began to wear it. In the __Edo period__ it became the **formal dress** of samurai wives, then spread to wealthy townspeople and was established as bridal wear.",
@@ -549,6 +672,9 @@
     "gText2": "新郎的婚礼服装，也是日本男士**规格最高的礼服**，黑色，带有五个家纹。",
     "tocTitle": "目录",
     "tocNext": "下一章",
+    "swipeHint": "左右滑动，翻页阅读",
+    "prevPage": "上一页",
+    "nextPage": "下一页",
     "c1h": "诞生于武士的时代",
     "c1p1": "打褂最初是**武家女性的礼服**。它的名字来自“披挂在外”的意思：不系腰带，像外套一样披在和服外面。",
     "c1p2": "在**丰臣秀吉**执掌天下的__安土桃山时代__，身份高贵的武家女性开始穿着打褂；到了__江户时代__，它成为武家夫人的**正装**，后来传到富裕的市民之家，并作为新娘礼服固定下来。",
@@ -604,6 +730,9 @@
     "gText2": "新郎的婚禮服裝，也是日本男士**規格最高的禮服**，黑色，帶有五個家紋。",
     "tocTitle": "目錄",
     "tocNext": "下一章",
+    "swipeHint": "左右滑動，翻頁閱讀",
+    "prevPage": "上一頁",
+    "nextPage": "下一頁",
     "c1h": "誕生於武士的時代",
     "c1p1": "打褂最初是**武家女性的禮服**。它的名字來自「披掛在外」的意思：不繫腰帶，像外套一樣披在和服外面。",
     "c1p2": "在**豐臣秀吉**執掌天下的__安土桃山時代__，身分高貴的武家女性開始穿著打褂；到了__江戶時代__，它成為武家夫人的**正裝**，後來傳到富裕的市民之家，並作為新娘禮服固定下來。",
@@ -659,6 +788,9 @@
     "gText2": "신랑의 혼례 복장이자 일본 남성의 **가장 격식 높은 정장**. 가문의 문장 5개를 넣은 검은 기모노와 하오리입니다.",
     "tocTitle": "목차",
     "tocNext": "다음 장",
+    "swipeHint": "옆으로 넘기며 읽어 보세요",
+    "prevPage": "이전 페이지",
+    "nextPage": "다음 페이지",
     "c1h": "무사의 시대에 태어난 의상",
     "c1p1": "우치카케는 원래 **무가(사무라이 가문) 여성의 예복**이었습니다. 이름은 ‘걸치다’라는 뜻의 동사에서 왔으며, 띠를 매지 않고 코트처럼 기모노 위에 걸쳐 입습니다.",
     "c1p2": "**도요토미 히데요시**가 천하를 다스리던 __아즈치모모야마 시대__에는 신분 높은 무가 여성이 입기 시작했고, __에도 시대__에는 무가 부인들의 **정장**이 되었습니다. 이후 부유한 조닌(도시의 상공인)에게도 퍼져 신부 의상으로 자리 잡았습니다.",
@@ -714,6 +846,9 @@
     "gText2": "La tenue de mariage du marié et la **tenue la plus solennelle des hommes japonais**, noire, ornée de cinq blasons familiaux.",
     "tocTitle": "Sommaire",
     "tocNext": "Chapitre suivant",
+    "swipeHint": "Faites glisser pour tourner la page",
+    "prevPage": "Page précédente",
+    "nextPage": "Page suivante",
     "c1h": "Né à l’époque des samouraïs",
     "c1p1": "L’uchikake était à l’origine la **tenue de cérémonie des femmes des familles de samouraïs**. Son nom vient d’un verbe qui signifie « poser par-dessus » : on ne le noue pas, on le porte comme un manteau sur un kimono.",
     "c1p2": "À l’__époque d’Azuchi-Momoyama__, quand **Toyotomi Hideyoshi** gouvernait le Japon, les femmes de samouraïs de haut rang ont commencé à le porter. À l’__époque d’Edo__, il devient la **tenue de cérémonie** des épouses de samouraïs, puis gagne les riches citadins et s’impose comme tenue de mariée.",
@@ -766,6 +901,9 @@
   var SALON_PHONE = '06-6941-1122';
 
   var state = { lang: detectInitialLang() };
+  // 本のように横にめくる形か（head の小さなスクリプトが html.js-book を付ける。使えない端末は、縦に読む）
+  var root = document.documentElement;
+  var bookMode = root.classList.contains('js-book');
 
   function detectInitialLang() {
     // 予約ページなどから ?lang= で渡ってきたらそれを優先する
@@ -816,6 +954,8 @@
       chips[c].setAttribute('aria-label', ttl);
       chips[c].setAttribute('title', ttl);
     }
+    document.getElementById('bnPrev').setAttribute('aria-label', t('prevPage'));
+    document.getElementById('bnNext').setAttribute('aria-label', t('nextPage'));
     var imgs = document.querySelectorAll('img[data-alt]');
     for (var k = 0; k < imgs.length; k++) imgs[k].alt = t(imgs[k].getAttribute('data-alt'));
     // ホテルのフロントにつながる番号なので、その旨を添える
@@ -854,8 +994,14 @@
     var wrap = fig && fig.parentNode;
     if (fig) fig.remove();
     if (!wrap || !wrap.classList.contains('bleed')) return;
-    if (!wrap.querySelector('figure')) wrap.remove();
-    else if (wrap.classList.contains('two')) { wrap.classList.remove('two'); wrap.classList.add('one'); }
+    if (!wrap.querySelector('figure')) {
+      var sec = wrap.closest('.pg-photo');
+      wrap.remove();
+      // 写真のページに、写真のほか何も残らないとき（本の形では、からのページになる）は、ページごと消す。
+      // 縦に読む形では、「次の章へ」が残っているあいだは消さない
+      if (sec && (bookMode || !sec.querySelector('.next-link'))) sec.remove();
+      if (bar) onScroll();
+    } else if (wrap.classList.contains('two')) { wrap.classList.remove('two'); wrap.classList.add('one'); }
   }
   Array.prototype.forEach.call(document.querySelectorAll('.hero-img, .bleed img'), function (img) {
     img.addEventListener('error', function () { dropPhoto(img); });
@@ -874,25 +1020,53 @@
     Array.prototype.forEach.call(document.querySelectorAll('.reveal'), function (el) { io.observe(el); });
   }
 
-  // ---------- 目次 ----------
-  // 目次・目次バー・「次の章へ」のリンクは、押すとその章へ、ゆっくり移る（動きを減らす設定の端末では、すぐ移る）。
-  // JSが使えなくても、リンクそのもの（#ch1〜#ch5）で章へ飛べる。
+  // ---------- 目次・ページをめくる ----------
+  // ・本の形（html.js-book）：ページ（.pg）が横に並ぶ。横に払う／‹ ›／矢印キー／マウスのホイール／目次／目次バーでめくる
+  // ・縦に読む形：目次・目次バー・「次の章へ」を押すと、その章へゆっくり移る
+  // どちらも、動きを減らす設定の端末では、ゆっくり動かさない。JSが使えなくても、リンクそのもの（#ch1〜#ch5）で章へ飛べる。
   function reducedMotion() {
     return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   }
+  var book = document.getElementById('book');
+  function pageList() { return Array.prototype.slice.call(book.querySelectorAll('.pg')); }
+  function pageIndex() {
+    var n = pageList().length, w = book.clientWidth || 1;
+    return Math.max(0, Math.min(n - 1, Math.round(book.scrollLeft / w)));
+  }
+  var curPage = 0;
+  function goTo(i, instant) {
+    var pgs = pageList();
+    if (!pgs.length) return;
+    i = Math.max(0, Math.min(pgs.length - 1, i));
+    var left = pgs[i].offsetLeft;
+    if (book.scrollTo) book.scrollTo({ left: left, behavior: (instant || reducedMotion()) ? 'auto' : 'smooth' });
+    else book.scrollLeft = left;
+    // 矢印キーの上下が、いま見ているページの中で効くように
+    try { pgs[i].focus({ preventScroll: true }); } catch (e) {}
+  }
+
   Array.prototype.forEach.call(document.querySelectorAll('a[href^="#ch"]'), function (a) {
     a.addEventListener('click', function (e) {
       var target = document.getElementById(a.getAttribute('href').slice(1));
-      if (!target || !target.scrollIntoView) return;
+      if (!target) return;
+      if (bookMode) {
+        e.preventDefault();
+        goTo(pageList().indexOf(target));
+        return;
+      }
+      if (!target.scrollIntoView) return;
       e.preventDefault();
       target.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'start' });
     });
   });
 
-  // 目次バー：最初の画面を過ぎたら上に出す。いま読んでいる章の番号を光らせ、その題名と、どこまで読んだかの線を出す
+  // 目次バー：最初の画面（表紙）を過ぎたら上に出す。いま読んでいる章の番号を光らせ、その題名と、どこまで読んだかの線を出す
   var bar = document.getElementById('tocBar');
   var barTitle = document.getElementById('tocBarTitle');
   var progress = document.getElementById('tocProgress');
+  var bnPrev = document.getElementById('bnPrev');
+  var bnNext = document.getElementById('bnNext');
+  var bnCount = document.getElementById('bnCount');
   var barChips = Array.prototype.slice.call(document.querySelectorAll('#tocBarNav a'));
   var chapterEls = [1, 2, 3, 4, 5].map(function (n) { return document.getElementById('ch' + n); });
   var heroEl = document.querySelector('.hero');
@@ -901,16 +1075,32 @@
 
   function updateBar(force) {
     ticking = false;
-    var vh = window.innerHeight || document.documentElement.clientHeight || 0;
-    var y = window.pageYOffset || document.documentElement.scrollTop || 0;
-    bar.classList.toggle('show', heroEl.getBoundingClientRect().bottom < 48);
-    // 画面の上から4割より上に頭が来ている、いちばん後ろの章が「いま読んでいる章」
-    var idx = -1;
-    for (var i = 0; i < chapterEls.length; i++) {
-      if (chapterEls[i] && chapterEls[i].getBoundingClientRect().top <= vh * 0.4) idx = i;
+    var idx = -1, show, frac;
+    if (bookMode) {
+      var pgs = pageList();
+      curPage = pageIndex();
+      show = curPage >= 1;
+      var ch = pgs[curPage] ? Number(pgs[curPage].getAttribute('data-ch')) || 0 : 0;   // 章のページなら、その番号（無ければ0）
+      idx = ch - 1;
+      frac = pgs.length > 1 ? curPage / (pgs.length - 1) : 0;
+      bnPrev.disabled = curPage <= 0;
+      bnNext.disabled = curPage >= pgs.length - 1;
+      bnCount.textContent = (curPage + 1) + ' / ' + pgs.length;
+      if (curPage > 0) root.classList.add('book-moved');
+    } else {
+      var vh = window.innerHeight || document.documentElement.clientHeight || 0;
+      var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+      show = heroEl.getBoundingClientRect().bottom < 48;
+      // 画面の上から4割より上に頭が来ている、いちばん後ろの章が「いま読んでいる章」
+      for (var i = 0; i < chapterEls.length; i++) {
+        if (chapterEls[i] && chapterEls[i].getBoundingClientRect().top <= vh * 0.4) idx = i;
+      }
+      // 結び（予約のボタン）まで来たら、章の表示は消す
+      if (ctaEl && ctaEl.getBoundingClientRect().top <= vh * 0.5) idx = -1;
+      var max = Math.max(1, document.documentElement.scrollHeight - vh);
+      frac = Math.min(1, Math.max(0, y / max));
     }
-    // 結び（予約のボタン）まで来たら、章の表示は消す
-    if (ctaEl && ctaEl.getBoundingClientRect().top <= vh * 0.5) idx = -1;
+    bar.classList.toggle('show', show);
     if (force === true || idx !== shownIdx) {
       shownIdx = idx;
       barChips.forEach(function (chip, k) {
@@ -921,8 +1111,7 @@
       var h2 = idx >= 0 && chapterEls[idx] ? chapterEls[idx].querySelector('h2') : null;
       barTitle.textContent = h2 ? h2.textContent : '';
     }
-    var max = Math.max(1, document.documentElement.scrollHeight - vh);
-    progress.style.transform = 'scaleX(' + Math.min(1, Math.max(0, y / max)) + ')';
+    progress.style.transform = 'scaleX(' + frac + ')';
   }
   function onScroll() {
     if (ticking) return;
@@ -930,10 +1119,45 @@
     (window.requestAnimationFrame || function (f) { return setTimeout(f, 16); })(function () { updateBar(false); });
   }
   window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll);
+  book.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', function () {
+    // 画面の向き・大きさが変わっても、いまのページに合わせたままにする
+    if (bookMode) { var pgs = pageList(); if (pgs[curPage]) book.scrollLeft = pgs[curPage].offsetLeft; }
+    onScroll();
+  });
+
+  if (bookMode) {
+    // ページ付きにしたので、縦に動けるページは、キーボードでも動かせるようにする
+    pageList().forEach(function (pg) { pg.setAttribute('tabindex', '0'); });
+    bnPrev.addEventListener('click', function () { goTo(pageIndex() - 1); });
+    bnNext.addEventListener('click', function () { goTo(pageIndex() + 1); });
+    document.addEventListener('keydown', function (e) {
+      if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+      if (/^(INPUT|TEXTAREA|SELECT)$/.test((e.target && e.target.tagName) || '')) return;
+      if (e.key === 'ArrowRight') { e.preventDefault(); goTo(pageIndex() + 1); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(pageIndex() - 1); }
+    });
+    // マウスのホイール：縦に動けないページでは、ホイールでページをめくる（縦に動けるページでは、中で縦に動く）
+    var wheelAt = 0;
+    book.addEventListener('wheel', function (e) {
+      if (e.ctrlKey || Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+      var pg = e.target && e.target.closest ? e.target.closest('.pg') : null;
+      if (pg && pg.scrollHeight > pg.clientHeight + 2) return;
+      e.preventDefault();
+      var now = Date.now();
+      if (now - wheelAt < 600) return;
+      wheelAt = now;
+      goTo(pageIndex() + (e.deltaY > 0 ? 1 : -1));
+    }, { passive: false });
+  }
 
   renderLangSwitch();
   applyI18n();
+  // #ch1〜#ch5 を付けて開いたときは、その章のページから
+  if (bookMode && /^#ch[1-5]$/.test(location.hash)) {
+    var first = document.getElementById(location.hash.slice(1));
+    if (first) goTo(pageList().indexOf(first), true);
+  }
 })();
 </script>
 </body>
