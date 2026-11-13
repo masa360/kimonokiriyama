@@ -51,7 +51,7 @@
     min-height: min(88vh, 720px);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-end;
     overflow: hidden;
     color: #fff;
     background: linear-gradient(160deg, var(--suou-deep), var(--ink));
@@ -61,19 +61,43 @@
     position: absolute; inset: 0;
     background: linear-gradient(180deg, rgba(20,14,12,0.62) 0%, rgba(20,14,12,0.06) 30%, rgba(20,14,12,0.24) 55%, rgba(20,14,12,0.9) 100%);
   }
-  .hero-top, .hero-body { position: relative; z-index: 1; }
-  .hero-top { padding: 12px 10px 0; }
-  .lang-switch { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px 0; }
+  .hero-body { position: relative; z-index: 1; }
+
+  /* ---------- 言語の切り替え（2026-11-13）：右上に、いつでも見えるボタン。押すと、6言語が縦に並ぶ一覧が開く ---------- */
+  .lang-menu { position: fixed; top: calc(8px + env(safe-area-inset-top)); right: 10px; z-index: 22; }
+  .lang-btn {
+    display: inline-flex; align-items: center; gap: 7px; height: 38px; padding: 0 12px 0 11px;
+    border: 1px solid rgba(214, 187, 130, 0.85); border-radius: 19px;
+    background: rgba(28, 23, 20, 0.82); color: #fff; cursor: pointer;
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+    font: inherit; font-size: 0.9rem; line-height: 1; letter-spacing: 0.03em;
+  }
+  .lang-btn svg { width: 17px; height: 17px; flex: none; color: var(--gold-light); }
+  .lang-caret {
+    width: 7px; height: 7px; margin: -3px 0 0 1px; flex: none;
+    border-right: 1.5px solid var(--gold-light); border-bottom: 1.5px solid var(--gold-light); transform: rotate(45deg);
+    transition: transform 0.2s, margin 0.2s;
+  }
+  .lang-btn[aria-expanded="true"] .lang-caret { transform: rotate(-135deg); margin-top: 3px; }
+  .lang-btn:focus-visible, .lang-switch button:focus-visible { outline: 2px solid var(--gold-light); outline-offset: 2px; }
+  .lang-switch {
+    position: absolute; top: calc(100% + 8px); right: 0; min-width: 12.5em; padding: 6px;
+    display: flex; flex-direction: column; gap: 2px;
+    background: rgba(28, 23, 20, 0.97); border: 1px solid rgba(214, 187, 130, 0.55); border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.42);
+  }
+  .lang-switch[hidden] { display: none; }
   .lang-switch button {
-    position: relative; border: 0; background: none; cursor: pointer;
-    padding: 6px 11px; font: inherit; font-size: 0.78rem; letter-spacing: 0.06em; line-height: 1.6;
-    color: rgba(255, 255, 255, 0.8);
+    display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 46px; padding: 0 14px;
+    border: 0; border-radius: 9px; background: none; color: #efe7da; cursor: pointer;
+    font: inherit; font-size: 1rem; letter-spacing: 0.05em; text-align: left;
   }
-  .lang-switch button + button::before {
-    content: ''; position: absolute; left: 0; top: 50%; width: 1px; height: 11px;
-    background: rgba(255, 255, 255, 0.35); transform: translateY(-50%);
+  .lang-switch button:hover { background: rgba(214, 187, 130, 0.12); }
+  .lang-switch button.active { color: var(--gold-light); background: rgba(214, 187, 130, 0.16); }
+  .lang-switch button.active::after {
+    content: ''; width: 5px; height: 10px; margin: -3px 0 0 14px; flex: none;
+    border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg);
   }
-  .lang-switch button.active { color: #fff; box-shadow: inset 0 -1px 0 var(--gold-light); }
   .hero-body { padding: 0 24px 46px; text-align: center; }
   .hero-emblem { display: block; width: 34px; height: 34px; margin: 0 auto 16px; color: var(--gold-light); }
   .hero h1 {
@@ -171,7 +195,8 @@
     transition: transform 0.3s ease, visibility 0s linear 0.3s;
   }
   .toc-bar.show { transform: none; visibility: visible; transition: transform 0.3s ease; }
-  .toc-bar-in { max-width: 600px; margin: 0 auto; padding: 6px 12px; display: flex; align-items: center; gap: 10px; }
+  .toc-bar-in { max-width: 600px; margin: 0 auto; padding: 6px 134px 6px 12px; display: flex; align-items: center; gap: 10px; }
+  @media (max-width: 559px) { .toc-bar-t { display: none; } }
   .toc-bar nav { display: flex; flex: none; gap: 2px; }
   .toc-bar nav a {
     display: inline-flex; align-items: center; justify-content: center; min-width: 36px; height: 36px; padding: 0 4px;
@@ -362,7 +387,6 @@
   <!-- 打掛の写真いっぱいの最初の画面。写真が無ければ、深い蘇芳から墨色への濃淡になる -->
   <img class="hero-img" src="images/kimono-13.jpg" width="821" height="1200" fetchpriority="high" data-alt="alt1" alt="A woman in a colorful uchikake, with Osaka Castle behind her">
   <div class="hero-shade"></div>
-  <div class="hero-top"><div class="lang-switch" id="langSwitch"></div></div>
   <div class="hero-body">
     <!-- 扇の線画（ファビコンと同じ意匠） -->
     <svg class="hero-emblem" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M50 88 22 34a40 40 0 0 1 56 0Z"/><path d="M50 88 32 40M50 88 41 36M50 88 59 36M50 88 68 40"/></g><circle cx="50" cy="88" r="3.5" fill="currentColor"/></svg>
@@ -532,6 +556,15 @@
   <button type="button" class="bn-btn bn-next" id="bnNext" aria-label="Next page"></button>
 </div>
 
+<!-- 言語の切り替え：右上に、いつでも見えるボタン。押すと、6言語が縦に並ぶ一覧が開く。中のボタンは、JS が作る -->
+<div class="lang-menu" id="langMenu">
+  <button type="button" class="lang-btn" id="langBtn" aria-haspopup="true" aria-expanded="false" aria-controls="langSwitch">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 4 5.7 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.7-4-9s1.4-6.4 4-9z"/></svg>
+    <span id="langBtnLabel">English</span><i class="lang-caret" aria-hidden="true"></i>
+  </button>
+  <div class="lang-switch" id="langSwitch" role="group" hidden></div>
+</div>
+
 <script>
 (function () {
   'use strict';
@@ -559,6 +592,7 @@
     "swipeHint": "横にスワイプして、ページをめくる",
     "prevPage": "前のページ",
     "nextPage": "次のページ",
+    "langLabel": "言語",
     "c1h": "武士の世に生まれた衣装",
     "c1p1": "打掛は、もとは**武家の女性の礼装**でした。名前は「打ち掛ける」から。帯を締めず、着物の上にふわりと羽織ります。",
     "c1p2": "**豊臣秀吉**が天下を治めた__安土桃山時代__には、身分の高い武家の女性が着るようになり、__江戸時代__には、武家の夫人たちの**正装**に。やがて裕福な町人にも広まり、花嫁衣装の定番になりました。",
@@ -617,6 +651,7 @@
     "swipeHint": "Swipe to turn the page",
     "prevPage": "Previous page",
     "nextPage": "Next page",
+    "langLabel": "Language",
     "c1h": "Born in the age of the samurai",
     "c1p1": "The uchikake began as **formal wear for women of samurai families**. Its name means “draped over”: it is not tied with a sash, but worn like a coat over a kimono.",
     "c1p2": "In the __Azuchi-Momoyama period__, when **Toyotomi Hideyoshi** ruled Japan, high-ranking samurai women began to wear it. In the __Edo period__ it became the **formal dress** of samurai wives, then spread to wealthy townspeople and was established as bridal wear.",
@@ -675,6 +710,7 @@
     "swipeHint": "左右滑动，翻页阅读",
     "prevPage": "上一页",
     "nextPage": "下一页",
+    "langLabel": "语言",
     "c1h": "诞生于武士的时代",
     "c1p1": "打褂最初是**武家女性的礼服**。它的名字来自“披挂在外”的意思：不系腰带，像外套一样披在和服外面。",
     "c1p2": "在**丰臣秀吉**执掌天下的__安土桃山时代__，身份高贵的武家女性开始穿着打褂；到了__江户时代__，它成为武家夫人的**正装**，后来传到富裕的市民之家，并作为新娘礼服固定下来。",
@@ -733,6 +769,7 @@
     "swipeHint": "左右滑動，翻頁閱讀",
     "prevPage": "上一頁",
     "nextPage": "下一頁",
+    "langLabel": "語言",
     "c1h": "誕生於武士的時代",
     "c1p1": "打褂最初是**武家女性的禮服**。它的名字來自「披掛在外」的意思：不繫腰帶，像外套一樣披在和服外面。",
     "c1p2": "在**豐臣秀吉**執掌天下的__安土桃山時代__，身分高貴的武家女性開始穿著打褂；到了__江戶時代__，它成為武家夫人的**正裝**，後來傳到富裕的市民之家，並作為新娘禮服固定下來。",
@@ -791,6 +828,7 @@
     "swipeHint": "옆으로 넘기며 읽어 보세요",
     "prevPage": "이전 페이지",
     "nextPage": "다음 페이지",
+    "langLabel": "언어",
     "c1h": "무사의 시대에 태어난 의상",
     "c1p1": "우치카케는 원래 **무가(사무라이 가문) 여성의 예복**이었습니다. 이름은 ‘걸치다’라는 뜻의 동사에서 왔으며, 띠를 매지 않고 코트처럼 기모노 위에 걸쳐 입습니다.",
     "c1p2": "**도요토미 히데요시**가 천하를 다스리던 __아즈치모모야마 시대__에는 신분 높은 무가 여성이 입기 시작했고, __에도 시대__에는 무가 부인들의 **정장**이 되었습니다. 이후 부유한 조닌(도시의 상공인)에게도 퍼져 신부 의상으로 자리 잡았습니다.",
@@ -849,6 +887,7 @@
     "swipeHint": "Faites glisser pour tourner la page",
     "prevPage": "Page précédente",
     "nextPage": "Page suivante",
+    "langLabel": "Langue",
     "c1h": "Né à l’époque des samouraïs",
     "c1p1": "L’uchikake était à l’origine la **tenue de cérémonie des femmes des familles de samouraïs**. Son nom vient d’un verbe qui signifie « poser par-dessus » : on ne le noue pas, on le porte comme un manteau sur un kimono.",
     "c1p2": "À l’__époque d’Azuchi-Momoyama__, quand **Toyotomi Hideyoshi** gouvernait le Japon, les femmes de samouraïs de haut rang ont commencé à le porter. À l’__époque d’Edo__, il devient la **tenue de cérémonie** des épouses de samouraïs, puis gagne les riches citadins et s’impose comme tenue de mariée.",
@@ -954,6 +993,8 @@
       chips[c].setAttribute('aria-label', ttl);
       chips[c].setAttribute('title', ttl);
     }
+    langBtn.setAttribute('aria-label', t('langLabel') + ': ' + LANG_LABELS[state.lang]);
+    langPanel.setAttribute('aria-label', t('langLabel'));
     document.getElementById('bnPrev').setAttribute('aria-label', t('prevPage'));
     document.getElementById('bnNext').setAttribute('aria-label', t('nextPage'));
     var imgs = document.querySelectorAll('img[data-alt]');
@@ -976,15 +1017,41 @@
       var btn = document.createElement('button');
       btn.type = 'button';
       btn.textContent = LANG_LABELS[lang];
-      if (lang === state.lang) btn.classList.add('active');
+      if (lang === state.lang) { btn.classList.add('active'); btn.setAttribute('aria-current', 'true'); }
       btn.addEventListener('click', function () {
         state.lang = lang;
         renderLangSwitch();
         applyI18n();
+        setLangMenu(false);
+        langBtn.focus();
       });
       box.appendChild(btn);
     });
+    document.getElementById('langBtnLabel').textContent = LANG_LABELS[state.lang];
   }
+
+  // 言語の一覧を開く・閉じる。外を押す・Esc・ページをめくる・言語を選ぶ、で閉じる。開くと、いまの言語のところにカーソルが行く
+  var langBtn = document.getElementById('langBtn');
+  var langPanel = document.getElementById('langSwitch');
+  function setLangMenu(open) {
+    langPanel.hidden = !open;
+    langBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open) { var cur = langPanel.querySelector('button.active') || langPanel.querySelector('button'); if (cur) cur.focus(); }
+  }
+  langBtn.addEventListener('click', function () { setLangMenu(langPanel.hidden); });
+  document.addEventListener('click', function (e) {
+    if (!langPanel.hidden && !(e.target.closest && e.target.closest('#langMenu'))) setLangMenu(false);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (langPanel.hidden) return;
+    if (e.key === 'Escape') { setLangMenu(false); langBtn.focus(); return; }
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      var btns = Array.prototype.slice.call(langPanel.querySelectorAll('button'));
+      var at = btns.indexOf(document.activeElement);
+      btns[(at + (e.key === 'ArrowDown' ? 1 : btns.length - 1) + btns.length) % btns.length].focus();
+    }
+  });
 
   // 写真が無いとき（まだ用意できていない・差し替え中）は、その写真の枠ごと消す。
   // 最初の画面の写真が無ければ、写真だけを外して、深い蘇芳の濃淡の上に題名を残す
@@ -1114,6 +1181,7 @@
     progress.style.transform = 'scaleX(' + frac + ')';
   }
   function onScroll() {
+    if (typeof langPanel !== 'undefined' && langPanel && !langPanel.hidden) setLangMenu(false);
     if (ticking) return;
     ticking = true;
     (window.requestAnimationFrame || function (f) { return setTimeout(f, 16); })(function () { updateBar(false); });
@@ -1134,6 +1202,7 @@
     document.addEventListener('keydown', function (e) {
       if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
       if (/^(INPUT|TEXTAREA|SELECT)$/.test((e.target && e.target.tagName) || '')) return;
+      if (!langPanel.hidden) return;
       if (e.key === 'ArrowRight') { e.preventDefault(); goTo(pageIndex() + 1); }
       else if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(pageIndex() - 1); }
     });
