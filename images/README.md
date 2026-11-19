@@ -12,6 +12,7 @@
 | 開いたときの導入演出 | `intro-1.jpg`・`intro-2.jpg`・`honkaku.jpg`・`kimono-13.jpg`・`kimono-15.jpg` | 文字のあと、写真が順にフェードで出る |
 | 打掛ギャラリー（「お衣装（打掛）を見る」） | `kimono-1.jpg` 〜 `kimono-15.jpg`（現在**15枚**） | 前へ／次へで送れる |
 | 追加オプション「レンタルネイルチップ」の「見本を見る」 | `nail-1.jpg`・`nail-2.jpg` | 前へ／次へで送れる。**デザインは当日選ぶ**ので、見本の写真だけ |
+| SNS・LINEにリンクを貼ったとき出る画像（共有画像） | `ogp.jpg`（**1200×630**。ロゴを白地の中央に置いたもの） | 4つの公開ページの `og:image` が指す。**差し替えるときも、横長 1200×630・300KB以下**（正方形のままだと、LINE・Facebookで上下が切られる） |
 
 - **`honkaku.jpg`・`kimono-13.jpg`・`kimono-15.jpg` は複数の場所で使っている。** 差し替えると、すべてに効く
 - 写真の対応は `index.html` の `MENU_PHOTOS`（プラン）・`INTRO_PHOTOS`（導入）・`GALLERY_PHOTOS`（ギャラリー）
