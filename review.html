@@ -1,0 +1,1594 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 検索に出さない。店頭のQRと、口コミのお願いメールから開くページ -->
+<meta name="robots" content="noindex, nofollow">
+<title>Review helper | Kimono Experience, KKR Hotel Osaka</title>
+<style>
+
+  :root {
+    /* 配色は案A「深い蘇芳と生成り」（2026-10-16）。考え方は <style> 最後の「意匠：案A」のコメント */
+    --color-bg: #f7f3ec;           /* 生成り */
+    --color-card: #fffdf9;
+    --color-accent: #7a2e42;       /* 深い蘇芳 */
+    --color-accent-dark: #5e2132;
+    --color-brass: #b08d57;        /* くすんだ真鍮色。線と小さな飾りだけに使う（文字には使わない。生成りの上では読みにくい） */
+    --color-text: #2a2320;
+    --color-muted: #6e6259;        /* 文字として読める濃さ（生成りの上で 5:1 以上） */
+    --color-border: #e3dacb;
+    --color-error: #c0392b;
+    --color-success: #2f7d4f;
+    --radius: 2px;
+    font-family: "Hiragino Sans", "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.6;
+  }
+  header.hero {
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-dark));
+    color: #fff;
+    padding: 28px 20px 24px;
+    text-align: center;
+  }
+  header.hero h1 {
+    margin: 0 0 6px;
+    font-size: 1.5rem;
+    letter-spacing: 0.02em;
+  }
+  header.hero p {
+    margin: 0;
+    opacity: 0.9;
+    font-size: 0.9rem;
+  }
+  .lang-switch {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 16px;
+  }
+  .lang-switch button {
+    border: 1px solid rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    cursor: pointer;
+  }
+  .lang-switch button.active {
+    background: #fff;
+    color: var(--color-accent-dark);
+    font-weight: bold;
+  }
+  main {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 20px 16px 60px;
+  }
+  .card {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .card h2 {
+    margin-top: 0;
+    font-size: 1.1rem;
+    color: var(--color-accent-dark);
+  }
+  .menu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 480px) {
+    .menu-grid { grid-template-columns: 1fr; }
+  }
+  .menu-option {
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 14px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .menu-option.selected {
+    border-color: var(--color-accent);
+    background: #fdf1f3;
+  }
+  .menu-option .name {
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+  .menu-option .price {
+    color: var(--color-accent-dark);
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+  .menu-option .duration {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+  }
+  .menu-features {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0;
+    font-size: 0.8rem;
+    color: var(--color-text);
+    line-height: 1.7;
+  }
+  .menu-features li {
+    padding-left: 1.2em;
+    position: relative;
+  }
+  .menu-features li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent);
+    font-weight: bold;
+  }
+  /* 「〜なし」の項目は控えめに見せ、含まれないことが一目で分かるようにする */
+  .menu-features li.is-absent {
+    color: var(--color-muted);
+  }
+  .menu-features li.is-absent::before {
+    content: '—';
+    color: var(--color-muted);
+    font-weight: normal;
+  }
+  .menu-option .lead-note {
+    font-size: 0.75rem;
+    color: var(--color-accent-dark);
+    background: #f6ecef;
+    border-radius: 4px;
+    padding: 2px 6px;
+    margin-top: 6px;
+    display: inline-block;
+  }
+  label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin: 14px 0 6px;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="date"],
+  select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-size: 1rem;
+    background: #fff;
+    color: var(--color-text);
+  }
+  .slot-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+    max-height: 220px;
+    overflow-y: auto;
+    padding: 4px;
+  }
+  .slot-btn {
+    border: 1px solid var(--color-border);
+    background: #fff;
+    border-radius: 8px;
+    padding: 8px 4px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    text-align: center;
+  }
+  .slot-btn.selected {
+    background: var(--color-accent);
+    color: #fff;
+    border-color: var(--color-accent);
+  }
+  .slot-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    text-decoration: line-through;
+  }
+  .field-hint {
+    font-size: 0.78rem;
+    color: var(--color-muted);
+    margin: 4px 0 0;
+  }
+  .policy-card summary {
+    font-weight: bold;
+    font-size: 1.05rem;
+    color: var(--color-accent-dark);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .policy-card summary::-webkit-details-marker { display: none; }
+  .policy-card summary::before {
+    content: '▸';
+    transition: transform 0.15s;
+    display: inline-block;
+  }
+  .policy-card[open] summary::before { transform: rotate(90deg); }
+  .policy-card h3 {
+    font-size: 0.9rem;
+    margin: 18px 0 6px;
+    color: var(--color-text);
+  }
+  .policy-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+  .policy-table td {
+    padding: 6px 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .policy-table td:last-child {
+    text-align: right;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+  .policy-note,
+  .policy-list {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+  }
+  .policy-list { padding-left: 1.2em; margin: 6px 0 0; }
+  .policy-list li { margin-bottom: 4px; }
+  /* 施術を受ける方の内訳。ラベルとselectを横並びにして縦の圧迫感を減らす */
+  .attr-group {
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 0.9rem 1rem 0.6rem;
+    margin: 0.4rem 0 1rem;
+  }
+  .attr-group legend {
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0 0.4rem;
+  }
+  .attr-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+  .attr-row label {
+    margin: 0;
+    font-weight: 400;
+    font-size: 0.95rem;
+    flex: 1 1 auto;
+  }
+  .attr-row select {
+    flex: 0 0 5.5rem;
+    margin: 0;
+  }
+  /* 合計が一致しないときだけ赤くする。既定は控えめな注記 */
+  .attr-total { margin-top: 0.5rem; }
+  .attr-total.is-error { color: var(--color-error); font-weight: 600; }
+
+  /* 料金が1名分であることを価格の直後に必ず出す。
+     人数分を掛けた総額と誤解されると当日の会計でもめる */
+  .menu-option .per-person {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--color-muted);
+    white-space: nowrap;
+  }
+
+  /* 国番号と番号本体を横並びに。国番号は内容に応じて幅を取る */
+  .phone-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: stretch;
+  }
+  .phone-row select {
+    flex: 0 0 auto;
+    max-width: 45%;
+    margin: 0;
+  }
+  .phone-row input {
+    flex: 1 1 auto;
+    min-width: 0;   /* flex内でinputが縮まずはみ出すのを防ぐ */
+    margin: 0;
+  }
+
+  /* 同意チェック。タップ範囲を文言全体に広げる */
+  .agree-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    margin: 1rem 0 0.5rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-weight: 400;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+  .agree-row input {
+    flex: 0 0 auto;
+    width: 1.15rem;
+    height: 1.15rem;
+    margin: 0.1rem 0 0;
+    accent-color: var(--color-accent, #7a2f3a);
+    cursor: pointer;
+  }
+  /* 未同意で送信しようとしたときだけ強調する */
+  .agree-row.is-error {
+    border-color: var(--color-error);
+    background: rgba(192, 57, 43, 0.05);
+  }
+
+  .honeypot {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    opacity: 0;
+    height: 0;
+    width: 0;
+  }
+  .submit-btn {
+    width: 100%;
+    background: var(--color-accent);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 14px;
+    font-size: 1.05rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  .submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .msg {
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin-top: 12px;
+  }
+  .msg.error {
+    background: #fdecea;
+    color: var(--color-error);
+    border: 1px solid #f5c6cb;
+  }
+  .msg.success {
+    background: #eaf6ee;
+    color: var(--color-success);
+    border: 1px solid #c3e6cb;
+  }
+  .hidden { display: none !important; }
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    padding: 4px 0;
+  }
+  .summary-row.total {
+    font-weight: bold;
+    font-size: 1.05rem;
+    border-top: 1px solid var(--color-border);
+    margin-top: 6px;
+    padding-top: 8px;
+  }
+  .complete-box {
+    text-align: center;
+    padding: 30px 20px;
+  }
+  .complete-box .big-check {
+    font-size: 3rem;
+    color: var(--color-success);
+  }
+  footer {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    padding: 20px;
+  }
+  footer .official-link { margin: 10px 0 0; }
+  footer .official-link a { color: inherit; text-decoration: underline; }
+  .spinner {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 3px solid rgba(255,255,255,0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+
+  /* 地図。高さを固定しつつ、幅は端末に合わせる */
+  .map-wrap {
+    position: relative;
+    width: 100%;
+    height: 320px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    margin-bottom: 12px;
+  }
+  .map-wrap iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+  /* 経路ボタン。現地で押されるので、指で押しやすい大きさにする */
+  .map-btn {
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-dark));
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .addr-line { font-size: 1.05rem; font-weight: 600; margin: 0 0 4px; }
+  /* 本文中のリンク。経路ボタンほど強くせず、押せることは分かるようにする */
+  .access-link {
+    display: inline-block;
+    color: var(--color-accent-dark);
+    font-weight: 600;
+    text-decoration: underline;
+    padding: 4px 0;
+  }
+  .access-list { padding-left: 1.2em; margin: 6px 0 0; }
+  .access-list li { margin-bottom: 6px; }
+  .back-link { display: inline-block; margin-top: 8px; }
+
+  /* ===========================================================
+     意匠：案A「深い蘇芳と生成り」（2026-10-16）
+
+     【考え方】足すより引く。
+     ・余白を広く、色を絞る（墨・生成り・蘇芳・細い真鍮色の線）
+     ・濃いグラデーション、太い枠、大きな角丸、丸いボタンをやめる
+     ・見出しと価格は明朝体。本文は読みやすいゴシックのまま
+     ・動作・文言・構造は変えない（色と形と書体だけ）
+
+     【守っていること】
+     ・文字色と背景のコントラストは 4.5:1 以上（真鍮色は線だけに使う）
+     ・外部の書体は読み込まない（端末に入っている明朝体を指定。表示を重くしない）
+     ・言語ごとに書体を分ける（日本語・中国語・韓国語は別の明朝系）
+     =========================================================== */
+  :root { --font-serif: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "Noto Serif JP", "MS PMincho", serif; }
+  :root:lang(en), :root:lang(fr) { --font-serif: "Palatino Linotype", "Book Antiqua", Palatino, Georgia, "Times New Roman", serif; }
+  :root:lang(zh-CN) { --font-serif: "Songti SC", "STSong", "SimSun", "Noto Serif SC", serif; }
+  :root:lang(zh-TW) { --font-serif: "Songti TC", "PMingLiU", "MingLiU", "Noto Serif TC", serif; }
+  :root:lang(ko) { --font-serif: "AppleMyungjo", "Batang", "Noto Serif KR", serif; }
+
+  ::selection { background: rgba(176, 141, 87, 0.3); }
+  body { -webkit-font-smoothing: antialiased; }
+
+  /* ヘッダー：濃い帯をやめ、生成りの上に文字と細い線だけにする */
+  header.hero {
+    background: none;
+    color: var(--color-text);
+    padding: 40px 20px 18px;
+  }
+  .hero-emblem {
+    display: block;
+    width: 36px;
+    height: 36px;
+    margin: 0 auto 16px;
+    color: var(--color-brass);
+  }
+  header.hero h1 {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(1.45rem, 6vw, 1.9rem);
+    letter-spacing: 0.16em;
+    /* 字間を空けると、最後の文字の右にも空きが付いて中央からずれて見える */
+    padding-left: 0.16em;
+  }
+  header.hero p {
+    margin: 10px 0 0;
+    opacity: 1;
+    color: var(--color-muted);
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+  }
+  header.hero p::after {
+    content: '';
+    display: block;
+    width: 44px;
+    height: 1px;
+    margin: 20px auto 0;
+    background: var(--color-brass);
+  }
+  /* 言語の切り替え：丸いボタンをやめ、細い縦線で区切った文字にする。
+     狭い画面は3つずつ2段にする（折り返しで区切り線が行頭に残るのを避ける）。 */
+  .lang-switch {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-content: center;
+    gap: 2px 0;
+    margin-top: 12px;
+  }
+  .lang-switch button {
+    position: relative;
+    border: 0;
+    background: none;
+    color: var(--color-muted);
+    padding: 6px 12px;
+    border-radius: 0;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+  }
+  .lang-switch button + button::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 1px;
+    height: 12px;
+    background: var(--color-border);
+    transform: translateY(-50%);
+  }
+  .lang-switch button:nth-child(3n+1)::before { display: none; }
+  .lang-switch button.active {
+    background: none;
+    color: var(--color-accent);
+    font-weight: 600;
+    box-shadow: inset 0 -1px 0 var(--color-brass);
+  }
+  @media (min-width: 560px) {
+    .lang-switch { display: flex; }
+    .lang-switch button + button:nth-child(3n+1)::before { display: block; }
+  }
+
+  /* 区画：角を落とし、余白を広げる。見出しの下に短い真鍮色の線 */
+  .card {
+    border-radius: 2px;
+    padding: 26px 22px;
+    margin-bottom: 22px;
+  }
+  .card h2 {
+    position: relative;
+    margin: 0 0 18px;
+    padding-bottom: 12px;
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.15rem;
+    letter-spacing: 0.06em;
+    color: var(--color-text);
+  }
+  .card h2::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 28px;
+    height: 1px;
+    background: var(--color-brass);
+  }
+  .policy-card summary {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--color-text);
+  }
+
+  /* プラン：選んだ状態は、ピンクの塗りではなく細い二重線で示す */
+  .menu-option {
+    border: 1px solid var(--color-border);
+    border-radius: 2px;
+    padding: 18px 16px;
+    transition: border-color 0.25s, box-shadow 0.25s;
+  }
+  .menu-option:hover { border-color: #cdbfa8; }
+  .menu-option.selected {
+    border-color: var(--color-accent);
+    background: var(--color-card);
+    box-shadow: inset 0 0 0 1px var(--color-accent);
+  }
+  .menu-option .name {
+    margin-bottom: 6px;
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.05rem;
+    letter-spacing: 0.06em;
+  }
+  .menu-option .price {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.25rem;
+    line-height: 1.4;
+    letter-spacing: 0.03em;
+    color: var(--color-accent);
+  }
+  .menu-option .duration { letter-spacing: 0.06em; }
+  .menu-features li::before { font-weight: normal; }
+  .menu-option .lead-note { background: #f3ece0; border-radius: 2px; }
+
+  /* 入力欄：角を小さく、枠を細く。選んだとき（フォーカス）は蘇芳の線と淡い縁取り */
+  label {
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="date"],
+  select,
+  textarea {
+    border-radius: 2px;
+    border-color: #d8ccb9;
+    background: #fffefb;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(122, 46, 66, 0.12);
+  }
+  .attr-group, .agree-row { border-radius: 2px; border-color: #d8ccb9; }
+  .attr-row select:disabled { background: #efe9df; }
+  .hotel-box { border-radius: 2px; background: #fbf8f2; }
+  .constraint-note { background: #f6efe3; border-left-width: 2px; }
+
+  /* 時間の枠 */
+  .slot-btn {
+    border-radius: 2px;
+    background: #fffefb;
+    letter-spacing: 0.04em;
+    transition: border-color 0.2s;
+  }
+  .slot-btn:hover:not(:disabled):not(.selected) { border-color: var(--color-accent); }
+
+  /* ボタン：ほぼ直角。英語・フランス語は大文字にして字間を広げる */
+  .submit-btn {
+    border-radius: 2px;
+    /* 直後に区画が続くので、くっつかないよう下に余白 */
+    margin-bottom: 22px;
+    padding: 16px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    transition: background 0.25s;
+  }
+  .submit-btn:hover:not(:disabled) { background: var(--color-accent-dark); }
+  :root:lang(en) .submit-btn, :root:lang(fr) .submit-btn {
+    font-size: 0.95rem;
+    text-transform: uppercase;
+  }
+  .photo-btn, .gallery-btn, .switch-btn, .cancel-link {
+    border-radius: 2px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+
+  /* メッセージ・合計・完了 */
+  .msg { border-radius: 2px; }
+  .msg.error { background: #fbefec; border-color: #ecc9c2; }
+  .msg.success { background: #f1f5ee; border-color: #d5e0cc; }
+  .summary-row.total {
+    margin-top: 10px;
+    padding-top: 12px;
+    border-top-color: var(--color-brass);
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.15rem;
+  }
+  .policy-table td:last-child { font-weight: 500; }
+  .complete-box .big-check { color: var(--color-accent); font-weight: 300; }
+  .complete-box h2::after { left: 50%; transform: translateX(-50%); }
+
+  /* フッター：細い線で本文と区切り、明朝体で静かに */
+  footer {
+    max-width: 608px;
+    margin: 8px auto 0;
+    padding: 28px 16px 44px;
+    border-top: 1px solid var(--color-border);
+    font-family: var(--font-serif);
+    letter-spacing: 0.08em;
+  }
+
+  .map-wrap { border-radius: 2px; }
+  .map-btn {
+    border-radius: 2px;
+    background: var(--color-accent);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    transition: background 0.25s;
+  }
+  .map-btn:hover { background: var(--color-accent-dark); }
+  .addr-line {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+  }
+
+
+  /* ===========================================================
+     改行（2026-11-11）。スマホで、語の途中や、1〜2文字・1語だけの行で折り返さない
+       ・日本語・中国語：文節の切れ目で折り返す。js/linebreak.js が折り返してよい所に <wbr> を入れ、
+         その要素に .bx を付ける。ここで、それ以外の所（語の途中）での折り返しを止める
+       ・韓国語：語（띄어쓰기の単位）の途中で折り返さない
+       ・見出し・ボタン・ラベル・中央寄せの短い文：行の長さをそろえる（最後の行に1語だけ残らない）
+       ・本文：最後の行が1〜2文字・1語だけにならないようにする（対応している端末だけ。未対応でも崩れない）
+     =========================================================== */
+  html:lang(ja) .bx, html:lang(zh) .bx { word-break: keep-all; overflow-wrap: break-word; }
+  html:lang(ko) body { word-break: keep-all; overflow-wrap: break-word; }
+  h1, h2, h3, h4, summary, button, label, legend, dt, th, figcaption, caption, .hero p, .map-btn, .addr-line, [data-i18n="addr"] { text-wrap: balance; }
+  p, li, dd, td, blockquote, footer { text-wrap: pretty; }
+  p:has(> a:only-child) { text-wrap: balance; }
+
+  /* ---------- 口コミ作成のページ（2026-11-20） ---------- */
+  /* 質問に答えるページなので、見出しは小さくする（スマホで、質問が最初の画面に入るように） */
+  header.hero { padding: 16px 16px 6px; }
+  header.hero .hero-emblem { width: 26px; height: 26px; margin: 0 auto 8px; }
+  header.hero h1 { font-size: clamp(1.1rem, 4.6vw, 1.4rem); letter-spacing: 0.08em; padding-left: 0.08em; line-height: 1.5; text-wrap: balance; }
+  header.hero p { margin-top: 4px; font-size: 0.74rem; letter-spacing: 0.08em; }
+  header.hero p::after { margin-top: 12px; }
+  main { padding-top: 12px; }
+  .rv-card { padding-bottom: 14px; }
+  .rv-steps { display: flex; align-items: center; gap: 12px; margin: 0 0 16px; }
+  .rv-steps-n { min-width: 2.4em; font-size: 0.85rem; color: var(--color-muted); font-variant-numeric: tabular-nums; }
+  .rv-steps-bar { display: flex; flex: 1; gap: 6px; }
+  .rv-steps-bar i { flex: 1; height: 4px; border-radius: 2px; background: var(--color-border); }
+  .rv-steps-bar i.done { background: var(--color-accent-dark); }
+  .rv-steps-bar i.now { background: var(--color-brass); }
+  .rv-card h2.rv-title { margin: 0 0 10px; font-size: 1.2rem; line-height: 1.55; outline: none; text-wrap: balance; }
+  .rv-card h2.rv-title:focus-visible { outline: none; }
+  .rv-lead { margin: 0 0 10px; line-height: 1.8; text-wrap: pretty; }
+  .rv-hint { margin: 0 0 14px; font-size: 0.85rem; line-height: 1.7; color: var(--color-muted); text-wrap: pretty; }
+  .rv-hint.warn { color: var(--color-error); font-weight: 600; }
+  .rv-langlabel { margin: 0 0 8px; font-size: 0.85rem; color: var(--color-muted); }
+  .rv-langs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0 0 20px; }
+  .rv-lang, .rv-chip {
+    font: inherit; font-size: 1rem; line-height: 1.4; min-height: 48px; padding: 10px 14px;
+    color: var(--color-text); background: var(--color-card); border: 1.5px solid #cdbfa8; border-radius: 8px;
+    cursor: pointer; text-align: left; transition: background-color .12s, color .12s, border-color .12s;
+  }
+  .rv-lang { text-align: center; }
+  .rv-lang[aria-pressed="true"], .rv-chip[aria-pressed="true"] { background: var(--color-accent); border-color: var(--color-accent); color: #fff; }
+  .rv-chip[aria-pressed="true"]::before { content: "\2713\00a0"; color: #f0d9a6; font-weight: 700; }
+  .rv-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 18px; }
+  .rv-field { margin: 0 0 18px; }
+  .rv-field label, .rv-q { display: block; margin: 0 0 8px; font-weight: 700; line-height: 1.6; }
+  .rv-text {
+    display: block; width: 100%; min-height: 88px; padding: 12px; font: inherit; font-size: 1rem; line-height: 1.7;
+    color: var(--color-text); background: #fff; border: 1.5px solid #cdbfa8; border-radius: 8px; resize: vertical;
+  }
+  .rv-text::placeholder { color: #6e6259; }
+  .rv-bar {
+    position: sticky; bottom: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    margin: 18px -22px 0; padding: 12px 22px calc(12px + env(safe-area-inset-bottom));
+    background: var(--color-card); border-top: 1px solid var(--color-border);
+  }
+  .rv-bar .submit-btn { margin: 0 0 0 auto; width: auto; flex: 1; max-width: 280px; }
+  .rv-bar .submit-btn:only-child { max-width: none; margin: 0; }
+  .rv-bar .submit-btn[disabled] { opacity: 0.55; cursor: default; }
+  .rv-link { font: inherit; color: var(--color-muted); background: none; border: 0; min-height: 48px; padding: 12px 8px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+  .rv-tabs { display: flex; gap: 22px; margin: 0 0 14px; border-bottom: 1px solid var(--color-border); }
+  .rv-tabs button { font: inherit; font-weight: 700; color: var(--color-muted); background: none; border: 0; border-bottom: 3px solid transparent; margin-bottom: -1px; padding: 10px 2px; cursor: pointer; }
+  .rv-tabs button[aria-selected="true"] { color: var(--color-text); border-bottom-color: var(--color-brass); }
+  .rv-draft { margin: 0 0 14px; padding: 4px 16px; background: #fff; border-left: 4px solid var(--color-brass); }
+  .rv-draft textarea {
+    display: block; width: 100%; min-height: 190px; padding: 12px 0; font: 1.05rem/1.9 "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", Georgia, serif;
+    color: var(--color-text); background: transparent; border: 0; resize: none; overflow: hidden;
+    word-break: auto-phrase;   /* 日本語を文節の切れ目で折り返す（Chrome 119以降。ほかは、いつもの折り返し） */
+  }
+  .rv-draft textarea:focus-visible { outline: 2px solid var(--color-brass); outline-offset: 2px; }
+  .rv-stack { display: grid; gap: 10px; margin: 18px 0 6px; }
+  .rv-stack .submit-btn { margin-top: 0; }
+  .rv-ghost { display: block; text-align: center; text-decoration: none; background: transparent; color: var(--color-accent-dark); border: 1.5px solid var(--color-accent); border-radius: 999px; padding: 13px; font-size: 1.05rem; font-weight: bold; }
+  .rv-ghost:hover { background: rgba(122, 46, 66, 0.07); }
+  button.rv-ghost { width: 100%; font: inherit; font-size: 1.05rem; font-weight: bold; cursor: pointer; }
+  a.rv-open { display: block; text-align: center; text-decoration: none; box-sizing: border-box; }
+  .rv-how { margin: 16px 0 0; padding: 12px 14px; background: #f7f3ec; border-radius: 8px; font-size: 0.9rem; line-height: 1.7; }
+  .rv-how-t { margin: 0 0 4px; font-weight: 700; }
+  .rv-how ol { margin: 0; padding-left: 1.4em; }
+  .rv-how li { margin: 2px 0; text-wrap: pretty; }
+  .rv-small { margin: 14px 0 0; font-size: 0.82rem; line-height: 1.7; color: var(--color-muted); text-wrap: pretty; }
+  .rv-center { text-align: center; margin: 8px 0 4px; }
+  .rv-toast {
+    position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 30;
+    max-width: 90vw; padding: 10px 18px; color: #fff; background: #2a2320; border-radius: 8px; font-size: 0.95rem;
+    opacity: 0; pointer-events: none; transition: opacity .18s;
+  }
+  .rv-toast.show { opacity: 1; }
+  .rv-card :focus-visible, .rv-lang:focus-visible, .rv-chip:focus-visible { outline: 3px solid var(--color-brass); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) { .rv-lang, .rv-chip, .rv-toast { transition: none; } }
+  @media (max-width: 480px) { .rv-bar { margin-left: -20px; margin-right: -20px; padding-left: 20px; padding-right: 20px; } }
+</style>
+<!-- 日本語・中国語の改行を文節の切れ目にそろえる（2026-11-11）。読めなくてもページはふつうに動く -->
+<script src="./js/linebreak.js" defer></script>
+</head>
+<body>
+
+<header class="hero">
+  <!-- 扇の線画（ファビコンと同じ意匠）。文字の上に1つだけ置く -->
+  <svg class="hero-emblem" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M50 88 22 34a40 40 0 0 1 56 0Z"/><path d="M50 88 32 40M50 88 41 36M50 88 59 36M50 88 68 40"/></g><circle cx="50" cy="88" r="3.5" fill="currentColor"/></svg>
+  <h1 id="pageH1">Tell us about your kimono experience</h1>
+  <p id="pageSub">Salon BI-BI | 4F, KKR Hotel Osaka</p>
+</header>
+
+<main>
+  <!-- 質問・結果の画面は、JS がここに描く -->
+  <div class="card rv-card" id="app">
+    <p>Answer a few quick questions and we'll turn your own words into a review draft.</p>
+    <noscript><p>JavaScript is required to use this page.</p></noscript>
+  </div>
+</main>
+
+<div class="rv-toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  // 予約ページ（index.html）と同じ GAS。ここを変えるときは、index.html の GAS_URL も同じにする
+  var GAS_URL = 'https://script.google.com/macros/s/AKfycbzVEvnI5_In7_s1IZyMWR92FMGs1ZKqoOmsctqKaVL6g1DAGpIvXUlCMHnusHR31fLlLA/exec';
+  // 口コミの投稿先。GAS が返す値を優先する（GAS が古くて返さないときの備え。Code.gs の REVIEW_URL と同じ）
+  var DEFAULT_REVIEW_URL = 'https://search.google.com/local/writereview?placeid=ChIJf_4T5n_hAGARQvfQZjG1cRo';
+
+  var I18N = {
+  "ja": {
+    "title": "感想のお手伝い｜和装体験 KKRホテル大阪",
+    "h1": "着物体験の感想を教えてください",
+    "sub": "美容室 BI-BI｜KKRホテル大阪 4階",
+    "langLabel": "言語 / Language",
+    "lead": "いくつかの質問に答えると、あなたの言葉をもとに口コミの下書きを作ります。",
+    "note": "すべて任意です。何を書くかはあなた次第で、投稿もご自身で行います。回答は下書きを作るためだけに使います。",
+    "privacy": "回答は、下書きを作るためにAIサービス（GoogleのGemini）へ送られます。当店では保存しません。",
+    "begin": "はじめる",
+    "next": "次へ",
+    "back": "戻る",
+    "pickHint": "当てはまるものを選ぶか、ご自由に書いてください。",
+    "other": "ご自身の言葉で（任意）",
+    "needOne": "続けるには、1つ以上選ぶか書いてください。",
+    "whoTitle": "この体験は、どんな人に合うと思いますか？",
+    "whoChips": [
+      "友人どうし",
+      "家族",
+      "カップル",
+      "一人旅",
+      "日本文化に興味がある人",
+      "初めての日本旅行"
+    ],
+    "didTitle": "どんなことをしましたか？",
+    "didChips": [
+      "着物を選んだ",
+      "着付けをしてもらった",
+      "大阪城を背景に写真を撮った",
+      "自撮りをした",
+      "着物で散策した",
+      "スタッフと話した"
+    ],
+    "valueTitle": "この体験はあなたにとってどんなものでしたか？",
+    "valueChips": [
+      "日本旅行の思い出になった",
+      "伝統文化に触れられた",
+      "きれいな写真が残った",
+      "大阪ならではの体験だった",
+      "思っていたのと少し違った"
+    ],
+    "detailTitle": "あと少しだけ",
+    "qLoading": "質問を考えています…",
+    "fallbackQ": "印象に残った場面はありましたか？ ひとことで教えてください。",
+    "placeholder": "ひとことで大丈夫です（任意）",
+    "improveLabel": "もっと良くなりそうな点はありますか？（任意）",
+    "make": "下書きを作る",
+    "making": "下書きを作っています…",
+    "resultTitle": "下書きを2つ作りました",
+    "tabShort": "短め",
+    "tabLong": "詳しめ",
+    "resultNote": "お話しいただいた内容だけをもとにしています。自由に直して、実際に体験したことだけを残してください。",
+    "copy": "コピーだけする",
+    "copied": "コピーしました",
+    "copyFail": "コピーできませんでした。文章を選んでコピーしてください。",
+    "open": "コピーしてGoogleマップへ",
+    "howTitle": "投稿のしかた",
+    "step1": "上のボタンで、文章をコピーしてGoogleマップを開きます。",
+    "step2": "星の数を選びます。",
+    "step3": "文章の欄を長押しして「貼り付け」を選び、「投稿」を押します（Googleアカウントへのログインが必要です）。",
+    "after": "星の数はご自身で選んでください。口コミへの特典はありません。",
+    "restart": "最初からやり直す",
+    "errorTitle": "入力内容",
+    "error": "下書きを自動では作れませんでした。入力内容を下に表示しています。直してから投稿できます。"
+  },
+  "en": {
+    "title": "Review helper | Kimono Experience, KKR Hotel Osaka",
+    "h1": "Tell us about your kimono experience",
+    "sub": "Salon BI-BI | 4F, KKR Hotel Osaka",
+    "langLabel": "言語 / Language",
+    "lead": "Answer a few quick questions and we'll turn your own words into a review draft.",
+    "note": "Everything is optional. You choose what to write, and you post it yourself. Your answers are used only to create the draft.",
+    "privacy": "Your answers are sent to an AI service (Google Gemini) to write the draft. We do not store them.",
+    "begin": "Start",
+    "next": "Next",
+    "back": "Back",
+    "pickHint": "Pick any that apply, or write your own.",
+    "other": "In your own words (optional)",
+    "needOne": "Choose or write at least one thing to continue.",
+    "whoTitle": "Who do you think this experience suits?",
+    "whoChips": [
+      "Friends",
+      "Families",
+      "Couples",
+      "Solo travelers",
+      "People curious about Japanese culture",
+      "First-time visitors to Japan"
+    ],
+    "didTitle": "What did you do?",
+    "didChips": [
+      "Chose a kimono",
+      "Got dressed in a kimono",
+      "Took photos with Osaka Castle behind me",
+      "Took selfies",
+      "Walked around in a kimono",
+      "Chatted with the staff"
+    ],
+    "valueTitle": "What did this experience mean to you?",
+    "valueChips": [
+      "A memory of my trip to Japan",
+      "A taste of traditional culture",
+      "Beautiful photos to keep",
+      "Something unique to Osaka",
+      "It wasn't quite what I expected"
+    ],
+    "detailTitle": "One more thing",
+    "qLoading": "Thinking of a question…",
+    "fallbackQ": "Was there a moment that stood out to you? Tell us about it.",
+    "placeholder": "A few words are enough (optional)",
+    "improveLabel": "Anything that could be better? (optional)",
+    "make": "Create draft",
+    "making": "Writing your draft…",
+    "resultTitle": "Two drafts for you",
+    "tabShort": "Short",
+    "tabLong": "Detailed",
+    "resultNote": "The drafts use only what you told us. Edit anything, and keep only what you truly experienced.",
+    "copy": "Copy only",
+    "copied": "Copied",
+    "copyFail": "Couldn't copy. Please select the text and copy it.",
+    "open": "Copy & open Google Maps",
+    "howTitle": "How to post",
+    "step1": "Tap the button above to copy your text and open Google Maps.",
+    "step2": "Choose your star rating.",
+    "step3": "Press and hold the text box, choose \"Paste\", then tap \"Post\" (you need to be signed in to a Google account).",
+    "after": "You choose the star rating yourself. We don't offer rewards for reviews.",
+    "restart": "Start over",
+    "errorTitle": "Your notes",
+    "error": "The draft couldn't be created automatically. Your notes are below. Edit them and post if you like."
+  },
+  "zh-CN": {
+    "title": "评价小助手｜和服体验 KKR大阪酒店",
+    "h1": "分享您的和服体验",
+    "sub": "美容室 BI-BI｜KKR大阪酒店 4楼",
+    "langLabel": "言語 / Language",
+    "lead": "回答几个简单的问题，我们会根据您自己的话，帮您整理出评价草稿。",
+    "note": "所有内容均为选填。写什么由您决定，也由您自己发布。您的回答只会用来生成草稿。",
+    "privacy": "您的回答会发送给 AI 服务（Google Gemini）来撰写草稿。我们不会保存。",
+    "begin": "开始",
+    "next": "下一步",
+    "back": "上一步",
+    "pickHint": "可多选，也可以用自己的话写。",
+    "other": "用自己的话写（选填）",
+    "needOne": "请至少选择或填写一项后再继续。",
+    "whoTitle": "您觉得这次体验适合哪些人？",
+    "whoChips": [
+      "朋友",
+      "家人",
+      "情侣",
+      "一个人旅行",
+      "对日本文化感兴趣的人",
+      "第一次来日本的人"
+    ],
+    "didTitle": "您做了些什么？",
+    "didChips": [
+      "挑选和服",
+      "穿上和服",
+      "以大阪城为背景拍照",
+      "自拍",
+      "穿着和服散步",
+      "和工作人员聊天"
+    ],
+    "valueTitle": "这次体验对您来说意味着什么？",
+    "valueChips": [
+      "日本旅行的回忆",
+      "体验传统文化",
+      "留下漂亮的照片",
+      "大阪独有的体验",
+      "和我想象的不太一样"
+    ],
+    "detailTitle": "再多说一点",
+    "qLoading": "正在想一个问题…",
+    "fallbackQ": "有没有哪个瞬间让您印象深刻？请简单说说。",
+    "placeholder": "简单几句就可以（选填）",
+    "improveLabel": "有什么地方可以做得更好吗？（选填）",
+    "make": "生成草稿",
+    "making": "正在撰写草稿…",
+    "resultTitle": "已为您准备两份草稿",
+    "tabShort": "简短版",
+    "tabLong": "详细版",
+    "resultNote": "草稿只根据您提供的内容。请随意修改，只保留您真正体验过的内容。",
+    "copy": "仅复制",
+    "copied": "已复制",
+    "copyFail": "复制失败。请选中文字后手动复制。",
+    "open": "复制并打开 Google 地图",
+    "howTitle": "发布方法",
+    "step1": "点击上方按钮，复制文字并打开 Google 地图。",
+    "step2": "选择星级。",
+    "step3": "长按文字框，选择“粘贴”，然后点击“发布”（需要登录 Google 账号）。",
+    "after": "星级由您自己决定。我们不会为评价提供回馈或赠品。",
+    "restart": "重新开始",
+    "errorTitle": "您填写的内容",
+    "error": "无法自动生成草稿。下方是您填写的内容，可自行修改后发布。"
+  },
+  "zh-TW": {
+    "title": "評論小幫手｜和服體驗 KKR大阪飯店",
+    "h1": "分享您的和服體驗",
+    "sub": "美容室 BI-BI｜KKR大阪飯店 4樓",
+    "langLabel": "言語 / Language",
+    "lead": "回答幾個簡單的問題，我們會根據您自己的話，幫您整理出評論草稿。",
+    "note": "所有項目都是選填。要寫什麼由您決定，也由您自己發佈。您的回答只會用來產生草稿。",
+    "privacy": "您的回答會傳送給 AI 服務（Google Gemini）來撰寫草稿。我們不會保存。",
+    "begin": "開始",
+    "next": "下一步",
+    "back": "上一步",
+    "pickHint": "可複選，也可以用自己的話寫。",
+    "other": "用自己的話寫（選填）",
+    "needOne": "請至少選擇或填寫一項才能繼續。",
+    "whoTitle": "您覺得這個體驗適合哪些人？",
+    "whoChips": [
+      "朋友",
+      "家人",
+      "情侶",
+      "一個人旅行",
+      "對日本文化有興趣的人",
+      "第一次來日本的人"
+    ],
+    "didTitle": "您做了些什麼？",
+    "didChips": [
+      "挑選和服",
+      "穿上和服",
+      "以大阪城為背景拍照",
+      "自拍",
+      "穿著和服散步",
+      "和工作人員聊天"
+    ],
+    "valueTitle": "這次體驗對您來說意味著什麼？",
+    "valueChips": [
+      "日本旅行的回憶",
+      "體驗傳統文化",
+      "留下漂亮的照片",
+      "大阪獨有的體驗",
+      "和我想像的不太一樣"
+    ],
+    "detailTitle": "再多說一點",
+    "qLoading": "正在想一個問題…",
+    "fallbackQ": "有沒有哪個瞬間讓您印象深刻？請簡單說說。",
+    "placeholder": "簡單幾句就可以（選填）",
+    "improveLabel": "有什麼地方可以做得更好嗎？（選填）",
+    "make": "產生草稿",
+    "making": "正在撰寫草稿…",
+    "resultTitle": "已為您準備兩份草稿",
+    "tabShort": "簡短版",
+    "tabLong": "詳細版",
+    "resultNote": "草稿只根據您提供的內容。請自由修改，只保留您真正體驗過的內容。",
+    "copy": "僅複製",
+    "copied": "已複製",
+    "copyFail": "複製失敗。請選取文字後手動複製。",
+    "open": "複製並開啟 Google 地圖",
+    "howTitle": "發佈方式",
+    "step1": "點選上方按鈕，複製文字並開啟 Google 地圖。",
+    "step2": "選擇星等。",
+    "step3": "長按文字框，選擇「貼上」，再點選「發佈」（需要登入 Google 帳戶）。",
+    "after": "星等由您自行決定。我們不會提供評論回饋或贈品。",
+    "restart": "重新開始",
+    "errorTitle": "您填寫的內容",
+    "error": "無法自動產生草稿。下方是您填寫的內容，可自行修改後發佈。"
+  },
+  "ko": {
+    "title": "후기 도우미｜기모노 체험 KKR 호텔 오사카",
+    "h1": "기모노 체험 후기를 들려주세요",
+    "sub": "살롱 BI-BI | KKR 호텔 오사카 4층",
+    "langLabel": "言語 / Language",
+    "lead": "간단한 질문에 답해 주시면, 직접 말씀하신 내용을 바탕으로 후기 초안을 만들어 드려요.",
+    "note": "모든 항목은 선택 사항입니다. 무엇을 쓸지는 직접 정하시고, 게시도 직접 하시면 됩니다. 답변은 초안을 만드는 데만 사용됩니다.",
+    "privacy": "답변은 초안을 쓰기 위해 AI 서비스(Google Gemini)로 전송됩니다. 저희는 저장하지 않습니다.",
+    "begin": "시작하기",
+    "next": "다음",
+    "back": "이전",
+    "pickHint": "해당하는 것을 고르거나 직접 써 주세요.",
+    "other": "직접 써 주세요 (선택)",
+    "needOne": "계속하려면 하나 이상 고르거나 적어 주세요.",
+    "whoTitle": "이 체험은 어떤 분들께 어울린다고 생각하세요?",
+    "whoChips": [
+      "친구와 함께",
+      "가족",
+      "커플",
+      "혼자 여행하는 분",
+      "일본 문화에 관심 있는 분",
+      "일본이 처음인 분"
+    ],
+    "didTitle": "어떤 것을 하셨나요?",
+    "didChips": [
+      "기모노를 골랐어요",
+      "기모노를 입었어요",
+      "오사카성을 배경으로 사진을 찍었어요",
+      "셀카를 찍었어요",
+      "기모노를 입고 산책했어요",
+      "직원과 이야기를 나눴어요"
+    ],
+    "valueTitle": "이 체험은 어떤 의미였나요?",
+    "valueChips": [
+      "일본 여행의 추억이 됐어요",
+      "전통문화를 접할 수 있었어요",
+      "예쁜 사진이 남았어요",
+      "오사카에서만 할 수 있는 체험이었어요",
+      "기대와는 조금 달랐어요"
+    ],
+    "detailTitle": "조금만 더",
+    "qLoading": "질문을 생각하고 있어요…",
+    "fallbackQ": "기억에 남는 순간이 있었나요? 한두 마디로 알려 주세요.",
+    "placeholder": "한두 마디면 충분해요 (선택)",
+    "improveLabel": "더 좋아질 만한 점이 있나요? (선택)",
+    "make": "초안 만들기",
+    "making": "초안을 쓰고 있어요…",
+    "resultTitle": "초안 두 개를 만들었어요",
+    "tabShort": "짧게",
+    "tabLong": "자세히",
+    "resultNote": "말씀해 주신 내용만을 바탕으로 만들었어요. 자유롭게 고치시고, 실제로 경험한 내용만 남겨 주세요.",
+    "copy": "복사만 하기",
+    "copied": "복사했어요",
+    "copyFail": "복사하지 못했어요. 글을 선택해서 복사해 주세요.",
+    "open": "복사하고 Google 지도 열기",
+    "howTitle": "게시 방법",
+    "step1": "위 버튼을 누르면 문장이 복사되고 Google 지도가 열립니다.",
+    "step2": "별점을 고릅니다.",
+    "step3": "입력란을 길게 눌러 붙여넣기를 선택한 뒤 게시를 누릅니다(Google 계정 로그인이 필요합니다).",
+    "after": "별점은 직접 정해 주세요. 후기에 대한 사은품이나 혜택은 없습니다.",
+    "restart": "처음부터 다시",
+    "errorTitle": "입력하신 내용",
+    "error": "초안을 자동으로 만들지 못했어요. 입력하신 내용을 아래에 보여 드려요. 고쳐서 게시하셔도 됩니다."
+  },
+  "fr": {
+    "title": "Aide à la rédaction d’un avis | Expérience Kimono, KKR Hotel Osaka",
+    "h1": "Racontez-nous votre expérience en kimono",
+    "sub": "Salon BI-BI | 4e étage, KKR Hotel Osaka",
+    "langLabel": "言語 / Language",
+    "lead": "Répondez à quelques questions rapides et nous transformerons vos propres mots en brouillon d’avis.",
+    "note": "Tout est facultatif. Vous choisissez ce que vous écrivez, et vous publiez vous-même. Vos réponses servent uniquement à créer le brouillon.",
+    "privacy": "Vos réponses sont envoyées à un service d’IA (Google Gemini) pour rédiger le brouillon. Nous ne les conservons pas.",
+    "begin": "Commencer",
+    "next": "Suivant",
+    "back": "Retour",
+    "pickHint": "Choisissez ce qui vous correspond, ou écrivez avec vos propres mots.",
+    "other": "Avec vos propres mots (facultatif)",
+    "needOne": "Choisissez ou écrivez au moins une chose pour continuer.",
+    "whoTitle": "À qui cette expérience convient-elle, selon vous ?",
+    "whoChips": [
+      "Entre amis",
+      "En famille",
+      "En couple",
+      "Voyageurs en solo",
+      "Curieux de la culture japonaise",
+      "Première visite au Japon"
+    ],
+    "didTitle": "Qu’avez-vous fait ?",
+    "didChips": [
+      "J’ai choisi un kimono",
+      "On m’a habillé(e) en kimono",
+      "J’ai pris des photos devant le château d’Osaka",
+      "J’ai fait des selfies",
+      "Je me suis promené(e) en kimono",
+      "J’ai discuté avec l’équipe"
+    ],
+    "valueTitle": "Que représente cette expérience pour vous ?",
+    "valueChips": [
+      "Un souvenir de mon voyage au Japon",
+      "Un aperçu de la culture traditionnelle",
+      "De belles photos à garder",
+      "Une expérience unique à Osaka",
+      "Ce n’était pas tout à fait ce que j’attendais"
+    ],
+    "detailTitle": "Encore une chose",
+    "qLoading": "Je cherche une question…",
+    "fallbackQ": "Y a-t-il eu un moment qui vous a marqué ? Racontez-le-nous.",
+    "placeholder": "Quelques mots suffisent (facultatif)",
+    "improveLabel": "Quelque chose pourrait-il être mieux ? (facultatif)",
+    "make": "Créer le brouillon",
+    "making": "Rédaction du brouillon…",
+    "resultTitle": "Deux brouillons pour vous",
+    "tabShort": "Court",
+    "tabLong": "Détaillé",
+    "resultNote": "Les brouillons reprennent uniquement ce que vous nous avez dit. Modifiez ce que vous voulez et ne gardez que ce que vous avez vraiment vécu.",
+    "copy": "Copier seulement",
+    "copied": "Copié",
+    "copyFail": "La copie a échoué. Sélectionnez le texte et copiez-le.",
+    "open": "Copier et ouvrir Google Maps",
+    "howTitle": "Comment publier",
+    "step1": "Touchez le bouton ci-dessus pour copier votre texte et ouvrir Google Maps.",
+    "step2": "Choisissez votre note en étoiles.",
+    "step3": "Appuyez longuement dans la zone de texte, choisissez « Coller », puis touchez « Publier » (vous devez être connecté(e) à un compte Google).",
+    "after": "Vous choisissez vous-même la note en étoiles. Nous n’offrons aucune récompense en échange d’un avis.",
+    "restart": "Recommencer",
+    "errorTitle": "Vos notes",
+    "error": "Le brouillon n’a pas pu être créé automatiquement. Vos notes sont ci-dessous ; modifiez-les et publiez si vous le souhaitez."
+  }
+};
+
+  var LANGS = [
+    { code: 'ja', label: '日本語' }, { code: 'en', label: 'English' },
+    { code: 'zh-CN', label: '简体中文' }, { code: 'zh-TW', label: '繁體中文' },
+    { code: 'ko', label: '한국어' }, { code: 'fr', label: 'Français' }
+  ];
+  var CHIP_STEPS = ['who', 'did', 'value'];
+
+  // 画面全体の状態。選択肢は「番号」で持つので、言語を切り替えても崩れない。
+  var state = {
+    lang: 'en',
+    view: 'intro',                 // intro | who | did | value | detail | result
+    sel: { who: [], did: [], value: [] },
+    text: { who: '', did: '', value: '', detail: '', improve: '' },
+    followup: '', followupKey: '', followupLoading: false,
+    drafts: { short: '', long: '' }, tab: 'short', draftError: false, busy: false,
+    ai: null,                      // null＝まだ分からない／true＝使える／false＝使えない（キー未設定・止めている）
+    reviewUrl: DEFAULT_REVIEW_URL
+  };
+
+  function t(key) {
+    var d = I18N[state.lang] || I18N.en;
+    return d[key] !== undefined ? d[key] : I18N.en[key];
+  }
+
+  // ?lang= があればそれ。無ければブラウザの言語から。
+  function detectLang() {
+    var m = /[?&]lang=([\w-]+)/.exec(location.search);
+    if (m && I18N[m[1]]) return m[1];
+    var list = navigator.languages || [navigator.language || 'en'];
+    for (var i = 0; i < list.length; i++) {
+      var l = String(list[i]).toLowerCase();
+      if (l.indexOf('ja') === 0) return 'ja';
+      if (l.indexOf('ko') === 0) return 'ko';
+      if (l.indexOf('fr') === 0) return 'fr';
+      if (l.indexOf('zh') === 0) return /tw|hk|mo|hant/.test(l) ? 'zh-TW' : 'zh-CN';
+      if (l.indexOf('en') === 0) return 'en';
+    }
+    return 'en';
+  }
+
+  // DOM要素を作る。文字は必ずテキストとして入れる（入力内容でHTMLが壊れない）
+  function h(tag, props) {
+    var el = document.createElement(tag);
+    var p = props || {};
+    Object.keys(p).forEach(function (k) {
+      var v = p[k];
+      if (v == null || v === false) return;
+      if (k === 'class') el.className = v;
+      else if (k.indexOf('on') === 0) el.addEventListener(k.slice(2), v);
+      else el.setAttribute(k, v === true ? '' : v);
+    });
+    for (var i = 2; i < arguments.length; i++) {
+      var kids = [].concat(arguments[i]);
+      for (var j = 0; j < kids.length; j++) if (kids[j] != null && kids[j] !== false) el.append(kids[j]);
+    }
+    return el;
+  }
+
+  function toast(message) {
+    var el = document.getElementById('toast');
+    el.textContent = message;
+    el.classList.add('show');
+    clearTimeout(toast.timer);
+    toast.timer = setTimeout(function () { el.classList.remove('show'); }, 2200);
+  }
+
+  // クリップボードにコピーする。使えない端末向けの代わりの方法つき
+  function copyText(text) {
+    var fallback = function () {
+      var ta = h('textarea', { 'aria-hidden': 'true', style: 'position:fixed;opacity:0' });
+      ta.value = text;
+      document.body.append(ta);
+      ta.select();
+      var done = false;
+      try { done = document.execCommand('copy'); } catch (e) { /* 何もしない */ }
+      ta.remove();
+      return done;
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text).then(function () { return true; }, function () { return fallback(); });
+    }
+    return Promise.resolve(fallback());
+  }
+
+  // ---------- GAS との通信（GET は設定、POST は質問・下書き）。失敗したら例外 ----------
+  function withTimeout(ms) {
+    var ctrl = typeof AbortController === 'function' ? new AbortController() : null;
+    var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, ms) : 0;
+    return { signal: ctrl ? ctrl.signal : undefined, done: function () { clearTimeout(timer); } };
+  }
+  function readJson(res) {
+    return res.json().catch(function () { return null; }).then(function (data) {
+      if (!res.ok || !data) throw new Error('http_' + res.status);
+      return data;
+    });
+  }
+  function apiPost(body) {
+    var to = withTimeout(40000);
+    body.a = 'review';
+    return fetch(GAS_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },   // application/json にしない（GAS が受けられなくなる）
+      body: JSON.stringify(body),
+      signal: to.signal
+    }).then(readJson).then(function (data) {
+      to.done();
+      if (data.status !== 'ok') throw new Error(data.code || 'error');
+      return data;
+    }, function (err) { to.done(); throw err; });
+  }
+  function apiConfig() {
+    var to = withTimeout(15000);
+    return fetch(GAS_URL + '?a=reviewcfg', { signal: to.signal }).then(readJson).then(function (data) {
+      to.done();
+      return data;
+    }, function (err) { to.done(); throw err; });
+  }
+
+  // 1つの質問の回答を「選んだ項目 + 自由記入」の文字列にまとめる
+  function answerText(key) {
+    var chips = t(key + 'Chips');
+    var labels = state.sel[key].map(function (i) { return chips[i]; });
+    return labels.concat([state.text[key].trim()]).filter(Boolean).join('; ');
+  }
+  function collectAnswers() {
+    return {
+      who: answerText('who'), did: answerText('did'), value: answerText('value'),
+      detail: state.text.detail.trim(), improve: state.text.improve.trim()
+    };
+  }
+  function hasAnyAnswer() {
+    return CHIP_STEPS.some(function (k) { return state.sel[k].length > 0 || state.text[k].trim(); });
+  }
+  function autosize(ta) {
+    ta.style.height = 'auto';
+    ta.style.height = ta.scrollHeight + 'px';
+  }
+
+  // ---------- 画面 ----------
+  function stepBar(n) {
+    var bars = [1, 2, 3, 4].map(function (i) { return h('i', { class: i < n ? 'done' : (i === n ? 'now' : '') }); });
+    return h('div', { class: 'rv-steps', role: 'img', 'aria-label': n + '/4' },
+      h('span', { class: 'rv-steps-n' }, n + '/4'), h('span', { class: 'rv-steps-bar' }, bars));
+  }
+
+  function viewIntro() {
+    var langs = h('div', { class: 'rv-langs', role: 'group', 'aria-label': 'Language' },
+      LANGS.map(function (l) {
+        return h('button', {
+          type: 'button', class: 'rv-lang', lang: l.code, 'aria-pressed': String(l.code === state.lang),
+          onclick: function () { state.lang = l.code; render(); }
+        }, l.label);
+      }));
+    return h('section', null,
+      h('p', { class: 'rv-langlabel' }, t('langLabel')),
+      langs,
+      h('p', { class: 'rv-lead' }, t('lead')),
+      h('p', { class: 'rv-hint' }, t('note')),
+      h('p', { class: 'rv-hint' }, t('privacy')),
+      h('div', { class: 'rv-bar' }, h('button', { type: 'button', class: 'submit-btn', onclick: function () { go('who'); } }, t('begin'))));
+  }
+
+  function viewChipStep(key) {
+    var idx = CHIP_STEPS.indexOf(key);
+    var need = h('p', { class: 'rv-hint warn', role: 'alert', hidden: true }, t('needOne'));
+    var chips = h('div', { class: 'rv-chips', role: 'group', 'aria-labelledby': 'rvTitle' },
+      t(key + 'Chips').map(function (label, i) {
+        var btn = h('button', {
+          type: 'button', class: 'rv-chip', 'aria-pressed': String(state.sel[key].indexOf(i) !== -1),
+          onclick: function () {
+            var list = state.sel[key];
+            var at = list.indexOf(i);
+            if (at === -1) list.push(i); else list.splice(at, 1);
+            btn.setAttribute('aria-pressed', String(at === -1));
+            need.hidden = true;
+          }
+        }, label);
+        return btn;
+      }));
+    var ta = h('textarea', {
+      class: 'rv-text', rows: '2', maxlength: '500', autocomplete: 'off', placeholder: t('other'), 'aria-label': t('other'),
+      oninput: function () { state.text[key] = ta.value; need.hidden = true; }
+    });
+    ta.value = state.text[key];
+    var prev = idx === 0 ? 'intro' : CHIP_STEPS[idx - 1];
+    var onNext = function () {
+      if (key === 'value' && !hasAnyAnswer()) { need.hidden = false; return; }
+      go(key === 'value' ? 'detail' : CHIP_STEPS[idx + 1]);
+    };
+    return h('section', null,
+      stepBar(idx + 1),
+      h('h2', { class: 'rv-title', id: 'rvTitle' }, t(key + 'Title')),
+      h('p', { class: 'rv-hint' }, t('pickHint')),
+      chips,
+      h('div', { class: 'rv-field' }, ta),
+      need,
+      h('div', { class: 'rv-bar' },
+        h('button', { type: 'button', class: 'rv-link', onclick: function () { go(prev); } }, t('back')),
+        h('button', { type: 'button', class: 'submit-btn', onclick: onNext }, t('next'))));
+  }
+
+  function viewDetail() {
+    var q = h('p', { class: 'rv-q', id: 'followupQ' }, state.followupLoading ? t('qLoading') : state.followup);
+    var ta = h('textarea', {
+      class: 'rv-text', id: 'detailText', rows: '3', maxlength: '500', autocomplete: 'off', placeholder: t('placeholder'),
+      'aria-labelledby': 'followupQ', oninput: function () { state.text.detail = ta.value; }
+    });
+    ta.value = state.text.detail;
+    var improve = h('textarea', {
+      class: 'rv-text', id: 'improveText', rows: '2', maxlength: '500', autocomplete: 'off', placeholder: t('placeholder'),
+      oninput: function () { state.text.improve = improve.value; }
+    });
+    improve.value = state.text.improve;
+    var make = h('button', { type: 'button', class: 'submit-btn', id: 'makeBtn', onclick: function () { makeDrafts(make); } }, t('make'));
+    loadFollowup();
+    return h('section', null,
+      stepBar(4),
+      h('h2', { class: 'rv-title', id: 'rvTitle' }, t('detailTitle')),
+      h('div', { class: 'rv-field' }, q, ta),
+      h('div', { class: 'rv-field' }, h('label', { for: 'improveText' }, t('improveLabel')), improve),
+      h('div', { class: 'rv-bar' },
+        h('button', { type: 'button', class: 'rv-link', onclick: function () { go('value'); } }, t('back')), make));
+  }
+
+  function viewResult() {
+    var d = state.drafts;
+    var key = state.draftError ? 'short' : state.tab;
+    var ta = h('textarea', {
+      id: 'draftText', 'aria-label': t('resultTitle'),
+      oninput: function () { d[key] = ta.value; autosize(ta); }
+    });
+    ta.value = d[key];
+    var tabs = state.draftError ? null : h('div', { class: 'rv-tabs', role: 'tablist' },
+      [['short', t('tabShort')], ['long', t('tabLong')]].map(function (p) {
+        return h('button', {
+          type: 'button', role: 'tab', id: 'tab_' + p[0], 'aria-selected': String(state.tab === p[0]),
+          onclick: function () { state.tab = p[0]; render(); }
+        }, p[1]);
+      }));
+    // 押した瞬間にコピーする（コピーは、押す操作の中で始めないと、スマホで止められることがある）
+    var doCopy = function () { copyText(ta.value).then(function (ok) { toast(ok ? t('copied') : t('copyFail')); }); };
+    // 主ボタン：コピーして、そのまま Google マップの口コミ画面を開く（リンクの動きは止めない）
+    var open = state.reviewUrl
+      ? h('a', { class: 'submit-btn rv-open', id: 'openLink', href: state.reviewUrl, target: '_blank', rel: 'noopener noreferrer', onclick: doCopy }, t('open'))
+      : null;
+    var copyBtn = h('button', { type: 'button', class: open ? 'rv-ghost' : 'submit-btn', id: 'copyBtn', onclick: doCopy }, t('copy'));
+    var how = open ? h('div', { class: 'rv-how' },
+      h('p', { class: 'rv-how-t' }, t('howTitle')),
+      h('ol', null, h('li', null, t('step1')), h('li', null, t('step2')), h('li', null, t('step3')))) : null;
+    setTimeout(function () { autosize(ta); }, 0);
+    setTimeout(function () { autosize(ta); }, 80);
+    return h('section', null,
+      h('h2', { class: 'rv-title', id: 'rvTitle' }, state.draftError ? t('errorTitle') : t('resultTitle')),
+      state.draftError ? h('p', { class: 'rv-hint warn' }, t('error')) : h('p', { class: 'rv-hint' }, t('resultNote')),
+      tabs,
+      h('div', { class: 'rv-draft' }, ta),
+      h('div', { class: 'rv-stack' }, open, copyBtn),
+      how,
+      h('p', { class: 'rv-small' }, t('after')),
+      h('div', { class: 'rv-center' }, h('button', { type: 'button', class: 'rv-link', id: 'restartBtn', onclick: restart }, t('restart'))));
+  }
+
+  var VIEWS = {
+    intro: viewIntro,
+    who: function () { return viewChipStep('who'); },
+    did: function () { return viewChipStep('did'); },
+    value: function () { return viewChipStep('value'); },
+    detail: viewDetail,
+    result: viewResult
+  };
+
+  function render() {
+    document.documentElement.lang = state.lang;
+    document.title = t('title');
+    document.getElementById('pageH1').textContent = t('h1');
+    document.getElementById('pageSub').textContent = t('sub');
+    var app = document.getElementById('app');
+    app.replaceChildren(VIEWS[state.view]());
+    var heading = app.querySelector('h2');
+    if (heading) { heading.setAttribute('tabindex', '-1'); heading.focus({ preventScroll: true }); }
+  }
+  function go(view) {
+    state.view = view;
+    window.scrollTo(0, 0);
+    render();
+  }
+  function restart() {
+    state.sel = { who: [], did: [], value: [] };
+    state.text = { who: '', did: '', value: '', detail: '', improve: '' };
+    state.followup = ''; state.followupKey = ''; state.draftError = false; state.tab = 'short';
+    go('intro');
+  }
+
+  // ---------- AI を使う処理（使えない・失敗したときは、入力内容をそのまま使う） ----------
+  function loadFollowup() {
+    var a = collectAnswers();
+    var key = JSON.stringify([state.lang, a.who, a.did, a.value]);
+    if (state.followupKey === key && state.followup) return;
+    state.followupKey = key;
+    state.followup = '';
+    var show = function () {
+      var el = document.getElementById('followupQ');
+      if (el) el.textContent = state.followupLoading ? t('qLoading') : state.followup;
+    };
+    // AI が使えないと分かっているときは、定型の質問にする
+    if (state.ai === false) { state.followupLoading = false; state.followup = t('fallbackQ'); show(); return; }
+    state.followupLoading = true;
+    show();
+    apiPost({ step: 'followup', lang: state.lang, answers: { who: a.who, did: a.did, value: a.value } }).then(function (res) {
+      if (state.followupKey === key) state.followup = res.question;
+    }, function () {
+      if (state.followupKey === key) state.followup = t('fallbackQ');
+    }).then(function () {
+      if (state.followupKey === key) { state.followupLoading = false; show(); }
+    });
+  }
+
+  // AI が使えない・失敗したときの代わりの下書き（お客様が入力した内容をそのまま並べる）
+  function fallbackDraft() {
+    var a = collectAnswers();
+    return [a.who, a.did, a.value, a.detail, a.improve].filter(Boolean).join('\n');
+  }
+
+  function finishDrafts(drafts, failed) {
+    if (failed) { var text = fallbackDraft(); state.drafts = { short: text, long: text }; }
+    else state.drafts = drafts;
+    state.draftError = !!failed;
+    state.busy = false;
+    state.tab = 'short';
+    go('result');
+  }
+  function makeDrafts(btn) {
+    if (state.busy) return;
+    state.busy = true;
+    btn.disabled = true;
+    btn.textContent = t('making');
+    if (state.ai === false) { finishDrafts(null, true); return; }
+    apiPost({ step: 'drafts', lang: state.lang, answers: collectAnswers() }).then(function (res) {
+      finishDrafts({ short: res.drafts.short, long: res.drafts.long }, false);
+    }, function () {
+      finishDrafts(null, true);
+    });
+  }
+
+  // ---------- 起動 ----------
+  state.lang = detectLang();
+  render();
+  apiConfig().then(function (data) {
+    var r = data && data.review;
+    if (r && typeof r === 'object') {
+      state.ai = !!r.ai;
+      if (r.reviewUrl) state.reviewUrl = String(r.reviewUrl);
+    } else {
+      state.ai = false;        // 古いGAS（口コミの窓口が無い）
+    }
+    if (state.view === 'result') render();
+  }, function () { /* 設定が取れなくても、質問には答えられる（AIは試す） */ });
+})();
+</script>
+</body>
+</html>
