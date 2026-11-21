@@ -772,6 +772,11 @@
     color: var(--color-text); background: #fff; border: 1.5px solid #cdbfa8; border-radius: 8px; resize: vertical;
   }
   .rv-text::placeholder { color: #6e6259; }
+  /* 例文は、入力欄をタップした（選んだ）瞬間に消える。外に出ると、空のままなら、また出る */
+  .rv-text:focus::placeholder { color: transparent; }
+  .rv-sub { display: block; margin: 0 0 6px; font-size: 0.85rem; line-height: 1.6; color: var(--color-muted); }
+  /* 1〜3問目の自由記入欄は、小さめの画面でも、例文が見えるよう、少し低くする（長く書くときは、右下の角で広げられる） */
+  #otherText { min-height: 64px; }
   .rv-bar {
     position: sticky; bottom: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 12px;
     margin: 18px -22px 0; padding: 12px 22px calc(12px + env(safe-area-inset-bottom));
@@ -870,25 +875,37 @@
     ],
     "didTitle": "どんなことをしましたか？",
     "didChips": [
-      "着物を選んだ",
-      "着付けをしてもらった",
+      "衣装を選んだ",
+      "打掛・紋付袴・お着物を着せてもらった",
       "大阪城を背景に写真を撮った",
-      "自撮りをした",
-      "着物で散策した",
+      "スタッフに写真を撮ってもらった",
+      "番傘や模造刀で撮った",
+      "ヘアセットやかつらをお願いした",
       "スタッフと話した"
     ],
     "valueTitle": "この体験はあなたにとってどんなものでしたか？",
     "valueChips": [
-      "日本旅行の思い出になった",
+      "旅の思い出になった",
       "伝統文化に触れられた",
       "きれいな写真が残った",
-      "大阪ならではの体験だった",
+      "ふだんできない特別な体験だった",
       "思っていたのと少し違った"
     ],
+    "fbWho": "おすすめの人：",
+    "fbDid": "体験したこと：",
+    "fbValue": "感想：",
+    "fbImprove": "もっと良くなりそうな点：",
+    "fbSep": "、",
+    "fbEnd": "。",
+    "detailHint": "ひとことで大丈夫です（任意）。自分の言葉が入ると、あなたらしい口コミになります。",
     "detailTitle": "あと少しだけ",
     "qLoading": "質問を考えています…",
     "fallbackQ": "印象に残った場面はありましたか？ ひとことで教えてください。",
-    "placeholder": "ひとことで大丈夫です（任意）",
+    "exWho": "例：母と娘で、旅の記念に",
+    "exDid": "例：赤と白で迷った",
+    "exValue": "例：思っていたより本格的だった",
+    "exDetail": "例：打掛の重さに驚いた",
+    "exImprove": "例：説明がもう少し欲しかった",
     "improveLabel": "もっと良くなりそうな点はありますか？（任意）",
     "make": "下書きを作る",
     "making": "下書きを作っています…",
@@ -903,8 +920,10 @@
     "howTitle": "投稿のしかた",
     "step1": "上のボタンで、文章をコピーしてGoogleマップを開きます。",
     "step2": "星の数を選びます。",
-    "step3": "文章の欄を長押しして「貼り付け」を選び、「投稿」を押します（Googleアカウントへのログインが必要です）。",
+    "step3": "文章の欄を長押しして「貼り付け」（iPhoneでは「ペースト」）を選び、「投稿」を押します（Googleアカウントへのログインが必要です）。",
     "after": "星の数はご自身で選んでください。口コミへの特典はありません。",
+    "plainTitle": "下書き",
+    "plainNote": "選んだ内容を並べた文章です。自由に直して、実際に体験したことだけを残してください。",
     "restart": "最初からやり直す",
     "errorTitle": "入力内容",
     "error": "下書きを自動では作れませんでした。入力内容を下に表示しています。直してから投稿できます。"
@@ -934,11 +953,12 @@
     ],
     "didTitle": "What did you do?",
     "didChips": [
-      "Chose a kimono",
-      "Got dressed in a kimono",
+      "Chose my outfit",
+      "Was dressed in an uchikake (bridal robe), hakama or kimono",
       "Took photos with Osaka Castle behind me",
-      "Took selfies",
-      "Walked around in a kimono",
+      "Had the staff take my photos",
+      "Posed with the props (paper umbrella, replica sword)",
+      "Had my hair styled or tried a wig",
       "Chatted with the staff"
     ],
     "valueTitle": "What did this experience mean to you?",
@@ -946,13 +966,24 @@
       "A memory of my trip to Japan",
       "A taste of traditional culture",
       "Beautiful photos to keep",
-      "Something unique to Osaka",
+      "A special experience I can't have every day",
       "It wasn't quite what I expected"
     ],
+    "fbWho": "Recommended for: ",
+    "fbDid": "What I did: ",
+    "fbValue": "What it meant to me: ",
+    "fbImprove": "Could be better: ",
+    "fbSep": ", ",
+    "fbEnd": ".",
+    "detailHint": "A few words are enough (optional). Your own words make the review sound like you.",
     "detailTitle": "One more thing",
     "qLoading": "Thinking of a question…",
     "fallbackQ": "Was there a moment that stood out to you? Tell us about it.",
-    "placeholder": "A few words are enough (optional)",
+    "exWho": "e.g. My mom and I, as a souvenir of our trip",
+    "exDid": "e.g. I couldn’t decide between red and white",
+    "exValue": "e.g. More authentic than I expected",
+    "exDetail": "e.g. I was surprised by how heavy it was",
+    "exImprove": "e.g. I would have liked a bit more explanation",
     "improveLabel": "Anything that could be better? (optional)",
     "make": "Create draft",
     "making": "Writing your draft…",
@@ -969,6 +1000,8 @@
     "step2": "Choose your star rating.",
     "step3": "Press and hold the text box, choose \"Paste\", then tap \"Post\" (you need to be signed in to a Google account).",
     "after": "You choose the star rating yourself. We don't offer rewards for reviews.",
+    "plainTitle": "Your draft",
+    "plainNote": "This is a draft made from your answers. Edit it freely and keep only what you truly experienced.",
     "restart": "Start over",
     "errorTitle": "Your notes",
     "error": "The draft couldn't be created automatically. Your notes are below. Edit them and post if you like."
@@ -998,11 +1031,12 @@
     ],
     "didTitle": "您做了些什么？",
     "didChips": [
-      "挑选和服",
-      "穿上和服",
+      "挑选服装",
+      "请工作人员帮忙穿上打褂、纹付袴或和服",
       "以大阪城为背景拍照",
-      "自拍",
-      "穿着和服散步",
+      "请工作人员帮忙拍照",
+      "用日式纸伞、模造刀等道具拍照",
+      "做了发型或试戴了假发",
       "和工作人员聊天"
     ],
     "valueTitle": "这次体验对您来说意味着什么？",
@@ -1010,13 +1044,24 @@
       "日本旅行的回忆",
       "体验传统文化",
       "留下漂亮的照片",
-      "大阪独有的体验",
+      "平时难得的特别体验",
       "和我想象的不太一样"
     ],
+    "fbWho": "适合：",
+    "fbDid": "体验内容：",
+    "fbValue": "感想：",
+    "fbImprove": "可以更好的地方：",
+    "fbSep": "，",
+    "fbEnd": "。",
+    "detailHint": "简单几句就可以（选填）。加入您自己的话，评价会更有您的风格。",
     "detailTitle": "再多说一点",
     "qLoading": "正在想一个问题…",
     "fallbackQ": "有没有哪个瞬间让您印象深刻？请简单说说。",
-    "placeholder": "简单几句就可以（选填）",
+    "exWho": "例如：和妈妈一起，作为旅行纪念",
+    "exDid": "例如：红色和白色犹豫了很久",
+    "exValue": "例如：比想象中更正宗",
+    "exDetail": "例如：没想到打褂这么重",
+    "exImprove": "例如：希望能多一些说明",
     "improveLabel": "有什么地方可以做得更好吗？（选填）",
     "make": "生成草稿",
     "making": "正在撰写草稿…",
@@ -1033,6 +1078,8 @@
     "step2": "选择星级。",
     "step3": "长按文字框，选择“粘贴”，然后点击“发布”（需要登录 Google 账号）。",
     "after": "星级由您自己决定。我们不会为评价提供回馈或赠品。",
+    "plainTitle": "草稿",
+    "plainNote": "这是根据您的回答整理的草稿。请随意修改，只保留您真正体验过的内容。",
     "restart": "重新开始",
     "errorTitle": "您填写的内容",
     "error": "无法自动生成草稿。下方是您填写的内容，可自行修改后发布。"
@@ -1062,11 +1109,12 @@
     ],
     "didTitle": "您做了些什麼？",
     "didChips": [
-      "挑選和服",
-      "穿上和服",
+      "挑選服裝",
+      "請工作人員協助穿上打褂、紋付袴或和服",
       "以大阪城為背景拍照",
-      "自拍",
-      "穿著和服散步",
+      "請工作人員幫忙拍照",
+      "用日式紙傘、模造刀等道具拍照",
+      "做了髮型或試戴了假髮",
       "和工作人員聊天"
     ],
     "valueTitle": "這次體驗對您來說意味著什麼？",
@@ -1074,13 +1122,24 @@
       "日本旅行的回憶",
       "體驗傳統文化",
       "留下漂亮的照片",
-      "大阪獨有的體驗",
+      "平時難得的特別體驗",
       "和我想像的不太一樣"
     ],
+    "fbWho": "適合：",
+    "fbDid": "體驗內容：",
+    "fbValue": "感想：",
+    "fbImprove": "可以更好的地方：",
+    "fbSep": "，",
+    "fbEnd": "。",
+    "detailHint": "簡單幾句就可以（選填）。加入您自己的話，評論會更有您的風格。",
     "detailTitle": "再多說一點",
     "qLoading": "正在想一個問題…",
     "fallbackQ": "有沒有哪個瞬間讓您印象深刻？請簡單說說。",
-    "placeholder": "簡單幾句就可以（選填）",
+    "exWho": "例如：和媽媽一起，作為旅行紀念",
+    "exDid": "例如：紅色和白色猶豫了很久",
+    "exValue": "例如：比想像中更道地",
+    "exDetail": "例如：沒想到打褂這麼重",
+    "exImprove": "例如：希望能多一些說明",
     "improveLabel": "有什麼地方可以做得更好嗎？（選填）",
     "make": "產生草稿",
     "making": "正在撰寫草稿…",
@@ -1097,6 +1156,8 @@
     "step2": "選擇星等。",
     "step3": "長按文字框，選擇「貼上」，再點選「發佈」（需要登入 Google 帳戶）。",
     "after": "星等由您自行決定。我們不會提供評論回饋或贈品。",
+    "plainTitle": "草稿",
+    "plainNote": "這是根據您的回答整理的草稿。請自由修改，只保留您真正體驗過的內容。",
     "restart": "重新開始",
     "errorTitle": "您填寫的內容",
     "error": "無法自動產生草稿。下方是您填寫的內容，可自行修改後發佈。"
@@ -1126,11 +1187,12 @@
     ],
     "didTitle": "어떤 것을 하셨나요?",
     "didChips": [
-      "기모노를 골랐어요",
-      "기모노를 입었어요",
+      "의상을 골랐어요",
+      "직원이 우치카케, 하카마, 기모노를 입혀 주었어요",
       "오사카성을 배경으로 사진을 찍었어요",
-      "셀카를 찍었어요",
-      "기모노를 입고 산책했어요",
+      "직원이 사진을 찍어 주었어요",
+      "종이우산, 모조도 같은 소품으로 사진을 찍었어요",
+      "헤어 세팅을 받거나 가발을 써 봤어요",
       "직원과 이야기를 나눴어요"
     ],
     "valueTitle": "이 체험은 어떤 의미였나요?",
@@ -1138,13 +1200,24 @@
       "일본 여행의 추억이 됐어요",
       "전통문화를 접할 수 있었어요",
       "예쁜 사진이 남았어요",
-      "오사카에서만 할 수 있는 체험이었어요",
+      "평소에는 할 수 없는 특별한 체험이었어요",
       "기대와는 조금 달랐어요"
     ],
+    "fbWho": "추천 대상: ",
+    "fbDid": "한 일: ",
+    "fbValue": "느낀 점: ",
+    "fbImprove": "더 좋아질 만한 점: ",
+    "fbSep": ", ",
+    "fbEnd": ".",
+    "detailHint": "한두 마디면 충분해요(선택). 직접 쓴 말이 들어가면 더 나다운 후기가 돼요.",
     "detailTitle": "조금만 더",
     "qLoading": "질문을 생각하고 있어요…",
     "fallbackQ": "기억에 남는 순간이 있었나요? 한두 마디로 알려 주세요.",
-    "placeholder": "한두 마디면 충분해요 (선택)",
+    "exWho": "예: 엄마와 둘이서 여행 기념으로",
+    "exDid": "예: 빨간색과 흰색 사이에서 고민했어요",
+    "exValue": "예: 생각보다 본격적이었어요",
+    "exDetail": "예: 우치카케가 생각보다 무거워서 놀랐어요",
+    "exImprove": "예: 설명이 조금 더 있으면 좋았을 것 같아요",
     "improveLabel": "더 좋아질 만한 점이 있나요? (선택)",
     "make": "초안 만들기",
     "making": "초안을 쓰고 있어요…",
@@ -1161,6 +1234,8 @@
     "step2": "별점을 고릅니다.",
     "step3": "입력란을 길게 눌러 붙여넣기를 선택한 뒤 게시를 누릅니다(Google 계정 로그인이 필요합니다).",
     "after": "별점은 직접 정해 주세요. 후기에 대한 사은품이나 혜택은 없습니다.",
+    "plainTitle": "초안",
+    "plainNote": "선택하신 내용을 정리한 초안이에요. 자유롭게 고치시고, 실제로 경험한 내용만 남겨 주세요.",
     "restart": "처음부터 다시",
     "errorTitle": "입력하신 내용",
     "error": "초안을 자동으로 만들지 못했어요. 입력하신 내용을 아래에 보여 드려요. 고쳐서 게시하셔도 됩니다."
@@ -1190,11 +1265,12 @@
     ],
     "didTitle": "Qu’avez-vous fait ?",
     "didChips": [
-      "J’ai choisi un kimono",
-      "On m’a habillé(e) en kimono",
+      "J’ai choisi ma tenue",
+      "On m’a habillé(e) avec un uchikake, un hakama ou un kimono",
       "J’ai pris des photos devant le château d’Osaka",
-      "J’ai fait des selfies",
-      "Je me suis promené(e) en kimono",
+      "L’équipe m’a pris(e) en photo",
+      "J’ai posé avec les accessoires (ombrelle, sabre factice)",
+      "Je me suis fait coiffer ou j’ai essayé une perruque",
       "J’ai discuté avec l’équipe"
     ],
     "valueTitle": "Que représente cette expérience pour vous ?",
@@ -1202,13 +1278,24 @@
       "Un souvenir de mon voyage au Japon",
       "Un aperçu de la culture traditionnelle",
       "De belles photos à garder",
-      "Une expérience unique à Osaka",
+      "Une expérience spéciale qu’on ne vit pas tous les jours",
       "Ce n’était pas tout à fait ce que j’attendais"
     ],
+    "fbWho": "Recommandé pour : ",
+    "fbDid": "Ce que j’ai fait : ",
+    "fbValue": "Ce que cela représente pour moi : ",
+    "fbImprove": "Pourrait être mieux : ",
+    "fbSep": ", ",
+    "fbEnd": ".",
+    "detailHint": "Quelques mots suffisent (facultatif). Vos propres mots rendent l’avis plus personnel.",
     "detailTitle": "Encore une chose",
     "qLoading": "Je cherche une question…",
     "fallbackQ": "Y a-t-il eu un moment qui vous a marqué ? Racontez-le-nous.",
-    "placeholder": "Quelques mots suffisent (facultatif)",
+    "exWho": "Ex. : avec ma mère, en souvenir de notre voyage",
+    "exDid": "Ex. : j’hésitais entre le rouge et le blanc",
+    "exValue": "Ex. : plus authentique que prévu",
+    "exDetail": "Ex. : surpris(e) par le poids de l’uchikake",
+    "exImprove": "Ex. : j’aurais aimé un peu plus d’explications",
     "improveLabel": "Quelque chose pourrait-il être mieux ? (facultatif)",
     "make": "Créer le brouillon",
     "making": "Rédaction du brouillon…",
@@ -1225,6 +1312,8 @@
     "step2": "Choisissez votre note en étoiles.",
     "step3": "Appuyez longuement dans la zone de texte, choisissez « Coller », puis touchez « Publier » (vous devez être connecté(e) à un compte Google).",
     "after": "Vous choisissez vous-même la note en étoiles. Nous n’offrons aucune récompense en échange d’un avis.",
+    "plainTitle": "Votre brouillon",
+    "plainNote": "Ce brouillon reprend vos réponses. Modifiez-le librement et ne gardez que ce que vous avez vraiment vécu.",
     "restart": "Recommencer",
     "errorTitle": "Vos notes",
     "error": "Le brouillon n’a pas pu être créé automatiquement. Vos notes sont ci-dessous ; modifiez-les et publiez si vous le souhaitez."
@@ -1410,8 +1499,9 @@
         }, label);
         return btn;
       }));
+    // 例文（薄い文字）は placeholder。入力欄を選ぶ（タップする）と消える。お客様の答えには入らない。見出しは、例文が消えても残る
     var ta = h('textarea', {
-      class: 'rv-text', rows: '2', maxlength: '500', autocomplete: 'off', placeholder: t('other'), 'aria-label': t('other'),
+      class: 'rv-text', id: 'otherText', rows: '2', maxlength: '500', autocomplete: 'off', placeholder: t('ex' + key.charAt(0).toUpperCase() + key.slice(1)),
       oninput: function () { state.text[key] = ta.value; need.hidden = true; }
     });
     ta.value = state.text[key];
@@ -1425,7 +1515,7 @@
       h('h2', { class: 'rv-title', id: 'rvTitle' }, t(key + 'Title')),
       h('p', { class: 'rv-hint' }, t('pickHint')),
       chips,
-      h('div', { class: 'rv-field' }, ta),
+      h('div', { class: 'rv-field' }, h('label', { class: 'rv-sub', for: 'otherText' }, t('other')), ta),
       need,
       h('div', { class: 'rv-bar' },
         h('button', { type: 'button', class: 'rv-link', onclick: function () { go(prev); } }, t('back')),
@@ -1433,22 +1523,24 @@
   }
 
   function viewDetail() {
+    // 質問の取りに行く・定型の質問への切り替えは、先にやる（欄を作る前に状態が決まっていないと、質問の欄が空のままになる）
+    loadFollowup();
     var q = h('p', { class: 'rv-q', id: 'followupQ' }, state.followupLoading ? t('qLoading') : state.followup);
     var ta = h('textarea', {
-      class: 'rv-text', id: 'detailText', rows: '3', maxlength: '500', autocomplete: 'off', placeholder: t('placeholder'),
+      class: 'rv-text', id: 'detailText', rows: '3', maxlength: '500', autocomplete: 'off', placeholder: t('exDetail'),
       'aria-labelledby': 'followupQ', oninput: function () { state.text.detail = ta.value; }
     });
     ta.value = state.text.detail;
     var improve = h('textarea', {
-      class: 'rv-text', id: 'improveText', rows: '2', maxlength: '500', autocomplete: 'off', placeholder: t('placeholder'),
+      class: 'rv-text', id: 'improveText', rows: '2', maxlength: '500', autocomplete: 'off', placeholder: t('exImprove'),
       oninput: function () { state.text.improve = improve.value; }
     });
     improve.value = state.text.improve;
     var make = h('button', { type: 'button', class: 'submit-btn', id: 'makeBtn', onclick: function () { makeDrafts(make); } }, t('make'));
-    loadFollowup();
     return h('section', null,
       stepBar(4),
       h('h2', { class: 'rv-title', id: 'rvTitle' }, t('detailTitle')),
+      h('p', { class: 'rv-hint' }, t('detailHint')),
       h('div', { class: 'rv-field' }, q, ta),
       h('div', { class: 'rv-field' }, h('label', { for: 'improveText' }, t('improveLabel')), improve),
       h('div', { class: 'rv-bar' },
@@ -1458,6 +1550,8 @@
   function viewResult() {
     var d = state.drafts;
     var key = state.draftError ? 'short' : state.tab;
+    // AI を使えないと分かっている（キー未設定など）ときは、「失敗」ではなく、ふつうの下書きとして見せる。失敗したときだけ、注意を赤字で出す
+    var plain = state.draftError && state.ai === false;
     var ta = h('textarea', {
       id: 'draftText', 'aria-label': t('resultTitle'),
       oninput: function () { d[key] = ta.value; autosize(ta); }
@@ -1477,17 +1571,21 @@
       ? h('a', { class: 'submit-btn rv-open', id: 'openLink', href: state.reviewUrl, target: '_blank', rel: 'noopener noreferrer', onclick: doCopy }, t('open'))
       : null;
     var copyBtn = h('button', { type: 'button', class: open ? 'rv-ghost' : 'submit-btn', id: 'copyBtn', onclick: doCopy }, t('copy'));
+    // 主ボタンは、下書きが長くても画面の下に見えているようにする（下の帯に固定）。「コピーだけ」は、その下
+    var mainBar = h('div', { class: 'rv-bar' }, open || copyBtn);
     var how = open ? h('div', { class: 'rv-how' },
       h('p', { class: 'rv-how-t' }, t('howTitle')),
       h('ol', null, h('li', null, t('step1')), h('li', null, t('step2')), h('li', null, t('step3')))) : null;
     setTimeout(function () { autosize(ta); }, 0);
     setTimeout(function () { autosize(ta); }, 80);
     return h('section', null,
-      h('h2', { class: 'rv-title', id: 'rvTitle' }, state.draftError ? t('errorTitle') : t('resultTitle')),
-      state.draftError ? h('p', { class: 'rv-hint warn' }, t('error')) : h('p', { class: 'rv-hint' }, t('resultNote')),
+      h('h2', { class: 'rv-title', id: 'rvTitle' }, plain ? t('plainTitle') : (state.draftError ? t('errorTitle') : t('resultTitle'))),
+      plain ? h('p', { class: 'rv-hint' }, t('plainNote'))
+        : (state.draftError ? h('p', { class: 'rv-hint warn' }, t('error')) : h('p', { class: 'rv-hint' }, t('resultNote'))),
       tabs,
       h('div', { class: 'rv-draft' }, ta),
-      h('div', { class: 'rv-stack' }, open, copyBtn),
+      mainBar,
+      open ? h('div', { class: 'rv-stack' }, copyBtn) : null,
       how,
       h('p', { class: 'rv-small' }, t('after')),
       h('div', { class: 'rv-center' }, h('button', { type: 'button', class: 'rv-link', id: 'restartBtn', onclick: restart }, t('restart'))));
@@ -1548,10 +1646,26 @@
     });
   }
 
-  // AI が使えない・失敗したときの代わりの下書き（お客様が入力した内容をそのまま並べる）
+  // AI が使えない・失敗したときの代わりの下書き。お客様が選んだ・書いた内容だけを、読める形に並べる
+  // （選択肢の語を「;」でつなぐだけだと、そのまま投稿しにくい。「おすすめの人：…」「体験したこと：…」「感想：…」の行にする）
   function fallbackDraft() {
+    var sep = t('fbSep'), end = t('fbEnd');
+    var parts = function (key) {
+      var chips = t(key + 'Chips');
+      return state.sel[key].map(function (i) { return chips[i]; }).concat([state.text[key].trim()]).filter(Boolean).join(sep);
+    };
+    var line = function (label, body) {
+      if (!body) return '';
+      return label + body + (/[.。!！?？]$/.test(body) ? '' : end);
+    };
     var a = collectAnswers();
-    return [a.who, a.did, a.value, a.detail, a.improve].filter(Boolean).join('\n');
+    return [
+      line(t('fbWho'), parts('who')),
+      line(t('fbDid'), parts('did')),
+      line(t('fbValue'), parts('value')),
+      a.detail,
+      line(t('fbImprove'), a.improve)
+    ].filter(Boolean).join('\n');
   }
 
   function finishDrafts(drafts, failed) {
