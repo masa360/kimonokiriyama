@@ -786,9 +786,6 @@
   .rv-bar .submit-btn:only-child { max-width: none; margin: 0; }
   .rv-bar .submit-btn[disabled] { opacity: 0.55; cursor: default; }
   .rv-link { font: inherit; color: var(--color-muted); background: none; border: 0; min-height: 48px; padding: 12px 8px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
-  .rv-tabs { display: flex; gap: 22px; margin: 0 0 14px; border-bottom: 1px solid var(--color-border); }
-  .rv-tabs button { font: inherit; font-weight: 700; color: var(--color-muted); background: none; border: 0; border-bottom: 3px solid transparent; margin-bottom: -1px; padding: 10px 2px; cursor: pointer; }
-  .rv-tabs button[aria-selected="true"] { color: var(--color-text); border-bottom-color: var(--color-brass); }
   .rv-draft { margin: 0 0 14px; padding: 4px 16px; background: #fff; border-left: 4px solid var(--color-brass); }
   .rv-draft textarea {
     display: block; width: 100%; min-height: 190px; padding: 12px 0; font: 1.05rem/1.9 "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", Georgia, serif;
@@ -806,6 +803,10 @@
   .rv-how-t { margin: 0 0 4px; font-weight: 700; }
   .rv-how ol { margin: 0; padding-left: 1.4em; }
   .rv-how li { margin: 2px 0; text-wrap: pretty; }
+  .rv-company { margin: 4px 0 18px; padding-top: 14px; border-top: 1px dashed var(--color-border); }
+  .rv-company .rv-chips { margin-bottom: 0; }
+  .rv-q2 { margin: 0 0 10px; font-size: 1rem; font-weight: 700; line-height: 1.6; color: var(--color-text); }
+  .rv-check { margin: 0 0 4px; font-size: 0.92rem; line-height: 1.7; font-weight: 600; text-wrap: pretty; }
   .rv-small { margin: 14px 0 0; font-size: 0.82rem; line-height: 1.7; color: var(--color-muted); text-wrap: pretty; }
   .rv-center { text-align: center; margin: 8px 0 4px; }
   .rv-toast {
@@ -864,14 +865,24 @@
     "pickHint": "当てはまるものを選ぶか、ご自由に書いてください。",
     "other": "ご自身の言葉で（任意）",
     "needOne": "続けるには、1つ以上選ぶか書いてください。",
-    "whoTitle": "この体験は、どんな人に合うと思いますか？",
-    "whoChips": [
-      "友人どうし",
-      "家族",
-      "カップル",
-      "一人旅",
-      "日本文化に興味がある人",
-      "初めての日本旅行"
+    "whyTitle": "なぜ、この着物体験をやってみようと思いましたか？",
+    "companyLabel": "どなたと来ましたか？（任意）",
+    "whyChips": [
+      "着物を一度着てみたかった",
+      "花嫁衣装（打掛）を着てみたかった",
+      "大阪城と一緒に写真を撮りたかった",
+      "旅の記念がほしかった",
+      "日本の伝統文化に興味があった",
+      "記念日やお祝いのため",
+      "このホテルに泊まっていた",
+      "SNSやネットで見た"
+    ],
+    "companyChips": [
+      "一人で",
+      "友人と",
+      "パートナーと",
+      "家族と",
+      "子どもと"
     ],
     "didTitle": "どんなことをしましたか？",
     "didChips": [
@@ -881,7 +892,9 @@
       "スタッフに写真を撮ってもらった",
       "番傘や模造刀で撮った",
       "ヘアセットやかつらをお願いした",
-      "スタッフと話した"
+      "スタッフと話した",
+      "お庭でも写真を撮った",
+      "ネイルチップを借りた"
     ],
     "valueTitle": "この体験はあなたにとってどんなものでしたか？",
     "valueChips": [
@@ -889,9 +902,14 @@
       "伝統文化に触れられた",
       "きれいな写真が残った",
       "ふだんできない特別な体験だった",
+      "感動した",
+      "驚きがあった",
+      "プライベートな空間で、周りを気にせず過ごせた",
+      "もう少し時間がほしかった",
       "思っていたのと少し違った"
     ],
-    "fbWho": "おすすめの人：",
+    "fbWhy": "きっかけ：",
+    "fbCompany": "一緒に来た人：",
     "fbDid": "体験したこと：",
     "fbValue": "感想：",
     "fbImprove": "もっと良くなりそうな点：",
@@ -901,7 +919,7 @@
     "detailTitle": "あと少しだけ",
     "qLoading": "質問を考えています…",
     "fallbackQ": "印象に残った場面はありましたか？ ひとことで教えてください。",
-    "exWho": "例：母と娘で、旅の記念に",
+    "exWhy": "例：母との旅の記念に",
     "exDid": "例：赤と白で迷った",
     "exValue": "例：思っていたより本格的だった",
     "exDetail": "例：打掛の重さに驚いた",
@@ -909,10 +927,9 @@
     "improveLabel": "もっと良くなりそうな点はありますか？（任意）",
     "make": "下書きを作る",
     "making": "下書きを作っています…",
-    "resultTitle": "下書きを2つ作りました",
-    "tabShort": "短め",
-    "tabLong": "詳しめ",
+    "resultTitle": "下書きを作りました",
     "resultNote": "お話しいただいた内容だけをもとにしています。自由に直して、実際に体験したことだけを残してください。",
+    "checkNote": "投稿する前に、内容が実際の体験と合っているか、もう一度ご確認ください。",
     "copy": "コピーだけする",
     "copied": "コピーしました",
     "copyFail": "コピーできませんでした。文章を選んでコピーしてください。",
@@ -942,14 +959,24 @@
     "pickHint": "Pick any that apply, or write your own.",
     "other": "In your own words (optional)",
     "needOne": "Choose or write at least one thing to continue.",
-    "whoTitle": "Who do you think this experience suits?",
-    "whoChips": [
+    "whyTitle": "What made you want to try this kimono experience?",
+    "companyLabel": "Who came with you? (optional)",
+    "whyChips": [
+      "I always wanted to wear a kimono",
+      "I wanted to try a bridal kimono (uchikake)",
+      "I wanted photos with Osaka Castle",
+      "I wanted a souvenir of my trip",
+      "I'm interested in traditional Japanese culture",
+      "For an anniversary or celebration",
+      "I was staying at this hotel",
+      "I saw it on social media or online"
+    ],
+    "companyChips": [
+      "Alone",
       "Friends",
-      "Families",
-      "Couples",
-      "Solo travelers",
-      "People curious about Japanese culture",
-      "First-time visitors to Japan"
+      "My partner",
+      "Family",
+      "My children"
     ],
     "didTitle": "What did you do?",
     "didChips": [
@@ -959,7 +986,9 @@
       "Had the staff take my photos",
       "Posed with the props (paper umbrella, replica sword)",
       "Had my hair styled or tried a wig",
-      "Chatted with the staff"
+      "Chatted with the staff",
+      "Took photos in the garden too",
+      "Tried rental nail tips"
     ],
     "valueTitle": "What did this experience mean to you?",
     "valueChips": [
@@ -967,9 +996,14 @@
       "A taste of traditional culture",
       "Beautiful photos to keep",
       "A special experience I can't have every day",
+      "I was moved",
+      "It surprised me",
+      "A private space where I could relax",
+      "I wanted a little more time",
       "It wasn't quite what I expected"
     ],
-    "fbWho": "Recommended for: ",
+    "fbWhy": "Why I came: ",
+    "fbCompany": "Who I came with: ",
     "fbDid": "What I did: ",
     "fbValue": "What it meant to me: ",
     "fbImprove": "Could be better: ",
@@ -979,7 +1013,7 @@
     "detailTitle": "One more thing",
     "qLoading": "Thinking of a question…",
     "fallbackQ": "Was there a moment that stood out to you? Tell us about it.",
-    "exWho": "e.g. My mom and I, as a souvenir of our trip",
+    "exWhy": "e.g. A souvenir of a trip with my mom",
     "exDid": "e.g. I couldn’t decide between red and white",
     "exValue": "e.g. More authentic than I expected",
     "exDetail": "e.g. I was surprised by how heavy it was",
@@ -987,10 +1021,9 @@
     "improveLabel": "Anything that could be better? (optional)",
     "make": "Create draft",
     "making": "Writing your draft…",
-    "resultTitle": "Two drafts for you",
-    "tabShort": "Short",
-    "tabLong": "Detailed",
+    "resultTitle": "Your draft is ready",
     "resultNote": "The drafts use only what you told us. Edit anything, and keep only what you truly experienced.",
+    "checkNote": "Before you post, please check that everything matches what you actually experienced.",
     "copy": "Copy only",
     "copied": "Copied",
     "copyFail": "Couldn't copy. Please select the text and copy it.",
@@ -1020,14 +1053,24 @@
     "pickHint": "可多选，也可以用自己的话写。",
     "other": "用自己的话写（选填）",
     "needOne": "请至少选择或填写一项后再继续。",
-    "whoTitle": "您觉得这次体验适合哪些人？",
-    "whoChips": [
+    "whyTitle": "您为什么想体验和服呢？",
+    "companyLabel": "您和谁一起来的？（选填）",
+    "whyChips": [
+      "一直想穿一次和服",
+      "想试穿新娘和服（打褂）",
+      "想和大阪城一起拍照",
+      "想留下旅行纪念",
+      "对日本传统文化感兴趣",
+      "为了纪念日或庆祝",
+      "正好住在这家酒店",
+      "在社交媒体或网上看到的"
+    ],
+    "companyChips": [
+      "一个人",
       "朋友",
+      "伴侣",
       "家人",
-      "情侣",
-      "一个人旅行",
-      "对日本文化感兴趣的人",
-      "第一次来日本的人"
+      "孩子"
     ],
     "didTitle": "您做了些什么？",
     "didChips": [
@@ -1037,7 +1080,9 @@
       "请工作人员帮忙拍照",
       "用日式纸伞、模造刀等道具拍照",
       "做了发型或试戴了假发",
-      "和工作人员聊天"
+      "和工作人员聊天",
+      "也在庭院里拍了照",
+      "租借了美甲贴片"
     ],
     "valueTitle": "这次体验对您来说意味着什么？",
     "valueChips": [
@@ -1045,9 +1090,14 @@
       "体验传统文化",
       "留下漂亮的照片",
       "平时难得的特别体验",
+      "被感动了",
+      "感到惊讶",
+      "私密的空间，不用在意周围的目光",
+      "希望时间能再长一点",
       "和我想象的不太一样"
     ],
-    "fbWho": "适合：",
+    "fbWhy": "体验的原因：",
+    "fbCompany": "同行：",
     "fbDid": "体验内容：",
     "fbValue": "感想：",
     "fbImprove": "可以更好的地方：",
@@ -1057,7 +1107,7 @@
     "detailTitle": "再多说一点",
     "qLoading": "正在想一个问题…",
     "fallbackQ": "有没有哪个瞬间让您印象深刻？请简单说说。",
-    "exWho": "例如：和妈妈一起，作为旅行纪念",
+    "exWhy": "例如：和妈妈旅行的纪念",
     "exDid": "例如：红色和白色犹豫了很久",
     "exValue": "例如：比想象中更正宗",
     "exDetail": "例如：没想到打褂这么重",
@@ -1065,10 +1115,9 @@
     "improveLabel": "有什么地方可以做得更好吗？（选填）",
     "make": "生成草稿",
     "making": "正在撰写草稿…",
-    "resultTitle": "已为您准备两份草稿",
-    "tabShort": "简短版",
-    "tabLong": "详细版",
+    "resultTitle": "草稿已生成",
     "resultNote": "草稿只根据您提供的内容。请随意修改，只保留您真正体验过的内容。",
+    "checkNote": "发布前，请再确认内容是否与您的实际体验相符。",
     "copy": "仅复制",
     "copied": "已复制",
     "copyFail": "复制失败。请选中文字后手动复制。",
@@ -1098,14 +1147,24 @@
     "pickHint": "可複選，也可以用自己的話寫。",
     "other": "用自己的話寫（選填）",
     "needOne": "請至少選擇或填寫一項才能繼續。",
-    "whoTitle": "您覺得這個體驗適合哪些人？",
-    "whoChips": [
+    "whyTitle": "您為什麼想體驗和服呢？",
+    "companyLabel": "您和誰一起來的？（選填）",
+    "whyChips": [
+      "一直想穿一次和服",
+      "想試穿新娘和服（打褂）",
+      "想和大阪城一起拍照",
+      "想留下旅行紀念",
+      "對日本傳統文化有興趣",
+      "為了紀念日或慶祝",
+      "剛好住在這間飯店",
+      "在社群媒體或網路上看到的"
+    ],
+    "companyChips": [
+      "一個人",
       "朋友",
+      "伴侶",
       "家人",
-      "情侶",
-      "一個人旅行",
-      "對日本文化有興趣的人",
-      "第一次來日本的人"
+      "孩子"
     ],
     "didTitle": "您做了些什麼？",
     "didChips": [
@@ -1115,7 +1174,9 @@
       "請工作人員幫忙拍照",
       "用日式紙傘、模造刀等道具拍照",
       "做了髮型或試戴了假髮",
-      "和工作人員聊天"
+      "和工作人員聊天",
+      "也在庭園裡拍了照",
+      "租借了美甲貼片"
     ],
     "valueTitle": "這次體驗對您來說意味著什麼？",
     "valueChips": [
@@ -1123,9 +1184,14 @@
       "體驗傳統文化",
       "留下漂亮的照片",
       "平時難得的特別體驗",
+      "被感動了",
+      "感到驚訝",
+      "私密的空間，不用在意周圍的目光",
+      "希望時間能再長一點",
       "和我想像的不太一樣"
     ],
-    "fbWho": "適合：",
+    "fbWhy": "體驗的原因：",
+    "fbCompany": "同行：",
     "fbDid": "體驗內容：",
     "fbValue": "感想：",
     "fbImprove": "可以更好的地方：",
@@ -1135,7 +1201,7 @@
     "detailTitle": "再多說一點",
     "qLoading": "正在想一個問題…",
     "fallbackQ": "有沒有哪個瞬間讓您印象深刻？請簡單說說。",
-    "exWho": "例如：和媽媽一起，作為旅行紀念",
+    "exWhy": "例如：和媽媽旅行的紀念",
     "exDid": "例如：紅色和白色猶豫了很久",
     "exValue": "例如：比想像中更道地",
     "exDetail": "例如：沒想到打褂這麼重",
@@ -1143,10 +1209,9 @@
     "improveLabel": "有什麼地方可以做得更好嗎？（選填）",
     "make": "產生草稿",
     "making": "正在撰寫草稿…",
-    "resultTitle": "已為您準備兩份草稿",
-    "tabShort": "簡短版",
-    "tabLong": "詳細版",
+    "resultTitle": "草稿已完成",
     "resultNote": "草稿只根據您提供的內容。請自由修改，只保留您真正體驗過的內容。",
+    "checkNote": "發佈前，請再確認內容是否與您的實際體驗相符。",
     "copy": "僅複製",
     "copied": "已複製",
     "copyFail": "複製失敗。請選取文字後手動複製。",
@@ -1176,14 +1241,24 @@
     "pickHint": "해당하는 것을 고르거나 직접 써 주세요.",
     "other": "직접 써 주세요 (선택)",
     "needOne": "계속하려면 하나 이상 고르거나 적어 주세요.",
-    "whoTitle": "이 체험은 어떤 분들께 어울린다고 생각하세요?",
-    "whoChips": [
-      "친구와 함께",
+    "whyTitle": "이 기모노 체험을 해 보고 싶었던 이유는 무엇인가요?",
+    "companyLabel": "누구와 함께 오셨나요? (선택)",
+    "whyChips": [
+      "기모노를 꼭 한번 입어 보고 싶었어요",
+      "신부 의상(우치카케)을 입어 보고 싶었어요",
+      "오사카성과 함께 사진을 찍고 싶었어요",
+      "여행 기념을 남기고 싶었어요",
+      "일본 전통문화에 관심이 있었어요",
+      "기념일이나 축하를 위해서",
+      "이 호텔에 묵고 있었어요",
+      "SNS나 인터넷에서 보고"
+    ],
+    "companyChips": [
+      "혼자",
+      "친구",
+      "연인·배우자",
       "가족",
-      "커플",
-      "혼자 여행하는 분",
-      "일본 문화에 관심 있는 분",
-      "일본이 처음인 분"
+      "아이"
     ],
     "didTitle": "어떤 것을 하셨나요?",
     "didChips": [
@@ -1193,7 +1268,9 @@
       "직원이 사진을 찍어 주었어요",
       "종이우산, 모조도 같은 소품으로 사진을 찍었어요",
       "헤어 세팅을 받거나 가발을 써 봤어요",
-      "직원과 이야기를 나눴어요"
+      "직원과 이야기를 나눴어요",
+      "정원에서도 사진을 찍었어요",
+      "네일 팁을 빌려 봤어요"
     ],
     "valueTitle": "이 체험은 어떤 의미였나요?",
     "valueChips": [
@@ -1201,9 +1278,14 @@
       "전통문화를 접할 수 있었어요",
       "예쁜 사진이 남았어요",
       "평소에는 할 수 없는 특별한 체험이었어요",
+      "감동했어요",
+      "놀라운 점이 있었어요",
+      "프라이빗한 공간에서 주변을 신경 쓰지 않고 지낼 수 있었어요",
+      "시간이 조금 더 있었으면 했어요",
       "기대와는 조금 달랐어요"
     ],
-    "fbWho": "추천 대상: ",
+    "fbWhy": "계기: ",
+    "fbCompany": "함께 온 사람: ",
     "fbDid": "한 일: ",
     "fbValue": "느낀 점: ",
     "fbImprove": "더 좋아질 만한 점: ",
@@ -1213,7 +1295,7 @@
     "detailTitle": "조금만 더",
     "qLoading": "질문을 생각하고 있어요…",
     "fallbackQ": "기억에 남는 순간이 있었나요? 한두 마디로 알려 주세요.",
-    "exWho": "예: 엄마와 둘이서 여행 기념으로",
+    "exWhy": "예: 엄마와의 여행 기념으로",
     "exDid": "예: 빨간색과 흰색 사이에서 고민했어요",
     "exValue": "예: 생각보다 본격적이었어요",
     "exDetail": "예: 우치카케가 생각보다 무거워서 놀랐어요",
@@ -1221,10 +1303,9 @@
     "improveLabel": "더 좋아질 만한 점이 있나요? (선택)",
     "make": "초안 만들기",
     "making": "초안을 쓰고 있어요…",
-    "resultTitle": "초안 두 개를 만들었어요",
-    "tabShort": "짧게",
-    "tabLong": "자세히",
+    "resultTitle": "초안을 만들었어요",
     "resultNote": "말씀해 주신 내용만을 바탕으로 만들었어요. 자유롭게 고치시고, 실제로 경험한 내용만 남겨 주세요.",
+    "checkNote": "올리기 전에, 내용이 실제 경험과 맞는지 한 번 더 확인해 주세요.",
     "copy": "복사만 하기",
     "copied": "복사했어요",
     "copyFail": "복사하지 못했어요. 글을 선택해서 복사해 주세요.",
@@ -1254,14 +1335,24 @@
     "pickHint": "Choisissez ce qui vous correspond, ou écrivez avec vos propres mots.",
     "other": "Avec vos propres mots (facultatif)",
     "needOne": "Choisissez ou écrivez au moins une chose pour continuer.",
-    "whoTitle": "À qui cette expérience convient-elle, selon vous ?",
-    "whoChips": [
+    "whyTitle": "Qu’est-ce qui vous a donné envie d’essayer cette expérience kimono ?",
+    "companyLabel": "Avec qui êtes-vous venu(e) ? (facultatif)",
+    "whyChips": [
+      "J’ai toujours voulu porter un kimono",
+      "Je voulais essayer un kimono de mariée (uchikake)",
+      "Je voulais des photos avec le château d’Osaka",
+      "Je voulais un souvenir de mon voyage",
+      "Je m’intéresse à la culture traditionnelle japonaise",
+      "Pour un anniversaire ou une fête",
+      "Je logeais dans cet hôtel",
+      "Je l’ai vu sur les réseaux sociaux ou en ligne"
+    ],
+    "companyChips": [
+      "Seul(e)",
       "Entre amis",
-      "En famille",
       "En couple",
-      "Voyageurs en solo",
-      "Curieux de la culture japonaise",
-      "Première visite au Japon"
+      "En famille",
+      "Avec mes enfants"
     ],
     "didTitle": "Qu’avez-vous fait ?",
     "didChips": [
@@ -1271,7 +1362,9 @@
       "L’équipe m’a pris(e) en photo",
       "J’ai posé avec les accessoires (ombrelle, sabre factice)",
       "Je me suis fait coiffer ou j’ai essayé une perruque",
-      "J’ai discuté avec l’équipe"
+      "J’ai discuté avec l’équipe",
+      "J’ai aussi pris des photos dans le jardin",
+      "J’ai loué des faux ongles"
     ],
     "valueTitle": "Que représente cette expérience pour vous ?",
     "valueChips": [
@@ -1279,9 +1372,14 @@
       "Un aperçu de la culture traditionnelle",
       "De belles photos à garder",
       "Une expérience spéciale qu’on ne vit pas tous les jours",
+      "J’ai été ému(e)",
+      "J’ai été surpris(e)",
+      "Un espace privé où j’ai pu me détendre",
+      "J’aurais aimé un peu plus de temps",
       "Ce n’était pas tout à fait ce que j’attendais"
     ],
-    "fbWho": "Recommandé pour : ",
+    "fbWhy": "Pourquoi je suis venu(e) : ",
+    "fbCompany": "Avec qui : ",
     "fbDid": "Ce que j’ai fait : ",
     "fbValue": "Ce que cela représente pour moi : ",
     "fbImprove": "Pourrait être mieux : ",
@@ -1291,7 +1389,7 @@
     "detailTitle": "Encore une chose",
     "qLoading": "Je cherche une question…",
     "fallbackQ": "Y a-t-il eu un moment qui vous a marqué ? Racontez-le-nous.",
-    "exWho": "Ex. : avec ma mère, en souvenir de notre voyage",
+    "exWhy": "Ex. : un souvenir de voyage avec ma mère",
     "exDid": "Ex. : j’hésitais entre le rouge et le blanc",
     "exValue": "Ex. : plus authentique que prévu",
     "exDetail": "Ex. : surpris(e) par le poids de l’uchikake",
@@ -1299,10 +1397,9 @@
     "improveLabel": "Quelque chose pourrait-il être mieux ? (facultatif)",
     "make": "Créer le brouillon",
     "making": "Rédaction du brouillon…",
-    "resultTitle": "Deux brouillons pour vous",
-    "tabShort": "Court",
-    "tabLong": "Détaillé",
+    "resultTitle": "Votre brouillon est prêt",
     "resultNote": "Les brouillons reprennent uniquement ce que vous nous avez dit. Modifiez ce que vous voulez et ne gardez que ce que vous avez vraiment vécu.",
+    "checkNote": "Avant de publier, vérifiez que tout correspond bien à ce que vous avez réellement vécu.",
     "copy": "Copier seulement",
     "copied": "Copié",
     "copyFail": "La copie a échoué. Sélectionnez le texte et copiez-le.",
@@ -1325,16 +1422,16 @@
     { code: 'zh-CN', label: '简体中文' }, { code: 'zh-TW', label: '繁體中文' },
     { code: 'ko', label: '한국어' }, { code: 'fr', label: 'Français' }
   ];
-  var CHIP_STEPS = ['who', 'did', 'value'];
+  var CHIP_STEPS = ['why', 'did', 'value'];
 
   // 画面全体の状態。選択肢は「番号」で持つので、言語を切り替えても崩れない。
   var state = {
     lang: 'en',
-    view: 'intro',                 // intro | who | did | value | detail | result
-    sel: { who: [], did: [], value: [] },
-    text: { who: '', did: '', value: '', detail: '', improve: '' },
+    view: 'intro',                 // intro | why | did | value | detail | result
+    sel: { why: [], company: [], did: [], value: [] },
+    text: { why: '', company: '', did: '', value: '', detail: '', improve: '' },
     followup: '', followupKey: '', followupLoading: false,
-    drafts: { short: '', long: '' }, tab: 'short', draftError: false, busy: false,
+    draft: '', draftError: false, busy: false,
     ai: null,                      // null＝まだ分からない／true＝使える／false＝使えない（キー未設定・止めている）
     reviewUrl: DEFAULT_REVIEW_URL
   };
@@ -1442,16 +1539,16 @@
   function answerText(key) {
     var chips = t(key + 'Chips');
     var labels = state.sel[key].map(function (i) { return chips[i]; });
-    return labels.concat([state.text[key].trim()]).filter(Boolean).join('; ');
+    return labels.concat([(state.text[key] || '').trim()]).filter(Boolean).join('; ');
   }
   function collectAnswers() {
     return {
-      who: answerText('who'), did: answerText('did'), value: answerText('value'),
+      why: answerText('why'), company: answerText('company'), did: answerText('did'), value: answerText('value'),
       detail: state.text.detail.trim(), improve: state.text.improve.trim()
     };
   }
   function hasAnyAnswer() {
-    return CHIP_STEPS.some(function (k) { return state.sel[k].length > 0 || state.text[k].trim(); });
+    return state.sel.company.length > 0 || CHIP_STEPS.some(function (k) { return state.sel[k].length > 0 || state.text[k].trim(); });
   }
   function autosize(ta) {
     ta.style.height = 'auto';
@@ -1479,7 +1576,7 @@
       h('p', { class: 'rv-lead' }, t('lead')),
       h('p', { class: 'rv-hint' }, t('note')),
       h('p', { class: 'rv-hint' }, t('privacy')),
-      h('div', { class: 'rv-bar' }, h('button', { type: 'button', class: 'submit-btn', onclick: function () { go('who'); } }, t('begin'))));
+      h('div', { class: 'rv-bar' }, h('button', { type: 'button', class: 'submit-btn', onclick: function () { go('why'); } }, t('begin'))));
   }
 
   function viewChipStep(key) {
@@ -1510,11 +1607,30 @@
       if (key === 'value' && !hasAnyAnswer()) { need.hidden = false; return; }
       go(key === 'value' ? 'detail' : CHIP_STEPS[idx + 1]);
     };
+    // 1問目には「どなたと来ましたか」を添える（タップだけ。答えなくてよい）。口コミを読む人には、誰に向いているかが伝わる
+    // 置き場所は、きっかけの選択肢のすぐ下（自由記入の欄より上。下にあると、気づかずに「次へ」を押す）
+    var company = key !== 'why' ? null : h('div', { class: 'rv-company' },
+      h('p', { class: 'rv-q2', id: 'companyLabel' }, t('companyLabel')),
+      h('div', { class: 'rv-chips', role: 'group', 'aria-labelledby': 'companyLabel', id: 'companyChips' },
+        t('companyChips').map(function (label, i) {
+          var b = h('button', {
+            type: 'button', class: 'rv-chip', 'aria-pressed': String(state.sel.company.indexOf(i) !== -1),
+            onclick: function () {
+              var list = state.sel.company;
+              var at = list.indexOf(i);
+              if (at === -1) list.push(i); else list.splice(at, 1);
+              b.setAttribute('aria-pressed', String(at === -1));
+              need.hidden = true;
+            }
+          }, label);
+          return b;
+        })));
     return h('section', null,
       stepBar(idx + 1),
       h('h2', { class: 'rv-title', id: 'rvTitle' }, t(key + 'Title')),
       h('p', { class: 'rv-hint' }, t('pickHint')),
       chips,
+      company,
       h('div', { class: 'rv-field' }, h('label', { class: 'rv-sub', for: 'otherText' }, t('other')), ta),
       need,
       h('div', { class: 'rv-bar' },
@@ -1548,22 +1664,13 @@
   }
 
   function viewResult() {
-    var d = state.drafts;
-    var key = state.draftError ? 'short' : state.tab;
     // AI を使えないと分かっている（キー未設定など）ときは、「失敗」ではなく、ふつうの下書きとして見せる。失敗したときだけ、注意を赤字で出す
     var plain = state.draftError && state.ai === false;
     var ta = h('textarea', {
       id: 'draftText', 'aria-label': t('resultTitle'),
-      oninput: function () { d[key] = ta.value; autosize(ta); }
+      oninput: function () { state.draft = ta.value; autosize(ta); }
     });
-    ta.value = d[key];
-    var tabs = state.draftError ? null : h('div', { class: 'rv-tabs', role: 'tablist' },
-      [['short', t('tabShort')], ['long', t('tabLong')]].map(function (p) {
-        return h('button', {
-          type: 'button', role: 'tab', id: 'tab_' + p[0], 'aria-selected': String(state.tab === p[0]),
-          onclick: function () { state.tab = p[0]; render(); }
-        }, p[1]);
-      }));
+    ta.value = state.draft;
     // 押した瞬間にコピーする（コピーは、押す操作の中で始めないと、スマホで止められることがある）
     var doCopy = function () { copyText(ta.value).then(function (ok) { toast(ok ? t('copied') : t('copyFail')); }); };
     // 主ボタン：コピーして、そのまま Google マップの口コミ画面を開く（リンクの動きは止めない）
@@ -1582,8 +1689,8 @@
       h('h2', { class: 'rv-title', id: 'rvTitle' }, plain ? t('plainTitle') : (state.draftError ? t('errorTitle') : t('resultTitle'))),
       plain ? h('p', { class: 'rv-hint' }, t('plainNote'))
         : (state.draftError ? h('p', { class: 'rv-hint warn' }, t('error')) : h('p', { class: 'rv-hint' }, t('resultNote'))),
-      tabs,
       h('div', { class: 'rv-draft' }, ta),
+      h('p', { class: 'rv-check', id: 'checkNote' }, t('checkNote')),
       mainBar,
       open ? h('div', { class: 'rv-stack' }, copyBtn) : null,
       how,
@@ -1593,7 +1700,7 @@
 
   var VIEWS = {
     intro: viewIntro,
-    who: function () { return viewChipStep('who'); },
+    why: function () { return viewChipStep('why'); },
     did: function () { return viewChipStep('did'); },
     value: function () { return viewChipStep('value'); },
     detail: viewDetail,
@@ -1616,16 +1723,16 @@
     render();
   }
   function restart() {
-    state.sel = { who: [], did: [], value: [] };
-    state.text = { who: '', did: '', value: '', detail: '', improve: '' };
-    state.followup = ''; state.followupKey = ''; state.draftError = false; state.tab = 'short';
+    state.sel = { why: [], company: [], did: [], value: [] };
+    state.text = { why: '', company: '', did: '', value: '', detail: '', improve: '' };
+    state.followup = ''; state.followupKey = ''; state.draftError = false; state.draft = '';
     go('intro');
   }
 
   // ---------- AI を使う処理（使えない・失敗したときは、入力内容をそのまま使う） ----------
   function loadFollowup() {
     var a = collectAnswers();
-    var key = JSON.stringify([state.lang, a.who, a.did, a.value]);
+    var key = JSON.stringify([state.lang, a.why, a.company, a.did, a.value]);
     if (state.followupKey === key && state.followup) return;
     state.followupKey = key;
     state.followup = '';
@@ -1637,7 +1744,7 @@
     if (state.ai === false) { state.followupLoading = false; state.followup = t('fallbackQ'); show(); return; }
     state.followupLoading = true;
     show();
-    apiPost({ step: 'followup', lang: state.lang, answers: { who: a.who, did: a.did, value: a.value } }).then(function (res) {
+    apiPost({ step: 'followup', lang: state.lang, answers: { why: a.why, company: a.company, did: a.did, value: a.value } }).then(function (res) {
       if (state.followupKey === key) state.followup = res.question;
     }, function () {
       if (state.followupKey === key) state.followup = t('fallbackQ');
@@ -1647,12 +1754,12 @@
   }
 
   // AI が使えない・失敗したときの代わりの下書き。お客様が選んだ・書いた内容だけを、読める形に並べる
-  // （選択肢の語を「;」でつなぐだけだと、そのまま投稿しにくい。「おすすめの人：…」「体験したこと：…」「感想：…」の行にする）
+  // （選択肢の語を「;」でつなぐだけだと、そのまま投稿しにくい。「きっかけ：…」「一緒に来た人：…」「体験したこと：…」「感想：…」の行にする）
   function fallbackDraft() {
     var sep = t('fbSep'), end = t('fbEnd');
     var parts = function (key) {
       var chips = t(key + 'Chips');
-      return state.sel[key].map(function (i) { return chips[i]; }).concat([state.text[key].trim()]).filter(Boolean).join(sep);
+      return state.sel[key].map(function (i) { return chips[i]; }).concat([(state.text[key] || '').trim()]).filter(Boolean).join(sep);
     };
     var line = function (label, body) {
       if (!body) return '';
@@ -1660,7 +1767,8 @@
     };
     var a = collectAnswers();
     return [
-      line(t('fbWho'), parts('who')),
+      line(t('fbWhy'), parts('why')),
+      line(t('fbCompany'), parts('company')),
       line(t('fbDid'), parts('did')),
       line(t('fbValue'), parts('value')),
       a.detail,
@@ -1668,12 +1776,11 @@
     ].filter(Boolean).join('\n');
   }
 
-  function finishDrafts(drafts, failed) {
-    if (failed) { var text = fallbackDraft(); state.drafts = { short: text, long: text }; }
-    else state.drafts = drafts;
+  // 下書きは1つ（2026-11-24。それまでの「短め・詳しめ」は、詳しめに水増しや言っていない評価が集まり、選ぶ手間も増えたのでやめた）
+  function finishDrafts(text, failed) {
+    state.draft = failed ? fallbackDraft() : text;
     state.draftError = !!failed;
     state.busy = false;
-    state.tab = 'short';
     go('result');
   }
   function makeDrafts(btn) {
@@ -1683,9 +1790,13 @@
     btn.textContent = t('making');
     if (state.ai === false) { finishDrafts(null, true); return; }
     apiPost({ step: 'drafts', lang: state.lang, answers: collectAnswers() }).then(function (res) {
-      finishDrafts({ short: res.drafts.short, long: res.drafts.long }, false);
-    }, function () {
-      finishDrafts(null, true);
+      // 新しいGASは review。古いGAS（短め・詳しめ）から返ってきたときは、短めを使う
+      var dr = res.drafts || {};
+      var text = String(dr.review || dr.short || dr.long || '');
+      if (!text.trim()) throw new Error('empty');
+      finishDrafts(text, false);
+    }).catch(function () {
+      if (state.view !== 'result') finishDrafts(null, true);
     });
   }
 
